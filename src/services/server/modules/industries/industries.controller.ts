@@ -1,23 +1,23 @@
 import { AbstractController } from "@/services/server/helpers";
 import { NextRequest } from "next/server";
-import { isEmailAvailableRequestSchema } from "./schema";
-import { UsersService } from "./users.service";
+import { IndustriesService } from "./industries.service";
+import { adminIndustriesListRequestSchema } from "./schema/admin-list";
 
-export class UsersController extends AbstractController<UsersService> {
-  async isLoginAvailable(req: NextRequest) {
+export class IndustriesController extends AbstractController<IndustriesService> {
+  async adminList(req: NextRequest) {
     const params = this.formatParams(req.nextUrl.searchParams.entries());
 
     const { response, dto } = await this.handlerHelper({
       data: params,
-      schema: isEmailAvailableRequestSchema,
+      schema: adminIndustriesListRequestSchema,
     });
 
     if (response) return response;
 
     try {
-      const bllResponse = await this.service.isEmailAvailable(dto!.email!);
+      const res = await this.service.adminList(dto!);
 
-      return this.getNextResponse({ available: bllResponse }, 200);
+      return this.getNextResponse(res, 200);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }

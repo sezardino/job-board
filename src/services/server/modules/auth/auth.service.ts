@@ -37,7 +37,7 @@ export class AuthService extends AbstractService {
       password,
       user.password
     );
-    console.log("isPasswordValid", isPasswordValid);
+
     if (!isPasswordValid) throw new Error("Wrong credentials");
 
     return user;

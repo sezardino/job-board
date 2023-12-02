@@ -1,11 +1,12 @@
 import { getNextAuthSession } from "@/libs/next-auth";
+import { UserRoles } from "@prisma/client";
 import { NextResponse } from "next/server";
 import { ZodIssue, ZodSchema } from "zod";
 
 type HelperProps<Schema extends ZodSchema> = {
   data?: any;
   schema?: Schema;
-  skipAuth?: boolean;
+  acceptedRoles?: UserRoles[];
 };
 
 export abstract class AbstractController<S> {
@@ -46,14 +47,26 @@ export abstract class AbstractController<S> {
   protected async handlerHelper<Schema extends ZodSchema>(
     props: HelperProps<Schema>
   ) {
-    const { data, schema, skipAuth } = props;
+    const { data, schema, acceptedRoles = [] } = props;
     const session = await getNextAuthSession();
 
-    if (!skipAuth && !session)
+    if (acceptedRoles.length > 0 && !session)
       return {
         response: this.getNextResponse(
           { message: "backend-errors.unauthorized" },
           401
+        ),
+      };
+
+    if (
+      acceptedRoles.length > 0 &&
+      session &&
+      !acceptedRoles.includes(session?.user?.role)
+    )
+      return {
+        response: this.getNextResponse(
+          { message: "backend-errors.forbidden" },
+          403
         ),
       };
 

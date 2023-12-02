@@ -55,9 +55,9 @@ export const AppNavbar: FC<AppNavbarProps> = (props) => {
             </button>
           </DropdownTrigger>
           <DropdownMenu aria-label="Avatar menu">
-            {avatarLinks.map(({ href, onClick, label }) => (
+            {avatarLinks.map(({ href, onClick, label }, index) => (
               <DropdownItem
-                key={href}
+                key={`${href}/${index}`}
                 as={href ? "a" : "button"}
                 href={href}
                 onClick={onClick}

@@ -1,11 +1,11 @@
 import { NextRequest } from "next/server";
+import { AbstractController } from "../../helpers";
 import { AuthService } from "./auth.service";
 import {
   LoginRequest,
   loginRequestSchema,
   registrationRequestSchema,
 } from "./schema";
-import { AbstractController } from "../../helpers";
 
 export class AuthController extends AbstractController<AuthService> {
   async registration(req: NextRequest) {
@@ -13,7 +13,6 @@ export class AuthController extends AbstractController<AuthService> {
     const { response, dto } = await this.handlerHelper({
       data: body,
       schema: registrationRequestSchema,
-      skipAuth: true,
     });
 
     if (response) return response;
@@ -31,7 +30,6 @@ export class AuthController extends AbstractController<AuthService> {
     const { response, dto } = await this.handlerHelper({
       data: body,
       schema: loginRequestSchema,
-      skipAuth: true,
     });
 
     if (response) throw new Error();
