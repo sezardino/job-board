@@ -1,5 +1,6 @@
 import { AbstractService } from "@/services/server/helpers";
-import { User } from "@prisma/client";
+import { Prisma, User, UserRoles } from "@prisma/client";
+import { AdminsListRequest } from "./schema/admins-list";
 
 export class UsersService extends AbstractService {
   async isEmailAvailable(email: string): Promise<boolean> {
@@ -37,5 +38,36 @@ export class UsersService extends AbstractService {
       data: { email, password },
       select: { id: true, email: true, role: true },
     });
+  }
+
+  async admins(dto: AdminsListRequest) {
+    const { limit = 10, page = 0, search } = dto;
+
+    const where: Prisma.UserWhereInput = {
+      OR: [{ role: UserRoles.ADMIN }, { role: UserRoles.SUB_ADMIN }],
+    };
+
+    if (search) where.email = { contains: search, mode: "insensitive" };
+
+    const count = await this.prismaService.user.count({ where });
+
+    const { meta, skip, take } = this.getPagination({ page, limit, count });
+
+    const admins = await this.prismaService.user.findMany({
+      skip,
+      take,
+      where,
+      select: {
+        email: true,
+        status: true,
+        id: true,
+        role: true,
+      },
+      orderBy: {
+        email: "asc",
+      },
+    });
+
+    return { admins, meta };
   }
 }

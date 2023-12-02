@@ -2,6 +2,10 @@ import {
   IsEmailAvailableRequest,
   isEmailAvailableResponseSchema,
 } from "@/services/server/modules/users/schema";
+import {
+  AdminsListRequest,
+  adminsListResponseSchema,
+} from "@/services/server/modules/users/schema/admins-list";
 import { AbstractApiModule } from "../helpers";
 
 export class UsersApiModule extends AbstractApiModule {
@@ -10,6 +14,14 @@ export class UsersApiModule extends AbstractApiModule {
       endpoint: "users/is-login-available",
       config: { params },
       schema: isEmailAvailableResponseSchema,
+    });
+  }
+
+  async adminsList(params: AdminsListRequest) {
+    return await this.fetch({
+      endpoint: "users/admins-list",
+      config: { params },
+      schema: adminsListResponseSchema,
     });
   }
 }
