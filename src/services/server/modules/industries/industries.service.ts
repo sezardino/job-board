@@ -1,9 +1,14 @@
 import { AbstractService } from "@/services/server/helpers";
 import { Prisma } from "@prisma/client";
-import { AdminIndustriesListRequest } from "./schema/admin-list";
+import {
+  AdminIndustriesListRequest,
+  AdminIndustriesListResponse,
+} from "./schema/admin-list";
 
 export class IndustriesService extends AbstractService {
-  async adminList(dto: AdminIndustriesListRequest) {
+  async adminList(
+    dto: AdminIndustriesListRequest
+  ): Promise<AdminIndustriesListResponse> {
     const { limit = 10, page = 0, search } = dto;
 
     const where: Prisma.IndustryWhereInput = {};
@@ -15,12 +20,23 @@ export class IndustriesService extends AbstractService {
     const { meta, skip, take } = this.getPagination({ page, limit, count });
 
     const industries = await this.prismaService.industry.findMany({
-      skip,
-      take,
-      where,
+      select: {
+        id: true,
+        name: true,
+        status: true,
+        _count: {
+          select: {
+            categories: true,
+            offers: true,
+          },
+        },
+      },
       orderBy: {
         name: "asc",
       },
+      skip,
+      take,
+      where,
     });
 
     return { industries, meta };

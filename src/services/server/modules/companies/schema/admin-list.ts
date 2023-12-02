@@ -7,7 +7,18 @@ export const adminCompaniesListRequestSchema = z
 
 export const adminCompaniesListResponseSchema = z
   .object({
-    companies: z.array(z.any()),
+    companies: z.array(
+      z.object({
+        id: z.string(),
+        name: z.string(),
+        owner: z.string(),
+        status: z.string(),
+        _count: z.object({
+          offers: z.number(),
+          members: z.number(),
+        }),
+      })
+    ),
   })
   .merge(paginatedResponseSchema);
 

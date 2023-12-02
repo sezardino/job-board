@@ -14,12 +14,24 @@ export class CompaniesService extends AbstractService {
     const { meta, skip, take } = this.getPagination({ page, limit, count });
 
     const companies = await this.prismaService.company.findMany({
-      skip,
-      take,
-      where,
       orderBy: {
         name: "asc",
       },
+      select: {
+        id: true,
+        name: true,
+        owner: true,
+        status: true,
+        _count: {
+          select: {
+            offers: true,
+            members: true,
+          },
+        },
+      },
+      skip,
+      take,
+      where,
     });
 
     return { companies, meta };
