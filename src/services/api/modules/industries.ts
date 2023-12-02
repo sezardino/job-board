@@ -1,7 +1,7 @@
 import {
   AdminIndustriesListRequest,
   adminIndustriesListResponseSchema,
-} from "@/services/server/modules/industries/schema/admin-list";
+} from "@/services/server/modules/industries/schema/";
 import { AbstractApiModule } from "../helpers";
 
 export class IndustriesApiModule extends AbstractApiModule {
