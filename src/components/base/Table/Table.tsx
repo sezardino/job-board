@@ -45,6 +45,7 @@ export const Table = <TRowData extends Record<string, any>>(
     sortOnTheClient = false,
     isLoading = false,
     noDataMessage,
+    children,
     ...rest
   } = props;
 
@@ -146,6 +147,11 @@ export const Table = <TRowData extends Record<string, any>>(
             ))}
         </tbody>
       </table>
+      {children && (
+        <div className="mt-4 flex justify-center items-center gap-3 flex-wrap">
+          {children}
+        </div>
+      )}
     </div>
   );
 };
