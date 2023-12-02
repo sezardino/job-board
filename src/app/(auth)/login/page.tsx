@@ -12,14 +12,10 @@ const LoginPage = () => {
   const t = useTranslations("toasts");
 
   const loginHandler = async (values: AuthFormValues) => {
-    console.log(values);
-    let res = await signIn("admin-credentials", {
-      email: values.email,
-      password: values.password,
+    let res = await signIn("credentials", {
+      ...values,
       redirect: false,
     });
-
-    console.log(res);
 
     if (res?.ok) {
       reactToastify({ type: "success", message: t("login.success") });
@@ -28,6 +24,8 @@ const LoginPage = () => {
     } else {
       reactToastify({ type: "error", message: t("login.error") });
     }
+
+    return res;
   };
 
   return <LoginTemplate onFormSubmit={loginHandler} />;

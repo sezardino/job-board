@@ -79,11 +79,10 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
             .string({ required_error: copy.email.required })
             .email()
             .min(1, { message: copy.email.required }),
-          password: z
-            .string({ required_error: copy.password.required })
-            .min(MIN_PASSWORD_LENGTH, {
-              message: copy.password.minLength(MIN_PASSWORD_LENGTH),
-            }),
+          password: z.string({ required_error: copy.password.required }),
+          // .min(MIN_PASSWORD_LENGTH, {
+          //   message: copy.password.minLength(MIN_PASSWORD_LENGTH),
+          // }),
           repeatPassword:
             type === "registration"
               ? z

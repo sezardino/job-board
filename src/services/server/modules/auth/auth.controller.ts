@@ -1,4 +1,3 @@
-import { AbstractController } from "@/services/server/helpers";
 import { NextRequest } from "next/server";
 import { AuthService } from "./auth.service";
 import {
@@ -6,6 +5,7 @@ import {
   loginRequestSchema,
   registrationRequestSchema,
 } from "./schema";
+import { AbstractController } from "../../helpers";
 
 export class AuthController extends AbstractController<AuthService> {
   async registration(req: NextRequest) {

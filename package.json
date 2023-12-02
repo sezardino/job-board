@@ -9,7 +9,12 @@
     "lint": "next lint",
     "lint:ts": "tsc --pretty --noEmit",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "db:migrate:deploy": "prisma migrate deploy",
+    "db:migrate:dev": "prisma migrate dev",
+    "db:push": "prisma db push",
+    "db:seed": "ts-node prisma/seed/index.js",
+    "db:studio": "prisma studio"
   },
   "dependencies": {
     "@faker-js/faker": "^8.3.1",
@@ -20,6 +25,7 @@
     "@tanstack/react-query-devtools": "^5.12.2",
     "@tanstack/react-query-next-experimental": "^5.12.2",
     "@types/bcrypt": "^5.0.2",
+    "argon2": "^0.31.2",
     "axios": "^1.6.2",
     "bcrypt": "^5.1.1",
     "formik": "^2.4.5",
@@ -34,6 +40,7 @@
     "react-toastify": "^9.1.3",
     "rimraf": "^5.0.5",
     "tailwind-merge": "^2.0.0",
+    "ts-node": "^10.9.1",
     "vite": "^5.0.4",
     "zod": "^3.22.4",
     "zod-formik-adapter": "^1.2.0"

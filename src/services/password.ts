@@ -1,3 +1,3 @@
-import { BcryptJs } from "@/libs/bcrypt";
+import { Argon } from "@/libs/argon";
 
-export const passwordService = new BcryptJs(Number(process.env.SALT_ROUNDS)!);
+export const passwordService = new Argon(process.env.HASH_PASSWORD_SERCER!);
