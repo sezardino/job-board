@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminPageUrls } from "@/const/url";
+import { AdminPageUrls, CompanyPageUrls } from "@/const/url";
 import { PropsWithChildren, useMemo } from "react";
 
 import { AppSidebarItem } from "@/components";
@@ -19,17 +19,7 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
         {
           label: t("dashboard"),
           icon: "HiOutlineHome",
-          to: AdminPageUrls.home,
-        },
-        {
-          label: t("industries"),
-          icon: "HiOutlineShoppingBag",
-          to: AdminPageUrls.industries,
-        },
-        {
-          label: t("companies"),
-          icon: "HiOutlineUserGroup",
-          to: AdminPageUrls.companies,
+          to: CompanyPageUrls.home,
         },
       ],
     ],

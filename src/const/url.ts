@@ -4,6 +4,18 @@ export const AdminPageUrls = {
   companies: "/admin/companies",
 };
 
+export const CompanyPageUrls = {
+  home: "/company",
+  industries: "/company/industries",
+  companies: "/company/companies",
+};
+
+export const UserPageUrls = {
+  home: "/user",
+  industries: "/user/industries",
+  companies: "/user/companies",
+};
+
 export const PublicPageUrls = {
   home: "/",
   login: "/login",
