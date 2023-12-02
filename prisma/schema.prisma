@@ -67,8 +67,10 @@ model Industry {
   status     EntityStatus @default(CREATED)
   categories Category[]
 
-  createdAt DateTime   @default(now()) @map("created_at")
-  offers    JobOffer[]
+  offers JobOffer[]
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 model Category {
