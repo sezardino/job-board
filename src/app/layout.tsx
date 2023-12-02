@@ -18,7 +18,7 @@ const RootLayout = async (props: PropsWithChildren) => {
   const { children } = props;
 
   const session = await getNextAuthSession();
-  const messages = await localeHandler("en");
+  const messages = await localeHandler(i18nDefaultLanguage);
 
   return (
     <html lang="en">

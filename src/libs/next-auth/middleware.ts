@@ -1,18 +1,39 @@
-import { PublicPageUrls } from "@/const";
+import { UserRoles } from "@prisma/client";
 import { NextAuthMiddlewareOptions } from "next-auth/middleware";
 
-const publicRoutes = [PublicPageUrls.home, PublicPageUrls.login];
+const adminRoles = [UserRoles.ADMIN, UserRoles.SUB_ADMIN];
+const companyRoles = [
+  UserRoles.OWNER,
+  UserRoles.MODERATOR,
+  UserRoles.RECRUITER,
+];
 
 export const nextAuthMiddleware: NextAuthMiddlewareOptions = {
   callbacks: {
     authorized: ({ req, token }) => {
       const currentPathName = req.nextUrl.pathname;
 
-      const isPublicRoute = publicRoutes.some((route) =>
-        currentPathName.startsWith(route)
-      );
+      if (
+        currentPathName.startsWith("/admin") &&
+        token &&
+        !adminRoles.includes(token.role as (typeof adminRoles)[number])
+      ) {
+        return false;
+      }
 
-      if (!isPublicRoute && token === null) {
+      if (
+        currentPathName.startsWith("/company") &&
+        token &&
+        !companyRoles.includes(token.role as (typeof companyRoles)[number])
+      ) {
+        return false;
+      }
+
+      if (
+        currentPathName.startsWith("/user") &&
+        token &&
+        token.role !== UserRoles.CUSTOMER
+      ) {
         return false;
       }
 
