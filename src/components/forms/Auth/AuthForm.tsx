@@ -118,7 +118,6 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
 
   return (
     <FormikProvider value={formik}>
-      {JSON.stringify(formik.errors)}
       <Form
         {...rest}
         className={twMerge("grid grid-cols-1 gap-5", className)}

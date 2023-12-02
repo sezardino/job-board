@@ -1,0 +1,32 @@
+{
+  "layout": {
+    "app": {
+      "dashboard": "Dashboard",
+      "companies": "Companies",
+      "industries": "Industries"
+    }
+  },
+  "login-page": {
+    "title": "Login",
+    "description": "Please enter your login and password to access the system",
+    "submit": "Login",
+    "forgot-password": "Forgot password? Contact your administrator",
+    "login": {
+      "label": "Login",
+      "placeholder": "Enter your login",
+      "required": "Login is required"
+    },
+    "password": {
+      "label": "Password",
+      "placeholder": "Enter your password",
+      "required": "Password is required",
+      "min-length": "Password must be at least {value} characters long"
+    }
+  },
+  "toasts": {
+    "login": {
+      "success": "Login successful",
+      "error": "Login failed"
+    }
+  }
+}
