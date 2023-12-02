@@ -12,6 +12,7 @@ import {
 } from "@tanstack/table-core";
 import { type ComponentPropsWithoutRef } from "react";
 
+import { Skeleton } from "@nextui-org/react";
 import { twMerge } from "tailwind-merge";
 import { Typography } from "..";
 import { Icon, IconNames } from "../Icon/Icon";
@@ -29,6 +30,7 @@ export interface TableProps<TRowData> extends ComponentPropsWithoutRef<"div"> {
   onSortingStateChange?: (state: Updater<SortingState>) => void;
   sortOnTheClient?: boolean;
   noDataMessage?: string;
+  isLoading?: boolean;
 }
 
 export const Table = <TRowData extends Record<string, any>>(
@@ -41,6 +43,7 @@ export const Table = <TRowData extends Record<string, any>>(
     sortingState,
     onSortingStateChange,
     sortOnTheClient = false,
+    isLoading = false,
     noDataMessage,
     ...rest
   } = props;
@@ -54,6 +57,9 @@ export const Table = <TRowData extends Record<string, any>>(
     onSortingChange: onSortingStateChange,
     manualSorting: !sortOnTheClient,
   });
+
+  const isPlaceholderShowed =
+    table.getRowModel().rows.length === 0 || isLoading;
 
   return (
     <div
@@ -102,33 +108,42 @@ export const Table = <TRowData extends Record<string, any>>(
           ))}
         </thead>
         <tbody>
-          {table.getRowModel().rows.length === 0 && (
+          {isPlaceholderShowed && (
             <tr>
               <td
                 colSpan={table.getHeaderGroups()[0].headers.length}
                 className="text-foreground-400 align-middle text-center h-40"
               >
-                <Typography tag="span">{noDataMessage}</Typography>
+                {isLoading && (
+                  <Skeleton className="w-full h-full rounded-xl mt-2" />
+                )}
+                {!isLoading && table.getRowModel().rows.length === 0 && (
+                  <Typography tag="span">{noDataMessage}</Typography>
+                )}
               </td>
             </tr>
           )}
-          {table.getRowModel().rows.map((row, index) => (
-            <tr
-              key={row.id + index.toString()}
-              className="group outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2"
-            >
-              {row.getVisibleCells().map((cell, index) => {
-                return (
-                  <td
-                    key={cell.id + index.toString()}
-                    className="py-2 px-3 relative align-middle whitespace-normal text-small font-normal [&>*]:z-1 [&>*]:relative outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 before:content-[''] before:absolute before:z-0 before:inset-0 before:opacity-0 data-[selected=true]:before:opacity-100 group-data-[disabled=true]:text-foreground-300 before:bg-default/40 data-[selected=true]:text-default-foreground first:before:rounded-l-lg last:before:rounded-r-lg"
-                  >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </td>
-                );
-              })}
-            </tr>
-          ))}
+          {!isPlaceholderShowed &&
+            table.getRowModel().rows.map((row, index) => (
+              <tr
+                key={row.id + index.toString()}
+                className="group outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2"
+              >
+                {row.getVisibleCells().map((cell, index) => {
+                  return (
+                    <td
+                      key={cell.id + index.toString()}
+                      className="py-2 px-3 relative align-middle whitespace-normal text-small font-normal [&>*]:z-1 [&>*]:relative outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 before:content-[''] before:absolute before:z-0 before:inset-0 before:opacity-0 data-[selected=true]:before:opacity-100 group-data-[disabled=true]:text-foreground-300 before:bg-default/40 data-[selected=true]:text-default-foreground first:before:rounded-l-lg last:before:rounded-r-lg"
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </td>
+                  );
+                })}
+              </tr>
+            ))}
         </tbody>
       </table>
     </div>

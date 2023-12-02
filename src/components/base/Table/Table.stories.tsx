@@ -43,5 +43,7 @@ const columns = [
 ];
 
 export const Pagination: Story = {
-  render: () => <Component columns={columns} data={data} />,
+  render: () => (
+    <Component columns={columns} data={[]} noDataMessage="No data" isLoading />
+  ),
 };
