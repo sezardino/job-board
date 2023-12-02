@@ -13,15 +13,18 @@ export class AuthService extends AbstractService {
   }
 
   async registration(dto: RegistrationRequest): Promise<boolean> {
-    const { login, password } = dto;
+    const { email, password } = dto;
 
-    const isLoginAvailable = await this.usersService.isEmailAvailable(login);
+    const isEmailAvailable = await this.usersService.isEmailAvailable(email);
 
-    if (!isLoginAvailable) throw new Error("Login is already taken");
+    if (!isEmailAvailable) throw new Error("Login is already taken");
 
     const hashedPassword = await passwordService.hash(password);
 
-    const newUser = await this.usersService.createUser(login, hashedPassword);
+    const newUser = await this.usersService.createUser({
+      email,
+      password,
+    });
 
     return !!newUser;
   }

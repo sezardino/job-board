@@ -2,6 +2,7 @@ import { AbstractController } from "@/services/server/helpers";
 import { NextRequest } from "next/server";
 import { CompaniesService } from "./companies.service";
 import { adminCompaniesListRequestSchema } from "./schema/admin-list";
+import { UserRoles } from "@prisma/client";
 
 export class CompaniesController extends AbstractController<CompaniesService> {
   async adminList(req: NextRequest) {
@@ -10,6 +11,7 @@ export class CompaniesController extends AbstractController<CompaniesService> {
     const { response, dto } = await this.handlerHelper({
       data: params,
       schema: adminCompaniesListRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN],
     });
 
     if (response) return response;

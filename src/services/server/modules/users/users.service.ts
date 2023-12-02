@@ -1,3 +1,4 @@
+import { passwordService } from "@/services/password";
 import { AbstractService } from "@/services/server/helpers";
 import { Prisma, User, UserRoles } from "@prisma/client";
 import { AdminsListRequest } from "./schema/admins-list";
@@ -30,12 +31,17 @@ export class UsersService extends AbstractService {
     return user;
   }
 
-  async createUser(
-    email: string,
-    password: string
-  ): Promise<Pick<User, "id" | "email" | "role">> {
+  async createUser(data: {
+    email: string;
+    password: string;
+    role?: UserRoles;
+  }): Promise<Pick<User, "id" | "email" | "role">> {
+    const { email, password, role } = data;
+
+    const hashedPassword = await passwordService.hash(password);
+
     return await this.prismaService.user.create({
-      data: { email, password },
+      data: { email, password: hashedPassword, role },
       select: { id: true, email: true, role: true },
     });
   }

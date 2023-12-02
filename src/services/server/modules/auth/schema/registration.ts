@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const registrationRequestSchema = z.object({
-  login: z
+  email: z
     .string()
     .min(1, "backend-errors.validation.registration.login.min")
     .max(20, "backend-errors.validation.registration.login.max"),
