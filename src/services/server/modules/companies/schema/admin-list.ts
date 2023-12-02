@@ -11,7 +11,10 @@ export const adminCompaniesListResponseSchema = z
       z.object({
         id: z.string(),
         name: z.string(),
-        owner: z.string(),
+        owner: z.object({
+          id: z.string(),
+          email: z.string(),
+        }),
         status: z.string(),
         _count: z.object({
           offers: z.number(),
