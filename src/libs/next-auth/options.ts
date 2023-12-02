@@ -9,20 +9,15 @@ export const nextAuthOptions: AuthOptions = {
       id: "credentials",
       name: "Credentials",
       credentials: {
-        login: { label: "Login", type: "login", placeholder: "login" },
+        email: { label: "Email", type: "email", placeholder: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials, req) {
-        if (!credentials || !credentials.login || !credentials.password)
+        if (!credentials || !credentials.email || !credentials.password)
           return null;
 
-        const { login, password } = credentials;
-
         try {
-          const user = await serverService.auth.controller.login({
-            login,
-            password,
-          });
+          const user = await serverService.auth.controller.login(credentials);
 
           return user;
         } catch (error) {
@@ -52,7 +47,8 @@ export const nextAuthOptions: AuthOptions = {
         user: {
           ...session.user,
           id: token.id,
-          login: token.login,
+          email: token.email,
+          role: token.role,
         },
       };
     },
@@ -62,8 +58,8 @@ export const nextAuthOptions: AuthOptions = {
         return {
           ...token,
           id: user.id,
-          login: user.login,
-          name: user.name,
+          email: user.email,
+          role: user.role,
         };
       }
       return token;

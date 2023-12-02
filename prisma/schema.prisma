@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("PRISMA_CONNECTION_STRING")
+}
+
+enum UserRoles {
+  // admins
+  ADMIN
+  SUB_ADMIN
+  // company
+  OWNER
+  MODERATOR
+  RECRUITER
+  // others
+  CUSTOMER
+}
+
+enum ReviewedEntityStatus {
+  ACCEPTED
+  REJECTED
+  RETURNED
+  REVIEW
+  PENDING
+}
+
+enum EntityStatus {
+  ACTIVE
+  INACTIVE
+  CREATED
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  INACTIVE
+}
+
+type Story {
+  message   String
+  createdAt DateTime @default(now()) @map("created_at")
+}
+
+model User {
+  id     String     @id @default(auto()) @map("_id") @db.ObjectId
+  role   UserRoles  @default(CUSTOMER)
+  status UserStatus @default(ACTIVE)
+
+  email    String @unique
+  password String
+
+  owner     Company? @relation(name: "owner")
+  company   Company? @relation(name: "member", fields: [companyId], references: [id])
+  companyId String?  @map("company_id") @db.ObjectId
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+}
+
+model Industry {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name       String       @unique
+  status     EntityStatus @default(CREATED)
+  categories Category[]
+
+  createdAt DateTime   @default(now()) @map("created_at")
+  offers    JobOffer[]
+}
+
+model Category {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name       String
+  status     EntityStatus @default(CREATED)
+  industry   Industry     @relation(fields: [industryId], references: [id])
+  industryId String       @map("industry_id") @db.ObjectId
+
+  createdAt DateTime   @default(now()) @map("created_at")
+  offers    JobOffer[]
+}
+
+model Company {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name    String
+  status  EntityStatus @default(CREATED)
+  owner   User         @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ownerId String       @unique @map("owner_id") @db.ObjectId
+  members User[]       @relation(name: "member")
+
+  createdAt DateTime @default(now()) @map("created_at")
+
+  offers JobOffer[]
+}
+
+enum JobOfferStatus {
+  FINISHED
+  ACTIVE
+  INACTIVE
+  CREATED
+}
+
+type Salary {
+  from String
+  to   String
+}
+
+enum Seniority {
+  TRAINEE
+  JUNIOR
+  MIDDLE
+  SENIOR
+  LEAD
+  ARCHITECT
+}
+
+type Skill {
+  name  String
+  level Seniority
+}
+
+model JobOffer {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name        String
+  description String
+  status      JobOfferStatus @default(CREATED)
+  salary      Salary?
+  company     Company        @relation(fields: [companyId], references: [id])
+  companyId   String         @map("company_id") @db.ObjectId
+  level       Seniority
+  skills      Skill[]
+
+  industry   Industry @relation(fields: [industryId], references: [id])
+  industryId String   @map("industry_id") @db.ObjectId
+
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String   @map("category_id") @db.ObjectId
+
+  createdAt DateTime @default(now()) @map("created_at")
+}
