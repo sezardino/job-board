@@ -1,4 +1,4 @@
-import { ProjectPageUrls } from "@/const/url";
+import { PublicPageUrls } from "@/const/url";
 import { serverService } from "@/services/server";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
@@ -36,8 +36,8 @@ export const nextAuthOptions: AuthOptions = {
   },
 
   pages: {
-    signIn: ProjectPageUrls.login,
-    error: ProjectPageUrls.login,
+    signIn: PublicPageUrls.login,
+    error: PublicPageUrls.login,
   },
 
   callbacks: {

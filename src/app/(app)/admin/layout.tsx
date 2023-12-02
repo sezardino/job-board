@@ -1,13 +1,13 @@
 "use client";
 
-import { ProjectPageUrls } from "@/const/url";
+import { AdminPageUrls } from "@/const/url";
 import { PropsWithChildren, useMemo } from "react";
 
+import { AppNavbar, AppSidebar, AppSidebarItem } from "@/components";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";
 import styles from "./layout.module.css";
-import { AppSidebarItem, AppNavbar, AppSidebar } from "@/components";
 
 const DashboardLayout = (props: PropsWithChildren) => {
   const { children } = props;
@@ -20,17 +20,17 @@ const DashboardLayout = (props: PropsWithChildren) => {
         {
           label: t("dashboard"),
           icon: "HiOutlineHome",
-          to: ProjectPageUrls.home,
+          to: AdminPageUrls.home,
         },
         {
           label: t("industries"),
           icon: "HiOutlineShoppingBag",
-          to: ProjectPageUrls.industries,
+          to: AdminPageUrls.industries,
         },
         {
           label: t("companies"),
           icon: "HiOutlineUserGroup",
-          to: ProjectPageUrls.companies,
+          to: AdminPageUrls.companies,
         },
       ],
     ],
@@ -66,7 +66,7 @@ const DashboardLayout = (props: PropsWithChildren) => {
           }}
           lists={lists}
           className={twMerge(styles.sidebar)}
-          brandHref={ProjectPageUrls.home}
+          brandHref={AdminPageUrls.home}
         />
         <main className={twMerge(styles.content, "p-4 h-auto")}>
           {children}

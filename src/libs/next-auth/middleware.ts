@@ -1,12 +1,7 @@
-import { ProjectPageUrls } from "@/const";
+import { PublicPageUrls } from "@/const";
 import { NextAuthMiddlewareOptions } from "next-auth/middleware";
 
-const publicRoutes = [
-  ProjectPageUrls.home,
-  ProjectPageUrls.about,
-  ProjectPageUrls.login,
-  ProjectPageUrls.registration,
-];
+const publicRoutes = [PublicPageUrls.home, PublicPageUrls.login];
 
 export const nextAuthMiddleware: NextAuthMiddlewareOptions = {
   callbacks: {

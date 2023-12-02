@@ -1,8 +1,10 @@
-export const ProjectPageUrls = {
+export const AdminPageUrls = {
+  home: "/admin",
+  industries: "/admin/industries",
+  companies: "/admin/companies",
+};
+
+export const PublicPageUrls = {
   home: "/",
-  about: "/about",
   login: "/login",
-  registration: "/registration",
-  industries: "/industries",
-  companies: "/companies",
 } as const;
