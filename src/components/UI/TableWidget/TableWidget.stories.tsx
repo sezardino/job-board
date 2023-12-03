@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from "@storybook/react";
 
 import { createColumnHelper } from "@tanstack/react-table";
-import { Table as Component } from "./Table";
+import { useState } from "react";
+import { TableWidget as Component } from "./TableWidget";
 
 const meta: Meta<typeof Component> = {
   component: Component,
@@ -42,8 +43,24 @@ const columns = [
   columnHelper.accessor("status", { enableSorting: false, header: "Status" }),
 ];
 
-export const Table: Story = {
-  render: () => (
-    <Component columns={columns} data={[]} noDataMessage="No data" isLoading />
-  ),
+const Render = () => {
+  const [limit, setLimit] = useState(10);
+
+  return (
+    <Component
+      columns={columns}
+      data={data}
+      noDataMessage="No data"
+      isLoading
+      page={1}
+      total={data.length}
+      limit={limit}
+      onLimitChange={setLimit}
+      onPageChange={() => undefined}
+    />
+  );
+};
+
+export const TableWidget: Story = {
+  render: Render,
 };

@@ -23,7 +23,7 @@ const sortingIcons: Record<SortDirection | "not-sorted", IconNames> = {
   "not-sorted": "HiAcademicCap",
 };
 
-export interface TableProps<TRowData> extends ComponentPropsWithoutRef<"div"> {
+type Props<TRowData> = {
   data: TRowData[];
   columns: ColumnDef<TRowData, any>[];
   sortingState?: SortingState;
@@ -31,13 +31,15 @@ export interface TableProps<TRowData> extends ComponentPropsWithoutRef<"div"> {
   sortOnTheClient?: boolean;
   noDataMessage?: string;
   isLoading?: boolean;
-}
+};
+
+export type TableProps<TRowData> = ComponentPropsWithoutRef<"div"> &
+  Props<TRowData>;
 
 export const Table = <TRowData extends Record<string, any>>(
   props: TableProps<TRowData>
 ) => {
   const {
-    className,
     columns,
     data,
     sortingState,
@@ -45,7 +47,7 @@ export const Table = <TRowData extends Record<string, any>>(
     sortOnTheClient = false,
     isLoading = false,
     noDataMessage,
-    children,
+    className,
     ...rest
   } = props;
 
@@ -147,11 +149,6 @@ export const Table = <TRowData extends Record<string, any>>(
             ))}
         </tbody>
       </table>
-      {children && (
-        <div className="mt-4 flex justify-center items-center gap-3 flex-wrap">
-          {children}
-        </div>
-      )}
     </div>
   );
 };
