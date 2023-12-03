@@ -23,7 +23,7 @@ export class UsersApiModule extends AbstractApiModule {
 
   async admins(params: AdminUsersRequest) {
     return await this.fetch({
-      endpoint: "users/admins",
+      endpoint: "users/admin",
       config: { params },
       schema: adminUsersResponseSchema,
     });
@@ -47,7 +47,7 @@ export class UsersApiModule extends AbstractApiModule {
 
   customers(params: CustomerUsersRequest) {
     return this.fetch({
-      endpoint: "users/customers",
+      endpoint: "users/customer",
       config: { params },
       schema: customerUsersResponseSchema,
     });

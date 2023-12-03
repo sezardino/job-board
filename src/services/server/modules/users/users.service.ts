@@ -7,7 +7,34 @@ import {
   CustomerUsersRequest,
 } from "./schema";
 
+type FindManyUsersArgs = {
+  where: Prisma.UserWhereInput;
+  select: Prisma.UserSelect;
+  page: number;
+  limit: number;
+};
+
 export class UsersService extends AbstractService {
+  private async findMany(args: FindManyUsersArgs) {
+    const { limit = 10, page = 0, select, where } = args;
+
+    const count = await this.prismaService.user.count({ where });
+
+    const { meta, skip, take } = this.getPagination({ page, limit, count });
+
+    const users = await this.prismaService.user.findMany({
+      where,
+      select,
+      skip,
+      take,
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return { users, meta };
+  }
+
   async checkEmailAvailable(email: string): Promise<boolean> {
     const user = await this.prismaService.user.findUnique({
       where: { email },
@@ -17,9 +44,7 @@ export class UsersService extends AbstractService {
     return !Boolean(user);
   }
 
-  async findByEmail(
-    email: string
-  ): Promise<Pick<User, "id" | "email" | "password" | "role">> {
+  async findByEmail(email: string) {
     const user = await this.prismaService.user.findUnique({
       where: { email },
       select: {
@@ -59,26 +84,12 @@ export class UsersService extends AbstractService {
 
     if (search) where.email = { contains: search, mode: "insensitive" };
 
-    const count = await this.prismaService.user.count({ where });
-
-    const { meta, skip, take } = this.getPagination({ page, limit, count });
-
-    const users = await this.prismaService.user.findMany({
-      skip,
-      take,
+    return this.findMany({
+      limit,
+      page,
       where,
-      select: {
-        email: true,
-        status: true,
-        id: true,
-        role: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
+      select: { id: true, email: true, role: true, status: true },
     });
-
-    return { users, meta };
   }
 
   async company(dto: CompanyUsersRequest) {
@@ -96,26 +107,12 @@ export class UsersService extends AbstractService {
     if (companyId) where.companyId = companyId;
     if (search) where.email = { contains: search, mode: "insensitive" };
 
-    const count = await this.prismaService.user.count({ where });
-
-    const { meta, skip, take } = this.getPagination({ page, limit, count });
-
-    const users = await this.prismaService.user.findMany({
-      skip,
-      take,
+    return await this.findMany({
+      page,
+      limit,
       where,
-      select: {
-        email: true,
-        status: true,
-        id: true,
-        role: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
+      select: { email: true, status: true, id: true, role: true },
     });
-
-    return { users, meta };
   }
 
   async customers(dto: CustomerUsersRequest) {
@@ -127,25 +124,11 @@ export class UsersService extends AbstractService {
 
     if (search) where.email = { contains: search, mode: "insensitive" };
 
-    const count = await this.prismaService.user.count({ where });
-
-    const { meta, skip, take } = this.getPagination({ page, limit, count });
-
-    const users = await this.prismaService.user.findMany({
-      skip,
-      take,
+    return await this.findMany({
+      page,
+      limit,
       where,
-      select: {
-        email: true,
-        status: true,
-        id: true,
-        role: true,
-      },
-      orderBy: {
-        createdAt: "desc",
-      },
+      select: { email: true, status: true, id: true, role: true },
     });
-
-    return { users, meta };
   }
 }
