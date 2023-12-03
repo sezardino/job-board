@@ -9,6 +9,7 @@ import { twMerge } from "tailwind-merge";
 type WindowNavigationItem = {
   title: string;
   href: string;
+  disabled?: boolean;
 };
 
 type Props = {
@@ -26,7 +27,6 @@ export type WindowNavigationProps = OmittedTabProps & Props;
 export const WindowNavigation: FC<WindowNavigationProps> = (props) => {
   const { items, title, className, ...rest } = props;
   const pathname = usePathname();
-
   return (
     <Tabs
       {...rest}
@@ -36,7 +36,13 @@ export const WindowNavigation: FC<WindowNavigationProps> = (props) => {
       aria-label={title}
     >
       {items.map((item) => (
-        <Tab key={item.href} as={Link} href={item.href} title={item.title} />
+        <Tab
+          key={item.href}
+          as={item.disabled ? "button" : Link}
+          disabled={item.disabled}
+          href={item.disabled ? undefined : item.href}
+          title={item.title}
+        />
       ))}
     </Tabs>
   );

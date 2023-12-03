@@ -3,7 +3,8 @@
     "app": {
       "dashboard": "Dashboard",
       "companies": "Companies",
-      "industries": "Industries"
+      "industries": "Industries",
+      "users": "Users"
     },
     "admin-users": {
       "title": "Users",

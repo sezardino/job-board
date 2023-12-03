@@ -28,11 +28,11 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
         },
         {
           label: t("companies"),
-          icon: "HiOutlineUserGroup",
+          icon: "HiOutlineOfficeBuilding",
           to: AdminPageUrls.companies,
         },
         {
-          label: t("companies"),
+          label: t("users"),
           icon: "HiOutlineUserGroup",
           to: AdminPageUrls.users,
         },
