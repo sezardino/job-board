@@ -2,7 +2,8 @@
 
 import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
-import { AuthFormProps, Typography, AuthForm } from "..";
+import { Typography } from "../base";
+import { AuthFormProps, AuthForm } from "../forms";
 
 export type LoginTemplateProps = ComponentPropsWithoutRef<"section"> & {
   onFormSubmit: AuthFormProps["onFormSubmit"];

@@ -3,7 +3,7 @@
 import { AdminPageUrls, UserPageUrls } from "@/const/url";
 import { PropsWithChildren, useMemo } from "react";
 
-import { AppSidebarItem } from "@/components";
+import { AppSidebarItem } from "@/components/layout";
 import { AppWrapper } from "@/components/layout/AppWrapper/AppWrapper";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";

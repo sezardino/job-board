@@ -3,10 +3,10 @@
 import { AdminPageUrls, CompanyPageUrls } from "@/const/url";
 import { PropsWithChildren, useMemo } from "react";
 
-import { AppSidebarItem } from "@/components";
 import { AppWrapper } from "@/components/layout/AppWrapper/AppWrapper";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { AppSidebarItem } from "@/components/layout";
 
 const AdminPanelLayout = (props: PropsWithChildren) => {
   const { children } = props;

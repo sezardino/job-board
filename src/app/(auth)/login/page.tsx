@@ -1,6 +1,6 @@
 "use client";
 
-import { AuthFormValues } from "@/components";
+import { AuthFormValues } from "@/components/forms";
 import { LoginTemplate } from "@/components/templates/LoginTemplate";
 import { reactToastify } from "@/libs/react-toastify";
 import { signIn } from "next-auth/react";

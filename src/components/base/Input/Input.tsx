@@ -10,7 +10,7 @@ import {
   forwardRef,
   useState,
 } from "react";
-import { Icon } from "../..";
+import { Icon } from "..";
 
 type OmittedProps = Omit<
   ComponentProps,

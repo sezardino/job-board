@@ -2,9 +2,9 @@
 
 import { FC, PropsWithChildren } from "react";
 
-import { AppNavbar, AppSidebar, AppSidebarItem } from "@/components";
 import { twMerge } from "tailwind-merge";
 import styles from "./AppWrapper.module.css";
+import { AppSidebarItem, AppNavbar, AppSidebar } from "..";
 
 type Props = {
   lists: AppSidebarItem[][];

@@ -1,12 +1,12 @@
 "use client";
 
+import { Button } from "@/components/base";
+import { ControlledInput } from "@/components/controlled";
 import { Form, FormikProvider, useFormik } from "formik";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 import z from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { Button } from "../..";
-import { ControlledInput } from "../../controlled/Input";
 
 export type AuthFormValues = {
   email: string;

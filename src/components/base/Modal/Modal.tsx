@@ -7,7 +7,7 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import { ReactNode, type FC } from "react";
-import { Typography } from "../..";
+import { Typography } from "..";
 
 export type ModalProps = Omit<ComponentProps, "backdrop"> & {
   title?: string;
