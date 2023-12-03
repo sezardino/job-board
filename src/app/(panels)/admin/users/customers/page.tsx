@@ -3,7 +3,7 @@
 import { useAdminsListQuery } from "@/hooks/react-query/users";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 
-const CompaniesPage = () => {
+const CustomersPage = () => {
   const { limit, onLimitChange, onPageChange, onSearchChange, page, search } =
     useTableOnPage();
   const { data: admins, isFetching: isAdminsLoading } = useAdminsListQuery({
@@ -15,4 +15,4 @@ const CompaniesPage = () => {
   return <p>{JSON.stringify(admins?.admins)}</p>;
 };
 
-export default CompaniesPage;
+export default CustomersPage;

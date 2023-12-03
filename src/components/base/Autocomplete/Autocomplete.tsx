@@ -1,4 +1,5 @@
-// @ts-ignore
+"use client";
+
 import { Combobox, Transition } from "@headlessui/react";
 
 import { Fragment, useMemo, useRef, useState } from "react";

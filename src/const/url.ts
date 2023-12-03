@@ -2,6 +2,9 @@ export const AdminPageUrls = {
   home: "/admin",
   industries: "/admin/industries",
   companies: "/admin/companies",
+  users: "/admin/users",
+  admins: "/admin/users/admins",
+  customers: "/admin/users/customers",
 };
 
 export const CompanyPageUrls = {

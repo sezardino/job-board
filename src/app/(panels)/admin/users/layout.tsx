@@ -1,0 +1,34 @@
+"use client";
+
+import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
+import { WindowNavigation } from "@/components/base/WindowNavigation/WindowNavigation";
+import { AdminPageUrls } from "@/const";
+import { useTranslations } from "next-intl";
+import { PropsWithChildren, type FC } from "react";
+
+const AdminUsersLayout: FC<PropsWithChildren> = ({ children }) => {
+  const t = useTranslations("layout.admin-users");
+
+  return (
+    <div className="grid grid-cols-1 gap-4">
+      <TitleDescription
+        title={t("title")}
+        titleLevel="h1"
+        description={t("description")}
+      />
+
+      <WindowNavigation
+        items={[
+          { title: t("navigation.companies"), href: AdminPageUrls.users },
+          { title: t("navigation.customers"), href: AdminPageUrls.customers },
+          { title: t("navigation.admins"), href: AdminPageUrls.admins },
+        ]}
+        title={t("navigation.title")}
+      />
+
+      <main>{children}</main>
+    </div>
+  );
+};
+
+export default AdminUsersLayout;

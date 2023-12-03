@@ -3,10 +3,10 @@
 import { AdminPageUrls } from "@/const/url";
 import { PropsWithChildren, useMemo } from "react";
 
+import { AppSidebarItem } from "@/components/layout";
 import { AppWrapper } from "@/components/layout/AppWrapper/AppWrapper";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { AppSidebarItem } from "@/components/layout";
 
 const AdminPanelLayout = (props: PropsWithChildren) => {
   const { children } = props;
@@ -30,6 +30,11 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
           label: t("companies"),
           icon: "HiOutlineUserGroup",
           to: AdminPageUrls.companies,
+        },
+        {
+          label: t("companies"),
+          icon: "HiOutlineUserGroup",
+          to: AdminPageUrls.users,
         },
       ],
     ],

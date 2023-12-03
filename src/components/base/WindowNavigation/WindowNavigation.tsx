@@ -30,7 +30,7 @@ export const WindowNavigation: FC<WindowNavigationProps> = (props) => {
   return (
     <Tabs
       {...rest}
-      variant="underlined"
+      variant="bordered"
       selectedKey={pathname}
       className={twMerge("", className)}
       aria-label={title}

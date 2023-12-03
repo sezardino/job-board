@@ -2,8 +2,15 @@ import { type ComponentPropsWithoutRef, type FC } from "react";
 
 import { twMerge } from "tailwind-merge";
 
-type TypographyStyling = "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl";
-type TypographyTag =
+export type TypographyStyling =
+  | "xs"
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl";
+export type TypographyTag =
   | "p"
   | "span"
   | "div"
@@ -37,19 +44,23 @@ export const Typography: FC<TypographyProps> = (props) => {
   } = props;
 
   const stylingString: Record<TypographyStyling, string> = {
-    "3xl": "text-3xl text-gray-800 md:text-4xl lg:text-5xl",
-    "2xl": "text-2xl text-gray-800 lg:text-4xl md:text-3xl",
-    xl: "text-xl text-gray-800 md:text-2xl lg:text-3xl",
-    lg: "text-lg text-gray-800 md:text-xl lg:text-2xl",
-    md: "text-base text-gray-800 md:text-lg lg:text-lg",
-    sm: "text-sm text-gray-800 lg:text-lg md:text-base",
-    xs: "text-xs text-gray-800 lg:text-base md:text-base",
+    "3xl": "text-3xl md:text-4xl lg:text-5xl",
+    "2xl": "text-2xl lg:text-4xl md:text-3xl",
+    xl: "text-xl md:text-2xl lg:text-3xl",
+    lg: "text-lg md:text-xl lg:text-2xl",
+    md: "text-base",
+    sm: "text-sm",
+    xs: "text-xs",
   };
 
   return (
     <Tag
       {...rest}
-      className={twMerge(stylingString[styling], `text-${color}`, className)}
+      className={twMerge(
+        stylingString[styling],
+        `text-gray-800 text-${color}`,
+        className
+      )}
     >
       {children}
     </Tag>

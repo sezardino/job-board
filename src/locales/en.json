@@ -4,6 +4,16 @@
       "dashboard": "Dashboard",
       "companies": "Companies",
       "industries": "Industries"
+    },
+    "admin-users": {
+      "title": "Users",
+      "description": "From this panel you can manage users, invite new admin, edit or delete existing ones",
+      "navigation": {
+        "title": "Navigation between user type",
+        "companies": "Companies",
+        "customers": "Customers",
+        "admins": "Admins"
+      }
     }
   },
   "login-page": {
