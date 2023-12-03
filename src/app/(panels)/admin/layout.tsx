@@ -5,7 +5,7 @@ import { PropsWithChildren, useMemo } from "react";
 
 import { AppSidebarItem } from "@/components/layout";
 import { AppWrapper } from "@/components/layout/AppWrapper/AppWrapper";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
 const AdminPanelLayout = (props: PropsWithChildren) => {
@@ -48,7 +48,7 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
       email={session.data.user.email}
       homeHref={AdminPageUrls.home}
       lists={lists}
-      onSignOutClick={() => undefined}
+      onSignOutClick={signOut}
       avatar={undefined}
     >
       {children}

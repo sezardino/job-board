@@ -4,7 +4,7 @@ import { Prisma, User, UserRoles } from "@prisma/client";
 import { AdminsListRequest } from "./schema/admins-list";
 
 export class UsersService extends AbstractService {
-  async isEmailAvailable(email: string): Promise<boolean> {
+  async checkEmailAvailable(email: string): Promise<boolean> {
     const user = await this.prismaService.user.findUnique({
       where: { email },
       select: { id: true },
@@ -47,7 +47,7 @@ export class UsersService extends AbstractService {
   }
 
   async admins(dto: AdminsListRequest) {
-    const { limit = 10, page = 0, search } = dto;
+    const { limit = 10, page = 0, search = "" } = dto;
 
     const where: Prisma.UserWhereInput = {
       OR: [{ role: UserRoles.ADMIN }, { role: UserRoles.SUB_ADMIN }],
@@ -70,7 +70,7 @@ export class UsersService extends AbstractService {
         role: true,
       },
       orderBy: {
-        email: "asc",
+        createdAt: "desc",
       },
     });
 

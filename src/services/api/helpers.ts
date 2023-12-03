@@ -23,10 +23,8 @@ export abstract class AbstractApiModule {
     return axios<
       AxiosError<BackendErrorResponse>,
       AxiosResponse<z.infer<Schema>>
-    >(`${this.restUrl}/${endpoint}`, { ...config })
-      .then((res) => schema.parse(res.data))
-      .catch((err) => {
-        console.log(err);
-      });
+    >(`${this.restUrl}/${endpoint}`, { ...config }).then((res) =>
+      schema.parse(res.data)
+    );
   }
 }

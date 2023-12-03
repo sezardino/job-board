@@ -6,7 +6,7 @@ export const inviteAdminRequestSchema = z.object({
 });
 
 export const inviteAdminResponseSchema = z.object({
-  user: z.object({
+  admin: z.object({
     email: z.string(),
     id: z.string(),
     role: z.string(),

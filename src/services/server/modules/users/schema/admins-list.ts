@@ -1,4 +1,5 @@
 import { paginatedRequestSchema, paginatedResponseSchema } from "@/types";
+import { UserRoles, UserStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const adminsListRequestSchema = z
@@ -10,9 +11,9 @@ export const adminsListResponseSchema = z
     admins: z.array(
       z.object({
         email: z.string(),
-        status: z.string(),
+        status: z.nativeEnum(UserStatus),
         id: z.string(),
-        role: z.string(),
+        role: z.nativeEnum(UserRoles),
       })
     ),
   })

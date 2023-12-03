@@ -49,7 +49,10 @@ model User {
   role   UserRoles  @default(CUSTOMER)
   status UserStatus @default(ACTIVE)
 
-  email    String @unique
+  email           String  @unique
+  isEmailVerified Boolean @default(false) @map("is_email_verified")
+  emailToken      String? @map("email_token")
+
   password String
 
   owner     Company? @relation(name: "owner")

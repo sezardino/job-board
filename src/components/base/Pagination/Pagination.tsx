@@ -6,16 +6,18 @@ export type PaginationProps = ComponentPropsWithoutRef<"div"> & {
   total: number;
   onPageChange: (page: number) => void;
   current: number;
+  disabled?: boolean;
 };
 
 export const Pagination: FC<PaginationProps> = (props) => {
-  const { total, current, onPageChange, className, ...rest } = props;
+  const { disabled, total, current, onPageChange, className, ...rest } = props;
 
   return (
     <Component
       as="div"
       isCompact
       showControls
+      isDisabled={disabled}
       color="warning"
       onChange={onPageChange}
       total={total}

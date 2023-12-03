@@ -3,7 +3,9 @@
 import { Button } from "@/components/base";
 import { ControlledInput } from "@/components/controlled";
 import { Form, FormikProvider, useFormik } from "formik";
-import { type ComponentPropsWithoutRef, type FC } from "react";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
+import { useRef, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 import z from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
@@ -14,48 +16,34 @@ export type AuthFormValues = {
   repeatPassword?: string;
 };
 
-type CopyProp = {
-  submit: string;
-  email: {
-    label: string;
-    placeholder: string;
-    required: string;
-    used?: string;
-  };
-  password: {
-    label: string;
-    placeholder: string;
-    required: string;
-    minLength: (min: number) => string;
-  };
-  repeatPassword?: {
-    label: string;
-    placeholder: string;
-    required: string;
-    notMatch: string;
-  };
-};
-
 export type AuthFormProps = ComponentPropsWithoutRef<"form"> & {
-  type: "login" | "registration";
+  type: "login" | "new-user";
   label: string;
   onFormSubmit: (data: AuthFormValues) => void;
   onEmailAvailableRequest?: (email: string) => Promise<boolean>;
-  copy: CopyProp;
+  submitText: string;
+  cancel?: {
+    label: string;
+    onClick?: () => void;
+    href?: string;
+  };
 };
 
-const MIN_PASSWORD_LENGTH = 6;
+const MIN_PASSWORD_LENGTH = 5;
 
 export const AuthForm: FC<AuthFormProps> = (props) => {
   const {
     onEmailAvailableRequest,
-    copy,
+    cancel,
+    submitText,
     onFormSubmit,
     type,
     label,
     className,
     ...rest
   } = props;
+  const t = useTranslations("forms.auth");
+  const checkEmailHistory = useRef<Record<string, boolean>>({});
 
   const formik = useFormik<AuthFormValues>({
     initialValues: {
@@ -64,7 +52,7 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
       repeatPassword: "",
     },
     onSubmit: async (values) => {
-      if (type === "registration") {
+      if (type === "new-user" && onEmailAvailableRequest) {
         const response = await validateEmailHandler(values.email);
 
         if (!response) return;
@@ -76,41 +64,49 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
       z
         .object({
           email: z
-            .string({ required_error: copy.email.required })
+            .string({ required_error: t("email.required") })
             .email()
-            .min(1, { message: copy.email.required }),
-          password: z.string({ required_error: copy.password.required }),
-          // .min(MIN_PASSWORD_LENGTH, {
-          //   message: copy.password.minLength(MIN_PASSWORD_LENGTH),
-          // }),
+            .min(1, { message: t("email.required") }),
+          password: z
+            .string({ required_error: t("password.required") })
+            .min(MIN_PASSWORD_LENGTH, {
+              message: t("password.min-length", { value: MIN_PASSWORD_LENGTH }),
+            }),
           repeatPassword:
-            type === "registration"
+            type === "new-user"
               ? z
-                  .string({ required_error: copy.repeatPassword?.required })
-                  .min(1, { message: copy.repeatPassword?.required })
+                  .string({ required_error: t("repeat-password.required") })
+                  .min(1, { message: t("repeat-password.required") })
               : z.optional(z.string()),
         })
         .refine(
           (data) =>
-            type === "registration"
-              ? data.password === data.repeatPassword
-              : true,
+            type === "new-user" ? data.password === data.repeatPassword : true,
           {
             path: ["repeatPassword"],
-            message: copy.repeatPassword?.notMatch,
+            message: t("repeat-password.not-match"),
           }
         )
     ),
   });
 
-  const validateEmailHandler = async (login: string) => {
+  const validateEmailHandler = async (email: string) => {
     if (!onEmailAvailableRequest) return true;
 
-    const response = await onEmailAvailableRequest(login);
+    const historyValue = checkEmailHistory.current[email];
+    if (historyValue) return historyValue;
 
-    if (response) return true;
+    if (historyValue === false) {
+      formik.setFieldError("email", t("email.used"));
+      return false;
+    }
 
-    formik.setFieldError("login", copy.email.used);
+    const response = await onEmailAvailableRequest(email);
+    checkEmailHistory.current[email] = response;
+
+    if (response) return response;
+
+    formik.setFieldError("email", t("email.used"));
 
     return false;
   };
@@ -125,30 +121,45 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
         <div className="grid grid-cols-1 gap-2">
           <ControlledInput
             name="email"
-            label={copy.email.label}
-            placeholder={copy.email.placeholder}
-            onBlur={(evt) => validateEmailHandler(evt.currentTarget.value)}
+            label={t("email.label")}
+            placeholder={t("email.placeholder")}
           />
 
           <ControlledInput
             name="password"
             type="password"
-            label={copy.password.label}
-            placeholder={copy.password.placeholder}
+            label={t("password.label")}
+            placeholder={t("password.placeholder")}
           />
-          {type === "registration" && (
+          {type === "new-user" && (
             <ControlledInput
               type="password"
               name="repeatPassword"
-              label={copy.repeatPassword?.label}
-              placeholder={copy.repeatPassword?.placeholder}
+              label={t("repeat-password.label")}
+              placeholder={t("repeat-password.placeholder")}
             />
           )}
         </div>
 
-        <Button type="submit" variant="bordered">
-          {copy.submit}
-        </Button>
+        <div
+          className={twMerge(
+            "flex gap-3 flex-wrap justify-between items-center"
+          )}
+        >
+          {cancel && (
+            <Button
+              as={cancel.href ? Link : "button"}
+              href={cancel.href}
+              onClick={cancel.onClick}
+              variant="bordered"
+            >
+              {cancel.label}
+            </Button>
+          )}
+          <Button type="submit" color="primary" fullWidth={!cancel}>
+            {submitText}
+          </Button>
+        </div>
       </Form>
     </FormikProvider>
   );

@@ -56,11 +56,7 @@ export const Typography: FC<TypographyProps> = (props) => {
   return (
     <Tag
       {...rest}
-      className={twMerge(
-        stylingString[styling],
-        `text-gray-800 text-${color}`,
-        className
-      )}
+      className={twMerge(stylingString[styling], `text-${color}`, className)}
     >
       {children}
     </Tag>

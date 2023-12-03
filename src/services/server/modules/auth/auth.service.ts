@@ -15,7 +15,7 @@ export class AuthService extends AbstractService {
   async registration(dto: RegistrationRequest): Promise<boolean> {
     const { email, password } = dto;
 
-    const isEmailAvailable = await this.usersService.isEmailAvailable(email);
+    const isEmailAvailable = await this.usersService.checkEmailAvailable(email);
 
     if (!isEmailAvailable) throw new Error("Login is already taken");
 

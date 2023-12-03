@@ -1,24 +1,24 @@
 import { AbstractController } from "@/services/server/helpers";
 import { UserRoles } from "@prisma/client";
 import { NextRequest } from "next/server";
-import { isEmailAvailableRequestSchema } from "./schema";
+import { checkEmailAvailableRequestSchema } from "./schema";
 import { adminsListRequestSchema } from "./schema/admins-list";
 import { inviteAdminRequestSchema } from "./schema/invite-admin";
 import { UsersService } from "./users.service";
 
 export class UsersController extends AbstractController<UsersService> {
-  async isLoginAvailable(req: NextRequest) {
+  async checkEmailAvailable(req: NextRequest) {
     const params = this.formatParams(req.nextUrl.searchParams.entries());
 
     const { response, dto } = await this.handlerHelper({
       data: params,
-      schema: isEmailAvailableRequestSchema,
+      schema: checkEmailAvailableRequestSchema,
     });
 
     if (response) return response;
 
     try {
-      const bllResponse = await this.service.isEmailAvailable(dto!.email!);
+      const bllResponse = await this.service.checkEmailAvailable(dto!.email!);
 
       return this.getNextResponse({ available: bllResponse }, 200);
     } catch (error) {
@@ -32,6 +32,7 @@ export class UsersController extends AbstractController<UsersService> {
     const { response, dto } = await this.handlerHelper({
       data: params,
       schema: adminsListRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN],
     });
 
     if (response) return response;
@@ -41,7 +42,10 @@ export class UsersController extends AbstractController<UsersService> {
 
       return this.getNextResponse(res, 200);
     } catch (error) {
-      return this.getNextResponse({ message: "backend-errors.server" }, 500);
+      return this.getNextResponse(
+        { message: "backend-errors.server", error },
+        500
+      );
     }
   }
 
@@ -62,7 +66,7 @@ export class UsersController extends AbstractController<UsersService> {
         role: UserRoles.SUB_ADMIN,
       });
 
-      return this.getNextResponse(res, 201);
+      return this.getNextResponse({ admin: res }, 201);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }

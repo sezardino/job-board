@@ -1,19 +1,23 @@
 import {
-  IsEmailAvailableRequest,
-  isEmailAvailableResponseSchema,
+  CheckEmailAvailableRequest,
+  checkEmailAvailableResponseSchema,
 } from "@/services/server/modules/users/schema";
 import {
   AdminsListRequest,
   adminsListResponseSchema,
 } from "@/services/server/modules/users/schema/admins-list";
+import {
+  InviteAdminRequest,
+  inviteAdminResponseSchema,
+} from "@/services/server/modules/users/schema/invite-admin";
 import { AbstractApiModule } from "../helpers";
 
 export class UsersApiModule extends AbstractApiModule {
-  async isLoginAvailable(params: IsEmailAvailableRequest) {
+  async checkLoginAvailable(params: CheckEmailAvailableRequest) {
     return await this.fetch({
-      endpoint: "users/is-login-available",
+      endpoint: "users/check-email-available",
       config: { params },
-      schema: isEmailAvailableResponseSchema,
+      schema: checkEmailAvailableResponseSchema,
     });
   }
 
@@ -22,6 +26,14 @@ export class UsersApiModule extends AbstractApiModule {
       endpoint: "users/admins-list",
       config: { params },
       schema: adminsListResponseSchema,
+    });
+  }
+
+  inviteAdmin(data: InviteAdminRequest) {
+    return this.fetch({
+      endpoint: "users/invite-admin",
+      config: { method: "POST", data },
+      schema: inviteAdminResponseSchema,
     });
   }
 }

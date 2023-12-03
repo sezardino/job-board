@@ -16,6 +16,64 @@
       }
     }
   },
+  "forms": {
+    "auth": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Email",
+        "required": "Email is required",
+        "used": "Email is already used"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Password",
+        "required": "Password is required",
+        "min-length": "Password must be at least {value} characters"
+      },
+      "repeat-password": {
+        "label": "Repeat password",
+        "placeholder": "Repeat password",
+        "required": "Repeat password is required",
+        "not-match": "Passwords do not match"
+      }
+    }
+  },
+  "entity": {
+    "user": {
+      "role": {
+        "ADMIN": "Admin",
+        "SUB_ADMIN": "Sub Admin",
+        "OWNER": "Owner",
+        "MODERATOR": "Moderator",
+        "RECRUITER": "Recruiter",
+        "CUSTOMER": "Customer"
+      },
+      "status": {
+        "ACTIVE": "Active",
+        "BLOCKED": "Blocked",
+        "INACTIVE": "Inactive"
+      }
+    }
+  },
+  "page": {
+    "manage-admins": {
+      "invite": {
+        "title": "Invite admin",
+        "description": "Please enter email of the person you want to invite to the system",
+        "submit": "Invite",
+        "cancel": "Cancel",
+        "trigger": "Invite admin"
+      },
+      "table": {
+        "no-data": "No admins found",
+        "head": {
+          "email": "Email",
+          "role": "Role",
+          "status": "Status"
+        }
+      }
+    }
+  },
   "login-page": {
     "title": "Login",
     "description": "Please enter your login and password to access the system",
@@ -33,7 +91,7 @@
       "min-length": "Password must be at least {value} characters long"
     }
   },
-  "toasts": {
+  "messages": {
     "login": {
       "success": "Login successful",
       "error": "Login failed"

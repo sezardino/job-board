@@ -54,6 +54,8 @@ export const TableWidget = <TRowData extends Record<string, any>>(
     ...rest
   } = props;
 
+  const isFooterVisible = total > 1;
+
   return (
     <div {...rest} className={className}>
       <Table
@@ -62,30 +64,37 @@ export const TableWidget = <TRowData extends Record<string, any>>(
         isLoading={isLoading}
         noDataMessage={noDataMessage}
       />
-      <div className="mt-3 flex justify-center gap-3 flex-wrap items-center">
-        <Pagination current={page} onPageChange={onPageChange} total={total} />
-        <Dropdown>
-          <DropdownTrigger>
-            <Button size="md" variant="bordered" className="capitalize">
-              {limit}
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu
-            aria-label="Items per page"
-            variant="flat"
-            disallowEmptySelection
-            selectionMode="single"
-            selectedKeys={[limit]}
-            onSelectionChange={(value) =>
-              onLimitChange(Number(Array.from(value)[0]))
-            }
-          >
-            {DEFAULT_LIMIT_ITEMS.map((item) => (
-              <DropdownItem key={item}>{item}</DropdownItem>
-            ))}
-          </DropdownMenu>
-        </Dropdown>
-      </div>
+      {isFooterVisible && (
+        <div className="mt-3 flex justify-center gap-3 flex-wrap items-center">
+          <Pagination
+            disabled={isLoading}
+            current={page}
+            onPageChange={onPageChange}
+            total={total}
+          />
+          <Dropdown isDisabled={isLoading}>
+            <DropdownTrigger>
+              <Button size="md" variant="bordered" className="capitalize">
+                {limit}
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu
+              aria-label="Items per page"
+              variant="flat"
+              disallowEmptySelection
+              selectionMode="single"
+              selectedKeys={[limit]}
+              onSelectionChange={(value) =>
+                onLimitChange(Number(Array.from(value)[0]))
+              }
+            >
+              {DEFAULT_LIMIT_ITEMS.map((item) => (
+                <DropdownItem key={item}>{item}</DropdownItem>
+              ))}
+            </DropdownMenu>
+          </Dropdown>
+        </div>
+      )}
     </div>
   );
 };
