@@ -1,6 +1,6 @@
 "use client";
 
-import { useAdminIndustriesListQuery } from "@/hooks/react-query/industries";
+import { useAdminIndustriesListQuery } from "@/hooks/react-query/query/industries";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 
 const IndustriesPage = () => {

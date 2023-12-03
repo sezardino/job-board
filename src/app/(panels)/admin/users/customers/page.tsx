@@ -1,6 +1,6 @@
 "use client";
 
-import { useAdminsListQuery } from "@/hooks/react-query/users";
+import { useAdminsListQuery } from "@/hooks/react-query/query/users";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 
 const CustomersPage = () => {

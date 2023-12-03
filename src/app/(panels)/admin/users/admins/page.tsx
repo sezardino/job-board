@@ -1,6 +1,7 @@
 "use client";
 
-import { useAdminsListQuery } from "@/hooks/react-query/users";
+import { ManageAdminsTemplate } from "@/components/templates/ManageAdminsTemplate";
+import { useAdminsListQuery } from "@/hooks/react-query/query/users";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 
 const AdminsPage = () => {
@@ -12,7 +13,14 @@ const AdminsPage = () => {
     search,
   });
 
-  return <p>{JSON.stringify(admins?.admins)}</p>;
+  return (
+    <ManageAdminsTemplate
+      data={admins}
+      isTableDataLoading={isAdminsLoading}
+      onLimitChange={onLimitChange}
+      onPageChange={onPageChange}
+    />
+  );
 };
 
 export default AdminsPage;

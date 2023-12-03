@@ -1,6 +1,6 @@
 "use client";
 
-import { useAdminCompaniesListQuery } from "@/hooks/react-query/companies";
+import { useAdminCompaniesListQuery } from "@/hooks/react-query/query/companies";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 import { adminCompaniesListResponseSchema } from "@/services/server/modules/companies/schema/admin-list";
 
