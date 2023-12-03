@@ -19,10 +19,7 @@ const AdminsPage = () => {
   const { mutateAsync: inviteAdmin, isPending: isInviteAdminLoading } =
     useInviteAdminMutation();
 
-  const {
-    mutateAsync: checkEmailAvailable,
-    isPending: checkEmailAvailablePending,
-  } = useCheckEmailAvailableMutation();
+  const { mutateAsync: checkEmailAvailable } = useCheckEmailAvailableMutation();
 
   const checkEmailAvailableHandler = useCallback(
     async (email: string) => {
@@ -42,6 +39,7 @@ const AdminsPage = () => {
       onPageChange={onPageChange}
       onInviteAdminFormSubmit={inviteAdmin}
       onEmailAvailableRequest={checkEmailAvailableHandler}
+      onSearchChange={onSearchChange}
     />
   );
 };

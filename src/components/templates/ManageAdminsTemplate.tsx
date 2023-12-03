@@ -11,6 +11,7 @@ import {
 import { twMerge } from "tailwind-merge";
 import { TableWidget } from "../UI/TableWidget/TableWidget";
 import { Button, LoadingOverlay, Modal } from "../base";
+import { SearchForm } from "../base/SearchForm/SearchForm";
 import { AuthForm, AuthFormValues } from "../forms";
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
   onInviteAdminFormSubmit: (data: AuthFormValues) => Promise<any>;
   onEmailAvailableRequest: (email: string) => Promise<boolean>;
   isInviteAdminLoading: boolean;
+  onSearchChange: (search: string) => void;
 };
 
 export type ManageAdminsTemplateProps = ComponentPropsWithoutRef<"section"> &
@@ -34,9 +36,10 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
     isTableDataLoading,
     onLimitChange,
     onPageChange,
+    isInviteAdminLoading,
     onInviteAdminFormSubmit,
     onEmailAvailableRequest,
-    isInviteAdminLoading,
+    onSearchChange,
     className,
     ...rest
   } = props;
@@ -80,13 +83,15 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
   return (
     <>
       <section {...rest} className={twMerge("", className)}>
-        <Button
-          color="primary"
-          className="ml-auto block"
-          onClick={() => setIsInviteAdminModalOpen(true)}
-        >
-          {t("invite.trigger")}
-        </Button>
+        <div className="flex justify-between gap-3 flex-wrap items-center">
+          <SearchForm onSearch={onSearchChange} />
+          <Button
+            color="primary"
+            onClick={() => setIsInviteAdminModalOpen(true)}
+          >
+            {t("invite.trigger")}
+          </Button>
+        </div>
         <TableWidget
           // @ts-ignore
           columns={columns}
