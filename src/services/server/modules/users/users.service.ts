@@ -76,19 +76,26 @@ export class UsersService extends AbstractService {
   }
 
   async admin(dto: AdminUsersRequest) {
-    const { limit = 10, page = 0, search = "" } = dto;
+    const { limit = 10, page = 0, search = "", status } = dto;
 
     const where: Prisma.UserWhereInput = {
       OR: [{ role: UserRoles.ADMIN }, { role: UserRoles.SUB_ADMIN }],
     };
 
     if (search) where.email = { contains: search, mode: "insensitive" };
+    if (status) where.status = status;
 
     return this.findMany({
       limit,
       page,
       where,
-      select: { id: true, email: true, role: true, status: true },
+      select: {
+        id: true,
+        email: true,
+        role: true,
+        status: true,
+        isEmailVerified: true,
+      },
     });
   }
 
@@ -111,7 +118,20 @@ export class UsersService extends AbstractService {
       page,
       limit,
       where,
-      select: { email: true, status: true, id: true, role: true },
+      select: {
+        id: true,
+        email: true,
+        isEmailVerified: true,
+        status: true,
+        role: true,
+        company: {
+          select: {
+            id: true,
+            name: true,
+            owner: { select: { email: true, id: true } },
+          },
+        },
+      },
     });
   }
 
@@ -128,7 +148,7 @@ export class UsersService extends AbstractService {
       page,
       limit,
       where,
-      select: { email: true, status: true, id: true, role: true },
+      select: { email: true, status: true, id: true, isEmailVerified: true },
     });
   }
 }

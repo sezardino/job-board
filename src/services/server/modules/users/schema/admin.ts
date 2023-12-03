@@ -3,17 +3,20 @@ import { UserRoles, UserStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const adminUsersRequestSchema = z
-  .object({})
+  .object({
+    status: z.nativeEnum(UserStatus).optional(),
+  })
   .merge(paginatedRequestSchema);
 
 export const adminUsersResponseSchema = z
   .object({
     users: z.array(
       z.object({
-        email: z.string(),
-        status: z.nativeEnum(UserStatus),
         id: z.string(),
+        email: z.string(),
         role: z.nativeEnum(UserRoles),
+        status: z.nativeEnum(UserStatus),
+        isEmailVerified: z.boolean(),
       })
     ),
   })

@@ -13,10 +13,19 @@ export const companyUsersResponseSchema = z
   .object({
     users: z.array(
       z.object({
-        email: z.string(),
-        status: z.nativeEnum(UserStatus),
         id: z.string(),
+        email: z.string(),
+        isEmailVerified: z.boolean(),
+        status: z.nativeEnum(UserStatus),
         role: z.nativeEnum(UserRoles),
+        company: z.object({
+          id: z.string(),
+          name: z.string(),
+          owner: z.object({
+            id: z.string(),
+            email: z.string(),
+          }),
+        }),
       })
     ),
   })

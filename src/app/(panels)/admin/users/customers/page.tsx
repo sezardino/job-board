@@ -1,12 +1,12 @@
 "use client";
 
-import { useAdminUsersQuery } from "@/hooks/react-query/query/users";
+import { useCustomersUsersQuery } from "@/hooks/react-query/query/users";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 
 const CustomersPage = () => {
   const { limit, onLimitChange, onPageChange, onSearchChange, page, search } =
     useTableOnPage();
-  const { data: admins, isFetching: isAdminsLoading } = useAdminUsersQuery({
+  const { data: admins, isFetching: isAdminsLoading } = useCustomersUsersQuery({
     limit,
     page,
     search,
