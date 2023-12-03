@@ -1,1 +1,3 @@
-export * from "./admins-list";
+export * from "./admin";
+export * from "./companies";
+export * from "./customers";

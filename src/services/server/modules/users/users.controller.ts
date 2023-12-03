@@ -1,9 +1,18 @@
 import { AbstractController } from "@/services/server/helpers";
 import { UserRoles } from "@prisma/client";
 import { NextRequest } from "next/server";
-import { checkEmailAvailableRequestSchema } from "./schema";
-import { adminsListRequestSchema } from "./schema/admins-list";
-import { inviteAdminRequestSchema } from "./schema/invite-admin";
+import {
+  AdminUsersResponse,
+  CheckEmailAvailableResponse,
+  CompanyUsersResponse,
+  CustomerUsersResponse,
+  InviteAdminResponse,
+  adminUsersRequestSchema,
+  checkEmailAvailableRequestSchema,
+  companyUsersRequestSchema,
+  customerUsersRequestSchema,
+  inviteAdminRequestSchema,
+} from "./schema";
 import { UsersService } from "./users.service";
 
 export class UsersController extends AbstractController<UsersService> {
@@ -20,27 +29,30 @@ export class UsersController extends AbstractController<UsersService> {
     try {
       const bllResponse = await this.service.checkEmailAvailable(dto!.email!);
 
-      return this.getNextResponse({ available: bllResponse }, 200);
+      return this.getNextResponse(
+        { available: bllResponse } as CheckEmailAvailableResponse,
+        200
+      );
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
   }
 
-  async adminsList(req: NextRequest) {
+  async admins(req: NextRequest) {
     const params = this.formatParams(req.nextUrl.searchParams.entries());
 
     const { response, dto } = await this.handlerHelper({
       data: params,
-      schema: adminsListRequestSchema,
+      schema: adminUsersRequestSchema,
       acceptedRoles: [UserRoles.ADMIN],
     });
 
     if (response) return response;
 
     try {
-      const res = await this.service.admins(dto!);
+      const res = await this.service.admin(dto!);
 
-      return this.getNextResponse(res, 200);
+      return this.getNextResponse(res as AdminUsersResponse, 200);
     } catch (error) {
       return this.getNextResponse(
         { message: "backend-errors.server", error },
@@ -66,9 +78,55 @@ export class UsersController extends AbstractController<UsersService> {
         role: UserRoles.SUB_ADMIN,
       });
 
-      return this.getNextResponse({ admin: res }, 201);
+      return this.getNextResponse({ admin: res } as InviteAdminResponse, 201);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
+    }
+  }
+
+  async companies(req: NextRequest) {
+    const params = this.formatParams(req.nextUrl.searchParams.entries());
+
+    const { response, dto } = await this.handlerHelper({
+      data: params,
+      schema: companyUsersRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN, UserRoles.SUB_ADMIN],
+    });
+
+    if (response) return response;
+
+    try {
+      const res = await this.service.company(dto!);
+
+      return this.getNextResponse(res as CompanyUsersResponse, 200);
+    } catch (error) {
+      return this.getNextResponse(
+        { message: "backend-errors.server", error },
+        500
+      );
+    }
+  }
+
+  async customers(req: NextRequest) {
+    const params = this.formatParams(req.nextUrl.searchParams.entries());
+
+    const { response, dto } = await this.handlerHelper({
+      data: params,
+      schema: customerUsersRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN, UserRoles.SUB_ADMIN],
+    });
+
+    if (response) return response;
+
+    try {
+      const res = await this.service.customers(dto!);
+
+      return this.getNextResponse(res as CustomerUsersResponse, 200);
+    } catch (error) {
+      return this.getNextResponse(
+        { message: "backend-errors.server", error },
+        500
+      );
     }
   }
 }

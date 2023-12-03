@@ -4,27 +4,31 @@ import { NextApiRequest } from "next";
 import { NextRequest } from "next/server";
 import { IndustriesService } from "./industries.service";
 import {
+  AdminIndustriesResponse,
+  CreateIndustryResponse,
+  DeleteIndustryResponse,
+  UpdateIndustryResponse,
+  adminIndustriesRequestSchema,
   createIndustryRequestSchema,
   updateIndustryRequestSchema,
 } from "./schema";
-import { adminIndustriesListRequestSchema } from "./schema/admin-list";
 
 export class IndustriesController extends AbstractController<IndustriesService> {
-  async adminList(req: NextRequest) {
+  async admin(req: NextRequest) {
     const params = this.formatParams(req.nextUrl.searchParams.entries());
 
     const { response, dto } = await this.handlerHelper({
       data: params,
-      schema: adminIndustriesListRequestSchema,
+      schema: adminIndustriesRequestSchema,
       acceptedRoles: [UserRoles.ADMIN],
     });
 
     if (response) return response;
 
     try {
-      const res = await this.service.adminList(dto!);
+      const res = await this.service.admin(dto!);
 
-      return this.getNextResponse(res, 200);
+      return this.getNextResponse(res as AdminIndustriesResponse, 200);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
@@ -44,7 +48,10 @@ export class IndustriesController extends AbstractController<IndustriesService> 
     try {
       const res = await this.service.create(dto!);
 
-      return this.getNextResponse({ industry: res }, 201);
+      return this.getNextResponse(
+        { industry: res } as CreateIndustryResponse,
+        201
+      );
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
@@ -68,7 +75,7 @@ export class IndustriesController extends AbstractController<IndustriesService> 
         id: id as string,
       });
 
-      return this.getNextResponse(res, 201);
+      return this.getNextResponse(res as UpdateIndustryResponse, 201);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
@@ -92,7 +99,10 @@ export class IndustriesController extends AbstractController<IndustriesService> 
           404
         );
 
-      return this.getNextResponse(res, 200);
+      return this.getNextResponse(
+        { industry: res } as DeleteIndustryResponse,
+        200
+      );
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }

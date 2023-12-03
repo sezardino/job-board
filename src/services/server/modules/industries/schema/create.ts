@@ -1,3 +1,4 @@
+import { EntityStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const createIndustryRequestSchema = z.object({
@@ -5,9 +6,11 @@ export const createIndustryRequestSchema = z.object({
 });
 
 export const createIndustryResponseSchema = z.object({
-  id: z.number(),
-  name: z.string(),
-  status: z.string(),
+  industry: z.object({
+    id: z.string(),
+    name: z.string(),
+    status: z.nativeEnum(EntityStatus),
+  }),
 });
 
 export type CreateIndustryRequest = z.infer<typeof createIndustryRequestSchema>;

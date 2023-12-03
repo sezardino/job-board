@@ -1,11 +1,11 @@
 import { paginatedRequestSchema, paginatedResponseSchema } from "@/types";
 import { z } from "zod";
 
-export const adminIndustriesListRequestSchema = z
+export const adminIndustriesRequestSchema = z
   .object({})
   .merge(paginatedRequestSchema);
 
-export const adminIndustriesListResponseSchema = z
+export const adminIndustriesResponseSchema = z
   .object({
     industries: z.array(
       z.object({
@@ -21,10 +21,10 @@ export const adminIndustriesListResponseSchema = z
   })
   .merge(paginatedResponseSchema);
 
-export type AdminIndustriesListRequest = z.infer<
-  typeof adminIndustriesListRequestSchema
+export type AdminIndustriesRequest = z.infer<
+  typeof adminIndustriesRequestSchema
 >;
 
-export type AdminIndustriesListResponse = z.infer<
-  typeof adminIndustriesListResponseSchema
+export type AdminIndustriesResponse = z.infer<
+  typeof adminIndustriesResponseSchema
 >;

@@ -1,4 +1,4 @@
-import { AdminsListResponse } from "@/services/server/modules/users/schema/admins-list";
+import { AdminUsersResponse } from "@/services/server/modules/users/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import {
@@ -15,7 +15,7 @@ import { SearchForm } from "../base/SearchForm/SearchForm";
 import { AuthForm, AuthFormValues } from "../forms";
 
 type Props = {
-  data?: AdminsListResponse;
+  data?: AdminUsersResponse;
   isTableDataLoading: boolean;
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
@@ -28,7 +28,7 @@ type Props = {
 export type ManageAdminsTemplateProps = ComponentPropsWithoutRef<"section"> &
   Props;
 
-const CH = createColumnHelper<AdminsListResponse["admins"]>();
+const CH = createColumnHelper<AdminUsersResponse["users"]>();
 
 export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
   const {
@@ -95,7 +95,7 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
         <TableWidget
           // @ts-ignore
           columns={columns}
-          data={data?.admins || []}
+          data={data?.users || []}
           isLoading={isTableDataLoading}
           noDataMessage={t("table.no-data")}
           page={data?.meta.page || 0}

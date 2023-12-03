@@ -1,18 +1,15 @@
 import { AbstractService } from "@/services/server/helpers";
 import { Prisma } from "@prisma/client";
 import {
+  AdminIndustriesRequest,
+  AdminIndustriesResponse,
   CreateIndustryRequest,
-  DeleteIndustryRequest,
   UpdateIndustryRequest,
   UpdateIndustryResponse,
 } from "./schema";
-import {
-  AdminIndustriesListRequest,
-  AdminIndustriesListResponse,
-} from "./schema/admin-list";
 
 export class IndustriesService extends AbstractService {
-  async create(dto: CreateIndustryRequest): Promise<CreateIndustryRequest> {
+  async create(dto: CreateIndustryRequest) {
     return await this.prismaService.industry.create({
       data: dto,
       select: {
@@ -39,7 +36,7 @@ export class IndustriesService extends AbstractService {
     });
   }
 
-  async delete(id: string): Promise<DeleteIndustryRequest | null> {
+  async delete(id: string) {
     const industry = await this.prismaService.industry.findUnique({
       where: { id },
       select: {
@@ -64,9 +61,7 @@ export class IndustriesService extends AbstractService {
     });
   }
 
-  async adminList(
-    dto: AdminIndustriesListRequest
-  ): Promise<AdminIndustriesListResponse> {
+  async admin(dto: AdminIndustriesRequest): Promise<AdminIndustriesResponse> {
     const { limit = 10, page = 0, search } = dto;
 
     const where: Prisma.IndustryWhereInput = {};

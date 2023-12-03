@@ -1,15 +1,15 @@
 import {
-  AdminIndustriesListRequest,
-  adminIndustriesListResponseSchema,
-} from "@/services/server/modules/industries/schema/";
+  AdminIndustriesRequest,
+  adminIndustriesResponseSchema,
+} from "@/services/server/modules/industries/schema";
 import { AbstractApiModule } from "../helpers";
 
 export class IndustriesApiModule extends AbstractApiModule {
-  async adminList(params: AdminIndustriesListRequest) {
+  async adminList(params: AdminIndustriesRequest) {
     return await this.fetch({
-      endpoint: "industries/admin-list",
+      endpoint: "industries/admin",
       config: { params },
-      schema: adminIndustriesListResponseSchema,
+      schema: adminIndustriesResponseSchema,
     });
   }
 }

@@ -1,7 +1,11 @@
 import { passwordService } from "@/services/password";
 import { AbstractService } from "@/services/server/helpers";
 import { Prisma, User, UserRoles } from "@prisma/client";
-import { AdminsListRequest } from "./schema/admins-list";
+import {
+  AdminUsersRequest,
+  CompanyUsersRequest,
+  CustomerUsersRequest,
+} from "./schema";
 
 export class UsersService extends AbstractService {
   async checkEmailAvailable(email: string): Promise<boolean> {
@@ -46,7 +50,7 @@ export class UsersService extends AbstractService {
     });
   }
 
-  async admins(dto: AdminsListRequest) {
+  async admin(dto: AdminUsersRequest) {
     const { limit = 10, page = 0, search = "" } = dto;
 
     const where: Prisma.UserWhereInput = {
@@ -59,7 +63,7 @@ export class UsersService extends AbstractService {
 
     const { meta, skip, take } = this.getPagination({ page, limit, count });
 
-    const admins = await this.prismaService.user.findMany({
+    const users = await this.prismaService.user.findMany({
       skip,
       take,
       where,
@@ -74,6 +78,74 @@ export class UsersService extends AbstractService {
       },
     });
 
-    return { admins, meta };
+    return { users, meta };
+  }
+
+  async company(dto: CompanyUsersRequest) {
+    const { companyId, status, limit = 10, page = 0, search = "" } = dto;
+
+    const where: Prisma.UserWhereInput = {
+      OR: [
+        { role: UserRoles.OWNER },
+        { role: UserRoles.MODERATOR },
+        { role: UserRoles.RECRUITER },
+      ],
+    };
+
+    if (status) where.status = status;
+    if (companyId) where.companyId = companyId;
+    if (search) where.email = { contains: search, mode: "insensitive" };
+
+    const count = await this.prismaService.user.count({ where });
+
+    const { meta, skip, take } = this.getPagination({ page, limit, count });
+
+    const users = await this.prismaService.user.findMany({
+      skip,
+      take,
+      where,
+      select: {
+        email: true,
+        status: true,
+        id: true,
+        role: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return { users, meta };
+  }
+
+  async customers(dto: CustomerUsersRequest) {
+    const { limit = 10, page = 0, search = "" } = dto;
+
+    const where: Prisma.UserWhereInput = {
+      role: UserRoles.CUSTOMER,
+    };
+
+    if (search) where.email = { contains: search, mode: "insensitive" };
+
+    const count = await this.prismaService.user.count({ where });
+
+    const { meta, skip, take } = this.getPagination({ page, limit, count });
+
+    const users = await this.prismaService.user.findMany({
+      skip,
+      take,
+      where,
+      select: {
+        email: true,
+        status: true,
+        id: true,
+        role: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return { users, meta };
   }
 }

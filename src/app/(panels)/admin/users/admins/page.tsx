@@ -1,16 +1,18 @@
 "use client";
 
 import { ManageAdminsTemplate } from "@/components/templates/ManageAdminsTemplate";
-import { useInviteAdminMutation } from "@/hooks/react-query";
+import {
+  useAdminUsersQuery,
+  useInviteAdminMutation,
+} from "@/hooks/react-query";
 import { useCheckEmailAvailableMutation } from "@/hooks/react-query/mutation/";
-import { useAdminsListQuery } from "@/hooks/react-query/query/users";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 import { useCallback } from "react";
 
 const AdminsPage = () => {
   const { limit, onLimitChange, onPageChange, onSearchChange, page, search } =
     useTableOnPage();
-  const { data: admins, isFetching: isAdminsLoading } = useAdminsListQuery({
+  const { data: admins, isFetching: isAdminsLoading } = useAdminUsersQuery({
     limit,
     page,
     search,

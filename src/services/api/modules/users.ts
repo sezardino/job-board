@@ -1,15 +1,15 @@
 import {
+  AdminUsersRequest,
+  adminUsersResponseSchema,
   CheckEmailAvailableRequest,
   checkEmailAvailableResponseSchema,
-} from "@/services/server/modules/users/schema";
-import {
-  AdminsListRequest,
-  adminsListResponseSchema,
-} from "@/services/server/modules/users/schema/admins-list";
-import {
+  CompanyUsersRequest,
+  companyUsersResponseSchema,
+  CustomerUsersRequest,
+  customerUsersResponseSchema,
   InviteAdminRequest,
   inviteAdminResponseSchema,
-} from "@/services/server/modules/users/schema/invite-admin";
+} from "@/services/server/modules/users/schema";
 import { AbstractApiModule } from "../helpers";
 
 export class UsersApiModule extends AbstractApiModule {
@@ -21,11 +21,11 @@ export class UsersApiModule extends AbstractApiModule {
     });
   }
 
-  async adminsList(params: AdminsListRequest) {
+  async admins(params: AdminUsersRequest) {
     return await this.fetch({
-      endpoint: "users/admins-list",
+      endpoint: "users/admins",
       config: { params },
-      schema: adminsListResponseSchema,
+      schema: adminUsersResponseSchema,
     });
   }
 
@@ -34,6 +34,22 @@ export class UsersApiModule extends AbstractApiModule {
       endpoint: "users/invite-admin",
       config: { method: "POST", data },
       schema: inviteAdminResponseSchema,
+    });
+  }
+
+  companies(params: CompanyUsersRequest) {
+    return this.fetch({
+      endpoint: "users/company",
+      config: { params },
+      schema: companyUsersResponseSchema,
+    });
+  }
+
+  customers(params: CustomerUsersRequest) {
+    return this.fetch({
+      endpoint: "users/customers",
+      config: { params },
+      schema: customerUsersResponseSchema,
     });
   }
 }

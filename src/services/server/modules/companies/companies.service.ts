@@ -1,9 +1,9 @@
 import { AbstractService } from "@/services/server/helpers";
 import { Prisma } from "@prisma/client";
-import { AdminIndustriesListRequest } from "../industries/schema";
+import { AdminCompaniesRequest } from "./schema";
 
 export class CompaniesService extends AbstractService {
-  async adminList(dto: AdminIndustriesListRequest) {
+  async admin(dto: AdminCompaniesRequest) {
     const { limit = 10, page = 0, search } = dto;
 
     const where: Prisma.CompanyWhereInput = {};
