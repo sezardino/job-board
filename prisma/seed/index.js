@@ -8,7 +8,8 @@ const { getMockCategories } = require("./category");
 const { getMockCompanies } = require("./company");
 const { getRandomNumber } = require("./helpers");
 const { mockIndustries } = require("./industry");
-const { getMockUsers, mockUsers } = require("./users");
+const { mockUsers } = require("./users");
+const { faker } = require("@faker-js/faker");
 
 const prisma = new PrismaClient();
 
@@ -28,23 +29,23 @@ const generateBaseData = async () => {
         },
       });
     }),
-    ...mockIndustries.map(async (industry) => {
-      await prisma.industry.upsert({
-        where: {
-          name: industry.name,
-        },
-        update: {
-          ...industry,
-        },
-        // @ts-ignore
-        create: {
-          ...industry,
-          categories: {
-            create: getMockCategories(getRandomNumber(5, 10)),
-          },
-        },
-      });
-    }),
+    // ...mockIndustries.map(async (industry) => {
+    //   await prisma.industry.upsert({
+    //     where: {
+    //       name: industry.name,
+    //     },
+    //     update: {
+    //       ...industry,
+    //     },
+    //     // @ts-ignore
+    //     create: {
+    //       ...industry,
+    //       categories: {
+    //         create: getMockCategories(getRandomNumber(5, 10)),
+    //       },
+    //     },
+    //   });
+    // }),
   ]);
 };
 
@@ -52,53 +53,57 @@ const generateCompanyData = async () => {
   const owners = await prisma.user.findMany({
     where: { role: UserRoles.OWNER },
   });
-  const companiesMock = getMockCompanies(owners.map((owner) => owner.id));
   await Promise.all(
-    companiesMock.map(async (company) => {
+    owners.map(async (owner) => {
       await prisma.company.create({
         data: {
-          name: company.name,
-          owner: { connect: { id: company.ownerId } },
-          status: company.status,
+          name: faker.company.name(),
+          owner: { connect: { id: owner.id } },
+          members: { connect: { id: owner.id } },
+          status: faker.helpers.arrayElement([
+            EntityStatus.ACTIVE,
+            EntityStatus.INACTIVE,
+            EntityStatus.INACTIVE,
+          ]),
         },
       });
     })
   );
-  const companies = await prisma.company.findMany();
-  const users = companies.map((company) =>
-    getMockUsers({
-      count: getRandomNumber(5, 10),
-      roles: [UserRoles.MODERATOR, UserRoles.RECRUITER],
-      company: company.id,
-      status: [
-        company.status === EntityStatus.INACTIVE
-          ? UserStatus.INACTIVE
-          : UserStatus.ACTIVE,
-        UserStatus.BLOCKED,
-        UserStatus.INACTIVE,
-      ],
-    })
-  );
-  await Promise.all(
-    users.map(async (users) => {
-      await Promise.all(
-        users.map(async (user) => {
-          await prisma.user.upsert({
-            where: {
-              email: user.email,
-            },
-            update: {
-              ...user,
-            },
-            // @ts-ignore
-            create: {
-              ...user,
-            },
-          });
-        })
-      );
-    })
-  );
+  // const companies = await prisma.company.findMany();
+  // const users = companies.map((company) =>
+  //   getMockUsers({
+  //     count: getRandomNumber(5, 10),
+  //     roles: [UserRoles.MODERATOR, UserRoles.RECRUITER],
+  //     company: company.id,
+  //     status: [
+  //       company.status === EntityStatus.INACTIVE
+  //         ? UserStatus.INACTIVE
+  //         : UserStatus.ACTIVE,
+  //       UserStatus.BLOCKED,
+  //       UserStatus.INACTIVE,
+  //     ],
+  //   })
+  // );
+  // await Promise.all(
+  //   users.map(async (users) => {
+  //     await Promise.all(
+  //       users.map(async (user) => {
+  //         await prisma.user.upsert({
+  //           where: {
+  //             email: user.email,
+  //           },
+  //           update: {
+  //             ...user,
+  //           },
+  //           // @ts-ignore
+  //           create: {
+  //             ...user,
+  //           },
+  //         });
+  //       })
+  //     );
+  //   })
+  // );
 };
 
 (async () => {
