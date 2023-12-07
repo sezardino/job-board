@@ -1,115 +1,81 @@
-const {
-  PrismaClient,
-  UserRoles,
-  EntityStatus,
-  UserStatus,
-} = require("@prisma/client");
-const { getMockCategories } = require("./category");
-const { getMockCompanies } = require("./company");
-const { getRandomNumber } = require("./helpers");
-const { mockIndustries } = require("./industry");
-const { mockUsers } = require("./users");
-const { faker } = require("@faker-js/faker");
+const { PrismaClient, UserRoles, UserStatus } = require("@prisma/client");
+
+const { generateMockUsers } = require("./models/users");
+const { generateMockIndustries } = require("./models/industries");
+const { generateMockCategories } = require("./models/categories");
+const { generateMockCompany } = require("./models/companies");
 
 const prisma = new PrismaClient();
 
 const generateBaseData = async () => {
+  const admins = generateMockUsers({
+    count: 2,
+    roles: [UserRoles.ADMIN],
+  });
+
+  const subAdmins = generateMockUsers({
+    count: 5,
+    roles: [UserRoles.ADMIN],
+  });
+
+  const owners = generateMockUsers({
+    count: 5,
+    roles: [UserRoles.OWNER],
+  });
+
+  const customers = generateMockUsers({
+    count: 15,
+    status: [UserStatus.ACTIVE, UserStatus.BLOCKED, UserStatus.INACTIVE],
+  });
+
+  const mockUsers = [...admins, ...subAdmins, ...customers, ...owners];
+
+  const mockIndustries = generateMockIndustries(10);
+
   await Promise.all([
-    ...mockUsers.map(async (user) => {
-      await prisma.user.upsert({
-        where: {
-          email: user.email,
-        },
-        update: {
-          ...user,
-        },
-        // @ts-ignore
-        create: {
-          ...user,
-        },
-      });
+    await prisma.user.createMany({
+      data: mockUsers,
     }),
-    // ...mockIndustries.map(async (industry) => {
-    //   await prisma.industry.upsert({
-    //     where: {
-    //       name: industry.name,
-    //     },
-    //     update: {
-    //       ...industry,
-    //     },
-    //     // @ts-ignore
-    //     create: {
-    //       ...industry,
-    //       categories: {
-    //         create: getMockCategories(getRandomNumber(5, 10)),
-    //       },
-    //     },
-    //   });
-    // }),
+    await prisma.industry.createMany({
+      data: mockIndustries,
+    }),
   ]);
 };
 
-const generateCompanyData = async () => {
+const generateRestData = async () => {
   const owners = await prisma.user.findMany({
     where: { role: UserRoles.OWNER },
   });
-  await Promise.all(
-    owners.map(async (owner) => {
+
+  const industries = await prisma.industry.findMany();
+
+  await Promise.all([
+    ...owners.map(async (owner) => {
+      const { members, ...rest } = generateMockCompany();
+
       await prisma.company.create({
         data: {
-          name: faker.company.name(),
+          ...rest,
           owner: { connect: { id: owner.id } },
-          members: { connect: { id: owner.id } },
-          status: faker.helpers.arrayElement([
-            EntityStatus.ACTIVE,
-            EntityStatus.INACTIVE,
-            EntityStatus.INACTIVE,
-          ]),
+          members: { connect: { id: owner.id }, createMany: { data: members } },
         },
       });
-    })
-  );
-  // const companies = await prisma.company.findMany();
-  // const users = companies.map((company) =>
-  //   getMockUsers({
-  //     count: getRandomNumber(5, 10),
-  //     roles: [UserRoles.MODERATOR, UserRoles.RECRUITER],
-  //     company: company.id,
-  //     status: [
-  //       company.status === EntityStatus.INACTIVE
-  //         ? UserStatus.INACTIVE
-  //         : UserStatus.ACTIVE,
-  //       UserStatus.BLOCKED,
-  //       UserStatus.INACTIVE,
-  //     ],
-  //   })
-  // );
-  // await Promise.all(
-  //   users.map(async (users) => {
-  //     await Promise.all(
-  //       users.map(async (user) => {
-  //         await prisma.user.upsert({
-  //           where: {
-  //             email: user.email,
-  //           },
-  //           update: {
-  //             ...user,
-  //           },
-  //           // @ts-ignore
-  //           create: {
-  //             ...user,
-  //           },
-  //         });
-  //       })
-  //     );
-  //   })
-  // );
+    }),
+    ...industries.map(async (industry) => {
+      await prisma.category.createMany({
+        data: generateMockCategories(10).map((c) => ({
+          ...c,
+          industryId: industry.id,
+        })),
+      });
+    }),
+  ]);
 };
 
 (async () => {
   try {
     await generateBaseData();
-    await generateCompanyData();
+    await generateRestData();
   } catch (error) {
     console.error(error);
     process.exit(1);

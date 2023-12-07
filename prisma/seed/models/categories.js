@@ -1,10 +1,9 @@
 const { faker } = require("@faker-js/faker");
-const { EntityStatus } = require("@prisma/client");
+
 const { rangeArray } = require("./helpers");
+const { statuses } = require("./const");
 
-const statuses = Object.values(EntityStatus);
-
-const getMockCategories = (count) =>
+const generateMockCategories = (count = 5) =>
   rangeArray(count).map(() => {
     return {
       name: faker.person.jobType(),
@@ -13,5 +12,5 @@ const getMockCategories = (count) =>
   });
 
 module.exports = {
-  getMockCategories,
+  generateMockCategories,
 };

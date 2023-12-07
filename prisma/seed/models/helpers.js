@@ -1,5 +1,6 @@
 const { faker } = require("@faker-js/faker");
 
+const getRandomNumber = (min, max) => faker.number.int({ min, max });
 const rangeArray = (a, b = 0) => {
   const array = [];
 
@@ -10,9 +11,7 @@ const rangeArray = (a, b = 0) => {
   return array;
 };
 
-const getRandomNumber = (min, max) => faker.number.int({ min, max });
-
 module.exports = {
-  rangeArray,
   getRandomNumber,
+  rangeArray,
 };
