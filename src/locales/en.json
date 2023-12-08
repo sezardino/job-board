@@ -37,6 +37,18 @@
         "required": "Repeat password is required",
         "not-match": "Passwords do not match"
       }
+    },
+    "industry": {
+      "label": "Create Industry",
+      "cancel": "Cancel",
+      "submit": "Create",
+      "name": {
+        "label": "Name",
+        "placeholder": "Name",
+        "slug": "Name should be in slug format",
+        "unique": "Name should be unique",
+        "required": "Name is required"
+      }
     }
   },
   "entity": {
@@ -120,6 +132,11 @@
       "title": "Industries",
       "description": "From this panel you can manage industries.",
       "search": "Search industry",
+      "create": {
+        "title": "Create industry",
+        "description": "Enter valid name of the industry you want to create (in slug format)",
+        "trigger": "Create industry"
+      },
       "table": {
         "no-data": "No Industries found",
         "head": {

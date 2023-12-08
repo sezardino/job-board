@@ -14,12 +14,13 @@ export const Pagination: FC<PaginationProps> = (props) => {
 
   return (
     <Component
+      {...rest}
       as="div"
       isCompact
       showControls
       isDisabled={disabled}
       color="warning"
-      onChange={onPageChange}
+      onChange={(page) => onPageChange(page - 1)}
       total={total}
       page={current}
       className={twMerge(className)}

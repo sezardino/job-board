@@ -9,6 +9,15 @@ import {
 } from "./schema";
 
 export class IndustriesService extends AbstractService {
+  async checkNameAvailable(name: string): Promise<boolean> {
+    const user = await this.prismaService.industry.findUnique({
+      where: { name },
+      select: { id: true },
+    });
+
+    return !Boolean(user);
+  }
+
   async create(dto: CreateIndustryRequest) {
     return await this.prismaService.industry.create({
       data: dto,
@@ -85,7 +94,7 @@ export class IndustriesService extends AbstractService {
         },
       },
       orderBy: {
-        name: "asc",
+        createdAt: "desc",
       },
       skip,
       take,

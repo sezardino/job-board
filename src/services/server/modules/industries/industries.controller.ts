@@ -5,15 +5,39 @@ import { NextRequest } from "next/server";
 import { IndustriesService } from "./industries.service";
 import {
   AdminIndustriesResponse,
+  CheckIndustryNameAvailableResponse,
   CreateIndustryResponse,
   DeleteIndustryResponse,
   UpdateIndustryResponse,
   adminIndustriesRequestSchema,
+  checkIndustryNameAvailableRequestSchema,
   createIndustryRequestSchema,
   updateIndustryRequestSchema,
 } from "./schema";
 
 export class IndustriesController extends AbstractController<IndustriesService> {
+  async checkNameAvailable(req: NextRequest) {
+    const params = this.formatParams(req.nextUrl.searchParams.entries());
+
+    const { response, dto } = await this.handlerHelper({
+      data: params,
+      schema: checkIndustryNameAvailableRequestSchema,
+    });
+
+    if (response) return response;
+
+    try {
+      const bllResponse = await this.service.checkNameAvailable(dto!.name!);
+
+      return this.getNextResponse(
+        { available: bllResponse } as CheckIndustryNameAvailableResponse,
+        200
+      );
+    } catch (error) {
+      return this.getNextResponse({ message: "backend-errors.server" }, 500);
+    }
+  }
+
   async admin(req: NextRequest) {
     const params = this.formatParams(req.nextUrl.searchParams.entries());
 

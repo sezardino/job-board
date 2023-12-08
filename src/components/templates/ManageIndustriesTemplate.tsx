@@ -1,11 +1,22 @@
 import { AdminIndustriesResponse } from "@/services/server/modules/industries/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
-import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
+import {
+  useCallback,
+  useMemo,
+  useState,
+  type ComponentPropsWithoutRef,
+  type FC,
+} from "react";
 import { twMerge } from "tailwind-merge";
 import { TableWidget } from "../UI/TableWidget/TableWidget";
 import { TitleDescription } from "../UI/TitleDescription/TitleDescription";
+import { Button, LoadingOverlay, Modal } from "../base";
 import { SearchForm } from "../base/SearchForm/SearchForm";
+import {
+  IndustryForm,
+  IndustryFormValues,
+} from "../forms/Industry/IndustryForm";
 
 type Props = {
   data?: AdminIndustriesResponse;
@@ -13,6 +24,9 @@ type Props = {
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
   onSearchChange: (search: string) => void;
+  onCreateIndustry: (values: IndustryFormValues) => Promise<any>;
+  onNameAvailableRequest: (email: string) => Promise<boolean>;
+  isCreateIndustryLoading: boolean;
 };
 
 export type ManageIndustriesTemplateProps =
@@ -24,6 +38,9 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
   props
 ) => {
   const {
+    onNameAvailableRequest,
+    onCreateIndustry,
+    isCreateIndustryLoading,
     data,
     isTableDataLoading,
     onLimitChange,
@@ -34,6 +51,9 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
   } = props;
   const t = useTranslations("page.manage-industries");
   const statusT = useTranslations("entity.status");
+
+  const [isCreateIndustryModalOpen, setIsCreateIndustryModalOpen] =
+    useState(false);
 
   const columns = useMemo(
     () => [
@@ -58,6 +78,18 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
     [t, statusT]
   );
 
+  const createIndustryHandler = useCallback(
+    async (values: IndustryFormValues) => {
+      try {
+        await onCreateIndustry(values);
+        setIsCreateIndustryModalOpen(false);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    [onCreateIndustry]
+  );
+
   return (
     <>
       <section
@@ -71,6 +103,13 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         />
         <header className="flex justify-between gap-3 flex-wrap items-center">
           <SearchForm onSearch={onSearchChange} placeholder={t("search")} />
+
+          <Button
+            onClick={() => setIsCreateIndustryModalOpen(true)}
+            color="primary"
+          >
+            {t("create.trigger")}
+          </Button>
         </header>
         <TableWidget
           // @ts-ignore
@@ -86,6 +125,20 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
           onPageChange={onPageChange}
         />
       </section>
+
+      <Modal
+        isOpen={isCreateIndustryModalOpen}
+        onClose={() => setIsCreateIndustryModalOpen(false)}
+        title={t("create.title")}
+        description={t("create.description")}
+      >
+        {isCreateIndustryLoading && <LoadingOverlay isInWrapper />}
+        <IndustryForm
+          onFormSubmit={createIndustryHandler}
+          onNameAvailableRequest={onNameAvailableRequest}
+          onCancelClick={() => setIsCreateIndustryModalOpen(false)}
+        />
+      </Modal>
     </>
   );
 };

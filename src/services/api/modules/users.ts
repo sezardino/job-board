@@ -15,7 +15,7 @@ import { AbstractApiModule } from "../helpers";
 export class UsersApiModule extends AbstractApiModule {
   async checkLoginAvailable(params: CheckEmailAvailableRequest) {
     return await this.fetch({
-      endpoint: "users/check-email-available",
+      endpoint: "users/check-email",
       config: { params },
       schema: checkEmailAvailableResponseSchema,
     });

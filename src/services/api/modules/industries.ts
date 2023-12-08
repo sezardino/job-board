@@ -1,7 +1,9 @@
 import {
   AdminIndustriesRequest,
+  CheckIndustryNameAvailableRequest,
   CreateIndustryRequest,
   adminIndustriesResponseSchema,
+  checkIndustryNameAvailableResponseSchema,
   createIndustryRequestSchema,
 } from "@/services/server/modules/industries/schema";
 import { AbstractApiModule } from "../helpers";
@@ -20,6 +22,14 @@ export class IndustriesApiModule extends AbstractApiModule {
       endpoint: "industries",
       config: { method: "POST", data },
       schema: createIndustryRequestSchema,
+    });
+  }
+
+  async checkName(params: CheckIndustryNameAvailableRequest) {
+    return await this.fetch({
+      endpoint: "industries/check-name",
+      config: { params },
+      schema: checkIndustryNameAvailableResponseSchema,
     });
   }
 }
