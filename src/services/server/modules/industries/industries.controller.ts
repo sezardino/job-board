@@ -75,7 +75,7 @@ export class IndustriesController extends AbstractController<IndustriesService> 
         id: id as string,
       });
 
-      return this.getNextResponse(res as UpdateIndustryResponse, 201);
+      return this.getNextResponse(res as UpdateIndustryResponse, 200);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
