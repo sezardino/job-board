@@ -1,9 +1,11 @@
 const { PrismaClient, UserRoles, UserStatus } = require("@prisma/client");
 
 const { generateMockUsers } = require("./models/users");
-const { generateMockIndustries } = require("./models/industries");
-const { generateMockCategories } = require("./models/categories");
+const { industries } = require("./models/industries");
+const { categories } = require("./models/categories");
 const { generateMockCompany } = require("./models/companies");
+
+const { statuses } = require("./models/const");
 
 const prisma = new PrismaClient();
 
@@ -30,14 +32,15 @@ const generateBaseData = async () => {
 
   const mockUsers = [...admins, ...subAdmins, ...customers, ...owners];
 
-  const mockIndustries = generateMockIndustries(10);
-
   await Promise.all([
     await prisma.user.createMany({
       data: mockUsers,
     }),
     await prisma.industry.createMany({
-      data: mockIndustries,
+      data: Object.values(industries).map((name) => ({
+        name,
+        status: statuses.ACTIVE,
+      })),
     }),
   ]);
 };
@@ -50,6 +53,15 @@ const generateRestData = async () => {
   const industries = await prisma.industry.findMany();
 
   await Promise.all([
+    ...industries.map(async (industry) => {
+      await prisma.category.createMany({
+        data: categories[industry.name].map((name) => ({
+          name,
+          status: "ACTIVE",
+          industryId: industry.id,
+        })),
+      });
+    }),
     ...owners.map(async (owner) => {
       const { members, ...rest } = generateMockCompany();
 
@@ -59,14 +71,6 @@ const generateRestData = async () => {
           owner: { connect: { id: owner.id } },
           members: { connect: { id: owner.id }, createMany: { data: members } },
         },
-      });
-    }),
-    ...industries.map(async (industry) => {
-      await prisma.category.createMany({
-        data: generateMockCategories(10).map((c) => ({
-          ...c,
-          industryId: industry.id,
-        })),
       });
     }),
   ]);

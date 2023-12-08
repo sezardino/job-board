@@ -1,16 +1,17 @@
-const { faker } = require("@faker-js/faker");
-
-const { rangeArray } = require("./helpers");
-const { statuses } = require("./const");
-
-const generateMockIndustries = (count = 5) =>
-  rangeArray(count).map(() => {
-    return {
-      name: faker.person.jobArea(),
-      status: faker.helpers.arrayElement(statuses),
-    };
-  });
+const industries = {
+  "information-technology": "information-technology",
+  "marketing-and-advertising": "marketing-and-advertising",
+  "finance-and-accounting": "finance-and-accounting",
+  "art-and-design": "art-and-design",
+  "services-and-hospitality": "services-and-hospitality",
+  "tourism-and-hospitality": "tourism-and-hospitality",
+  "law-and-legal": "law-and-legal",
+  "sports-and-fitness": "sports-and-fitness",
+  "media-and-entertainment": "media-and-entertainment",
+  "construction-and-architecture": "construction-and-architecture",
+  "restaurants-and-food-service": "restaurants-and-food-service",
+};
 
 module.exports = {
-  generateMockIndustries,
+  industries,
 };
