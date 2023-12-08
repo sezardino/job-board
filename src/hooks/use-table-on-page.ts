@@ -5,15 +5,14 @@ export const useTableOnPage = () => {
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
 
-  const onSearchChange = (value: string) => {
+  const onElseChange = <T>(value: T, setter: (value: T) => void) => {
     setPage(0);
-    setSearch(value);
+    setter(value);
   };
 
-  const onLimitChange = (value: number) => {
-    setPage(0);
-    setLimit(value);
-  };
+  const onSearchChange = (value: string) => onElseChange(value, setSearch);
+
+  const onLimitChange = (value: number) => onElseChange(value, setLimit);
 
   return {
     page,
