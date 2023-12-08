@@ -7,6 +7,7 @@ import {
   ModalHeader,
 } from "@nextui-org/react";
 import { ReactNode, type FC } from "react";
+import { twMerge } from "tailwind-merge";
 import { Typography } from "..";
 
 export type ModalProps = Omit<ComponentProps, "backdrop"> & {
@@ -17,14 +18,22 @@ export type ModalProps = Omit<ComponentProps, "backdrop"> & {
 };
 
 export const Modal: FC<ModalProps> = (props) => {
-  const { title, description, isOpen, onClose, footer, children, ...rest } =
-    props;
+  const {
+    title,
+    description,
+    isOpen,
+    onClose,
+    footer,
+    children,
+    className,
+    ...rest
+  } = props;
 
   return (
     <Component {...rest} isOpen={isOpen} onClose={onClose} backdrop="blur">
       <ModalContent>
         {(title || description) && (
-          <ModalHeader className="flex flex-col gap-1">
+          <ModalHeader className="flex flex-col gap-1 py-5">
             {title && (
               <Typography tag="h2" styling="lg">
                 {title}
@@ -34,7 +43,7 @@ export const Modal: FC<ModalProps> = (props) => {
             {description && <Typography tag="p">{description}</Typography>}
           </ModalHeader>
         )}
-        <ModalBody>{children}</ModalBody>
+        <ModalBody className={twMerge("py-5", className)}>{children}</ModalBody>
 
         {footer && <ModalFooter>{footer}</ModalFooter>}
       </ModalContent>

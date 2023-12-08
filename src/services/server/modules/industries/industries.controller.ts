@@ -12,6 +12,7 @@ import {
   adminIndustriesRequestSchema,
   checkIndustryNameAvailableRequestSchema,
   createIndustryRequestSchema,
+  deleteIndustryRequestSchema,
   updateIndustryRequestSchema,
 } from "./schema";
 
@@ -105,17 +106,19 @@ export class IndustriesController extends AbstractController<IndustriesService> 
     }
   }
 
-  async delete(req: NextApiRequest) {
-    const { id } = req.query;
+  async delete(req: NextRequest) {
+    const data = await req.json();
 
-    const { response } = await this.handlerHelper({
+    const { dto, response } = await this.handlerHelper({
       acceptedRoles: [UserRoles.ADMIN],
+      data,
+      schema: deleteIndustryRequestSchema,
     });
 
     if (response) return response;
 
     try {
-      const res = await this.service.delete(id as string);
+      const res = await this.service.delete(dto?.id!);
 
       if (!res)
         return this.getNextResponse(

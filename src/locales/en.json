@@ -137,6 +137,12 @@
         "description": "Enter valid name of the industry you want to create (in slug format)",
         "trigger": "Create industry"
       },
+      "delete": {
+        "title": "Delete industry",
+        "description": "Are you sure you want to delete this industry?",
+        "cancel": "Cancel",
+        "confirm": "Delete Industry"
+      },
       "table": {
         "no-data": "No Industries found",
         "head": {

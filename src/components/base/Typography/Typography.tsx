@@ -21,9 +21,12 @@ export type TypographyTag =
   | "h5"
   | "h6";
 
+type TypographyWeight = "regular" | "medium" | "bold";
+
 export type TypographyProps = ComponentPropsWithoutRef<"p"> & {
   styling?: TypographyStyling;
   tag: TypographyTag;
+  weight?: TypographyWeight;
   color?:
     | "primary"
     | "secondary"
@@ -37,6 +40,7 @@ export const Typography: FC<TypographyProps> = (props) => {
   const {
     color = "default",
     styling = "sm",
+    weight = "regular",
     tag: Tag,
     className,
     children,
@@ -53,10 +57,21 @@ export const Typography: FC<TypographyProps> = (props) => {
     xs: "text-xs",
   };
 
+  const weightString: Record<TypographyWeight, string> = {
+    regular: "font-normal",
+    medium: "font-medium",
+    bold: "font-bold",
+  };
+
   return (
     <Tag
       {...rest}
-      className={twMerge(stylingString[styling], `text-${color}`, className)}
+      className={twMerge(
+        stylingString[styling],
+        weightString[weight],
+        `text-${color}`,
+        className
+      )}
     >
       {children}
     </Tag>

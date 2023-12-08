@@ -9,9 +9,10 @@ import {
   type FC,
 } from "react";
 import { twMerge } from "tailwind-merge";
+import { ConfirmModal } from "../UI/ConformModal/ConfirmModal";
 import { TableWidget } from "../UI/TableWidget/TableWidget";
 import { TitleDescription } from "../UI/TitleDescription/TitleDescription";
-import { Button, LoadingOverlay, Modal } from "../base";
+import { Button, Icon, LoadingOverlay, Modal } from "../base";
 import { SearchForm } from "../base/SearchForm/SearchForm";
 import {
   IndustryForm,
@@ -27,6 +28,8 @@ type Props = {
   onCreateIndustry: (values: IndustryFormValues) => Promise<any>;
   onNameAvailableRequest: (email: string) => Promise<boolean>;
   isCreateIndustryLoading: boolean;
+  isDeleteIndustryLoading: boolean;
+  onDeleteIndustry: (id: string) => Promise<any>;
 };
 
 export type ManageIndustriesTemplateProps =
@@ -38,6 +41,8 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
   props
 ) => {
   const {
+    isDeleteIndustryLoading,
+    onDeleteIndustry,
     onNameAvailableRequest,
     onCreateIndustry,
     isCreateIndustryLoading,
@@ -54,6 +59,9 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
 
   const [isCreateIndustryModalOpen, setIsCreateIndustryModalOpen] =
     useState(false);
+  const [industryToDeleteId, setIndustryToDeleteId] = useState<string | null>(
+    null
+  );
 
   const columns = useMemo(
     () => [
@@ -74,6 +82,28 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         enableSorting: false,
         header: t("table.head.offers"),
       }),
+      CH.accessor("id", {
+        enableSorting: false,
+        header: () => null,
+        cell: (row) => (
+          <div className="flex gap-1 items-center">
+            <Button
+              isDisabled={
+                row.row.original._count.categories > 0 ||
+                row.row.original._count.offers > 0
+              }
+              isIconOnly
+              size="sm"
+              variant="light"
+              tooltip="Delete"
+              color="danger"
+              onClick={() => setIndustryToDeleteId(row.getValue())}
+            >
+              <Icon name="HiTrash" size={20} />
+            </Button>
+          </div>
+        ),
+      }),
     ],
     [t, statusT]
   );
@@ -89,6 +119,15 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
     },
     [onCreateIndustry]
   );
+
+  const deleteIndustryHandler = useCallback(async () => {
+    if (!industryToDeleteId) return;
+
+    try {
+      onDeleteIndustry(industryToDeleteId);
+      setIndustryToDeleteId(null);
+    } catch (error) {}
+  }, [industryToDeleteId, onDeleteIndustry]);
 
   return (
     <>
@@ -139,6 +178,19 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
           onCancelClick={() => setIsCreateIndustryModalOpen(false)}
         />
       </Modal>
+
+      <ConfirmModal
+        isOpen={!!industryToDeleteId}
+        onClose={() => setIndustryToDeleteId(null)}
+        isLoading={isDeleteIndustryLoading}
+        title={t("delete.title")}
+        description={t("delete.description")}
+        cancel={{
+          text: t("delete.cancel"),
+          onClick: () => setIndustryToDeleteId(null),
+        }}
+        confirm={{ text: t("delete.confirm"), onClick: deleteIndustryHandler }}
+      />
     </>
   );
 };

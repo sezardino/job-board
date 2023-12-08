@@ -5,6 +5,7 @@ import {
   adminIndustriesResponseSchema,
   checkIndustryNameAvailableResponseSchema,
   createIndustryRequestSchema,
+  deleteIndustryResponseSchema,
 } from "@/services/server/modules/industries/schema";
 import { AbstractApiModule } from "../helpers";
 
@@ -22,6 +23,14 @@ export class IndustriesApiModule extends AbstractApiModule {
       endpoint: "industries",
       config: { method: "POST", data },
       schema: createIndustryRequestSchema,
+    });
+  }
+
+  async delete(industryId: string) {
+    return await this.fetch({
+      endpoint: `industries`,
+      config: { method: "DELETE", data: { id: industryId } },
+      schema: deleteIndustryResponseSchema,
     });
   }
 

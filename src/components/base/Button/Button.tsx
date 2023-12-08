@@ -1,6 +1,7 @@
 import {
   Button as Component,
   ButtonProps as ComponentProps,
+  Tooltip,
 } from "@nextui-org/react";
 import { ForwardRefRenderFunction, forwardRef } from "react";
 
@@ -11,6 +12,7 @@ type Props = {
     ComponentProps["variant"],
     "solid" | "shadow" | "bordered" | "light"
   >;
+  tooltip?: string;
 };
 
 export type ButtonProps = OmittedLibProps & Props;
@@ -19,13 +21,23 @@ const ButtonComponent: ForwardRefRenderFunction<
   HTMLButtonElement,
   ButtonProps
 > = (props, ref) => {
-  const { variant = "solid", children, ...rest } = props;
+  const { tooltip, variant = "solid", color, children, ...rest } = props;
 
-  return (
-    <Component {...rest} ref={ref} variant={variant} radius="lg">
+  const button = (
+    <Component {...rest} color={color} ref={ref} variant={variant} radius="lg">
       {children}
     </Component>
   );
+
+  if (tooltip) {
+    return (
+      <Tooltip color={color} content={tooltip}>
+        {button}
+      </Tooltip>
+    );
+  }
+
+  return button;
 };
 
 export const Button = forwardRef(ButtonComponent);

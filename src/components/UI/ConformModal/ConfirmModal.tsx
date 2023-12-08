@@ -1,4 +1,4 @@
-import { Button, Modal, ModalProps } from "@/components/base";
+import { Button, LoadingOverlay, Modal, ModalProps } from "@/components/base";
 import { type FC } from "react";
 
 type ModalButton = {
@@ -9,16 +9,19 @@ type ModalButton = {
 export interface ConfirmModalProps extends Omit<ModalProps, "children"> {
   cancel: ModalButton;
   confirm: ModalButton;
+  isLoading?: boolean;
 }
 
 export const ConfirmModal: FC<ConfirmModalProps> = (props) => {
-  const { cancel, confirm, className, ...rest } = props;
+  const { isLoading, cancel, confirm, className, ...rest } = props;
 
   return (
     <Modal
       {...rest}
       className="border-t flex flex-row gap-3 flex-wrap justify-between"
     >
+      {isLoading && <LoadingOverlay isInWrapper />}
+
       <Button
         variant="bordered"
         color="primary"
