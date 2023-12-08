@@ -19,7 +19,6 @@ const AdminsPage = () => {
 
   return (
     <>
-      {JSON.stringify(error)}
       <ManageCompanyUsers
         data={companyUsers}
         isTableDataLoading={isCompanyUsersLoading}
