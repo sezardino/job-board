@@ -120,6 +120,7 @@ export class UsersService extends AbstractService {
       where,
       select: {
         id: true,
+        name: true,
         email: true,
         isEmailVerified: true,
         status: true,
@@ -128,7 +129,7 @@ export class UsersService extends AbstractService {
           select: {
             id: true,
             name: true,
-            owner: { select: { email: true, id: true } },
+            owner: { select: { name: true, email: true, id: true } },
           },
         },
       },

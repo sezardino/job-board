@@ -69,6 +69,19 @@
         "no-data": "No admins found",
         "head": {
           "email": "Email",
+          "is-email-verified": "Email verified",
+          "role": "Role",
+          "status": "Status"
+        }
+      }
+    },
+    "manage-company-users": {
+      "table": {
+        "no-data": "No customers found",
+        "head": {
+          "email": "Email",
+          "is-email-verified": "Email verified",
+          "company": "Company",
           "role": "Role",
           "status": "Status"
         }

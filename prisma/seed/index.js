@@ -15,7 +15,7 @@ const generateBaseData = async () => {
 
   const subAdmins = generateMockUsers({
     count: 5,
-    roles: [UserRoles.ADMIN],
+    roles: [UserRoles.SUB_ADMIN],
   });
 
   const owners = generateMockUsers({

@@ -11,6 +11,7 @@ export const customerUsersResponseSchema = z
     users: z.array(
       z.object({
         id: z.string(),
+        name: z.string(),
         email: z.string(),
         isEmailVerified: z.boolean(),
         status: z.nativeEnum(UserStatus),

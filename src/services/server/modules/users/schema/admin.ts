@@ -13,6 +13,7 @@ export const adminUsersResponseSchema = z
     users: z.array(
       z.object({
         id: z.string(),
+        name: z.string(),
         email: z.string(),
         role: z.nativeEnum(UserRoles),
         status: z.nativeEnum(UserStatus),

@@ -12,6 +12,7 @@ const generateMockUser = ({
   status = [UserStatus.ACTIVE],
 }) => ({
   email: faker.internet.email(),
+  name: faker.person.fullName(),
   password: mockPassword,
   role: faker.helpers.arrayElement(roles),
   status: faker.helpers.arrayElement(status),

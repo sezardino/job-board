@@ -1,52 +1,37 @@
-import { AdminUsersResponse } from "@/services/server/modules/users/schema";
+import { CompanyUsersResponse } from "@/services/server/modules/users/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
-import {
-  useCallback,
-  useMemo,
-  useState,
-  type ComponentPropsWithoutRef,
-  type FC,
-} from "react";
+import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { TableWidget } from "../UI/TableWidget/TableWidget";
-import { Button, Icon, LoadingOverlay, Modal } from "../base";
+import { Icon, Typography } from "../base";
 import { SearchForm } from "../base/SearchForm/SearchForm";
-import { AuthForm, AuthFormValues } from "../forms";
 
 type Props = {
-  data?: AdminUsersResponse;
+  data?: CompanyUsersResponse;
   isTableDataLoading: boolean;
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
-  onInviteAdminFormSubmit: (data: AuthFormValues) => Promise<any>;
-  onEmailAvailableRequest: (email: string) => Promise<boolean>;
-  isInviteAdminLoading: boolean;
   onSearchChange: (search: string) => void;
 };
 
-export type ManageAdminsTemplateProps = ComponentPropsWithoutRef<"section"> &
+export type ManageCompanyUsersProps = ComponentPropsWithoutRef<"section"> &
   Props;
 
-const CH = createColumnHelper<AdminUsersResponse["users"]>();
+const CH = createColumnHelper<CompanyUsersResponse["users"][number]>();
 
-export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
+export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   const {
     data,
     isTableDataLoading,
     onLimitChange,
     onPageChange,
-    isInviteAdminLoading,
-    onInviteAdminFormSubmit,
-    onEmailAvailableRequest,
     onSearchChange,
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.manage-admins");
+  const t = useTranslations("page.manage-company-users");
   const userT = useTranslations("entity.user");
-
-  const [isInviteAdminModalOpen, setIsInviteAdminModalOpen] = useState(false);
 
   const columns = useMemo(
     () => [
@@ -65,6 +50,18 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
           />
         ),
       }),
+      CH.accessor("company", {
+        enableSorting: false,
+        header: t("table.head.company"),
+        cell: (row) => (
+          <div>
+            <Typography tag="p">{row.row.original.company.name}</Typography>
+            <Typography tag="p">
+              {row.row.original.company.owner.email}
+            </Typography>
+          </div>
+        ),
+      }),
       CH.accessor("role", {
         enableSorting: false,
         header: t("table.head.role"),
@@ -79,29 +76,11 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
     [t, userT]
   );
 
-  const inviteAdminHandler = useCallback(
-    async (values: AuthFormValues) => {
-      try {
-        await onInviteAdminFormSubmit(values);
-        setIsInviteAdminModalOpen(false);
-      } catch (error) {
-        console.log(error);
-      }
-    },
-    [onInviteAdminFormSubmit]
-  );
-
   return (
     <>
       <section {...rest} className={twMerge("", className)}>
         <header className="flex justify-between gap-3 flex-wrap items-center">
           <SearchForm onSearch={onSearchChange} />
-          <Button
-            color="primary"
-            onClick={() => setIsInviteAdminModalOpen(true)}
-          >
-            {t("invite.trigger")}
-          </Button>
         </header>
         <TableWidget
           // @ts-ignore
@@ -117,26 +96,6 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
           onPageChange={onPageChange}
         />
       </section>
-
-      <Modal
-        isOpen={isInviteAdminModalOpen}
-        onClose={() => setIsInviteAdminModalOpen(false)}
-        title={t("invite.title")}
-        description={t("invite.description")}
-      >
-        {isInviteAdminLoading && <LoadingOverlay isInWrapper />}
-        <AuthForm
-          type="new-user"
-          onFormSubmit={inviteAdminHandler}
-          onEmailAvailableRequest={onEmailAvailableRequest}
-          label={t("invite.title")}
-          submitText={t("invite.submit")}
-          cancel={{
-            label: t("invite.cancel"),
-            onClick: () => setIsInviteAdminModalOpen(false),
-          }}
-        />
-      </Modal>
     </>
   );
 };
