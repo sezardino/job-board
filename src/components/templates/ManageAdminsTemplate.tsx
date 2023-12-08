@@ -10,6 +10,7 @@ import {
 } from "react";
 import { twMerge } from "tailwind-merge";
 import { TableWidget } from "../UI/TableWidget/TableWidget";
+import { UserInfo } from "../UI/UserInfo/UserInfo";
 import { Button, Icon, LoadingOverlay, Modal } from "../base";
 import { SearchForm } from "../base/SearchForm/SearchForm";
 import { AuthForm, AuthFormValues } from "../forms";
@@ -28,7 +29,7 @@ type Props = {
 export type ManageAdminsTemplateProps = ComponentPropsWithoutRef<"section"> &
   Props;
 
-const CH = createColumnHelper<AdminUsersResponse["users"]>();
+const CH = createColumnHelper<AdminUsersResponse["users"][number]>();
 
 export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
   const {
@@ -52,7 +53,13 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
     () => [
       CH.accessor("email", {
         enableSorting: false,
-        header: t("table.head.email"),
+        header: t("table.head.info"),
+        cell: (row) => (
+          <UserInfo
+            name={row.row.original.name}
+            email={row.row.original.email}
+          />
+        ),
       }),
       CH.accessor("isEmailVerified", {
         enableSorting: false,

@@ -1,4 +1,4 @@
-import { CompanyUsersResponse } from "@/services/server/modules/users/schema";
+import { CustomerUsersResponse } from "@/services/server/modules/users/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
@@ -9,19 +9,21 @@ import { Icon } from "../base";
 import { SearchForm } from "../base/SearchForm/SearchForm";
 
 type Props = {
-  data?: CompanyUsersResponse;
+  data?: CustomerUsersResponse;
   isTableDataLoading: boolean;
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
   onSearchChange: (search: string) => void;
 };
 
-export type ManageCompanyUsersProps = ComponentPropsWithoutRef<"section"> &
+export type ManageCustomersTemplateProps = ComponentPropsWithoutRef<"section"> &
   Props;
 
-const CH = createColumnHelper<CompanyUsersResponse["users"][number]>();
+const CH = createColumnHelper<CustomerUsersResponse["users"][number]>();
 
-export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
+export const ManageCustomersTemplate: FC<ManageCustomersTemplateProps> = (
+  props
+) => {
   const {
     data,
     isTableDataLoading,
@@ -31,7 +33,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.manage-company-users");
+  const t = useTranslations("page.manage-customers");
   const userT = useTranslations("entity.user");
 
   const columns = useMemo(
@@ -57,15 +59,6 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
           />
         ),
       }),
-      CH.accessor("company.name", {
-        enableSorting: false,
-        header: t("table.head.company"),
-      }),
-      CH.accessor("role", {
-        enableSorting: false,
-        header: t("table.head.role"),
-        cell: (row) => userT(`role.${row.getValue()}`),
-      }),
       CH.accessor("status", {
         enableSorting: false,
         header: t("table.head.status"),
@@ -76,25 +69,23 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   );
 
   return (
-    <>
-      <section {...rest} className={twMerge("", className)}>
-        <header className="flex justify-between gap-3 flex-wrap items-center">
-          <SearchForm onSearch={onSearchChange} />
-        </header>
-        <TableWidget
-          // @ts-ignore
-          columns={columns}
-          data={data?.users || []}
-          isLoading={isTableDataLoading}
-          noDataMessage={t("table.no-data")}
-          page={data?.meta.page || 0}
-          limit={data?.meta.limit || 10}
-          total={data?.meta.totalPages || 0}
-          className="mt-4"
-          onLimitChange={onLimitChange}
-          onPageChange={onPageChange}
-        />
-      </section>
-    </>
+    <section {...rest} className={twMerge("", className)}>
+      <header className="flex justify-between gap-3 flex-wrap items-center">
+        <SearchForm onSearch={onSearchChange} />
+      </header>
+      <TableWidget
+        // @ts-ignore
+        columns={columns}
+        data={data?.users || []}
+        isLoading={isTableDataLoading}
+        noDataMessage={t("table.no-data")}
+        page={data?.meta.page || 0}
+        limit={data?.meta.limit || 10}
+        total={data?.meta.totalPages || 0}
+        className="mt-4"
+        onLimitChange={onLimitChange}
+        onPageChange={onPageChange}
+      />
+    </section>
   );
 };

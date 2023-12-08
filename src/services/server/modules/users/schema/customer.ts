@@ -1,5 +1,5 @@
 import { paginatedRequestSchema, paginatedResponseSchema } from "@/types";
-import { UserRoles, UserStatus } from "@prisma/client";
+import { UserStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const customerUsersRequestSchema = z
@@ -15,7 +15,6 @@ export const customerUsersResponseSchema = z
         email: z.string(),
         isEmailVerified: z.boolean(),
         status: z.nativeEnum(UserStatus),
-        role: z.nativeEnum(UserRoles),
       })
     ),
   })

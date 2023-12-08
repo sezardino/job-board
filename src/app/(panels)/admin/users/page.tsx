@@ -7,21 +7,27 @@ import { useTableOnPage } from "@/hooks/use-table-on-page";
 const AdminsPage = () => {
   const { limit, onLimitChange, onPageChange, onSearchChange, page, search } =
     useTableOnPage();
-  const { data: companyUsers, isFetching: isCompanyUsersLoading } =
-    useCompanyUsersQuery({
-      limit,
-      page,
-      search,
-    });
+  const {
+    data: companyUsers,
+    isFetching: isCompanyUsersLoading,
+    error,
+  } = useCompanyUsersQuery({
+    limit,
+    page,
+    search,
+  });
 
   return (
-    <ManageCompanyUsers
-      data={companyUsers}
-      isTableDataLoading={isCompanyUsersLoading}
-      onLimitChange={onLimitChange}
-      onPageChange={onPageChange}
-      onSearchChange={onSearchChange}
-    />
+    <>
+      {JSON.stringify(error)}
+      <ManageCompanyUsers
+        data={companyUsers}
+        isTableDataLoading={isCompanyUsersLoading}
+        onLimitChange={onLimitChange}
+        onPageChange={onPageChange}
+        onSearchChange={onSearchChange}
+      />
+    </>
   );
 };
 

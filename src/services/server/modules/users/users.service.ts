@@ -82,7 +82,17 @@ export class UsersService extends AbstractService {
       OR: [{ role: UserRoles.ADMIN }, { role: UserRoles.SUB_ADMIN }],
     };
 
-    if (search) where.email = { contains: search, mode: "insensitive" };
+    if (search)
+      where.AND = {
+        AND: [
+          {
+            OR: [
+              { email: { contains: search, mode: "insensitive" } },
+              { name: { contains: search, mode: "insensitive" } },
+            ],
+          },
+        ],
+      };
     if (status) where.status = status;
 
     return this.findMany({
@@ -91,6 +101,7 @@ export class UsersService extends AbstractService {
       where,
       select: {
         id: true,
+        name: true,
         email: true,
         role: true,
         status: true,
@@ -112,7 +123,18 @@ export class UsersService extends AbstractService {
 
     if (status) where.status = status;
     if (companyId) where.companyId = companyId;
-    if (search) where.email = { contains: search, mode: "insensitive" };
+
+    if (search) {
+      where.AND = [
+        {
+          OR: [
+            { email: { contains: search, mode: "insensitive" } },
+            { name: { contains: search, mode: "insensitive" } },
+            { company: { name: { contains: search, mode: "insensitive" } } },
+          ],
+        },
+      ];
+    }
 
     return await this.findMany({
       page,
@@ -129,7 +151,6 @@ export class UsersService extends AbstractService {
           select: {
             id: true,
             name: true,
-            owner: { select: { name: true, email: true, id: true } },
           },
         },
       },
@@ -143,13 +164,28 @@ export class UsersService extends AbstractService {
       role: UserRoles.CUSTOMER,
     };
 
-    if (search) where.email = { contains: search, mode: "insensitive" };
+    if (search) {
+      where.AND = [
+        {
+          OR: [
+            { email: { contains: search, mode: "insensitive" } },
+            { name: { contains: search, mode: "insensitive" } },
+          ],
+        },
+      ];
+    }
 
     return await this.findMany({
       page,
       limit,
       where,
-      select: { email: true, status: true, id: true, isEmailVerified: true },
+      select: {
+        name: true,
+        email: true,
+        status: true,
+        id: true,
+        isEmailVerified: true,
+      },
     });
   }
 }

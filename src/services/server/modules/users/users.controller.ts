@@ -4,6 +4,7 @@ import { NextRequest } from "next/server";
 import {
   AdminUsersResponse,
   CheckEmailAvailableResponse,
+  CompanyUsersResponse,
   CustomerUsersResponse,
   InviteAdminResponse,
   adminUsersRequestSchema,
@@ -97,7 +98,7 @@ export class UsersController extends AbstractController<UsersService> {
     try {
       const res = await this.service.company(dto!);
 
-      return this.getNextResponse(res, 200);
+      return this.getNextResponse(res as CompanyUsersResponse, 200);
     } catch (error) {
       return this.getNextResponse(
         { message: "backend-errors.server", error },

@@ -68,7 +68,18 @@
       "table": {
         "no-data": "No admins found",
         "head": {
-          "email": "Email",
+          "info": "Info",
+          "is-email-verified": "Email verified",
+          "role": "Role",
+          "status": "Status"
+        }
+      }
+    },
+    "manage-customers": {
+      "table": {
+        "no-data": "No customers found",
+        "head": {
+          "info": "Info",
           "is-email-verified": "Email verified",
           "role": "Role",
           "status": "Status"
@@ -79,7 +90,7 @@
       "table": {
         "no-data": "No customers found",
         "head": {
-          "email": "Email",
+          "info": "Info",
           "is-email-verified": "Email verified",
           "company": "Company",
           "role": "Role",

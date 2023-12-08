@@ -22,11 +22,6 @@ export const companyUsersResponseSchema = z
         company: z.object({
           id: z.string(),
           name: z.string(),
-          owner: z.object({
-            id: z.string(),
-            name: z.string(),
-            email: z.string(),
-          }),
         }),
       })
     ),
