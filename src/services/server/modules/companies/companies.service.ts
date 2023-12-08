@@ -23,6 +23,7 @@ export class CompaniesService extends AbstractService {
         owner: {
           select: {
             id: true,
+            name: true,
             email: true,
           },
         },

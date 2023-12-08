@@ -13,6 +13,7 @@ export const adminCompaniesResponseSchema = z
         name: z.string(),
         owner: z.object({
           id: z.string(),
+          name: z.string(),
           email: z.string(),
         }),
         status: z.string(),

@@ -86,6 +86,19 @@
         }
       }
     },
+    "manage-companies": {
+      "title": "Companies",
+      "description": "From this panel you can manage companies.",
+      "table": {
+        "no-data": "No companies found",
+        "head": {
+          "name": "Name",
+          "owner": "Owner",
+          "members": "Members",
+          "offers": "Offers"
+        }
+      }
+    },
     "manage-company-users": {
       "table": {
         "no-data": "No customers found",
