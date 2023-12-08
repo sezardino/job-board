@@ -40,6 +40,11 @@
     }
   },
   "entity": {
+    "status": {
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "CREATED": "Created"
+    },
     "user": {
       "role": {
         "ADMIN": "Admin",
@@ -107,6 +112,20 @@
           "is-email-verified": "Email verified",
           "company": "Company",
           "role": "Role",
+          "status": "Status"
+        }
+      }
+    },
+    "manage-industries": {
+      "title": "Industries",
+      "description": "From this panel you can manage industries.",
+      "search": "Search industry",
+      "table": {
+        "no-data": "No Industries found",
+        "head": {
+          "name": "Name",
+          "offers": "Offers",
+          "categories": "Categories",
           "status": "Status"
         }
       }
