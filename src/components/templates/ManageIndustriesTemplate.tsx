@@ -15,9 +15,9 @@ import { TitleDescription } from "../UI/TitleDescription/TitleDescription";
 import { Button, Icon, LoadingOverlay, Modal } from "../base";
 import { SearchForm } from "../base/SearchForm/SearchForm";
 import {
-  IndustryForm,
-  IndustryFormValues,
-} from "../forms/Industry/IndustryForm";
+  CreateIndustryForm,
+  CreateIndustryFormValues,
+} from "../forms/CreateIndustry/CreateIndustryForm";
 
 type Props = {
   data?: AdminIndustriesResponse;
@@ -25,7 +25,7 @@ type Props = {
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
   onSearchChange: (search: string) => void;
-  onCreateIndustry: (values: IndustryFormValues) => Promise<any>;
+  onCreateIndustry: (values: CreateIndustryFormValues) => Promise<any>;
   onNameAvailableRequest: (email: string) => Promise<boolean>;
   isCreateIndustryLoading: boolean;
   isDeleteIndustryLoading: boolean;
@@ -109,7 +109,7 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
   );
 
   const createIndustryHandler = useCallback(
-    async (values: IndustryFormValues) => {
+    async (values: CreateIndustryFormValues) => {
       try {
         await onCreateIndustry(values);
         setIsCreateIndustryModalOpen(false);
@@ -172,7 +172,7 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         description={t("create.description")}
       >
         {isCreateIndustryLoading && <LoadingOverlay isInWrapper />}
-        <IndustryForm
+        <CreateIndustryForm
           onFormSubmit={createIndustryHandler}
           onNameAvailableRequest={onNameAvailableRequest}
           onCancelClick={() => setIsCreateIndustryModalOpen(false)}

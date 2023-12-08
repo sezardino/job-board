@@ -10,17 +10,17 @@ import { twMerge } from "tailwind-merge";
 import z from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
-export type IndustryFormValues = {
+export type CreateIndustryFormValues = {
   name: string;
 };
 
-export type IndustryFormProps = ComponentPropsWithoutRef<"form"> & {
-  onFormSubmit: (data: IndustryFormValues) => void;
+export type CreateIndustryFormProps = ComponentPropsWithoutRef<"form"> & {
+  onFormSubmit: (data: CreateIndustryFormValues) => void;
   onNameAvailableRequest: (email: string) => Promise<boolean>;
   onCancelClick: () => void;
 };
 
-export const IndustryForm: FC<IndustryFormProps> = (props) => {
+export const CreateIndustryForm: FC<CreateIndustryFormProps> = (props) => {
   const {
     onNameAvailableRequest,
     onFormSubmit,
@@ -31,7 +31,7 @@ export const IndustryForm: FC<IndustryFormProps> = (props) => {
   const t = useTranslations("forms.industry");
   const history = useRef<Record<string, boolean>>({});
 
-  const formik = useFormik<IndustryFormValues>({
+  const formik = useFormik<CreateIndustryFormValues>({
     initialValues: {
       name: "",
     },
