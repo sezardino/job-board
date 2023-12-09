@@ -1,6 +1,6 @@
 "use client";
 
-import { ManageCompaniesTemplate } from "@/components/templates/ManageCompaniesTemplate";
+import { ManageCompaniesTemplate } from "@/components/templates/Admin/ManageCompaniesTemplate";
 import { useAdminCompaniesListQuery } from "@/hooks/react-query/query/companies";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 

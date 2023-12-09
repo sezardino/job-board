@@ -1,6 +1,6 @@
 "use client";
 
-import { ManageIndustriesTemplate } from "@/components/templates/ManageIndustriesTemplate";
+import { ManageIndustriesTemplate } from "@/components/templates/Admin/ManageIndustriesTemplate";
 import { useCheckIndustryNameAvailableMutation } from "@/hooks/react-query/mutation/industries/check-name";
 import { useCreateIndustryMutation } from "@/hooks/react-query/mutation/industries/create";
 import { useDeleteIndustryMutation } from "@/hooks/react-query/mutation/industries/delete";

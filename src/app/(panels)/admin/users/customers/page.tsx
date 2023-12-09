@@ -1,6 +1,6 @@
 "use client";
 
-import { ManageCustomersTemplate } from "@/components/templates/ManageCustomersTemplate";
+import { ManageCustomersTemplate } from "@/components/templates/Admin/ManageCustomersTemplate";
 import { useCustomersUsersQuery } from "@/hooks/react-query/query/users";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 

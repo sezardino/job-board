@@ -9,11 +9,11 @@ import {
   type FC,
 } from "react";
 import { twMerge } from "tailwind-merge";
-import { TableWidget } from "../UI/TableWidget/TableWidget";
-import { UserInfo } from "../UI/UserInfo/UserInfo";
-import { Button, Icon, LoadingOverlay, Modal } from "../base";
-import { SearchForm } from "../base/SearchForm/SearchForm";
-import { AuthForm, AuthFormValues } from "../forms";
+import { TableWidget } from "../../UI/TableWidget/TableWidget";
+import { UserInfo } from "../../UI/UserInfo/UserInfo";
+import { Button, Icon, LoadingOverlay, Modal } from "../../base";
+import { SearchForm } from "../../base/SearchForm/SearchForm";
+import { AuthForm, AuthFormValues } from "../../forms";
 
 type Props = {
   data?: AdminUsersResponse;

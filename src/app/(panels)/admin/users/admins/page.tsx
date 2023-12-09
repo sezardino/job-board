@@ -1,6 +1,6 @@
 "use client";
 
-import { ManageAdminsTemplate } from "@/components/templates/ManageAdminsTemplate";
+import { ManageAdminsTemplate } from "@/components/templates/Admin/ManageAdminsTemplate";
 import {
   useAdminUsersQuery,
   useInviteAdminMutation,

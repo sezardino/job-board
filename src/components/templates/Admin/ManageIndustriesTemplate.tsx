@@ -11,19 +11,19 @@ import {
   type FC,
 } from "react";
 import { twMerge } from "tailwind-merge";
-import { ConfirmModal } from "../UI/ConformModal/ConfirmModal";
-import { TableWidget } from "../UI/TableWidget/TableWidget";
-import { TitleDescription } from "../UI/TitleDescription/TitleDescription";
-import { Button, Icon, LoadingOverlay, Modal } from "../base";
-import { SearchForm } from "../base/SearchForm/SearchForm";
+import { ConfirmModal } from "../../UI/ConformModal/ConfirmModal";
+import { TableWidget } from "../../UI/TableWidget/TableWidget";
+import { TitleDescription } from "../../UI/TitleDescription/TitleDescription";
+import { Button, Icon, LoadingOverlay, Modal } from "../../base";
+import { SearchForm } from "../../base/SearchForm/SearchForm";
 import {
   CreateIndustryForm,
   CreateIndustryFormValues,
-} from "../forms/CreateIndustry/CreateIndustryForm";
+} from "../../forms/CreateIndustry/CreateIndustryForm";
 import {
   UpdateIndustryForm,
   UpdateIndustryFormValues,
-} from "../forms/UpdateIndustry/UpdateIndustryForm";
+} from "../../forms/UpdateIndustry/UpdateIndustryForm";
 
 type Props = {
   data?: AdminIndustriesResponse;
