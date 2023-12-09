@@ -16,7 +16,5 @@ const options = [
 ];
 
 export const Select: Story = {
-  render: () => (
-    <Component options={options} onSelectedChange={() => undefined} />
-  ),
+  render: () => <Component options={options} onChange={() => undefined} />,
 };

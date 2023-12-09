@@ -49,6 +49,15 @@
         "unique": "Name should be unique",
         "required": "Name is required"
       }
+    },
+    "update-industry": {
+      "cancel": "Cancel",
+      "submit": "Update Industry",
+      "status": {
+        "label": "Status",
+        "placeholder": "Status",
+        "required": "Status is required"
+      }
     }
   },
   "entity": {

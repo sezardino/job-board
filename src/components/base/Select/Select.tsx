@@ -4,16 +4,17 @@ import {
   SelectItem,
 } from "@nextui-org/react";
 import { type FC } from "react";
+import { twMerge } from "tailwind-merge";
 
 type SelectOption = {
   label: string;
   id: string;
+  disabled?: boolean;
 };
 
 type Props = {
   options: SelectOption[];
-  selected?: string;
-  onSelectedChange: (value: string) => void;
+  onChange: (value: string) => void;
 };
 
 type OmittedProps = Omit<
@@ -24,19 +25,25 @@ type OmittedProps = Omit<
 export type SelectProps = OmittedProps & Props;
 
 export const Select: FC<SelectProps> = (props) => {
-  const { selected, onSelectedChange, options, className, ...rest } = props;
+  const { selectedKeys, onChange, options, className, ...rest } = props;
 
   return (
     <Component
       {...rest}
       variant="bordered"
       labelPlacement="outside"
-      className="max-w-xs"
-      selectedKeys={selected}
-      onChange={(evt) => onSelectedChange(evt.currentTarget.value)}
+      className={className}
+      // @ts-ignore
+      selectedKeys={selectedKeys ? [selectedKeys] : undefined}
+      onChange={(evt) => onChange(evt.target.value)}
     >
       {options.map((o) => (
-        <SelectItem key={o.id} value={o.id}>
+        <SelectItem
+          isReadOnly={o.disabled}
+          key={o.id}
+          value={o.id}
+          className={twMerge(o.disabled && "opacity-40 cursor-default")}
+        >
           {o.label}
         </SelectItem>
       ))}
