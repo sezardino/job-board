@@ -9,7 +9,7 @@ type GetPaginationArgs = {
 export abstract class AbstractService {
   constructor(protected readonly prismaService: PrismaService) {}
 
-  getPagination(args: GetPaginationArgs) {
+  protected getPagination(args: GetPaginationArgs) {
     const { page = 0, limit = 10, count = 0 } = args;
     const totalPages = Math.ceil(count / limit);
 

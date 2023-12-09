@@ -93,11 +93,14 @@ model Category {
 model Company {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name    String
-  status  EntityStatus @default(CREATED)
-  owner   User         @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ownerId String       @unique @map("owner_id") @db.ObjectId
-  members User[]       @relation(name: "member")
+  status EntityStatus @default(CREATED)
+
+  name String @unique
+  bio  String
+
+  owner   User   @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ownerId String @unique @map("owner_id") @db.ObjectId
+  members User[] @relation(name: "member")
 
   createdAt DateTime @default(now()) @map("created_at")
 
@@ -147,6 +150,16 @@ model JobOffer {
 
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @map("category_id") @db.ObjectId
+
+  createdAt DateTime @default(now()) @map("created_at")
+}
+
+model File {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name     String
+  mimeType String @map("mime_type")
+  url      String
 
   createdAt DateTime @default(now()) @map("created_at")
 }

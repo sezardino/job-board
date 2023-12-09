@@ -10,4 +10,18 @@ export class CompaniesApiModule extends AbstractApiModule {
       schema: adminCompaniesResponseSchema,
     });
   }
+
+  async upload(file: File) {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    return await this.fetch({
+      endpoint: "upload",
+      schema: adminCompaniesResponseSchema,
+      config: {
+        method: "POST",
+        data: formData,
+      },
+    });
+  }
 }
