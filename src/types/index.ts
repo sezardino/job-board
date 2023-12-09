@@ -24,3 +24,8 @@ export type BackendErrorResponse = NextResponse<{
   message: string;
   errors?: ZodIssue[];
 }>;
+
+export type ActionProp<T, R = any> = {
+  handler: (args: T) => Promise<R>;
+  isLoading: boolean;
+};

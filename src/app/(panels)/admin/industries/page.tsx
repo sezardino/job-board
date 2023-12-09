@@ -4,6 +4,7 @@ import { ManageIndustriesTemplate } from "@/components/templates/ManageIndustrie
 import { useCheckIndustryNameAvailableMutation } from "@/hooks/react-query/mutation/industries/check-name";
 import { useCreateIndustryMutation } from "@/hooks/react-query/mutation/industries/create";
 import { useDeleteIndustryMutation } from "@/hooks/react-query/mutation/industries/delete";
+import { useUpdateIndustryMutation } from "@/hooks/react-query/mutation/industries/update";
 import { useAdminIndustriesListQuery } from "@/hooks/react-query/query/industries";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 import { useCallback } from "react";
@@ -19,6 +20,9 @@ const IndustriesPage = () => {
 
   const { mutateAsync: deleteIndustry, isPending: isDeleteIndustryLoading } =
     useDeleteIndustryMutation();
+
+  const { mutateAsync: updateIndustry, isPending: isUpdateIndustryLoading } =
+    useUpdateIndustryMutation();
 
   const { mutateAsync: checkNameAvailable } =
     useCheckIndustryNameAvailableMutation();
@@ -44,6 +48,7 @@ const IndustriesPage = () => {
       isCreateIndustryLoading={isCreateIndustryLoading}
       isDeleteIndustryLoading={isDeleteIndustryLoading}
       onDeleteIndustry={deleteIndustry}
+      update={{ handler: updateIndustry, isLoading: isUpdateIndustryLoading }}
     />
   );
 };

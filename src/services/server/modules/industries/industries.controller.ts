@@ -1,6 +1,5 @@
 import { AbstractController } from "@/services/server/helpers";
 import { UserRoles } from "@prisma/client";
-import { NextApiRequest } from "next";
 import { NextRequest } from "next/server";
 import { IndustriesService } from "./industries.service";
 import {
@@ -82,9 +81,8 @@ export class IndustriesController extends AbstractController<IndustriesService> 
     }
   }
 
-  async update(req: NextApiRequest) {
-    const data = req.body;
-    const { id } = req.query;
+  async update(req: NextRequest) {
+    const data = await req.json();
 
     const { response, dto } = await this.handlerHelper({
       data,
@@ -95,10 +93,14 @@ export class IndustriesController extends AbstractController<IndustriesService> 
     if (response) return response;
 
     try {
-      const res = await this.service.update({
-        status: dto!.status,
-        id: id as string,
-      });
+      const res = await this.service.update(dto!);
+
+      if (!res) {
+        return this.getNextResponse(
+          { message: "backend-errors.not-found" },
+          405
+        );
+      }
 
       return this.getNextResponse(res as UpdateIndustryResponse, 200);
     } catch (error) {

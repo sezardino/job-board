@@ -10,22 +10,23 @@ import { twMerge } from "tailwind-merge";
 import z from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
-export type EditIndustryFormValues = {
+export type UpdateIndustryFormValues = {
   status: EntityStatus;
 };
 
-export type EditIndustryFormProps = ComponentPropsWithoutRef<"form"> & {
+export type UpdateIndustryFormProps = ComponentPropsWithoutRef<"form"> & {
   initialStatus: EntityStatus;
-  onFormSubmit: (data: EditIndustryFormValues) => void;
+  onFormSubmit: (data: UpdateIndustryFormValues) => void;
   onCancelClick: () => void;
 };
 
-export const EditIndustryForm: FC<EditIndustryFormProps> = (props) => {
+export const UpdateIndustryForm: FC<UpdateIndustryFormProps> = (props) => {
   const { initialStatus, onFormSubmit, onCancelClick, className, ...rest } =
     props;
   const t = useTranslations("forms.update-industry");
+  const statusT = useTranslations("entity.status");
 
-  const formik = useFormik<EditIndustryFormValues>({
+  const formik = useFormik<UpdateIndustryFormValues>({
     initialValues: {
       status: initialStatus,
     },
@@ -43,19 +44,19 @@ export const EditIndustryForm: FC<EditIndustryFormProps> = (props) => {
     return [
       {
         id: EntityStatus.CREATED,
-        label: t("status.created"),
+        label: statusT(EntityStatus.CREATED),
         disabled: true,
       },
       {
         id: EntityStatus.ACTIVE,
-        label: t("status.active"),
+        label: statusT(EntityStatus.ACTIVE),
       },
       {
         id: EntityStatus.INACTIVE,
-        label: t("status.inactive"),
+        label: statusT(EntityStatus.INACTIVE),
       },
     ];
-  }, [t]);
+  }, [statusT]);
 
   return (
     <FormikProvider value={formik}>

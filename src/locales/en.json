@@ -146,7 +146,15 @@
         "description": "Enter valid name of the industry you want to create (in slug format)",
         "trigger": "Create industry"
       },
+      "update": {
+        "trigger": "Update",
+        "title": "Update industry",
+        "description": "You can only update status of the industry",
+        "cancel": "Cancel",
+        "confirm": "Update Industry"
+      },
       "delete": {
+        "trigger": "Delete",
         "title": "Delete industry",
         "description": "Are you sure you want to delete this industry?",
         "cancel": "Cancel",

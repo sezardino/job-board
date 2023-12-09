@@ -2,10 +2,12 @@ import {
   AdminIndustriesRequest,
   CheckIndustryNameAvailableRequest,
   CreateIndustryRequest,
+  UpdateIndustryRequest,
   adminIndustriesResponseSchema,
   checkIndustryNameAvailableResponseSchema,
   createIndustryRequestSchema,
   deleteIndustryResponseSchema,
+  updateIndustryRequestSchema,
 } from "@/services/server/modules/industries/schema";
 import { AbstractApiModule } from "../helpers";
 
@@ -31,6 +33,14 @@ export class IndustriesApiModule extends AbstractApiModule {
       endpoint: `industries`,
       config: { method: "DELETE", data: { id: industryId } },
       schema: deleteIndustryResponseSchema,
+    });
+  }
+
+  async update(data: UpdateIndustryRequest) {
+    return await this.fetch({
+      endpoint: `industries`,
+      config: { method: "PATCH", data },
+      schema: updateIndustryRequestSchema,
     });
   }
 

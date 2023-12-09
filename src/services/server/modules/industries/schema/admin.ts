@@ -1,4 +1,5 @@
 import { paginatedRequestSchema, paginatedResponseSchema } from "@/types";
+import { EntityStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const adminIndustriesRequestSchema = z
@@ -11,7 +12,7 @@ export const adminIndustriesResponseSchema = z
       z.object({
         id: z.string(),
         name: z.string(),
-        status: z.string(),
+        status: z.nativeEnum(EntityStatus),
         _count: z.object({
           categories: z.number(),
           offers: z.number(),

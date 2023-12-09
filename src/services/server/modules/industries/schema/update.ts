@@ -2,6 +2,7 @@ import { EntityStatus } from "@prisma/client";
 import { z } from "zod";
 
 export const updateIndustryRequestSchema = z.object({
+  id: z.string(),
   status: z.nativeEnum(EntityStatus),
 });
 

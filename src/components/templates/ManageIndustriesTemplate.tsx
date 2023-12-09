@@ -1,4 +1,6 @@
 import { AdminIndustriesResponse } from "@/services/server/modules/industries/schema";
+import { ActionProp } from "@/types";
+import { EntityStatus } from "@prisma/client";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import {
@@ -18,6 +20,10 @@ import {
   CreateIndustryForm,
   CreateIndustryFormValues,
 } from "../forms/CreateIndustry/CreateIndustryForm";
+import {
+  UpdateIndustryForm,
+  UpdateIndustryFormValues,
+} from "../forms/UpdateIndustry/UpdateIndustryForm";
 
 type Props = {
   data?: AdminIndustriesResponse;
@@ -30,6 +36,7 @@ type Props = {
   isCreateIndustryLoading: boolean;
   isDeleteIndustryLoading: boolean;
   onDeleteIndustry: (id: string) => Promise<any>;
+  update: ActionProp<UpdateIndustryFormValues & { id: string }>;
 };
 
 export type ManageIndustriesTemplateProps =
@@ -41,6 +48,7 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
   props
 ) => {
   const {
+    update,
     isDeleteIndustryLoading,
     onDeleteIndustry,
     onNameAvailableRequest,
@@ -59,9 +67,11 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
 
   const [isCreateIndustryModalOpen, setIsCreateIndustryModalOpen] =
     useState(false);
-  const [industryToDeleteId, setIndustryToDeleteId] = useState<string | null>(
-    null
-  );
+  const [toDeleteId, setToDeleteId] = useState<string | null>(null);
+  const [toUpdateIndustry, setToUpdateIndustry] = useState<{
+    id: string;
+    status: EntityStatus;
+  } | null>(null);
 
   const columns = useMemo(
     () => [
@@ -88,6 +98,21 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         cell: (row) => (
           <div className="flex gap-1 items-center">
             <Button
+              isIconOnly
+              size="sm"
+              variant="light"
+              tooltip={t("update.trigger")}
+              color="warning"
+              onClick={() =>
+                setToUpdateIndustry({
+                  id: row.getValue(),
+                  status: row.row.original.status,
+                })
+              }
+            >
+              <Icon name="HiPencil" size={20} />
+            </Button>
+            <Button
               isDisabled={
                 row.row.original._count.categories > 0 ||
                 row.row.original._count.offers > 0
@@ -95,9 +120,9 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
               isIconOnly
               size="sm"
               variant="light"
-              tooltip="Delete"
+              tooltip={t("delete.trigger")}
               color="danger"
-              onClick={() => setIndustryToDeleteId(row.getValue())}
+              onClick={() => setToDeleteId(row.getValue())}
             >
               <Icon name="HiTrash" size={20} />
             </Button>
@@ -121,13 +146,25 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
   );
 
   const deleteIndustryHandler = useCallback(async () => {
-    if (!industryToDeleteId) return;
+    if (!toDeleteId) return;
 
     try {
-      onDeleteIndustry(industryToDeleteId);
-      setIndustryToDeleteId(null);
+      onDeleteIndustry(toDeleteId);
+      setToDeleteId(null);
     } catch (error) {}
-  }, [industryToDeleteId, onDeleteIndustry]);
+  }, [toDeleteId, onDeleteIndustry]);
+
+  const updateIndustryHandler = useCallback(
+    async (values: UpdateIndustryFormValues) => {
+      if (!toUpdateIndustry) return;
+
+      try {
+        await update.handler({ ...values, id: toUpdateIndustry.id });
+        setToUpdateIndustry(null);
+      } catch (error) {}
+    },
+    [update, toUpdateIndustry]
+  );
 
   return (
     <>
@@ -179,15 +216,31 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         />
       </Modal>
 
+      {!!toUpdateIndustry && (
+        <Modal
+          isOpen
+          onClose={() => setToUpdateIndustry(null)}
+          title={t("update.title")}
+          description={t("update.description")}
+        >
+          {update.isLoading && <LoadingOverlay isInWrapper />}
+          <UpdateIndustryForm
+            onFormSubmit={updateIndustryHandler}
+            initialStatus={toUpdateIndustry.status}
+            onCancelClick={() => setToUpdateIndustry(null)}
+          />
+        </Modal>
+      )}
+
       <ConfirmModal
-        isOpen={!!industryToDeleteId}
-        onClose={() => setIndustryToDeleteId(null)}
+        isOpen={!!toDeleteId}
+        onClose={() => setToDeleteId(null)}
         isLoading={isDeleteIndustryLoading}
         title={t("delete.title")}
         description={t("delete.description")}
         cancel={{
           text: t("delete.cancel"),
-          onClick: () => setIndustryToDeleteId(null),
+          onClick: () => setToDeleteId(null),
         }}
         confirm={{ text: t("delete.confirm"), onClick: deleteIndustryHandler }}
       />

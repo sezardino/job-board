@@ -1,11 +1,10 @@
 import { AbstractService } from "@/services/server/helpers";
-import { Prisma } from "@prisma/client";
+import { EntityStatus, Prisma } from "@prisma/client";
 import {
   AdminIndustriesRequest,
   AdminIndustriesResponse,
   CreateIndustryRequest,
   UpdateIndustryRequest,
-  UpdateIndustryResponse,
 } from "./schema";
 
 export class IndustriesService extends AbstractService {
@@ -29,10 +28,10 @@ export class IndustriesService extends AbstractService {
     });
   }
 
-  async update(
-    dto: UpdateIndustryRequest & { id: string }
-  ): Promise<UpdateIndustryResponse> {
+  async update(dto: UpdateIndustryRequest & { id: string }) {
     const { id, status } = dto;
+
+    if (status === EntityStatus.CREATED) return null;
 
     return await this.prismaService.industry.update({
       data: { status },

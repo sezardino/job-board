@@ -6,3 +6,6 @@ export const POST = (req: NextRequest) =>
 
 export const DELETE = (req: NextRequest) =>
   serverService.industries.controller.delete(req);
+
+export const PATCH = (req: NextRequest) =>
+  serverService.industries.controller.update(req);
