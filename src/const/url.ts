@@ -9,8 +9,10 @@ export const AdminPageUrls = {
 
 export const CompanyPageUrls = {
   home: "/company",
-  industries: "/company/industries",
-  companies: "/company/companies",
+  profile: "/company/profile",
+  users: "/company/users",
+  offers: "/company/offers",
+  bank: "/company/bank",
 };
 
 export const UserPageUrls = {
