@@ -2,14 +2,14 @@ import { paginatedRequestSchema, paginatedResponseSchema } from "@/types";
 import { UserRoles, UserStatus } from "@prisma/client";
 import { z } from "zod";
 
-export const companyUsersRequestSchema = z
+export const companiesUsersRequestSchema = z
   .object({
     companyId: z.string().optional(),
     status: z.nativeEnum(UserStatus).optional(),
   })
   .merge(paginatedRequestSchema);
 
-export const companyUsersResponseSchema = z
+export const companiesUsersResponseSchema = z
   .object({
     users: z.array(
       z.object({
@@ -28,6 +28,8 @@ export const companyUsersResponseSchema = z
   })
   .merge(paginatedResponseSchema);
 
-export type CompanyUsersRequest = z.infer<typeof companyUsersRequestSchema>;
+export type CompaniesUsersRequest = z.infer<typeof companiesUsersRequestSchema>;
 
-export type CompanyUsersResponse = z.infer<typeof companyUsersResponseSchema>;
+export type CompaniesUsersResponse = z.infer<
+  typeof companiesUsersResponseSchema
+>;

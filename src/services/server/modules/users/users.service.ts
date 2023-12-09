@@ -3,7 +3,7 @@ import { AbstractService } from "@/services/server/helpers";
 import { Prisma, User, UserRoles } from "@prisma/client";
 import {
   AdminUsersRequest,
-  CompanyUsersRequest,
+  CompaniesUsersRequest,
   CustomerUsersRequest,
 } from "./schema";
 
@@ -110,7 +110,7 @@ export class UsersService extends AbstractService {
     });
   }
 
-  async company(dto: CompanyUsersRequest) {
+  async company(dto: CompaniesUsersRequest) {
     const { companyId, status, limit = 10, page = 0, search = "" } = dto;
 
     const where: Prisma.UserWhereInput = {

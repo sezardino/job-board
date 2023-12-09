@@ -24,7 +24,7 @@ const CompanyHomePage = () => {
   const uploadHandler = async () => {
     if (!file) return;
 
-    await mutateAsync();
+    await mutateAsync(file);
   };
 
   return (

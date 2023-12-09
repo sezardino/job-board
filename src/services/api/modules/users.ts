@@ -1,13 +1,13 @@
 import {
   AdminUsersRequest,
-  adminUsersResponseSchema,
   CheckEmailAvailableRequest,
-  checkEmailAvailableResponseSchema,
-  CompanyUsersRequest,
-  companyUsersResponseSchema,
+  CompaniesUsersRequest,
   CustomerUsersRequest,
-  customerUsersResponseSchema,
   InviteAdminRequest,
+  adminUsersResponseSchema,
+  checkEmailAvailableResponseSchema,
+  companiesUsersResponseSchema,
+  customerUsersResponseSchema,
   inviteAdminResponseSchema,
 } from "@/services/server/modules/users/schema";
 import { AbstractApiModule } from "../helpers";
@@ -37,11 +37,11 @@ export class UsersApiModule extends AbstractApiModule {
     });
   }
 
-  companies(params: CompanyUsersRequest) {
+  companies(params: CompaniesUsersRequest) {
     return this.fetch({
       endpoint: "users/company",
       config: { params },
-      schema: companyUsersResponseSchema,
+      schema: companiesUsersResponseSchema,
     });
   }
 
@@ -52,4 +52,6 @@ export class UsersApiModule extends AbstractApiModule {
       schema: customerUsersResponseSchema,
     });
   }
+
+  company() {}
 }

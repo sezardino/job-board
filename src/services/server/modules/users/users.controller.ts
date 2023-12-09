@@ -4,12 +4,12 @@ import { NextRequest } from "next/server";
 import {
   AdminUsersResponse,
   CheckEmailAvailableResponse,
-  CompanyUsersResponse,
+  CompaniesUsersResponse,
   CustomerUsersResponse,
   InviteAdminResponse,
   adminUsersRequestSchema,
   checkEmailAvailableRequestSchema,
-  companyUsersRequestSchema,
+  companiesUsersRequestSchema,
   customerUsersRequestSchema,
   inviteAdminRequestSchema,
 } from "./schema";
@@ -89,7 +89,7 @@ export class UsersController extends AbstractController<UsersService> {
 
     const { response, dto } = await this.handlerHelper({
       data: params,
-      schema: companyUsersRequestSchema,
+      schema: companiesUsersRequestSchema,
       acceptedRoles: [UserRoles.ADMIN, UserRoles.SUB_ADMIN],
     });
 
@@ -98,7 +98,7 @@ export class UsersController extends AbstractController<UsersService> {
     try {
       const res = await this.service.company(dto!);
 
-      return this.getNextResponse(res as CompanyUsersResponse, 200);
+      return this.getNextResponse(res as CompaniesUsersResponse, 200);
     } catch (error) {
       return this.getNextResponse(
         { message: "backend-errors.server", error },

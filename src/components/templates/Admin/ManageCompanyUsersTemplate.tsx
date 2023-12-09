@@ -1,4 +1,4 @@
-import { CompanyUsersResponse } from "@/services/server/modules/users/schema";
+import { CompaniesUsersResponse } from "@/services/server/modules/users/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
@@ -9,7 +9,7 @@ import { Icon } from "../../base";
 import { SearchForm } from "../../base/SearchForm/SearchForm";
 
 type Props = {
-  data?: CompanyUsersResponse;
+  data?: CompaniesUsersResponse;
   isTableDataLoading: boolean;
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
@@ -19,7 +19,7 @@ type Props = {
 export type ManageCompanyUsersProps = ComponentPropsWithoutRef<"section"> &
   Props;
 
-const CH = createColumnHelper<CompanyUsersResponse["users"][number]>();
+const CH = createColumnHelper<CompaniesUsersResponse["users"][number]>();
 
 export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   const {
