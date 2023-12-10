@@ -96,7 +96,7 @@ export class UsersController extends AbstractController<UsersService> {
     if (response) return response;
 
     try {
-      const res = await this.service.company(dto!);
+      const res = await this.service.companies(dto!);
 
       return this.getNextResponse(res as CompaniesUsersResponse, 200);
     } catch (error) {
@@ -122,6 +122,32 @@ export class UsersController extends AbstractController<UsersService> {
       const res = await this.service.customers(dto!);
 
       return this.getNextResponse(res as CustomerUsersResponse, 200);
+    } catch (error) {
+      return this.getNextResponse(
+        { message: "backend-errors.server", error },
+        500
+      );
+    }
+  }
+
+  async company(req: NextRequest) {
+    const params = this.formatParams(req.nextUrl.searchParams.entries());
+
+    const { response, dto, session } = await this.handlerHelper({
+      data: params,
+      schema: companiesUsersRequestSchema,
+      acceptedRoles: [UserRoles.OWNER, UserRoles.MODERATOR],
+    });
+
+    if (!session?.user.companyId)
+      return this.getNextResponse({ message: "backend-errors.server" }, 404);
+
+    if (response) return response;
+
+    try {
+      const res = await this.service.company(dto!, session.user.companyId);
+
+      return this.getNextResponse(res as CompaniesUsersResponse, 200);
     } catch (error) {
       return this.getNextResponse(
         { message: "backend-errors.server", error },

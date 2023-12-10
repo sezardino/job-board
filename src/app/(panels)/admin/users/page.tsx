@@ -1,7 +1,7 @@
 "use client";
 
 import { ManageCompanyUsers } from "@/components/templates/Admin/ManageCompanyUsersTemplate";
-import { useCompanyUsersQuery } from "@/hooks/react-query/query/users/companies";
+import { useCompaniesUsersQuery } from "@/hooks/react-query/query/users/companies";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 
 const AdminsPage = () => {
@@ -11,7 +11,7 @@ const AdminsPage = () => {
     data: companyUsers,
     isFetching: isCompanyUsersLoading,
     error,
-  } = useCompanyUsersQuery({
+  } = useCompaniesUsersQuery({
     limit,
     page,
     search,

@@ -4,6 +4,7 @@ import { Prisma, User, UserRoles } from "@prisma/client";
 import {
   AdminUsersRequest,
   CompaniesUsersRequest,
+  CompanyUsersRequest,
   CustomerUsersRequest,
 } from "./schema";
 
@@ -50,6 +51,7 @@ export class UsersService extends AbstractService {
       select: {
         id: true,
         email: true,
+        companyId: true,
         password: true,
         role: true,
       },
@@ -110,7 +112,7 @@ export class UsersService extends AbstractService {
     });
   }
 
-  async company(dto: CompaniesUsersRequest) {
+  async companies(dto: CompaniesUsersRequest) {
     const { companyId, status, limit = 10, page = 0, search = "" } = dto;
 
     const where: Prisma.UserWhereInput = {
@@ -153,6 +155,48 @@ export class UsersService extends AbstractService {
             name: true,
           },
         },
+      },
+    });
+  }
+
+  async company(dto: CompanyUsersRequest, companyId: string) {
+    const { status, limit = 10, page = 0, search = "" } = dto;
+
+    const where: Prisma.UserWhereInput = {
+      companyId,
+      OR: [
+        { role: UserRoles.OWNER },
+        { role: UserRoles.MODERATOR },
+        { role: UserRoles.RECRUITER },
+      ],
+    };
+
+    if (status) where.status = status;
+    if (companyId) where.companyId = companyId;
+
+    if (search) {
+      where.AND = [
+        {
+          OR: [
+            { email: { contains: search, mode: "insensitive" } },
+            { name: { contains: search, mode: "insensitive" } },
+            { company: { name: { contains: search, mode: "insensitive" } } },
+          ],
+        },
+      ];
+    }
+
+    return await this.findMany({
+      page,
+      limit,
+      where,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        isEmailVerified: true,
+        status: true,
+        role: true,
       },
     });
   }
