@@ -21,5 +21,6 @@ export const useTableOnPage = () => {
     onLimitChange,
     search,
     onSearchChange,
+    changeHandler: onElseChange,
   };
 };

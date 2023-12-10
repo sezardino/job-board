@@ -3,45 +3,44 @@ import {
   SelectProps as ComponentProps,
   SelectItem,
 } from "@nextui-org/react";
-import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
-type SelectOption = {
+export type SelectOption<T extends string> = {
   label: string;
-  id: string;
+  id: T;
   disabled?: boolean;
 };
 
-type Props = {
-  options: SelectOption[];
-  onChange: (value: string) => void;
+type Props<T extends string> = {
+  options: SelectOption<T>[];
+  onSelectChange: (value: T) => void;
 };
 
 type OmittedProps = Omit<
   ComponentProps,
-  "variant" | "labelPlacement" | "children"
+  "variant" | "labelPlacement" | "children" | "onChange"
 >;
 
-export type SelectProps = OmittedProps & Props;
+export type SelectProps<T extends string> = OmittedProps & Props<T>;
 
-export const Select: FC<SelectProps> = (props) => {
-  const { selectedKeys, onChange, options, className, ...rest } = props;
+export const Select = <T extends string>(props: SelectProps<T>) => {
+  const { selectedKeys, onSelectChange, options, ...rest } = props;
 
   return (
     <Component
       {...rest}
       variant="bordered"
       labelPlacement="outside"
-      className={className}
       // @ts-ignore
       selectedKeys={selectedKeys ? [selectedKeys] : undefined}
-      onChange={(evt) => onChange(evt.target.value)}
+      onChange={(evt) => onSelectChange(evt.target.value as T)}
     >
       {options.map((o) => (
         <SelectItem
           isReadOnly={o.disabled}
           key={o.id}
-          value={o.id}
+          value={o.label}
+          textValue={o.label}
           className={twMerge(o.disabled && "opacity-40 cursor-default")}
         >
           {o.label}

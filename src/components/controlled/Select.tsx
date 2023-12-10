@@ -1,12 +1,16 @@
 import { useField } from "formik";
-import { type FC } from "react";
 import { Select, SelectProps } from "../base/Select/Select";
 
-export type ControlledSelectProps = Omit<SelectProps, "value" | "onChange"> & {
+export type ControlledSelectProps<T extends string> = Omit<
+  SelectProps<T>,
+  "value" | "onChange" | "onSelectChange"
+> & {
   name: string;
 };
 
-export const ControlledSelect: FC<ControlledSelectProps> = (props) => {
+export const ControlledSelect = <T extends string>(
+  props: ControlledSelectProps<T>
+) => {
   const { name, onBlur, ...rest } = props;
   const [field, meta, helper] = useField(name);
 
@@ -15,7 +19,7 @@ export const ControlledSelect: FC<ControlledSelectProps> = (props) => {
       {...rest}
       {...field}
       selectedKeys={field.value}
-      onChange={(value) => helper.setValue(value)}
+      onSelectChange={(value) => helper.setValue(value)}
       errorMessage={meta.touched ? meta.error : undefined}
     />
   );

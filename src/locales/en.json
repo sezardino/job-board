@@ -51,6 +51,7 @@
       }
     },
     "update-industry": {
+      "label": "Update Industry",
       "cancel": "Cancel",
       "submit": "Update Industry",
       "status": {
@@ -173,7 +174,24 @@
         }
       }
     },
-    "company": {}
+    "company": {
+      "users": {
+        "title": "Users",
+        "description": "From this panel you can manage users of your company.",
+        "search": "Search user",
+        "table": {
+          "user": "User",
+          "is-email-verified": "Email verified",
+          "role": "Role",
+          "status": "Status"
+        },
+        "invite-user": {
+          "title": "Invite user",
+          "description": "Please enter email of the person you want to invite to the system",
+          "trigger": "Invite user"
+        }
+      }
+    }
   },
   "login-page": {
     "title": "Login",
