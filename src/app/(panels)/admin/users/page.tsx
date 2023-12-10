@@ -1,6 +1,6 @@
 "use client";
 
-import { ManageCompanyUsers } from "@/components/templates/Admin/ManageCompanyUsersTemplate";
+import { AdminUserManagementTemplate } from "@/components/templates/Admin/AdminUserManagement";
 import { useCompaniesUsersQuery } from "@/hooks/react-query/query/users/companies";
 import { useTableOnPage } from "@/hooks/use-table-on-page";
 
@@ -19,7 +19,7 @@ const AdminsPage = () => {
 
   return (
     <>
-      <ManageCompanyUsers
+      <AdminUserManagementTemplate
         data={companyUsers}
         isTableDataLoading={isCompanyUsersLoading}
         onLimitChange={onLimitChange}

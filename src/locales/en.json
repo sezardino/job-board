@@ -76,6 +76,7 @@
         "CUSTOMER": "Customer"
       },
       "status": {
+        "all": "All statuses",
         "ACTIVE": "Active",
         "BLOCKED": "Blocked",
         "INACTIVE": "Inactive"
@@ -83,93 +84,96 @@
     }
   },
   "page": {
-    "manage-admins": {
-      "invite": {
-        "title": "Invite admin",
-        "description": "Please enter email of the person you want to invite to the system",
-        "submit": "Invite",
-        "cancel": "Cancel",
-        "trigger": "Invite admin"
+    "admin": {
+      "manage-admins": {
+        "invite": {
+          "title": "Invite admin",
+          "description": "Please enter email of the person you want to invite to the system",
+          "submit": "Invite",
+          "cancel": "Cancel",
+          "trigger": "Invite admin"
+        },
+        "table": {
+          "no-data": "No admins found",
+          "head": {
+            "info": "Info",
+            "is-email-verified": "Email verified",
+            "role": "Role",
+            "status": "Status"
+          }
+        }
       },
-      "table": {
-        "no-data": "No admins found",
-        "head": {
-          "info": "Info",
-          "is-email-verified": "Email verified",
-          "role": "Role",
-          "status": "Status"
+      "manage-customers": {
+        "table": {
+          "no-data": "No customers found",
+          "head": {
+            "info": "Info",
+            "is-email-verified": "Email verified",
+            "role": "Role",
+            "status": "Status"
+          }
+        }
+      },
+      "manage-companies": {
+        "title": "Companies",
+        "description": "From this panel you can manage companies.",
+        "table": {
+          "no-data": "No companies found",
+          "head": {
+            "name": "Name",
+            "owner": "Owner",
+            "members": "Members",
+            "offers": "Offers"
+          }
+        }
+      },
+      "manage-company-users": {
+        "table": {
+          "no-data": "No customers found",
+          "head": {
+            "info": "Info",
+            "is-email-verified": "Email verified",
+            "company": "Company",
+            "role": "Role",
+            "status": "Status"
+          }
+        }
+      },
+      "manage-industries": {
+        "title": "Industries",
+        "description": "From this panel you can manage industries.",
+        "search": "Search industry",
+        "create": {
+          "title": "Create industry",
+          "description": "Enter valid name of the industry you want to create (in slug format)",
+          "trigger": "Create industry"
+        },
+        "update": {
+          "trigger": "Update",
+          "title": "Update industry",
+          "description": "You can only update status of the industry",
+          "cancel": "Cancel",
+          "confirm": "Update Industry"
+        },
+        "delete": {
+          "trigger": "Delete",
+          "title": "Delete industry",
+          "description": "Are you sure you want to delete this industry?",
+          "cancel": "Cancel",
+          "confirm": "Delete Industry"
+        },
+        "table": {
+          "no-data": "No Industries found",
+          "head": {
+            "name": "Name",
+            "offers": "Offers",
+            "categories": "Categories",
+            "status": "Status"
+          }
         }
       }
     },
-    "manage-customers": {
-      "table": {
-        "no-data": "No customers found",
-        "head": {
-          "info": "Info",
-          "is-email-verified": "Email verified",
-          "role": "Role",
-          "status": "Status"
-        }
-      }
-    },
-    "manage-companies": {
-      "title": "Companies",
-      "description": "From this panel you can manage companies.",
-      "table": {
-        "no-data": "No companies found",
-        "head": {
-          "name": "Name",
-          "owner": "Owner",
-          "members": "Members",
-          "offers": "Offers"
-        }
-      }
-    },
-    "manage-company-users": {
-      "table": {
-        "no-data": "No customers found",
-        "head": {
-          "info": "Info",
-          "is-email-verified": "Email verified",
-          "company": "Company",
-          "role": "Role",
-          "status": "Status"
-        }
-      }
-    },
-    "manage-industries": {
-      "title": "Industries",
-      "description": "From this panel you can manage industries.",
-      "search": "Search industry",
-      "create": {
-        "title": "Create industry",
-        "description": "Enter valid name of the industry you want to create (in slug format)",
-        "trigger": "Create industry"
-      },
-      "update": {
-        "trigger": "Update",
-        "title": "Update industry",
-        "description": "You can only update status of the industry",
-        "cancel": "Cancel",
-        "confirm": "Update Industry"
-      },
-      "delete": {
-        "trigger": "Delete",
-        "title": "Delete industry",
-        "description": "Are you sure you want to delete this industry?",
-        "cancel": "Cancel",
-        "confirm": "Delete Industry"
-      },
-      "table": {
-        "no-data": "No Industries found",
-        "head": {
-          "name": "Name",
-          "offers": "Offers",
-          "categories": "Categories",
-          "status": "Status"
-        }
-      }
-    }
+    "company": {}
   },
   "login-page": {
     "title": "Login",

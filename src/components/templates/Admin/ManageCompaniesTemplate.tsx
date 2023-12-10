@@ -32,7 +32,7 @@ export const ManageCompaniesTemplate: FC<ManageCompaniesTemplateProps> = (
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.manage-companies");
+  const t = useTranslations("page.admin.manage-companies");
 
   const columns = useMemo(
     () => [

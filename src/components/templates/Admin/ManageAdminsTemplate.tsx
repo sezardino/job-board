@@ -44,7 +44,7 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.manage-admins");
+  const t = useTranslations("page.admin.manage-admins");
   const userT = useTranslations("entity.user");
 
   const [isInviteAdminModalOpen, setIsInviteAdminModalOpen] = useState(false);

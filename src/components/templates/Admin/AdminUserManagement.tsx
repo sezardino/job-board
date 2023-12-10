@@ -16,12 +16,14 @@ type Props = {
   onSearchChange: (search: string) => void;
 };
 
-export type ManageCompanyUsersProps = ComponentPropsWithoutRef<"section"> &
-  Props;
+export type AdminUserManagementTemplateProps =
+  ComponentPropsWithoutRef<"section"> & Props;
 
 const CH = createColumnHelper<CompaniesUsersResponse["users"][number]>();
 
-export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
+export const AdminUserManagementTemplate: FC<
+  AdminUserManagementTemplateProps
+> = (props) => {
   const {
     data,
     isTableDataLoading,
@@ -31,7 +33,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.manage-company-users");
+  const t = useTranslations("page.admin.manage-company-users");
   const userT = useTranslations("entity.user");
 
   const columns = useMemo(
