@@ -84,7 +84,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
         cell: (row) => userT(`status.${row.getValue()}`),
       }),
     ],
-    [t]
+    [t, userT]
   );
 
   return (
@@ -123,7 +123,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
           onLimitChange={onLimitChange}
           onPageChange={onPageChange}
           page={users.data?.meta.page || 0}
-          total={users.data?.meta.count || 0}
+          total={users.data?.meta.totalPages || 0}
         />
       </section>
 
