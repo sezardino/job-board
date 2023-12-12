@@ -6,6 +6,7 @@ import {
   CompaniesUsersRequest,
   CompanyUsersRequest,
   CustomerUsersRequest,
+  InviteUsersRequest,
 } from "./schema";
 
 type FindManyUsersArgs = {
@@ -78,6 +79,19 @@ export class UsersService extends AbstractService {
     if (!user) throw new Error("User not found");
 
     return user;
+  }
+
+  async inviteUsers(dto: InviteUsersRequest, companyId: string | null) {
+    await this.prismaService.user.createMany({
+      data: dto.users.map((u) => ({ ...u, companyId })),
+    });
+
+    const users = await this.prismaService.user.findMany({
+      where: { email: { in: dto.users.map((u) => u.email) }, companyId },
+      select: { email: true },
+    });
+
+    return { users };
   }
 
   async createUser(data: {

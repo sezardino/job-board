@@ -5,14 +5,19 @@ import {
   UserStatusesSelect,
   UserStatusesSelectOptions,
 } from "@/components/UI/UserStatusesSelect/UserStatusesSelect";
-import { Button, Icon, Modal } from "@/components/base";
+import { Button, Icon, LoadingOverlay, Modal } from "@/components/base";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
-import { InviteUsersForm } from "@/components/forms/InviteUsers/InviteUsers";
+import {
+  InviteUsersForm,
+  InviteUsersFormValues,
+} from "@/components/forms/InviteUsers/InviteUsers";
 import { DEFAULT_PAGE_LIMIT } from "@/const";
 import {
   CheckEmailsAvailableRequest,
   CheckEmailsAvailableResponse,
   CompanyUsersResponse,
+  InviteUsersRequest,
+  InviteUsersResponse,
 } from "@/services/server/modules/users/schema";
 import { ActionProp, DataProp } from "@/types";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -36,6 +41,7 @@ type Props = {
     CheckEmailsAvailableRequest,
     CheckEmailsAvailableResponse
   >;
+  inviteUsersAction: ActionProp<InviteUsersRequest, InviteUsersResponse>;
 };
 
 export type ManageCompanyUsersProps = ComponentPropsWithoutRef<"section"> &
@@ -46,6 +52,7 @@ const CH = createColumnHelper<CompanyUsersResponse["users"][number]>();
 export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   const {
     users,
+    inviteUsersAction,
     checkEmailAction,
     onLimitChange,
     onPageChange,
@@ -97,6 +104,14 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
     [t, userT]
   );
 
+  const inviteUsersHandler = async (values: InviteUsersFormValues) => {
+    try {
+      await inviteUsersAction.handler(values);
+
+      setIsInviteModalOpen(false);
+    } catch (error) {}
+  };
+
   return (
     <>
       <section
@@ -144,6 +159,8 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
         title={t("invite-user.title")}
         description={t("invite-user.description")}
       >
+        {inviteUsersAction.isLoading ||
+          (checkEmailAction.isLoading && <LoadingOverlay isInWrapper />)}
         <InviteUsersForm
           cancel={{
             label: "Cancel",
@@ -151,7 +168,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
           }}
           label="invite"
           submitText="invite"
-          onFormSubmit={() => undefined}
+          onFormSubmit={inviteUsersHandler}
           onValidateEmailsRequest={checkEmailAction.handler}
         />
       </Modal>

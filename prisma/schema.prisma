@@ -55,7 +55,7 @@ model User {
   isEmailVerified Boolean @default(false) @map("is_email_verified")
   emailToken      String? @map("email_token")
 
-  password String
+  password String?
 
   owner     Company? @relation(name: "owner")
   company   Company? @relation(name: "member", fields: [companyId], references: [id])

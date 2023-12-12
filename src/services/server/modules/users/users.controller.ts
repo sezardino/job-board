@@ -7,11 +7,13 @@ import {
   CompaniesUsersResponse,
   CustomerUsersResponse,
   InviteAdminResponse,
+  InviteUsersResponse,
   adminUsersRequestSchema,
   checkEmailAvailableRequestSchema,
   companiesUsersRequestSchema,
   customerUsersRequestSchema,
   inviteAdminRequestSchema,
+  inviteUsersRequestSchema,
 } from "./schema";
 import {
   CheckEmailsAvailableResponse,
@@ -81,6 +83,69 @@ export class UsersController extends AbstractController<UsersService> {
         { message: "backend-errors.server", error },
         500
       );
+    }
+  }
+
+  async inviteUsers(req: NextRequest) {
+    const data = await req.json();
+
+    const { response, dto, session } = await this.handlerHelper({
+      data,
+      schema: inviteUsersRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
+    });
+
+    if (response) return response;
+
+    const hasOwnerRole = dto?.users.some(
+      (user) => user.role === UserRoles.OWNER
+    );
+    const hasAdminRole = dto?.users.some(
+      (user) => user.role === UserRoles.ADMIN
+    );
+
+    if (hasOwnerRole && hasAdminRole)
+      return this.getNextResponse(
+        { message: "backend-errors.not-allowed" },
+        405
+      );
+
+    if (
+      session?.user.role === UserRoles.OWNER &&
+      (hasAdminRole ||
+        dto?.users.some((user) => user.role === UserRoles.SUB_ADMIN))
+    ) {
+      return this.getNextResponse(
+        { message: "backend-errors.not-allowed" },
+        405
+      );
+    }
+
+    if (
+      session?.user.role === UserRoles.ADMIN &&
+      (hasOwnerRole ||
+        dto?.users.some(
+          (user) =>
+            user.role === UserRoles.MODERATOR ||
+            user.role === UserRoles.RECRUITER
+        ))
+    ) {
+      return this.getNextResponse(
+        { message: "backend-errors.not-allowed" },
+        405
+      );
+    }
+
+    try {
+      const res = await this.service.inviteUsers(
+        dto!,
+        session?.user.companyId!
+      );
+
+      return this.getNextResponse(res as InviteUsersResponse, 201);
+    } catch (error) {
+      console.log(error);
+      return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
   }
 

@@ -1,3 +1,4 @@
+import { MAX_STRING_LENGTH } from "@/const";
 import { z } from "zod";
 
 export const checkEmailsAvailableRequestSchema = z.object({
@@ -6,7 +7,10 @@ export const checkEmailsAvailableRequestSchema = z.object({
       z
         .string()
         .min(1, "backend-errors.validation.registration.login.min")
-        .max(20, "backend-errors.validation.registration.login.max")
+        .max(
+          MAX_STRING_LENGTH,
+          "backend-errors.validation.registration.login.max"
+        )
     )
     .max(5),
 });

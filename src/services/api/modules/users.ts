@@ -6,6 +6,7 @@ import {
   CompanyUsersRequest,
   CustomerUsersRequest,
   InviteAdminRequest,
+  InviteUsersRequest,
   adminUsersResponseSchema,
   checkEmailAvailableResponseSchema,
   checkEmailsAvailableResponseSchema,
@@ -13,6 +14,7 @@ import {
   companyUsersResponseSchema,
   customerUsersResponseSchema,
   inviteAdminResponseSchema,
+  inviteUsersResponseSchema,
 } from "@/services/server/modules/users/schema";
 import { AbstractApiModule } from "../helpers";
 
@@ -46,6 +48,14 @@ export class UsersApiModule extends AbstractApiModule {
       endpoint: "users/admin/invite",
       config: { method: "POST", data },
       schema: inviteAdminResponseSchema,
+    });
+  }
+
+  inviteUsers(data: InviteUsersRequest) {
+    return this.fetch({
+      endpoint: "users/invite",
+      config: { method: "POST", data },
+      schema: inviteUsersResponseSchema,
     });
   }
 

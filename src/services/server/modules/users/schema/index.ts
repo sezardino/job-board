@@ -5,3 +5,4 @@ export * from "./companies";
 export * from "./company";
 export * from "./customer";
 export * from "./invite-admin";
+export * from "./invite-users";
