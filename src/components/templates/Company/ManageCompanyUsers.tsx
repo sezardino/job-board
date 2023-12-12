@@ -163,11 +163,11 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
           (checkEmailAction.isLoading && <LoadingOverlay isInWrapper />)}
         <InviteUsersForm
           cancel={{
-            label: "Cancel",
+            label: t("invite-user.cancel"),
             onClick: () => setIsInviteModalOpen(false),
           }}
-          label="invite"
-          submitText="invite"
+          label={t("invite-user.label")}
+          submitText={t("invite-user.submit")}
           onFormSubmit={inviteUsersHandler}
           onValidateEmailsRequest={checkEmailAction.handler}
         />

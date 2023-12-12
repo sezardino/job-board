@@ -202,9 +202,12 @@
           "status": "Status"
         },
         "invite-user": {
+          "label": "Invite user",
           "title": "Invite user",
           "description": "Please enter email of the person you want to invite to the system",
-          "trigger": "Invite user"
+          "trigger": "Invite user",
+          "cancel": "Cancel",
+          "submit": "Invite users"
         }
       }
     }

@@ -16,6 +16,7 @@ export type InviteUsersFormValues = {
 };
 
 export type InviteUsersFormProps = ComponentPropsWithoutRef<"form"> & {
+  type?: "admin" | "company";
   label: string;
   onFormSubmit: (data: InviteUsersFormValues) => void;
   onValidateEmailsRequest: (args: {
@@ -29,8 +30,12 @@ export type InviteUsersFormProps = ComponentPropsWithoutRef<"form"> & {
   };
 };
 
+const emptyUser = { email: "", role: undefined as unknown as UserRoles };
+const subAdminUser = { email: "", role: UserRoles.SUB_ADMIN };
+
 export const InviteUsersForm: FC<InviteUsersFormProps> = (props) => {
   const {
+    type = "company",
     onValidateEmailsRequest,
     cancel,
     submitText,
@@ -44,7 +49,7 @@ export const InviteUsersForm: FC<InviteUsersFormProps> = (props) => {
 
   const formik = useFormik<InviteUsersFormValues>({
     initialValues: {
-      users: [{ email: "", role: undefined as unknown as UserRoles }],
+      users: [type === "admin" ? subAdminUser : emptyUser],
     },
     onSubmit: async (values) => {
       const response = await validateEmailHandler(
@@ -143,32 +148,39 @@ export const InviteUsersForm: FC<InviteUsersFormProps> = (props) => {
               {formik.values.users.map((_, i) => (
                 <div
                   key={i}
-                  className="grid grid-cols-[1fr_1fr_auto] items-start gap-1"
+                  className={twMerge(
+                    "grid items-start gap-1",
+                    type === "company"
+                      ? "grid-cols-[1fr_1fr_auto]"
+                      : "grid-cols-[1fr_auto]"
+                  )}
                 >
                   <ControlledInput
                     name={`users.[${i}].email`}
                     label={t("email.label")}
                     placeholder={t("email.placeholder")}
                   />
-                  <UserRoleSelect
-                    label={t("role.label")}
-                    placeholder={t("role.placeholder")}
-                    acceptedRoles={[UserRoles.MODERATOR, UserRoles.RECRUITER]}
-                    onSelectChange={(role) =>
-                      formik.setFieldValue(`users.[${i}].role`, role)
-                    }
-                    isInvalid={
-                      !!formik.touched.users?.[i]?.role &&
-                      // @ts-ignore
-                      !!formik.errors.users?.[i]?.role
-                    }
-                    errorMessage={
-                      formik.touched.users?.[i]?.role &&
-                      // @ts-ignore
-                      formik.errors.users?.[i]?.role
-                    }
-                    selectedKeys={formik.values.users[i].role}
-                  />
+                  {type === "company" && (
+                    <UserRoleSelect
+                      label={t("role.label")}
+                      placeholder={t("role.placeholder")}
+                      acceptedRoles={[UserRoles.MODERATOR, UserRoles.RECRUITER]}
+                      onSelectChange={(role) =>
+                        formik.setFieldValue(`users.[${i}].role`, role)
+                      }
+                      isInvalid={
+                        !!formik.touched.users?.[i]?.role &&
+                        // @ts-ignore
+                        !!formik.errors.users?.[i]?.role
+                      }
+                      errorMessage={
+                        formik.touched.users?.[i]?.role &&
+                        // @ts-ignore
+                        formik.errors.users?.[i]?.role
+                      }
+                      selectedKeys={formik.values.users[i].role}
+                    />
+                  )}
                   <Button
                     isIconOnly
                     color="danger"
@@ -186,7 +198,9 @@ export const InviteUsersForm: FC<InviteUsersFormProps> = (props) => {
                 isIconOnly
                 isDisabled={formik.values.users.length === 5}
                 className="justify-self-center"
-                onClick={() => helpers.push({ email: "", role: undefined })}
+                onClick={() =>
+                  helpers.push(type === "admin" ? subAdminUser : emptyUser)
+                }
                 aria-label={t("add")}
               >
                 <Icon name="HiPlus" size={16} />
