@@ -2,7 +2,7 @@
 
 import { UserStatusesSelectOptions } from "@/components/UI/UserStatusesSelect/UserStatusesSelect";
 import { ManageCompanyUsers } from "@/components/templates/Company/ManageCompanyUsers";
-import { useTableOnPage } from "@/hooks";
+import { useCheckEmailsAvailableMutation, useTableOnPage } from "@/hooks";
 import { useCompanyUsersQuery } from "@/hooks/react-query/query/users/company";
 import { UserStatus } from "@prisma/client";
 import { useState } from "react";
@@ -21,6 +21,9 @@ const CompanyUsersPage = () => {
       status: status === "all" ? undefined : status,
     });
 
+  const { mutateAsync: checkEmails, isPending: isCheckEmailsLoading } =
+    useCheckEmailsAvailableMutation();
+
   return (
     <ManageCompanyUsers
       onLimitChange={onLimitChange}
@@ -29,6 +32,10 @@ const CompanyUsersPage = () => {
       onStatusChange={setStatus}
       status={status}
       users={{ data: companyUsers, isLoading: isCompanyUsersLoading }}
+      checkEmailAction={{
+        handler: checkEmails,
+        isLoading: isCheckEmailsLoading,
+      }}
     />
   );
 };

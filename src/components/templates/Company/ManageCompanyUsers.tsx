@@ -7,9 +7,14 @@ import {
 } from "@/components/UI/UserStatusesSelect/UserStatusesSelect";
 import { Button, Icon, Modal } from "@/components/base";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
+import { InviteUsersForm } from "@/components/forms/InviteUsers/InviteUsers";
 import { DEFAULT_PAGE_LIMIT } from "@/const";
-import { CompanyUsersResponse } from "@/services/server/modules/users/schema";
-import { DataProp } from "@/types";
+import {
+  CheckEmailsAvailableRequest,
+  CheckEmailsAvailableResponse,
+  CompanyUsersResponse,
+} from "@/services/server/modules/users/schema";
+import { ActionProp, DataProp } from "@/types";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import {
@@ -27,6 +32,10 @@ type Props = {
   onSearchChange: (search: string) => void;
   onStatusChange: (status: UserStatusesSelectOptions) => void;
   status: UserStatusesSelectOptions;
+  checkEmailAction: ActionProp<
+    CheckEmailsAvailableRequest,
+    CheckEmailsAvailableResponse
+  >;
 };
 
 export type ManageCompanyUsersProps = ComponentPropsWithoutRef<"section"> &
@@ -37,6 +46,7 @@ const CH = createColumnHelper<CompanyUsersResponse["users"][number]>();
 export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   const {
     users,
+    checkEmailAction,
     onLimitChange,
     onPageChange,
     onSearchChange,
@@ -130,10 +140,20 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
       <Modal
         isOpen={isInviteModalOpen}
         onClose={() => setIsInviteModalOpen(false)}
+        size="xl"
         title={t("invite-user.title")}
         description={t("invite-user.description")}
       >
-        123
+        <InviteUsersForm
+          cancel={{
+            label: "Cancel",
+            onClick: () => setIsInviteModalOpen(false),
+          }}
+          label="invite"
+          submitText="invite"
+          onFormSubmit={() => undefined}
+          onValidateEmailsRequest={checkEmailAction.handler}
+        />
       </Modal>
     </>
   );

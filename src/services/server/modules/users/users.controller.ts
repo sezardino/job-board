@@ -13,6 +13,10 @@ import {
   customerUsersRequestSchema,
   inviteAdminRequestSchema,
 } from "./schema";
+import {
+  CheckEmailsAvailableResponse,
+  checkEmailsAvailableRequestSchema,
+} from "./schema/check-emails-available";
 import { UsersService } from "./users.service";
 
 export class UsersController extends AbstractController<UsersService> {
@@ -33,6 +37,25 @@ export class UsersController extends AbstractController<UsersService> {
         { available: bllResponse } as CheckEmailAvailableResponse,
         200
       );
+    } catch (error) {
+      return this.getNextResponse({ message: "backend-errors.server" }, 500);
+    }
+  }
+
+  async checkEmailsAvailable(req: NextRequest) {
+    const data = await req.json();
+
+    const { response, dto } = await this.handlerHelper({
+      data,
+      schema: checkEmailsAvailableRequestSchema,
+    });
+
+    if (response) return response;
+
+    try {
+      const res = await this.service.checkEmailsAvailable(dto!.emails!);
+
+      return this.getNextResponse(res as CheckEmailsAvailableResponse, 200);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }

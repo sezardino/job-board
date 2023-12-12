@@ -1,15 +1,13 @@
 import { z } from "zod";
 
 export const checkEmailAvailableRequestSchema = z.object({
-  email: z
-    .string()
-    .min(1, "backend-errors.validation.registration.login.min")
-    .max(20, "backend-errors.validation.registration.login.max"),
+  emails: z.array(z.string().email()).min(1).max(20).optional(),
 });
 
-export const checkEmailAvailableResponseSchema = z.object({
-  available: z.boolean(),
-});
+export const checkEmailAvailableResponseSchema = z.record(
+  z.string(),
+  z.boolean()
+);
 
 export type CheckEmailAvailableRequest = z.infer<
   typeof checkEmailAvailableRequestSchema

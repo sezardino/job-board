@@ -18,7 +18,7 @@ type Props<T extends string> = {
 
 type OmittedProps = Omit<
   ComponentProps,
-  "variant" | "labelPlacement" | "children" | "onChange"
+  "variant" | "labelPlacement" | "children" | "onChange" | "radius"
 >;
 
 export type SelectProps<T extends string> = OmittedProps & Props<T>;
@@ -31,6 +31,7 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
       {...rest}
       variant="bordered"
       labelPlacement="outside"
+      radius="sm"
       // @ts-ignore
       selectedKeys={selectedKeys ? [selectedKeys] : undefined}
       onChange={(evt) => onSelectChange(evt.target.value as T)}

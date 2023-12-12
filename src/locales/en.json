@@ -18,6 +18,22 @@
     }
   },
   "forms": {
+    "invite-users": {
+      "remove": "Remove",
+      "add": "Add",
+      "email": {
+        "label": "Email",
+        "placeholder": "Email",
+        "required": "Email is required",
+        "used": "Email is already used",
+        "repeat": "Email is already added"
+      },
+      "role": {
+        "label": "Role",
+        "placeholder": "Choose role",
+        "required": "Role is required"
+      }
+    },
     "auth": {
       "email": {
         "label": "Email",

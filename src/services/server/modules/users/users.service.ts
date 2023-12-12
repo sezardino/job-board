@@ -45,6 +45,24 @@ export class UsersService extends AbstractService {
     return !Boolean(user);
   }
 
+  async checkEmailsAvailable(
+    emails: string[]
+  ): Promise<Record<string, boolean>> {
+    const users = await this.prismaService.user.findMany({
+      where: { email: { in: emails } },
+      select: { email: true },
+    });
+
+    const emailsAvailable: Record<string, boolean> = {};
+
+    emails.forEach((email) => {
+      emailsAvailable[email] =
+        !users.some((user) => user.email === email) ?? true;
+    });
+
+    return emailsAvailable;
+  }
+
   async findByEmail(email: string) {
     const user = await this.prismaService.user.findUnique({
       where: { email },
