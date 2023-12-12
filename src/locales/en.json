@@ -195,6 +195,7 @@
         "title": "Users",
         "description": "From this panel you can manage users of your company.",
         "search": "Search user",
+        "filter": "Filter by status",
         "table": {
           "user": "User",
           "is-email-verified": "Email verified",

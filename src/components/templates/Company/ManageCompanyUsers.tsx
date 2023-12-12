@@ -132,6 +132,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
                 withAll
                 className="max-w-[220px]"
                 onSelectChange={onStatusChange}
+                aria-label={t("filter")}
               />
             </div>
             <Button color="primary" onClick={() => setIsInviteModalOpen(true)}>
