@@ -51,9 +51,11 @@ model User {
 
   name String @default("")
 
-  email           String  @unique
-  isEmailVerified Boolean @default(false) @map("is_email_verified")
-  emailToken      String? @map("email_token")
+  isAcceptInvite Boolean @default(false) @map("is_accept_invite")
+  inviteToken    String? @map("invite_token")
+
+  email      String  @unique
+  emailToken String? @map("email_token")
 
   password String?
 
@@ -95,9 +97,13 @@ model Company {
 
   status EntityStatus @default(CREATED)
 
-  name String @unique
-  slug String @unique
-  bio  String
+  thumbnail   File?   @relation(name: "thumbnail", fields: [thumbnailId], references: [id])
+  thumbnailId String? @unique @map("thumbnail_id") @db.ObjectId
+  gallery     File[]  @relation(name: "gallery")
+
+  name String  @unique
+  slug String  @unique
+  bio  String?
 
   owner   User   @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ownerId String @unique @map("owner_id") @db.ObjectId
@@ -163,5 +169,9 @@ model File {
   url      String
 
   createdAt DateTime @default(now()) @map("created_at")
-  companyId String?  @db.ObjectId
+
+  thumbnail   Company? @relation(name: "thumbnail")
+  thumbnailId String?  @unique @map("thumbnail_id") @db.ObjectId
+  gallery     Company? @relation(name: "gallery", fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  companyId   String?  @db.ObjectId
 }

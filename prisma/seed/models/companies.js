@@ -5,15 +5,27 @@ const { statuses } = require("./const");
 
 const { generateMockUsers } = require("./users");
 
-const generateMockCompany = () => ({
-  name: faker.company.name(),
-  status: faker.helpers.arrayElement(statuses),
-  bio: faker.lorem.paragraph(),
-  members: generateMockUsers({
-    count: 5,
-    roles: [UserRoles.MODERATOR, UserRoles.RECRUITER],
-  }),
-});
+function generateSlug(name) {
+  const slug = name.toLowerCase().replace(/\s+/g, "-");
+
+  const cleanedSlug = slug.replace(/[^\w-]/g, "");
+
+  return cleanedSlug;
+}
+
+const generateMockCompany = () => {
+  const name = faker.company.name();
+
+  return {
+    name,
+    slug: generateSlug(name),
+    status: faker.helpers.arrayElement(statuses),
+    members: generateMockUsers({
+      count: 5,
+      roles: [UserRoles.MODERATOR, UserRoles.RECRUITER],
+    }),
+  };
+};
 
 module.exports = {
   generateMockCompany,
