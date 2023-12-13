@@ -1,20 +1,12 @@
 "use client";
 
-import { WysiwygEditor } from "@/components/UI/WysiwygEditor/WysiwygEditor";
-import { useState } from "react";
+import { useMyCompanyQuery } from "@/hooks";
 
 const CompanyHomePage = () => {
-  const [state, setState] = useState("");
+  const { data: myCompany, isFetching: isMyCompanyLoading } =
+    useMyCompanyQuery();
 
-  return (
-    <main>
-      <h1>Company</h1>
-
-      <WysiwygEditor model={state} onModelChange={setState} />
-
-      <pre>{JSON.stringify(state)}</pre>
-    </main>
-  );
+  return <>{JSON.stringify(myCompany)}</>;
 };
 
 export default CompanyHomePage;

@@ -96,6 +96,7 @@ model Company {
   status EntityStatus @default(CREATED)
 
   name String @unique
+  slug String @unique
   bio  String
 
   owner   User   @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
@@ -162,4 +163,5 @@ model File {
   url      String
 
   createdAt DateTime @default(now()) @map("created_at")
+  companyId String?  @db.ObjectId
 }

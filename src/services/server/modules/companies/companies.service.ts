@@ -1,6 +1,6 @@
 import { AbstractService } from "@/services/server/helpers";
 import { Prisma } from "@prisma/client";
-import { AdminCompaniesRequest } from "./schema";
+import { AdminCompaniesRequest, EditCompanyRequest } from "./schema";
 
 export class CompaniesService extends AbstractService {
   async admin(dto: AdminCompaniesRequest) {
@@ -41,5 +41,57 @@ export class CompaniesService extends AbstractService {
     });
 
     return { companies, meta };
+  }
+
+  async edit(dto: EditCompanyRequest, companyId: string) {
+    const { bio } = dto;
+
+    const data: Prisma.CompanyUpdateInput = {};
+
+    if (bio) data.bio = bio;
+
+    const response = await this.prismaService.company.update({
+      where: { id: companyId },
+      data,
+      select: {
+        id: true,
+        name: true,
+        bio: true,
+      },
+    });
+
+    return response;
+  }
+
+  async my(companyId: string) {
+    const response = await this.prismaService.company.findUnique({
+      where: { id: companyId },
+      select: {
+        id: true,
+        name: true,
+        bio: true,
+        owner: {
+          select: {
+            id: true,
+            name: true,
+            email: true,
+          },
+        },
+        members: {
+          select: {
+            id: true,
+            name: true,
+          },
+        },
+        _count: {
+          select: {
+            offers: true,
+            members: true,
+          },
+        },
+      },
+    });
+
+    return response;
   }
 }
