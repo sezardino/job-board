@@ -4,6 +4,7 @@ import { UserStatusesSelectOptions } from "@/components/UI/UserStatusesSelect/Us
 import { ManageCompanyUsers } from "@/components/templates/Company/ManageCompanyUsers";
 import { useCheckEmailsAvailableMutation, useTableOnPage } from "@/hooks";
 import { useCancelInviteMutation } from "@/hooks/react-query/mutation/users/cancel-invite";
+import { useEditCompanyUserMutation } from "@/hooks/react-query/mutation/users/edit-company-user";
 import { useInviteUsersMutation } from "@/hooks/react-query/mutation/users/invite-users";
 import { useCompanyUsersQuery } from "@/hooks/react-query/query/users/company";
 import { useState } from "react";
@@ -32,6 +33,9 @@ const CompanyUsersPage = () => {
   const { mutateAsync: resendInvite, isPending: isResendLoading } =
     useCancelInviteMutation();
 
+  const { mutateAsync: editUser, isPending: isEditUserLoading } =
+    useEditCompanyUserMutation();
+
   return (
     <ManageCompanyUsers
       onLimitChange={onLimitChange}
@@ -55,6 +59,10 @@ const CompanyUsersPage = () => {
       cancelInviteAction={{
         handler: cancelInvite,
         isLoading: isCancelLoading,
+      }}
+      editUserAction={{
+        handler: editUser,
+        isLoading: isEditUserLoading,
       }}
     />
   );

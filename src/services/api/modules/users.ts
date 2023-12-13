@@ -6,6 +6,7 @@ import {
   CompaniesUsersRequest,
   CompanyUsersRequest,
   CustomerUsersRequest,
+  EditCompanyUserRequest,
   InviteAdminRequest,
   InviteUsersRequest,
   ResendInviteRequest,
@@ -16,6 +17,7 @@ import {
   companiesUsersResponseSchema,
   companyUsersResponseSchema,
   customerUsersResponseSchema,
+  editCompanyUserResponseSchema,
   inviteAdminResponseSchema,
   inviteUsersResponseSchema,
   resendInviteResponseSchema,
@@ -76,6 +78,14 @@ export class UsersApiModule extends AbstractApiModule {
       endpoint: "users/invite/cancel",
       config: { method: "POST", data },
       schema: cancelInviteResponseSchema,
+    });
+  }
+
+  editCompanyUser(data: EditCompanyUserRequest) {
+    return this.fetch({
+      endpoint: "users/company/edit",
+      config: { method: "POST", data },
+      schema: editCompanyUserResponseSchema,
     });
   }
 

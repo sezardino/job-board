@@ -4,5 +4,6 @@ export * from "./check-emails-available";
 export * from "./companies";
 export * from "./company";
 export * from "./customer";
+export * from "./edit-company-user";
 export * from "./invite-admin";
 export * from "./invite-users";

@@ -75,6 +75,14 @@
         "placeholder": "Status",
         "required": "Status is required"
       }
+    },
+    "edit-company-user": {
+      "label": "Edit user",
+      "role": {
+        "label": "Role",
+        "placeholder": "Role",
+        "required": "Role is required"
+      }
     }
   },
   "entity": {
@@ -227,6 +235,12 @@
           "description": "Are you sure you want to cancel invitation to this user?",
           "cancel": "Cancel",
           "confirm": "Cancel invitation"
+        },
+        "edit-user": {
+          "title": "Edit user",
+          "description": "You can only edit role of the user",
+          "cancel": "Cancel",
+          "confirm": "Edit user"
         }
       }
     }

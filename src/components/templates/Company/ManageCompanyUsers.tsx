@@ -9,6 +9,11 @@ import {
 import { Button, Icon, LoadingOverlay, Modal } from "@/components/base";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import {
+  EditCompanyUserAcceptedRoles,
+  EditCompanyUserForm,
+  EditCompanyUserFormValue,
+} from "@/components/forms/EditCompanyUser/EditCompanyUser";
+import {
   InviteUsersForm,
   InviteUsersFormValues,
 } from "@/components/forms/InviteUsers/InviteUsers";
@@ -19,12 +24,15 @@ import {
   CheckEmailsAvailableRequest,
   CheckEmailsAvailableResponse,
   CompanyUsersResponse,
+  EditCompanyUserRequest,
+  EditCompanyUserResponse,
   InviteUsersRequest,
   InviteUsersResponse,
   ResendInviteRequest,
   ResendInviteResponse,
 } from "@/services/server/modules/users/schema";
 import { ActionProp, DataProp } from "@/types";
+import { UserRoles } from "@prisma/client";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import {
@@ -50,6 +58,7 @@ type Props = {
   inviteUsersAction: ActionProp<InviteUsersRequest, InviteUsersResponse>;
   resendInviteAction: ActionProp<ResendInviteRequest, ResendInviteResponse>;
   cancelInviteAction: ActionProp<CancelInviteRequest, CancelInviteResponse>;
+  editUserAction: ActionProp<EditCompanyUserRequest, EditCompanyUserResponse>;
 };
 
 export type ManageCompanyUsersProps = ComponentPropsWithoutRef<"section"> &
@@ -59,6 +68,7 @@ const CH = createColumnHelper<CompanyUsersResponse["users"][number]>();
 
 export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   const {
+    editUserAction,
     resendInviteAction,
     cancelInviteAction,
     users,
@@ -76,6 +86,10 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   const userT = useTranslations("entity.user");
 
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+  const [userToEdit, setUserToEdit] = useState<{
+    id: string;
+    role: EditCompanyUserAcceptedRoles;
+  } | null>(null);
   const [userToResendInvite, setUserToResendInvite] = useState<string | null>(
     null
   );
@@ -126,7 +140,16 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
               variant="light"
               size="sm"
               isIconOnly
-              onClick={() => console.log(row.row.original)}
+              isDisabled={
+                row.row.original.role === UserRoles.OWNER ||
+                !row.row.original.isEmailVerified
+              }
+              onClick={() =>
+                setUserToEdit({
+                  id: row.getValue(),
+                  role: row.row.original.role as EditCompanyUserAcceptedRoles,
+                })
+              }
               tooltip={t("table.actions.edit")}
               aria-label={t("table.actions.edit")}
             >
@@ -168,6 +191,16 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   const inviteUsersHandler = async (values: InviteUsersFormValues) => {
     try {
       await inviteUsersAction.handler(values);
+
+      setIsInviteModalOpen(false);
+    } catch (error) {}
+  };
+
+  const editUserHandler = async (values: EditCompanyUserFormValue) => {
+    if (!userToEdit) return;
+
+    try {
+      await editUserAction.handler({ id: userToEdit.id, role: values.role });
 
       setIsInviteModalOpen(false);
     } catch (error) {}
@@ -234,6 +267,27 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
           onValidateEmailsRequest={checkEmailAction.handler}
         />
       </Modal>
+
+      {userToEdit && (
+        <Modal
+          isOpen={!!userToEdit}
+          onClose={() => setUserToEdit(null)}
+          size="xl"
+          title={t("edit-user.title")}
+          description={t("edit-user.description")}
+        >
+          {editUserAction.isLoading ||
+            (checkEmailAction.isLoading && <LoadingOverlay isInWrapper />)}
+          <EditCompanyUserForm
+            cancelText={t("edit-user.cancel")}
+            role={userToEdit.role}
+            onCancelClick={() => setIsInviteModalOpen(false)}
+            label={t("edit-user.label")}
+            submitText={t("edit-user.confirm")}
+            onFormSubmit={editUserHandler}
+          />
+        </Modal>
+      )}
 
       <ConfirmModal
         isOpen={!!userToResendInvite}

@@ -21,6 +21,10 @@ import {
   CheckEmailsAvailableResponse,
   checkEmailsAvailableRequestSchema,
 } from "./schema/check-emails-available";
+import {
+  EditCompanyUserResponse,
+  editCompanyUserRequestSchema,
+} from "./schema/edit-company-user";
 import { UsersService } from "./users.service";
 
 export class UsersController extends AbstractController<UsersService> {
@@ -204,6 +208,25 @@ export class UsersController extends AbstractController<UsersService> {
     // TODO: implement cancel invite
 
     return this.getNextResponse({ success: true } as CancelInviteResponse, 200);
+  }
+
+  async editCompanyUser(req: NextRequest) {
+    const data = await req.json();
+
+    const { response } = await this.handlerHelper({
+      data,
+      schema: editCompanyUserRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
+    });
+
+    if (!response) return response;
+
+    // TODO: implement cancel invite
+
+    return this.getNextResponse(
+      { success: true } as EditCompanyUserResponse,
+      200
+    );
   }
 
   async companies(req: NextRequest) {
