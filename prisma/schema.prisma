@@ -49,7 +49,9 @@ model User {
   role   UserRoles  @default(CUSTOMER)
   status UserStatus @default(ACTIVE)
 
-  name String @default("")
+  name     String  @default("")
+  avatar   File?   @relation(name: "avatar", fields: [avatarId], references: [id])
+  avatarId String? @unique @map("avatar_id") @db.ObjectId
 
   isAcceptInvite Boolean @default(false) @map("is_accept_invite")
   inviteToken    String? @map("invite_token")
@@ -174,4 +176,5 @@ model File {
   thumbnailId String?  @unique @map("thumbnail_id") @db.ObjectId
   gallery     Company? @relation(name: "gallery", fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   companyId   String?  @db.ObjectId
+  avatar      User?    @relation(name: "avatar")
 }

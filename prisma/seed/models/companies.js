@@ -6,9 +6,11 @@ const { statuses } = require("./const");
 const { generateMockUsers } = require("./users");
 
 function generateSlug(name) {
-  const slug = name.toLowerCase().replace(/\s+/g, "-");
+  const slug = name
+    .toLowerCase()
+    .replace(/[\s+&@#\/\\,;?!$%\^*:()'"\[\]]+/g, "-");
 
-  const cleanedSlug = slug.replace(/[^\w-]/g, "");
+  const cleanedSlug = slug.replace(/-+/g, "-");
 
   return cleanedSlug;
 }
