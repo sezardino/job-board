@@ -13220,6 +13220,11 @@ yauzl@^2.10.0:
     buffer-crc32 "~0.2.3"
     fd-slicer "~1.1.0"
 
+yet-another-react-lightbox@^3.15.6:
+  version "3.15.6"
+  resolved "https://registry.yarnpkg.com/yet-another-react-lightbox/-/yet-another-react-lightbox-3.15.6.tgz#43e26a351ed85771863afee883e0f05334d16770"
+  integrity sha512-he+WqKL5ZPk393oZQyadD347QqEPPr4fjqUVZKjIOeaIpbe9PHtwV4m8PjUzkbx3BISXasOqv0C/+cE1gBboXg==
+
 yn@3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/yn/-/yn-3.1.1.tgz#1e87401a09d767c1d5eab26a6e4c185182d2eb50"
