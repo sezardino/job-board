@@ -70,6 +70,7 @@ export class CompaniesService extends AbstractService {
         id: true,
         name: true,
         bio: true,
+        catchPhrase: true,
         gallery: { select: { id: true, url: true, name: true } },
         thumbnail: { select: { id: true, url: true, name: true } },
         owner: {

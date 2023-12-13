@@ -23,6 +23,8 @@ export const fileSchema = z.object({
   url: z.string(),
 });
 
+export type FileEntity = z.infer<typeof fileSchema>;
+
 export type PaginatedRequest = z.infer<typeof paginatedRequestSchema>;
 export type PaginatedResponse = z.infer<typeof paginatedResponseSchema>;
 

@@ -6,7 +6,10 @@ import {
 } from "react";
 import { twMerge } from "tailwind-merge";
 
-type GridTags = Extract<ElementType, "div" | "ul" | "ol" | "section" | "form">;
+type GridTags = Extract<
+  ElementType,
+  "header" | "div" | "ul" | "ol" | "section" | "form"
+>;
 
 export type GridProps<Tag extends GridTags> = ComponentPropsWithoutRef<Tag> & {
   tag?: Tag;

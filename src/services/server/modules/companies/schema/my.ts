@@ -5,6 +5,7 @@ export const myCompanyResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
   bio: z.string().nullable(),
+  catchPhrase: z.string().nullable(),
   thumbnail: fileSchema.nullable(),
   gallery: z.array(fileSchema),
   owner: z.object({
