@@ -129,9 +129,10 @@ model Company {
   thumbnailId String? @unique @map("thumbnail_id") @db.ObjectId
   gallery     File[]  @relation(name: "gallery")
 
-  name String  @unique
-  slug String  @unique
-  bio  String?
+  name        String  @unique
+  slug        String  @unique
+  catchPhrase String? @map("catch_phrase")
+  bio         String?
 
   owner   User   @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ownerId String @unique @map("owner_id") @db.ObjectId
