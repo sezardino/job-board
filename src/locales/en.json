@@ -198,9 +198,15 @@
         "filter": "Filter by status",
         "table": {
           "user": "User",
-          "is-email-verified": "Email verified",
+          "accept-invite": "Accept invite",
           "role": "Role",
-          "status": "Status"
+          "status": "Status",
+          "actions": {
+            "label": "Actions",
+            "resend-invite": "Resend invitation",
+            "cancel-invite": "Cancel invitation",
+            "edit": "Edit"
+          }
         },
         "invite-user": {
           "label": "Invite user",
@@ -209,6 +215,18 @@
           "trigger": "Invite user",
           "cancel": "Cancel",
           "submit": "Invite users"
+        },
+        "resend-invite": {
+          "title": "Resend invitation",
+          "description": "Are you sure you want to resend invitation to this user?",
+          "cancel": "Cancel",
+          "confirm": "Resend invitation"
+        },
+        "cancel-invite": {
+          "title": "Cancel invitation",
+          "description": "Are you sure you want to cancel invitation to this user?",
+          "cancel": "Cancel",
+          "confirm": "Cancel invitation"
         }
       }
     }

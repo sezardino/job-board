@@ -3,17 +3,15 @@
 import { UserStatusesSelectOptions } from "@/components/UI/UserStatusesSelect/UserStatusesSelect";
 import { ManageCompanyUsers } from "@/components/templates/Company/ManageCompanyUsers";
 import { useCheckEmailsAvailableMutation, useTableOnPage } from "@/hooks";
+import { useCancelInviteMutation } from "@/hooks/react-query/mutation/users/cancel-invite";
 import { useInviteUsersMutation } from "@/hooks/react-query/mutation/users/invite-users";
 import { useCompanyUsersQuery } from "@/hooks/react-query/query/users/company";
-import { UserStatus } from "@prisma/client";
 import { useState } from "react";
 
 const CompanyUsersPage = () => {
   const { onLimitChange, onPageChange, page, limit, search, onSearchChange } =
     useTableOnPage();
-  const [status, setStatus] = useState<UserStatusesSelectOptions>(
-    UserStatus.ACTIVE
-  );
+  const [status, setStatus] = useState<UserStatusesSelectOptions>("all");
   const { data: companyUsers, isFetching: isCompanyUsersLoading } =
     useCompanyUsersQuery({
       page,
@@ -27,6 +25,12 @@ const CompanyUsersPage = () => {
 
   const { mutateAsync: inviteUsers, isPending: isInviteUsersLoading } =
     useInviteUsersMutation();
+
+  const { mutateAsync: cancelInvite, isPending: isCancelLoading } =
+    useCancelInviteMutation();
+
+  const { mutateAsync: resendInvite, isPending: isResendLoading } =
+    useCancelInviteMutation();
 
   return (
     <ManageCompanyUsers
@@ -43,6 +47,14 @@ const CompanyUsersPage = () => {
       inviteUsersAction={{
         handler: inviteUsers,
         isLoading: isInviteUsersLoading,
+      }}
+      resendInviteAction={{
+        handler: resendInvite,
+        isLoading: isResendLoading,
+      }}
+      cancelInviteAction={{
+        handler: cancelInvite,
+        isLoading: isCancelLoading,
       }}
     />
   );

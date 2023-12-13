@@ -3,11 +3,13 @@ import { UserRoles } from "@prisma/client";
 import { NextRequest } from "next/server";
 import {
   AdminUsersResponse,
+  CancelInviteResponse,
   CheckEmailAvailableResponse,
   CompaniesUsersResponse,
   CustomerUsersResponse,
   InviteAdminResponse,
   InviteUsersResponse,
+  ResendInviteResponse,
   adminUsersRequestSchema,
   checkEmailAvailableRequestSchema,
   companiesUsersRequestSchema,
@@ -170,6 +172,38 @@ export class UsersController extends AbstractController<UsersService> {
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
+  }
+
+  async resendInvite(req: NextRequest) {
+    const data = await req.json();
+
+    const { response } = await this.handlerHelper({
+      data,
+      schema: inviteUsersRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
+    });
+
+    if (!response) return response;
+
+    // TODO: implement resend invite
+
+    return this.getNextResponse({ success: true } as ResendInviteResponse, 200);
+  }
+
+  async cancelInvite(req: NextRequest) {
+    const data = await req.json();
+
+    const { response } = await this.handlerHelper({
+      data,
+      schema: inviteUsersRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
+    });
+
+    if (!response) return response;
+
+    // TODO: implement cancel invite
+
+    return this.getNextResponse({ success: true } as CancelInviteResponse, 200);
   }
 
   async companies(req: NextRequest) {

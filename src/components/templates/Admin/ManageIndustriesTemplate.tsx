@@ -145,15 +145,6 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
     [onCreateIndustry]
   );
 
-  const deleteIndustryHandler = useCallback(async () => {
-    if (!toDeleteId) return;
-
-    try {
-      onDeleteIndustry(toDeleteId);
-      setToDeleteId(null);
-    } catch (error) {}
-  }, [toDeleteId, onDeleteIndustry]);
-
   const updateIndustryHandler = useCallback(
     async (values: UpdateIndustryFormValues) => {
       if (!toUpdateIndustry) return;
@@ -238,11 +229,12 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         isLoading={isDeleteIndustryLoading}
         title={t("delete.title")}
         description={t("delete.description")}
-        cancel={{
-          text: t("delete.cancel"),
-          onClick: () => setToDeleteId(null),
-        }}
-        confirm={{ text: t("delete.confirm"), onClick: deleteIndustryHandler }}
+        cancelText={t("delete.cancel")}
+        onCancelClick={() => setToDeleteId(null)}
+        confirmText={t("delete.confirm")}
+        onConfirmClick={async () =>
+          toDeleteId ? onDeleteIndustry(toDeleteId) : undefined
+        }
       />
     </>
   );

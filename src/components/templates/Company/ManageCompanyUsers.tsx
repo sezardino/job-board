@@ -1,3 +1,4 @@
+import { ConfirmModal } from "@/components/UI/ConformModal/ConfirmModal";
 import { TableWidget } from "@/components/UI/TableWidget/TableWidget";
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { UserInfo } from "@/components/UI/UserInfo/UserInfo";
@@ -13,11 +14,15 @@ import {
 } from "@/components/forms/InviteUsers/InviteUsers";
 import { DEFAULT_PAGE_LIMIT } from "@/const";
 import {
+  CancelInviteRequest,
+  CancelInviteResponse,
   CheckEmailsAvailableRequest,
   CheckEmailsAvailableResponse,
   CompanyUsersResponse,
   InviteUsersRequest,
   InviteUsersResponse,
+  ResendInviteRequest,
+  ResendInviteResponse,
 } from "@/services/server/modules/users/schema";
 import { ActionProp, DataProp } from "@/types";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -29,6 +34,7 @@ import {
   type FC,
 } from "react";
 import { twMerge } from "tailwind-merge";
+import { undefined } from "zod";
 
 type Props = {
   users: DataProp<CompanyUsersResponse>;
@@ -42,6 +48,8 @@ type Props = {
     CheckEmailsAvailableResponse
   >;
   inviteUsersAction: ActionProp<InviteUsersRequest, InviteUsersResponse>;
+  resendInviteAction: ActionProp<ResendInviteRequest, ResendInviteResponse>;
+  cancelInviteAction: ActionProp<CancelInviteRequest, CancelInviteResponse>;
 };
 
 export type ManageCompanyUsersProps = ComponentPropsWithoutRef<"section"> &
@@ -51,6 +59,8 @@ const CH = createColumnHelper<CompanyUsersResponse["users"][number]>();
 
 export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   const {
+    resendInviteAction,
+    cancelInviteAction,
     users,
     inviteUsersAction,
     checkEmailAction,
@@ -66,6 +76,12 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   const userT = useTranslations("entity.user");
 
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
+  const [userToResendInvite, setUserToResendInvite] = useState<string | null>(
+    null
+  );
+  const [userToCancelInvite, setUserToCancelInvite] = useState<string | null>(
+    null
+  );
 
   const columns = useMemo(
     () => [
@@ -81,7 +97,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
       }),
       CH.accessor("isEmailVerified", {
         enableSorting: false,
-        header: t("table.is-email-verified"),
+        header: t("table.accept-invite"),
         cell: (row) => (
           <Icon
             name={row.getValue() ? "HiCheckCircle" : "HiXCircle"}
@@ -99,6 +115,51 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
         enableSorting: false,
         header: t("table.status"),
         cell: (row) => userT(`status.${row.getValue()}`),
+      }),
+      CH.accessor("id", {
+        enableSorting: false,
+        header: t("table.actions.label"),
+        cell: (row) => (
+          <div>
+            <Button
+              color="primary"
+              variant="light"
+              size="sm"
+              isIconOnly
+              onClick={() => console.log(row.row.original)}
+              tooltip={t("table.actions.edit")}
+              aria-label={t("table.actions.edit")}
+            >
+              <Icon name="HiPencil" size={16} />
+            </Button>
+            {!row.row.original.isEmailVerified && (
+              <>
+                <Button
+                  color="secondary"
+                  variant="light"
+                  size="sm"
+                  isIconOnly
+                  onClick={() => setUserToResendInvite(row.getValue())}
+                  tooltip={t("table.actions.resend-invite")}
+                  aria-label={t("table.actions.resend-invite")}
+                >
+                  <Icon name="HiRefresh" size={16} />
+                </Button>
+                <Button
+                  color="danger"
+                  variant="light"
+                  size="sm"
+                  isIconOnly
+                  onClick={() => setUserToCancelInvite(row.getValue())}
+                  tooltip={t("table.actions.cancel-invite")}
+                  aria-label={t("table.actions.cancel-invite")}
+                >
+                  <Icon name="HiOutlineBan" size={16} />
+                </Button>
+              </>
+            )}
+          </div>
+        ),
       }),
     ],
     [t, userT]
@@ -173,6 +234,38 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
           onValidateEmailsRequest={checkEmailAction.handler}
         />
       </Modal>
+
+      <ConfirmModal
+        isOpen={!!userToResendInvite}
+        onClose={() => setUserToResendInvite(null)}
+        title={t("resend-invite.title")}
+        description={t("resend-invite.description")}
+        cancelText={t("resend-invite.cancel")}
+        confirmText={t("resend-invite.confirm")}
+        onCancelClick={() => setUserToResendInvite(null)}
+        isLoading={resendInviteAction.isLoading}
+        onConfirmClick={async () =>
+          userToResendInvite
+            ? resendInviteAction.handler({ id: userToResendInvite })
+            : undefined
+        }
+      />
+
+      <ConfirmModal
+        isOpen={!!userToCancelInvite}
+        onClose={() => setUserToCancelInvite(null)}
+        title={t("cancel-invite.title")}
+        description={t("cancel-invite.description")}
+        cancelText={t("cancel-invite.cancel")}
+        confirmText={t("cancel-invite.confirm")}
+        onCancelClick={() => setUserToCancelInvite(null)}
+        isLoading={resendInviteAction.isLoading}
+        onConfirmClick={async () =>
+          userToCancelInvite
+            ? resendInviteAction.handler({ id: userToCancelInvite })
+            : undefined
+        }
+      />
     </>
   );
 };

@@ -34,7 +34,7 @@ export class AuthService extends AbstractService {
 
     const user = await this.usersService.findByEmail(email);
 
-    if (!user) throw new Error("Wrong credentials");
+    if (!user || !user.password) throw new Error("Wrong credentials");
 
     const isPasswordValid = await passwordService.compare(
       password,

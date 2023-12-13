@@ -1,5 +1,6 @@
 import {
   AdminUsersRequest,
+  CancelInviteRequest,
   CheckEmailAvailableRequest,
   CheckEmailsAvailableRequest,
   CompaniesUsersRequest,
@@ -7,7 +8,9 @@ import {
   CustomerUsersRequest,
   InviteAdminRequest,
   InviteUsersRequest,
+  ResendInviteRequest,
   adminUsersResponseSchema,
+  cancelInviteResponseSchema,
   checkEmailAvailableResponseSchema,
   checkEmailsAvailableResponseSchema,
   companiesUsersResponseSchema,
@@ -15,6 +18,7 @@ import {
   customerUsersResponseSchema,
   inviteAdminResponseSchema,
   inviteUsersResponseSchema,
+  resendInviteResponseSchema,
 } from "@/services/server/modules/users/schema";
 import { AbstractApiModule } from "../helpers";
 
@@ -56,6 +60,22 @@ export class UsersApiModule extends AbstractApiModule {
       endpoint: "users/invite",
       config: { method: "POST", data },
       schema: inviteUsersResponseSchema,
+    });
+  }
+
+  resendInvite(data: ResendInviteRequest) {
+    return this.fetch({
+      endpoint: "users/invite/resend",
+      config: { method: "POST", data },
+      schema: resendInviteResponseSchema,
+    });
+  }
+
+  cancelInvite(data: CancelInviteRequest) {
+    return this.fetch({
+      endpoint: "users/invite/cancel",
+      config: { method: "POST", data },
+      schema: cancelInviteResponseSchema,
     });
   }
 
