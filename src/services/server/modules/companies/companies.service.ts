@@ -70,23 +70,27 @@ export class CompaniesService extends AbstractService {
         id: true,
         name: true,
         bio: true,
+        gallery: { select: { id: true, url: true, name: true } },
+        thumbnail: { select: { id: true, url: true, name: true } },
         owner: {
           select: {
             id: true,
             name: true,
             email: true,
+            avatar: { select: { id: true, name: true, url: true } },
           },
         },
         members: {
           select: {
             id: true,
             name: true,
+            avatar: { select: { id: true, name: true, url: true } },
           },
         },
         _count: {
           select: {
             offers: true,
-            members: true,
+            members: { where: { isAcceptInvite: true } },
           },
         },
       },

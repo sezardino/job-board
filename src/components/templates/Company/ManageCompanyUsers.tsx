@@ -109,7 +109,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
           />
         ),
       }),
-      CH.accessor("isEmailVerified", {
+      CH.accessor("isAcceptInvite", {
         enableSorting: false,
         header: t("table.accept-invite"),
         cell: (row) => (
@@ -142,7 +142,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
               isIconOnly
               isDisabled={
                 row.row.original.role === UserRoles.OWNER ||
-                !row.row.original.isEmailVerified
+                !row.row.original.isAcceptInvite
               }
               onClick={() =>
                 setUserToEdit({
@@ -155,7 +155,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
             >
               <Icon name="HiPencil" size={16} />
             </Button>
-            {!row.row.original.isEmailVerified && (
+            {!row.row.original.isAcceptInvite && (
               <>
                 <Button
                   color="secondary"

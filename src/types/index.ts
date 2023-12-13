@@ -17,6 +17,12 @@ export const paginatedResponseSchema = z.object({
   }),
 });
 
+export const fileSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  url: z.string(),
+});
+
 export type PaginatedRequest = z.infer<typeof paginatedRequestSchema>;
 export type PaginatedResponse = z.infer<typeof paginatedResponseSchema>;
 

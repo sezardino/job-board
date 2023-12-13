@@ -61,7 +61,7 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
           />
         ),
       }),
-      CH.accessor("isEmailVerified", {
+      CH.accessor("isAcceptInvite", {
         enableSorting: false,
         header: t("table.head.is-email-verified"),
         cell: (row) => (

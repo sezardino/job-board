@@ -69,7 +69,8 @@ export class CompaniesController extends AbstractController<CompaniesService> {
 
       return this.getNextResponse(res as MyCompanyResponse, 200);
     } catch (error) {
-      return this.getNextResponse({ message: "backend-errors.server" }, 500);
+      console.log(error);
+      return this.getNextResponse({ error }, 500);
     }
   }
 }

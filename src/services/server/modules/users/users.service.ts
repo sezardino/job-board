@@ -139,7 +139,7 @@ export class UsersService extends AbstractService {
         email: true,
         role: true,
         status: true,
-        isEmailVerified: true,
+        isAcceptInvite: true,
       },
     });
   }
@@ -178,7 +178,7 @@ export class UsersService extends AbstractService {
         id: true,
         name: true,
         email: true,
-        isEmailVerified: true,
+        isAcceptInvite: true,
         status: true,
         role: true,
         company: {
@@ -226,7 +226,7 @@ export class UsersService extends AbstractService {
         id: true,
         name: true,
         email: true,
-        isEmailVerified: true,
+        isAcceptInvite: true,
         status: true,
         role: true,
       },
@@ -260,7 +260,7 @@ export class UsersService extends AbstractService {
         email: true,
         status: true,
         id: true,
-        isEmailVerified: true,
+        isAcceptInvite: true,
       },
     });
   }

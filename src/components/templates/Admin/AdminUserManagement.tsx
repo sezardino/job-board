@@ -48,7 +48,7 @@ export const AdminUserManagementTemplate: FC<
           />
         ),
       }),
-      CH.accessor("isEmailVerified", {
+      CH.accessor("isAcceptInvite", {
         enableSorting: false,
         header: t("table.head.is-email-verified"),
         cell: (row) => (

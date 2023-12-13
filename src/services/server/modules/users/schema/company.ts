@@ -15,7 +15,7 @@ export const companyUsersResponseSchema = z
         id: z.string(),
         name: z.string(),
         email: z.string(),
-        isEmailVerified: z.boolean(),
+        isAcceptInvite: z.boolean(),
         status: z.nativeEnum(UserStatus),
         role: z.nativeEnum(UserRoles),
       })

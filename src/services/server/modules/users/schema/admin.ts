@@ -17,7 +17,7 @@ export const adminUsersResponseSchema = z
         email: z.string(),
         role: z.nativeEnum(UserRoles),
         status: z.nativeEnum(UserStatus),
-        isEmailVerified: z.boolean(),
+        isAcceptInvite: z.boolean(),
       })
     ),
   })
