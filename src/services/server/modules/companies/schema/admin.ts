@@ -1,4 +1,8 @@
-import { paginatedRequestSchema, paginatedResponseSchema } from "@/types";
+import {
+  fileSchema,
+  paginatedRequestSchema,
+  paginatedResponseSchema,
+} from "@/types";
 import { z } from "zod";
 
 export const adminCompaniesRequestSchema = z
@@ -15,6 +19,7 @@ export const adminCompaniesResponseSchema = z
           id: z.string(),
           name: z.string(),
           email: z.string(),
+          avatar: fileSchema.nullable(),
         }),
         status: z.string(),
         _count: z.object({

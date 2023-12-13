@@ -1,4 +1,8 @@
-import { paginatedRequestSchema, paginatedResponseSchema } from "@/types";
+import {
+  fileSchema,
+  paginatedRequestSchema,
+  paginatedResponseSchema,
+} from "@/types";
 import { UserRoles, UserStatus } from "@prisma/client";
 import { z } from "zod";
 
@@ -15,6 +19,7 @@ export const adminUsersResponseSchema = z
         id: z.string(),
         name: z.string(),
         email: z.string(),
+        avatar: fileSchema.nullable(),
         role: z.nativeEnum(UserRoles),
         status: z.nativeEnum(UserStatus),
         isAcceptInvite: z.boolean(),

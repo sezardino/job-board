@@ -44,7 +44,11 @@ export const ManageCompaniesTemplate: FC<ManageCompaniesTemplateProps> = (
         enableSorting: false,
         header: t("table.head.owner"),
         cell: (row) => (
-          <UserInfo name={row.getValue().name} email={row.getValue().email} />
+          <UserInfo
+            name={row.getValue().name}
+            email={row.getValue().email}
+            avatar={row.getValue().avatar?.url}
+          />
         ),
       }),
       CH.accessor("_count.members", {

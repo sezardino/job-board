@@ -45,6 +45,7 @@ export const ManageCustomersTemplate: FC<ManageCustomersTemplateProps> = (
           <UserInfo
             name={row.row.original.name}
             email={row.row.original.email}
+            avatar={row.row.original.avatar?.url}
           />
         ),
       }),

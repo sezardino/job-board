@@ -58,6 +58,7 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
           <UserInfo
             name={row.row.original.name}
             email={row.row.original.email}
+            avatar={row.row.original.avatar?.url}
           />
         ),
       }),

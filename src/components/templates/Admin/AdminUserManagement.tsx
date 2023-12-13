@@ -45,6 +45,7 @@ export const AdminUserManagementTemplate: FC<
           <UserInfo
             name={row.row.original.name}
             email={row.row.original.email}
+            avatar={row.row.original.avatar?.url}
           />
         ),
       }),
