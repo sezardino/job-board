@@ -44,6 +44,32 @@ type Story {
   createdAt DateTime @default(now()) @map("created_at")
 }
 
+enum JobOfferStatus {
+  FINISHED
+  ACTIVE
+  INACTIVE
+  CREATED
+}
+
+type Salary {
+  from String
+  to   String
+}
+
+enum Seniority {
+  TRAINEE
+  JUNIOR
+  MIDDLE
+  SENIOR
+  LEAD
+  ARCHITECT
+}
+
+type Skill {
+  name  String
+  level Seniority
+}
+
 model User {
   id     String     @id @default(auto()) @map("_id") @db.ObjectId
   role   UserRoles  @default(CUSTOMER)
@@ -114,32 +140,6 @@ model Company {
   createdAt DateTime @default(now()) @map("created_at")
 
   offers JobOffer[]
-}
-
-enum JobOfferStatus {
-  FINISHED
-  ACTIVE
-  INACTIVE
-  CREATED
-}
-
-type Salary {
-  from String
-  to   String
-}
-
-enum Seniority {
-  TRAINEE
-  JUNIOR
-  MIDDLE
-  SENIOR
-  LEAD
-  ARCHITECT
-}
-
-type Skill {
-  name  String
-  level Seniority
 }
 
 model JobOffer {
