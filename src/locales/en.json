@@ -270,6 +270,7 @@
       "gallery": "Gallery",
       "offers": "Offers",
       "bio": "Bio",
+      "no-bio": "No bio",
       "edit-bio": {
         "title": "Edit bio",
         "description": "You can edit bio of your company here",

@@ -1,4 +1,5 @@
 import { fileSchema } from "@/types";
+import { Seniority } from "@prisma/client";
 import { z } from "zod";
 
 export const myCompanyResponseSchema = z.object({
@@ -8,16 +9,16 @@ export const myCompanyResponseSchema = z.object({
   catchPhrase: z.string().nullable(),
   thumbnail: fileSchema.nullable(),
   gallery: z.array(fileSchema),
-  owner: z.object({
-    id: z.string(),
-    name: z.string(),
-    avatar: fileSchema.nullable(),
-  }),
-  members: z.array(
+  offers: z.array(
     z.object({
       id: z.string(),
       name: z.string(),
-      avatar: fileSchema.nullable(),
+      level: z.nativeEnum(Seniority),
+      salary: z.object({
+        from: z.number(),
+        to: z.number(),
+        currency: z.string(),
+      }),
     })
   ),
   _count: z.object({

@@ -3,9 +3,6 @@ import { ComponentPropsWithRef, FC, useMemo } from "react";
 import "froala-editor/css/froala_editor.pkgd.min.css";
 import "froala-editor/css/froala_style.min.css";
 
-// import "froala-editor/css/plugins/draggable.min.css";
-// import "froala-editor/js/plugins/font_size.min.js";
-
 // font size
 import "froala-editor/js/plugins/font_size.min.js";
 
@@ -26,6 +23,7 @@ import "froala-editor/js/plugins/colors.min.js";
 
 // align
 import "froala-editor/js/plugins/align.min.js";
+import "froala-editor/js/plugins/paragraph_format.min.js";
 
 import FroalaEditorComponent, { MyComponentProps } from "react-froala-wysiwyg";
 
@@ -48,6 +46,14 @@ export const WysiwygEditor: FC<WysiwygEditorProps> = (props) => {
   const config = useMemo(
     () => ({
       placeholderText: placeholder,
+      paragraphFormat: {
+        N: "Normal",
+        H1: "Heading 1",
+        H2: "Heading 2",
+        H3: "Heading 3",
+        H4: "Heading 4",
+        PRE: "Code",
+      },
     }),
     [placeholder]
   );

@@ -52,8 +52,9 @@ enum JobOfferStatus {
 }
 
 type Salary {
-  from String
-  to   String
+  from     String
+  to       String
+  currency String
 }
 
 enum Seniority {
@@ -147,7 +148,7 @@ model JobOffer {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   name        String
-  description String
+  description String?
   status      JobOfferStatus @default(CREATED)
   salary      Salary?
   company     Company        @relation(fields: [companyId], references: [id])

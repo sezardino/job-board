@@ -73,20 +73,9 @@ export class CompaniesService extends AbstractService {
         catchPhrase: true,
         gallery: { select: { id: true, url: true, name: true } },
         thumbnail: { select: { id: true, url: true, name: true } },
-        owner: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-            avatar: { select: { id: true, name: true, url: true } },
-          },
-        },
-        members: {
-          select: {
-            id: true,
-            name: true,
-            avatar: { select: { id: true, name: true, url: true } },
-          },
+        offers: {
+          take: 5,
+          select: { id: true, name: true, level: true, salary: true },
         },
         _count: {
           select: {

@@ -1,10 +1,21 @@
 import { ImageGallery } from "@/components/UI/ImageGallery/ImageGallery";
-import { UserInfo } from "@/components/UI/UserInfo/UserInfo";
-import { Button, Grid, Modal, Typography } from "@/components/base";
-import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
-import { EditCompanyBioForm } from "@/components/forms/EditCompanyBio/EditCompanyBioForm";
-import { FileEntity } from "@/types";
-import { AvatarGroup } from "@nextui-org/react";
+import {
+  Button,
+  Grid,
+  LoadingOverlay,
+  Modal,
+  Typography,
+} from "@/components/base";
+import {
+  EditCompanyBioForm,
+  EditCompanyBioFormValues,
+} from "@/components/forms/EditCompanyBio/EditCompanyBioForm";
+import {
+  EditCompanyRequest,
+  EditCompanyResponse,
+} from "@/services/server/modules/companies/schema";
+import { ActionProp, FileEntity } from "@/types";
+import { Seniority } from "@prisma/client";
 import parse from "html-react-parser";
 import { useTranslations } from "next-intl";
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
@@ -13,11 +24,19 @@ import { twMerge } from "tailwind-merge";
 export type CompanyTemplateEntity = {
   name: string;
   catchPhrase: string | null;
-  members: { id: string; name: string; avatar: FileEntity | null }[];
-  owner: { id: string; name: string; avatar: FileEntity | null };
   bio: string | null;
   gallery: FileEntity[];
   thumbnail: FileEntity | null;
+  offers: {
+    id: string;
+    name: string;
+    level: Seniority;
+    salary: {
+      from: number;
+      to: number;
+      currency: string;
+    };
+  }[];
   _count: {
     members: number;
     offers: number;
@@ -28,20 +47,31 @@ type Props = {
   isLoading: boolean;
   company?: CompanyTemplateEntity;
   withManage?: boolean;
+  editAction?: ActionProp<EditCompanyRequest, EditCompanyResponse>;
 };
 
 export type CompanyTemplateProps = ComponentPropsWithoutRef<"section"> & Props;
 
 export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
-  const { company, isLoading, className, ...rest } = props;
+  const { company, isLoading, withManage, editAction, className, ...rest } =
+    props;
   const t = useTranslations("components.company-template");
   const [isEditBioModalOpen, setIsEditBioModalOpen] = useState(false);
 
+  const editBioHandler = async (values: EditCompanyBioFormValues) => {
+    if (!withManage || !editAction) return;
+
+    try {
+      await editAction.handler({ bio: values.bio });
+
+      setIsEditBioModalOpen(false);
+    } catch (error) {}
+  };
+
   return (
     <>
-      <section {...rest} className={twMerge(className)}>
+      <Grid {...rest} tag="section" gap={3} className={twMerge(className)}>
         <Grid tag="header" gap={3}>
-          head
           <Grid gap={2}>
             <Grid gap={1}>
               <Typography tag="h1" styling="2xl">
@@ -57,29 +87,6 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
           <div className="-order-1 aspect-thumbnail bg-black w-full"></div>
         </Grid>
 
-        <Grid>
-          <Typography tag="h2">{t("users")}</Typography>
-
-          <Grid>
-            <Typography tag="h3">{t("owner")}</Typography>
-            <UserInfo
-              name={company?.owner.name}
-              avatar={company?.owner.avatar?.url}
-            />
-          </Grid>
-          <Grid>
-            <Typography tag="h3">{t("members")}</Typography>
-
-            <AvatarGroup as="ul" max={3} className="justify-self-start ml-2">
-              {company?.members?.map((member) => (
-                <li key={member.id}>
-                  <BaseAvatar src={member.avatar?.url} alt={member.name} />
-                </li>
-              ))}
-            </AvatarGroup>
-          </Grid>
-        </Grid>
-
         {!!company?.gallery.length && (
           <Grid>
             <Typography tag="h2">{t("gallery")}</Typography>
@@ -87,37 +94,55 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
           </Grid>
         )}
 
-        <div className="grid grid-cols-[1fr,320px]">
+        <div className="grid gap-3 grid-cols-[1fr,320px]">
           <div>
-            <Typography tag="h2">{t("bio")}</Typography>
-            <Button onClick={() => setIsEditBioModalOpen(true)}>
-              {t("edit-bio.trigger")}
-            </Button>
-            {company?.bio && <div>{parse(company.bio)}</div>}
+            <div className="flex justify-between items-center gap-3 flex-wrap">
+              <Typography tag="h2" weight="bold" styling="lg">
+                {t("bio")}
+              </Typography>
+              <Button
+                variant="light"
+                size="sm"
+                color="primary"
+                onClick={() => setIsEditBioModalOpen(true)}
+              >
+                {t("edit-bio.trigger")}
+              </Button>
+            </div>
+            {company?.bio ? (
+              <div>{parse(company.bio)}</div>
+            ) : (
+              <Typography tag="p" weight="thin" className="italic ">
+                {t("no-bio")}
+              </Typography>
+            )}
           </div>
           <div>
             <Typography tag="h2">{t("offers")}</Typography>
           </div>
         </div>
-      </section>
+      </Grid>
 
-      <Modal
-        isOpen={isEditBioModalOpen}
-        onClose={() => setIsEditBioModalOpen(false)}
-        title={t("edit-bio.title")}
-        description={t("edit-bio.description")}
-        size="xl"
-      >
-        <EditCompanyBioForm
-          onFormSubmit={(values) => console.log(values)}
-          initialValues={{ bio: company?.bio || "" }}
-          cancel={{
-            label: t("edit-bio.cancel"),
-            onClick: () => setIsEditBioModalOpen(false),
-          }}
-          submitText={t("edit-bio.submit")}
-        />
-      </Modal>
+      {withManage && editAction && (
+        <Modal
+          isOpen={isEditBioModalOpen}
+          onClose={() => setIsEditBioModalOpen(false)}
+          title={t("edit-bio.title")}
+          description={t("edit-bio.description")}
+          size="xl"
+        >
+          {editAction.isLoading && <LoadingOverlay isInWrapper />}
+          <EditCompanyBioForm
+            onFormSubmit={editBioHandler}
+            initialValues={{ bio: company?.bio || "" }}
+            cancel={{
+              label: t("edit-bio.cancel"),
+              onClick: () => setIsEditBioModalOpen(false),
+            }}
+            submitText={t("edit-bio.submit")}
+          />
+        </Modal>
+      )}
     </>
   );
 };

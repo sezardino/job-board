@@ -21,7 +21,7 @@ export type TypographyTag =
   | "h5"
   | "h6";
 
-type TypographyWeight = "regular" | "medium" | "bold";
+type TypographyWeight = "regular" | "medium" | "bold" | "thin";
 
 export type TypographyProps = ComponentPropsWithoutRef<"p"> & {
   styling?: TypographyStyling;
@@ -61,6 +61,7 @@ export const Typography: FC<TypographyProps> = (props) => {
     regular: "font-normal",
     medium: "font-medium",
     bold: "font-bold",
+    thin: "font-thin",
   };
 
   return (
