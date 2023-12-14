@@ -31,11 +31,16 @@ import FroalaEditorComponent, { MyComponentProps } from "react-froala-wysiwyg";
 
 type OmittedProps = Omit<MyComponentProps, "tag" | "config">;
 
+type Props = {
+  onModelChange: (value: string) => void;
+};
+
 export type WysiwygEditorProps = Omit<
   ComponentPropsWithRef<"textarea">,
   "ref"
 > &
-  OmittedProps;
+  OmittedProps &
+  Props;
 
 export const WysiwygEditor: FC<WysiwygEditorProps> = (props) => {
   const { placeholder, ...rest } = props;
@@ -49,3 +54,5 @@ export const WysiwygEditor: FC<WysiwygEditorProps> = (props) => {
 
   return <FroalaEditorComponent {...rest} tag="textarea" config={config} />;
 };
+
+export default WysiwygEditor;

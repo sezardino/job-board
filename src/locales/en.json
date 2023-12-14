@@ -262,6 +262,23 @@
       "min-length": "Password must be at least {value} characters long"
     }
   },
+  "components": {
+    "company-template": {
+      "users": "Users:",
+      "owner": "Owner",
+      "members": "Members",
+      "gallery": "Gallery",
+      "offers": "Offers",
+      "bio": "Bio",
+      "edit-bio": {
+        "title": "Edit bio",
+        "description": "You can edit bio of your company here",
+        "cancel": "Cancel",
+        "submit": "Edit bio",
+        "trigger": "Edit bio"
+      }
+    }
+  },
   "messages": {
     "login": {
       "success": "Login successful",
