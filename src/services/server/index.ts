@@ -4,6 +4,7 @@ import {
   CompaniesModule,
   FilesModule,
   IndustriesModule,
+  JobOffersModule,
   UsersModule,
 } from "./modules";
 
@@ -13,6 +14,7 @@ class Server {
   industries: IndustriesModule;
   companies: CompaniesModule;
   files: FilesModule;
+  jobOffers: JobOffersModule;
 
   constructor(private readonly prismaService: PrismaService) {
     this.users = new UsersModule(prismaService);
@@ -20,6 +22,7 @@ class Server {
     this.industries = new IndustriesModule(prismaService);
     this.companies = new CompaniesModule(prismaService);
     this.files = new FilesModule(prismaService);
+    this.jobOffers = new JobOffersModule(prismaService);
   }
 }
 
