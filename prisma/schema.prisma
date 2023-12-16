@@ -77,7 +77,7 @@ model User {
   status UserStatus @default(ACTIVE)
 
   name     String  @default("")
-  avatar   File?   @relation(name: "avatar", fields: [avatarId], references: [id])
+  avatar   Image?  @relation(name: "avatar", fields: [avatarId], references: [id])
   avatarId String? @unique @map("avatar_id") @db.ObjectId
 
   isAcceptInvite Boolean @default(false) @map("is_accept_invite")
@@ -126,9 +126,11 @@ model Company {
 
   status EntityStatus @default(CREATED)
 
-  thumbnail   File?   @relation(name: "thumbnail", fields: [thumbnailId], references: [id])
+  logo        Image?  @relation(name: "logo", fields: [logoId], references: [id])
+  logoId      String? @unique @map("logo_id") @db.ObjectId
+  thumbnail   Image?  @relation(name: "thumbnail", fields: [thumbnailId], references: [id])
   thumbnailId String? @unique @map("thumbnail_id") @db.ObjectId
-  gallery     File[]  @relation(name: "gallery")
+  gallery     Image[] @relation(name: "gallery")
 
   name        String  @unique
   slug        String  @unique
@@ -165,18 +167,27 @@ model JobOffer {
   createdAt DateTime @default(now()) @map("created_at")
 }
 
-model File {
+model Image {
   id String @id @default(auto()) @map("_id") @db.ObjectId
-
-  name     String
-  mimeType String @map("mime_type")
-  url      String
-
-  createdAt DateTime @default(now()) @map("created_at")
 
   thumbnail   Company? @relation(name: "thumbnail")
   thumbnailId String?  @unique @map("thumbnail_id") @db.ObjectId
-  gallery     Company? @relation(name: "gallery", fields: [companyId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  companyId   String?  @db.ObjectId
   avatar      User?    @relation(name: "avatar")
+  gallery     Company? @relation(name: "gallery", fields: [galleryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  galleryId   String?  @map("gallery_id") @db.ObjectId
+  logo        Company? @relation(name: "logo")
+  logoId      String?  @unique @map("logo_id") @db.ObjectId
+  name        String
+  url         String
+
+  createdAt DateTime @default(now()) @map("created_at")
+}
+
+model CurriculumVitae {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name String
+  url  String
+
+  createdAt DateTime @default(now()) @map("created_at")
 }
