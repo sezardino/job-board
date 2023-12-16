@@ -52,8 +52,8 @@ enum JobOfferStatus {
 }
 
 type Salary {
-  from     String
-  to       String
+  from     Int
+  to       Int
   currency String
 }
 
