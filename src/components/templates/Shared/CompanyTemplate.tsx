@@ -7,6 +7,10 @@ import {
   Typography,
 } from "@/components/base";
 import {
+  EditCompanyBaseDataForm,
+  EditCompanyBaseDataFormValues,
+} from "@/components/forms/EditCompanyBaseData/EditCompanyBaseDataForm";
+import {
   EditCompanyBioForm,
   EditCompanyBioFormValues,
 } from "@/components/forms/EditCompanyBio/EditCompanyBioForm";
@@ -57,6 +61,7 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
     props;
   const t = useTranslations("components.company-template");
   const [isEditBioModalOpen, setIsEditBioModalOpen] = useState(false);
+  const [isEditBaseDataModalOpen, setIsEditBaseDataModalOpen] = useState(false);
 
   const editBioHandler = async (values: EditCompanyBioFormValues) => {
     if (!withManage || !editAction) return;
@@ -68,18 +73,41 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
     } catch (error) {}
   };
 
+  const editBaseCompanyDataHandler = async (
+    values: EditCompanyBaseDataFormValues
+  ) => {
+    if (!withManage || !editAction) return;
+
+    try {
+      await editAction.handler({ slogan: values.slogan });
+
+      setIsEditBaseDataModalOpen(false);
+    } catch (error) {}
+  };
+
   return (
     <>
       <Grid {...rest} tag="section" gap={3} className={twMerge(className)}>
         <Grid tag="header" gap={3}>
           <Grid gap={2}>
             <Grid gap={1}>
-              <Typography tag="h1" styling="2xl">
-                {company?.name}
-              </Typography>
+              <div className="flex justify-between items-center gap-3 flex-wrap">
+                <Typography tag="h1" styling="2xl">
+                  {company?.name}
+                </Typography>
+
+                <Button
+                  variant="light"
+                  size="sm"
+                  color="primary"
+                  onClick={() => setIsEditBaseDataModalOpen(true)}
+                >
+                  {t("edit-base-data.trigger")}
+                </Button>
+              </div>
               {company?.catchPhrase && (
                 <Typography tag="p" styling="sm" className="italic">
-                  {company.name}
+                  {company.catchPhrase}
                 </Typography>
               )}
             </Grid>
@@ -123,25 +151,52 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
         </div>
       </Grid>
 
-      {withManage && editAction && (
-        <Modal
-          isOpen={isEditBioModalOpen}
-          onClose={() => setIsEditBioModalOpen(false)}
-          title={t("edit-bio.title")}
-          description={t("edit-bio.description")}
-          size="xl"
-        >
-          {editAction.isLoading && <LoadingOverlay isInWrapper />}
-          <EditCompanyBioForm
-            onFormSubmit={editBioHandler}
-            initialValues={{ bio: company?.bio || "" }}
-            cancel={{
-              label: t("edit-bio.cancel"),
-              onClick: () => setIsEditBioModalOpen(false),
-            }}
-            submitText={t("edit-bio.submit")}
-          />
-        </Modal>
+      {withManage && (
+        <>
+          {editAction && (
+            <Modal
+              isOpen={isEditBioModalOpen}
+              onClose={() => setIsEditBioModalOpen(false)}
+              title={t("edit-bio.title")}
+              description={t("edit-bio.description")}
+              size="xl"
+            >
+              {editAction.isLoading && <LoadingOverlay isInWrapper />}
+              <EditCompanyBioForm
+                onFormSubmit={editBioHandler}
+                initialValues={{ bio: company?.bio || "" }}
+                cancel={{
+                  label: t("edit-bio.cancel"),
+                  onClick: () => setIsEditBioModalOpen(false),
+                }}
+                submitText={t("edit-bio.submit")}
+              />
+            </Modal>
+          )}
+          {editAction && (
+            <Modal
+              isOpen={isEditBaseDataModalOpen}
+              onClose={() => setIsEditBaseDataModalOpen(false)}
+              title={t("edit-base-data.title")}
+              description={t("edit-base-data.description")}
+              size="xl"
+            >
+              {editAction.isLoading && <LoadingOverlay isInWrapper />}
+              <EditCompanyBaseDataForm
+                initialValues={{
+                  slogan: company?.catchPhrase || "",
+                  logo: null,
+                }}
+                onFormSubmit={editBaseCompanyDataHandler}
+                cancel={{
+                  label: t("edit-base-data.cancel"),
+                  onClick: () => setIsEditBaseDataModalOpen(false),
+                }}
+                submitText={t("edit-base-data.submit")}
+              />
+            </Modal>
+          )}
+        </>
       )}
     </>
   );

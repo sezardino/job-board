@@ -44,11 +44,12 @@ export class CompaniesService extends AbstractService {
   }
 
   async edit(dto: EditCompanyRequest, companyId: string) {
-    const { bio } = dto;
+    const { bio, slogan } = dto;
 
     const data: Prisma.CompanyUpdateInput = {};
 
     if (bio) data.bio = bio;
+    if (slogan) data.catchPhrase = slogan;
 
     const response = await this.prismaService.company.update({
       where: { id: companyId },

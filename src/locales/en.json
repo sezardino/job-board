@@ -83,6 +83,15 @@
         "placeholder": "Role",
         "required": "Role is required"
       }
+    },
+    "edit-company-base-data": {
+      "label": "Edit Base Company Data",
+      "slogan": {
+        "label": "Slogan",
+        "placeholder": "Slogan",
+        "min-length": "Slogan should be more than {value} characters",
+        "max-length": "Slogan should be less than {value} characters"
+      }
     }
   },
   "entity": {
@@ -277,6 +286,13 @@
         "cancel": "Cancel",
         "submit": "Edit bio",
         "trigger": "Edit bio"
+      },
+      "edit-base-data": {
+        "title": "Edit Base Data",
+        "description": "You can edit base data of your company here",
+        "cancel": "Cancel",
+        "submit": "Edit Base Data",
+        "trigger": "Edit Base Data"
       }
     }
   },
