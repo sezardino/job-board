@@ -20,8 +20,8 @@ class Server {
     this.users = new UsersModule(prismaService);
     this.auth = new AuthModule(prismaService, this.users.service);
     this.industries = new IndustriesModule(prismaService);
-    this.companies = new CompaniesModule(prismaService);
     this.files = new FilesModule(prismaService);
+    this.companies = new CompaniesModule(prismaService, this.files.service);
     this.jobOffers = new JobOffersModule(prismaService);
   }
 }

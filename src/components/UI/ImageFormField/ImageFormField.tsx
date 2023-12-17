@@ -1,6 +1,6 @@
 import { Button, Grid, Icon, Typography } from "@/components/base";
+import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
 import { useFormField } from "@/hooks/use-form-field";
-import { Avatar } from "@nextui-org/react";
 import { ChangeEvent, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -18,9 +18,9 @@ type Props = {
   description?: string;
 };
 
-export type AvatarFormFieldProps = ComponentPropsWithoutRef<"div"> & Props;
+export type ImageFormFieldProps = ComponentPropsWithoutRef<"div"> & Props;
 
-export const AvatarFormField: FC<AvatarFormFieldProps> = (props) => {
+export const ImageFormField: FC<ImageFormFieldProps> = (props) => {
   const {
     src,
     error,
@@ -44,12 +44,8 @@ export const AvatarFormField: FC<AvatarFormFieldProps> = (props) => {
   return (
     <Grid {...rest} gap={1} className={twMerge(className)}>
       <div className="flex items-center gap-3 flex-wrap">
-        <Avatar
-          src={src}
-          showFallback
-          size="lg"
-          fallback={type === "image" ? <Icon name="HiPhotograph" /> : undefined}
-        />
+        <BaseAvatar src={src} alt="" type="image" size="lg" />
+
         <div className="flex gap-2 items-center flex-wrap">
           <label
             className={twMerge(

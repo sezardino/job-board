@@ -1,7 +1,7 @@
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
-import { AvatarFormField } from "@/components/UI/AvatarFormField/AvatarFormField";
-import { ControlledInput } from "@/components/controlled";
+import { ImageFormField } from "@/components/UI/ImageFormField/ImageFormField";
+import { ControlledTextarea } from "@/components/controlled";
 import { MAX_STRING_LENGTH } from "@/const";
 import { megabytesToBytes } from "@/utils";
 import { useFormik } from "formik";
@@ -119,7 +119,7 @@ export const EditCompanyBaseDataForm: FC<EditCompanyBaseDataFormProps> = (
       submit={{ label: submitText }}
       className={className}
     >
-      <AvatarFormField
+      <ImageFormField
         src={avatarSource}
         onChange={(file) => formik.setFieldValue("logo", file)}
         label={t("logo.label")}
@@ -129,7 +129,8 @@ export const EditCompanyBaseDataForm: FC<EditCompanyBaseDataFormProps> = (
         }}
         error={logoHasError ? formik.errors.logo : undefined}
       />
-      <ControlledInput name="slogan" />
+
+      <ControlledTextarea name="slogan" />
     </FormWrapper>
   );
 };

@@ -1,22 +1,19 @@
+import { uploadFile } from "@/libs/firebase/storage";
 import { AbstractService } from "@/services/server/helpers";
 
 export class FilesService extends AbstractService {
-  async uploadFile(file: File) {
-    console.log(this.prismaService);
-    // const uploadedFileData = await uploadFile("tmp", file);
-    // console.log(uploadedFileData);
+  async uploadImage(file: File) {
+    const imageData = await uploadFile("images", file);
 
-    // if (!uploadedFileData) {
-    //   return null;
-    // }
-    return null;
+    if (!imageData) {
+      return Promise.reject("Error when try to upload image");
+    }
 
-    // return this.prismaService.file.create({
-    //   data: {
-    //     name: uploadedFileData.fileName,
-    //     mimeType: file.type,
-    //     url: uploadedFileData.publicUrl,
-    //   },
-    // });
+    return this.prismaService.image.create({
+      data: {
+        name: imageData.fileName,
+        url: imageData.publicUrl,
+      },
+    });
   }
 }

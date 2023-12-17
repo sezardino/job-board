@@ -1,8 +1,17 @@
+import { PrismaService } from "@/libs/prisma";
 import { AbstractService } from "@/services/server/helpers";
 import { Prisma } from "@prisma/client";
+import { FilesService } from "../files/files.service";
 import { AdminCompaniesRequest, EditCompanyRequest } from "./schema";
 
 export class CompaniesService extends AbstractService {
+  constructor(
+    prismaService: PrismaService,
+    private readonly filesService: FilesService
+  ) {
+    super(prismaService);
+  }
+
   async admin(dto: AdminCompaniesRequest) {
     const { limit = 10, page = 0, search } = dto;
 
@@ -44,14 +53,24 @@ export class CompaniesService extends AbstractService {
   }
 
   async edit(dto: EditCompanyRequest, companyId: string) {
-    const { bio, slogan } = dto;
+    const { bio, slogan, isLogoDeleted, logo } = dto;
 
     const data: Prisma.CompanyUpdateInput = {};
 
     if (bio) data.bio = bio;
     if (slogan) data.catchPhrase = slogan;
+    if (isLogoDeleted) data.logo!.delete = true;
+    if (logo) {
+      const image = await this.filesService.uploadImage(logo);
 
-    const response = await this.prismaService.company.update({
+      if (image) {
+        data.logo = {
+          connect: { id: image.id },
+        };
+      }
+    }
+
+    return await this.prismaService.company.update({
       where: { id: companyId },
       data,
       select: {
@@ -60,8 +79,6 @@ export class CompaniesService extends AbstractService {
         bio: true,
       },
     });
-
-    return response;
   }
 
   async my(companyId: string) {
@@ -72,6 +89,7 @@ export class CompaniesService extends AbstractService {
         name: true,
         bio: true,
         catchPhrase: true,
+        logo: { select: { id: true, url: true, name: true } },
         gallery: { select: { id: true, url: true, name: true } },
         thumbnail: { select: { id: true, url: true, name: true } },
         offers: {

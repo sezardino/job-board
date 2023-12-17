@@ -29,6 +29,7 @@ export type CompanyTemplateEntity = {
   name: string;
   catchPhrase: string | null;
   bio: string | null;
+  logo: FileEntity | null;
   gallery: FileEntity[];
   thumbnail: FileEntity | null;
   offers: {
@@ -79,7 +80,7 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
     if (!withManage || !editAction) return;
 
     try {
-      await editAction.handler({ slogan: values.slogan });
+      await editAction.handler(values);
 
       setIsEditBaseDataModalOpen(false);
     } catch (error) {}
@@ -185,7 +186,8 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
               <EditCompanyBaseDataForm
                 initialValues={{
                   slogan: company?.catchPhrase || "",
-                  logo: null,
+                  logo: company?.logo?.url || null,
+                  isLogoDeleted: false,
                 }}
                 onFormSubmit={editBaseCompanyDataHandler}
                 cancel={{

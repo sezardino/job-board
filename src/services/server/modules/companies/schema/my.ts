@@ -8,6 +8,7 @@ export const myCompanyResponseSchema = z.object({
   bio: z.string().nullable(),
   catchPhrase: z.string().nullable(),
   thumbnail: fileSchema.nullable(),
+  logo: fileSchema.nullable(),
   gallery: z.array(fileSchema),
   offers: z.array(
     z.object({
