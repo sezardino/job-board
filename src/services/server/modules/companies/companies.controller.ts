@@ -32,7 +32,7 @@ export class CompaniesController extends AbstractController<CompaniesService> {
   }
 
   async edit(req: NextRequest) {
-    const data = await req.json();
+    const data = this.formatFormData(await req.formData());
 
     const { response, dto, session } = await this.handlerHelper({
       data,

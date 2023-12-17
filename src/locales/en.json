@@ -91,6 +91,12 @@
         "placeholder": "Slogan",
         "min-length": "Slogan should be more than {value} characters",
         "max-length": "Slogan should be less than {value} characters"
+      },
+      "logo": {
+        "label": "Choose company logo",
+        "remove": "Remove",
+        "max-file-size": "Max file size is {value} MB",
+        "formats": "Allowed formats: {value}"
       }
     }
   },

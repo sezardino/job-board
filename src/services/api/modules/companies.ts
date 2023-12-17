@@ -17,12 +17,30 @@ export class CompaniesApiModule extends AbstractApiModule {
   }
 
   async edit(data: EditCompanyRequest) {
+    const formData = new FormData();
+
+    if (data.logo) {
+      formData.append("logo", data.logo);
+    }
+
+    if (data.bio) {
+      formData.append("bio", data.bio);
+    }
+
+    if (data.slogan) {
+      formData.append("slogan", data.slogan);
+    }
+
+    if (data.isLogoDeleted) {
+      formData.append("isLogoDeleted", data.isLogoDeleted.toString());
+    }
+
     return await this.fetch({
       endpoint: "companies",
       schema: editCompanyResponseSchema,
       config: {
         method: "PUT",
-        data,
+        data: formData,
       },
     });
   }

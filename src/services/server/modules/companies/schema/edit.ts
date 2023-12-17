@@ -3,6 +3,8 @@ import { z } from "zod";
 export const editCompanyRequestSchema = z.object({
   bio: z.string().optional(),
   slogan: z.string().optional(),
+  logo: z.any().optional(),
+  isLogoDeleted: z.boolean().optional(),
 });
 
 export const editCompanyResponseSchema = z.object({
