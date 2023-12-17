@@ -20,6 +20,7 @@ export const myCompanyResponseSchema = z.object({
         to: z.number(),
         currency: z.string(),
       }),
+      skills: z.array(z.object({ name: z.string() })),
     })
   ),
   _count: z.object({

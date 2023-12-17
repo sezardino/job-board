@@ -1,4 +1,5 @@
 import { ImageGallery } from "@/components/UI/ImageGallery/ImageGallery";
+import { OfferCard } from "@/components/UI/OfferCard/OfferCard";
 import {
   Button,
   Grid,
@@ -42,6 +43,7 @@ export type CompanyTemplateEntity = {
       to: number;
       currency: string;
     };
+    skills: { name: string }[];
   }[];
   _count: {
     members: number;
@@ -52,6 +54,7 @@ export type CompanyTemplateEntity = {
 type Props = {
   isLoading: boolean;
   company?: CompanyTemplateEntity;
+  offerLinkPrefix: string;
   withManage?: boolean;
   editAction?: ActionProp<EditCompanyRequest, EditCompanyResponse>;
 };
@@ -59,8 +62,15 @@ type Props = {
 export type CompanyTemplateProps = ComponentPropsWithoutRef<"section"> & Props;
 
 export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
-  const { company, isLoading, withManage, editAction, className, ...rest } =
-    props;
+  const {
+    offerLinkPrefix,
+    company,
+    isLoading,
+    withManage,
+    editAction,
+    className,
+    ...rest
+  } = props;
   const t = useTranslations("components.company-template");
   const [isEditBioModalOpen, setIsEditBioModalOpen] = useState(false);
   const [isEditBaseDataModalOpen, setIsEditBaseDataModalOpen] = useState(false);
@@ -134,10 +144,10 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
           </Grid>
         )}
 
-        <div className="grid gap-3 grid-cols-[1fr,320px]">
+        <Grid gap={3} className="md:grid-cols-[1fr,320px]">
           <div>
             <div className="flex justify-between items-center gap-3 flex-wrap">
-              <Typography tag="h2" weight="bold" styling="lg">
+              <Typography tag="h2" weight="medium" styling="lg">
                 {t("bio")}
               </Typography>
               <Button
@@ -157,10 +167,27 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
               </Typography>
             )}
           </div>
-          <div>
-            <Typography tag="h2">{t("offers")}</Typography>
-          </div>
-        </div>
+          <Grid gap={2}>
+            <Typography tag="h2" weight="medium" styling="lg">
+              {t("offers")}
+            </Typography>
+            <Grid gap={1} tag="ul" className="list-none">
+              {company?.offers.map((offer) => (
+                <li key={offer.id}>
+                  <OfferCard
+                    linkPrefix={offerLinkPrefix}
+                    id={offer.id}
+                    name={offer.name}
+                    companyName={company.name}
+                    companyLogo={company.logo}
+                    salary={offer.salary}
+                    skills={offer.skills}
+                  />
+                </li>
+              ))}
+            </Grid>
+          </Grid>
+        </Grid>
       </Grid>
 
       {withManage && (

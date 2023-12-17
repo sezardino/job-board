@@ -94,7 +94,13 @@ export class CompaniesService extends AbstractService {
         thumbnail: { select: { id: true, url: true, name: true } },
         offers: {
           take: 5,
-          select: { id: true, name: true, level: true, salary: true },
+          select: {
+            id: true,
+            name: true,
+            level: true,
+            salary: true,
+            skills: { select: { name: true } },
+          },
         },
         _count: {
           select: {
