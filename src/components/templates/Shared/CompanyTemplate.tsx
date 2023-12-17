@@ -6,6 +6,7 @@ import {
   Modal,
   Typography,
 } from "@/components/base";
+import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
 import {
   EditCompanyBaseDataForm,
   EditCompanyBaseDataFormValues,
@@ -92,10 +93,20 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
         <Grid tag="header" gap={3}>
           <Grid gap={2}>
             <Grid gap={1}>
-              <div className="flex justify-between items-center gap-3 flex-wrap">
-                <Typography tag="h1" styling="2xl">
-                  {company?.name}
-                </Typography>
+              <div className="flex justify-between items-start gap-3 flex-wrap">
+                <div className="flex items-center gap-2">
+                  {company?.logo && (
+                    <BaseAvatar
+                      type="image"
+                      size="lg"
+                      src={company?.logo?.url}
+                      alt={company.name}
+                    />
+                  )}
+                  <Typography tag="h1" styling="2xl">
+                    {company?.name}
+                  </Typography>
+                </div>
 
                 <Button
                   variant="light"
