@@ -1,8 +1,6 @@
-import { Typography } from "@/components/base";
+import { Icon, IconNames, Typography } from "@/components/base";
 import { LightBox } from "@/components/base/Lightbox/Lightbox";
 import { FileEntity } from "@/types";
-import { Card } from "@nextui-org/react";
-import Image from "next/image";
 import {
   useMemo,
   useState,
@@ -11,18 +9,30 @@ import {
 } from "react";
 import { twMerge } from "tailwind-merge";
 import { SlideImage } from "yet-another-react-lightbox";
+import { ImageCard } from "../ImageCard/ImageCard";
+
+type Placeholder = {
+  text: string;
+  icon?: IconNames;
+  onClick?: () => void;
+  hidden?: boolean;
+};
 
 type Props = {
   images: FileEntity[];
   max?: number;
   withLightBox?: boolean;
   seeMoreText?: string;
+  emptyPlaceholder?: Placeholder;
+  lastPlaceholders?: Placeholder[];
 };
 
 export type ImageGalleryProps = ComponentPropsWithoutRef<"ul"> & Props;
 
 export const ImageGallery: FC<ImageGalleryProps> = (props) => {
   const {
+    emptyPlaceholder,
+    lastPlaceholders,
     withLightBox = false,
     images,
     max = 5,
@@ -47,7 +57,6 @@ export const ImageGallery: FC<ImageGalleryProps> = (props) => {
 
     const firstSlides = converted.slice(0, maxIndex);
     const lastSlides = converted.slice(maxIndex);
-    console.log({ firstSlides, lastSlides, maxIndex, firstSlideId });
 
     return [...lastSlides, ...firstSlides];
   }, [images, max, withLightBox, firstSlideId]);
@@ -64,26 +73,31 @@ export const ImageGallery: FC<ImageGalleryProps> = (props) => {
     setFirstSlideId(null);
   };
 
+  const isLightBoxCardShowed = images.length > max && withLightBox;
+
   return (
     <>
       <ul {...rest} className={twMerge("flex gap-2 flex-wrap", className)}>
+        {emptyPlaceholder && images.length === 0 && (
+          <Placeholder {...emptyPlaceholder} />
+        )}
         {slicedImages.map((image) => (
-          <Card
+          <ImageCard
             as="li"
             key={image.id}
+            image={image}
             isPressable={withLightBox}
-            className="w-40 h-40"
             onClick={() => openModal(image.id)}
-          >
-            <Image src={image.url} fill alt={image.name} />
-          </Card>
+          />
         ))}
-        {images.length > max && (
-          <Card
+        {!!lastPlaceholders?.length &&
+          lastPlaceholders.map((placeholder, index) => (
+            <Placeholder key={index} {...placeholder} />
+          ))}
+        {isLightBoxCardShowed && (
+          <ImageCard
             as="li"
-            isBlurred
             isPressable={withLightBox}
-            className="w-40 h-40 flex justify-center items-center text-center"
             onClick={() => openModal()}
           >
             <Typography tag="p" styling="sm">
@@ -94,7 +108,7 @@ export const ImageGallery: FC<ImageGalleryProps> = (props) => {
                 {seeMoreText}
               </Typography>
             )}
-          </Card>
+          </ImageCard>
         )}
       </ul>
 
@@ -107,5 +121,20 @@ export const ImageGallery: FC<ImageGalleryProps> = (props) => {
         />
       )}
     </>
+  );
+};
+
+const Placeholder: FC<Placeholder> = ({ text, icon, onClick, hidden }) => {
+  if (hidden) return null;
+
+  return (
+    <ImageCard as="li" isPressable={!!onClick} onClick={onClick}>
+      <div className="flex flex-col items-center text-center">
+        {icon && <Icon name={icon} />}
+        <Typography tag="p" styling="sm">
+          {text}
+        </Typography>
+      </div>
+    </ImageCard>
   );
 };

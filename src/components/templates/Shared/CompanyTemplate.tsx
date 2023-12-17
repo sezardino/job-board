@@ -16,6 +16,7 @@ import {
   EditCompanyBioForm,
   EditCompanyBioFormValues,
 } from "@/components/forms/EditCompanyBio/EditCompanyBioForm";
+import { ImagesForm } from "@/components/forms/Images/ImagesForm";
 import {
   EditCompanyRequest,
   EditCompanyResponse,
@@ -74,6 +75,7 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
   const t = useTranslations("components.company-template");
   const [isEditBioModalOpen, setIsEditBioModalOpen] = useState(false);
   const [isEditBaseDataModalOpen, setIsEditBaseDataModalOpen] = useState(false);
+  const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
 
   const editBioHandler = async (values: EditCompanyBioFormValues) => {
     if (!withManage || !editAction) return;
@@ -137,10 +139,20 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
           <div className="-order-1 aspect-thumbnail bg-black w-full"></div>
         </Grid>
 
-        {!!company?.gallery.length && (
+        {(!!company?.gallery.length || withManage) && (
           <Grid>
-            <Typography tag="h2">{t("gallery")}</Typography>
-            <ImageGallery images={company?.gallery} seeMoreText="See more" />
+            <Typography tag="h2" weight="medium" styling="lg">
+              {t("gallery")}
+            </Typography>
+            <ImageGallery
+              images={company?.gallery || []}
+              seeMoreText="See more"
+              emptyPlaceholder={{
+                text: t("edit-gallery.trigger"),
+                icon: "HiPhotograph",
+                onClick: () => setIsGalleryModalOpen(true),
+              }}
+            />
           </Grid>
         )}
 
@@ -193,48 +205,69 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
       {withManage && (
         <>
           {editAction && (
-            <Modal
-              isOpen={isEditBioModalOpen}
-              onClose={() => setIsEditBioModalOpen(false)}
-              title={t("edit-bio.title")}
-              description={t("edit-bio.description")}
-              size="xl"
-            >
-              {editAction.isLoading && <LoadingOverlay isInWrapper />}
-              <EditCompanyBioForm
-                onFormSubmit={editBioHandler}
-                initialValues={{ bio: company?.bio || "" }}
-                cancel={{
-                  label: t("edit-bio.cancel"),
-                  onClick: () => setIsEditBioModalOpen(false),
-                }}
-                submitText={t("edit-bio.submit")}
-              />
-            </Modal>
-          )}
-          {editAction && (
-            <Modal
-              isOpen={isEditBaseDataModalOpen}
-              onClose={() => setIsEditBaseDataModalOpen(false)}
-              title={t("edit-base-data.title")}
-              description={t("edit-base-data.description")}
-              size="xl"
-            >
-              {editAction.isLoading && <LoadingOverlay isInWrapper />}
-              <EditCompanyBaseDataForm
-                initialValues={{
-                  slogan: company?.catchPhrase || "",
-                  logo: company?.logo?.url || null,
-                  isLogoDeleted: false,
-                }}
-                onFormSubmit={editBaseCompanyDataHandler}
-                cancel={{
-                  label: t("edit-base-data.cancel"),
-                  onClick: () => setIsEditBaseDataModalOpen(false),
-                }}
-                submitText={t("edit-base-data.submit")}
-              />
-            </Modal>
+            <>
+              <Modal
+                isOpen={isEditBioModalOpen}
+                onClose={() => setIsEditBioModalOpen(false)}
+                title={t("edit-bio.title")}
+                description={t("edit-bio.description")}
+                size="xl"
+              >
+                {editAction.isLoading && <LoadingOverlay isInWrapper />}
+                <EditCompanyBioForm
+                  onFormSubmit={editBioHandler}
+                  initialValues={{ bio: company?.bio || "" }}
+                  cancel={{
+                    label: t("edit-bio.cancel"),
+                    onClick: () => setIsEditBioModalOpen(false),
+                  }}
+                  submitText={t("edit-bio.submit")}
+                />
+              </Modal>
+
+              <Modal
+                isOpen={isEditBaseDataModalOpen}
+                onClose={() => setIsEditBaseDataModalOpen(false)}
+                title={t("edit-base-data.title")}
+                description={t("edit-base-data.description")}
+                size="xl"
+              >
+                {editAction.isLoading && <LoadingOverlay isInWrapper />}
+                <EditCompanyBaseDataForm
+                  initialValues={{
+                    slogan: company?.catchPhrase || "",
+                    logo: company?.logo?.url || null,
+                    isLogoDeleted: false,
+                  }}
+                  onFormSubmit={editBaseCompanyDataHandler}
+                  cancel={{
+                    label: t("edit-base-data.cancel"),
+                    onClick: () => setIsEditBaseDataModalOpen(false),
+                  }}
+                  submitText={t("edit-base-data.submit")}
+                />
+              </Modal>
+
+              <Modal
+                isOpen={isGalleryModalOpen}
+                onClose={() => setIsGalleryModalOpen(false)}
+                title={t("edit-gallery.title")}
+                description={t("edit-gallery.description")}
+                size="xl"
+              >
+                {editAction.isLoading && <LoadingOverlay isInWrapper />}
+                <ImagesForm
+                  label={t("edit-gallery.label")}
+                  initialValues={{ images: company?.gallery || [] }}
+                  onFormSubmit={() => undefined}
+                  cancel={{
+                    label: t("edit-gallery.cancel"),
+                    onClick: () => setIsGalleryModalOpen(false),
+                  }}
+                  submit={{ label: t("edit-gallery.submit") }}
+                />
+              </Modal>
+            </>
           )}
         </>
       )}

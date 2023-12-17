@@ -299,6 +299,14 @@
         "cancel": "Cancel",
         "submit": "Edit Base Data",
         "trigger": "Edit Base Data"
+      },
+      "edit-gallery": {
+        "label": "Select Images",
+        "title": "Edit Gallery",
+        "description": "You can edit gallery of your company here",
+        "cancel": "Cancel",
+        "submit": "Edit Gallery",
+        "trigger": "No images in gallery, click to add"
       }
     }
   },
