@@ -61,7 +61,7 @@ export class CompaniesService extends AbstractService {
     if (slogan) data.catchPhrase = slogan;
     if (isLogoDeleted) data.logo!.delete = true;
     if (logo) {
-      const image = await this.filesService.uploadImage(logo);
+      const image = await this.filesService.uploadImage(logo, companyId);
 
       if (image) {
         data.logo = {
