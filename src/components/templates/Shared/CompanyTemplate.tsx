@@ -93,7 +93,10 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
     if (!withManage || !editAction) return;
 
     try {
-      await editAction.handler(values);
+      await editAction.handler({
+        logo: values.logo,
+        logoDeleted: values.isLogoDeleted,
+      });
 
       setIsEditBaseDataModalOpen(false);
     } catch (error) {}

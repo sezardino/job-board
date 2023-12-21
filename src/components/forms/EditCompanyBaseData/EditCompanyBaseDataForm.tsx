@@ -74,7 +74,8 @@ export const EditCompanyBaseDataForm: FC<EditCompanyBaseDataFormProps> = (
           .max(
             MAX_STRING_LENGTH,
             t("slogan.max-length", { value: MAX_STRING_LENGTH })
-          ),
+          )
+          .optional(),
         logo: z
           .any()
           .optional()
@@ -82,7 +83,11 @@ export const EditCompanyBaseDataForm: FC<EditCompanyBaseDataFormProps> = (
           .refine(
             (file: File) => {
               if (!file) return true;
-              return file?.size <= MAX_FILE_SIZE_BITES;
+              if (file instanceof File) {
+                return file?.size <= MAX_FILE_SIZE_BITES;
+              }
+
+              return true;
             },
             {
               message: t("logo.max-file-size", {

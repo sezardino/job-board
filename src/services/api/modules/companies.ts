@@ -19,13 +19,14 @@ export class CompaniesApiModule extends AbstractApiModule {
   async edit(data: EditCompanyRequest) {
     const formData = new FormData();
 
-    if (data.logo) {
-      formData.append("logo", data.logo);
-    }
+    if (data.logo) formData.append("logo", data.logo);
 
-    if (data.bio) {
-      formData.append("bio", data.bio);
-    }
+    if (data.logoDeleted)
+      formData.append("logoDeleted", data.logoDeleted.toString());
+
+    if (data.bio) formData.append("bio", data.bio);
+
+    if (data.slogan) formData.append("slogan", data.slogan);
 
     if (data.slogan) {
       formData.append("slogan", data.slogan);

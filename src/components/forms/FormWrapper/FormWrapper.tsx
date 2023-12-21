@@ -25,7 +25,12 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
               {cancel.label}
             </Button>
           )}
-          <Button type="submit" color="primary" fullWidth={submit.isFullWidth}>
+          <Button
+            type="submit"
+            isDisabled={!formik.dirty}
+            color="primary"
+            fullWidth={submit.isFullWidth}
+          >
             {submit.label}
           </Button>
         </div>
