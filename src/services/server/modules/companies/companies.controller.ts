@@ -32,7 +32,8 @@ export class CompaniesController extends AbstractController<CompaniesService> {
   }
 
   async edit(req: NextRequest) {
-    const data = this.formatFormData(await req.formData());
+    const formData = await req.formData();
+    const data = this.formatFormData(formData);
 
     const { response, dto, session } = await this.handlerHelper({
       data,
@@ -47,6 +48,7 @@ export class CompaniesController extends AbstractController<CompaniesService> {
 
       return this.getNextResponse(res as EditCompanyResponse, 200);
     } catch (error) {
+      console.log(error);
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
   }

@@ -53,13 +53,13 @@ export class CompaniesService extends AbstractService {
   }
 
   async edit(dto: EditCompanyRequest, companyId: string) {
-    const { bio, slogan, isLogoDeleted, logo } = dto;
+    const { bio, slogan, logoDeleted, logo, gallery, galleryDeleted } = dto;
 
     const data: Prisma.CompanyUpdateInput = {};
 
     if (bio) data.bio = bio;
     if (slogan) data.catchPhrase = slogan;
-    if (isLogoDeleted) data.logo!.delete = true;
+    if (logoDeleted) data.logo!.delete = true;
     if (logo) {
       const image = await this.filesService.uploadImage(logo, companyId);
 
@@ -68,6 +68,22 @@ export class CompaniesService extends AbstractService {
           connect: { id: image.id },
         };
       }
+    }
+
+    if (gallery) {
+      const images = await this.filesService.uploadImages(gallery, companyId);
+
+      if (images) {
+        data.gallery = {
+          connect: images.map((image) => ({ id: image.id })),
+        };
+      }
+    }
+
+    if (galleryDeleted) {
+      data.gallery = {
+        deleteMany: galleryDeleted.map((id) => ({ id })),
+      };
     }
 
     return await this.prismaService.company.update({

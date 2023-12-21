@@ -98,6 +98,11 @@
         "max-file-size": "Max file size is {value} MB",
         "formats": "Allowed formats: {value}"
       }
+    },
+    "images": {
+      "formats": "Allowed formats: {value}",
+      "max-file-size": "Max file size is {value} MB",
+      "max-count": "Max count of images is {value}"
     }
   },
   "entity": {
@@ -306,7 +311,7 @@
         "description": "You can edit gallery of your company here",
         "cancel": "Cancel",
         "submit": "Edit Gallery",
-        "trigger": "No images in gallery, click to add"
+        "trigger": "Edit Gallery"
       }
     }
   },

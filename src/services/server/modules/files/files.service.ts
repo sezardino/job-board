@@ -1,5 +1,6 @@
 import { uploadFile } from "@/libs/firebase/storage";
 import { AbstractService } from "@/services/server/helpers";
+import { FileEntity } from "@/types";
 
 export class FilesService extends AbstractService {
   async uploadImage(file: File, companyId: string) {
@@ -15,6 +16,25 @@ export class FilesService extends AbstractService {
         url: imageData.publicUrl,
       },
     });
+  }
+
+  async uploadImages(files: File[], companyId: string) {
+    const uploadedImages: FileEntity[] = [];
+
+    await Promise.all(
+      files.map(async (file) => {
+        try {
+          const imageData = await this.uploadImage(file, `${companyId}/images`);
+
+          uploadedImages.push(imageData);
+          Promise.resolve();
+        } catch (error) {
+          Promise.reject(error);
+        }
+      })
+    );
+
+    return uploadedImages;
   }
 
   async uploadCV(file: File, companyId: string) {

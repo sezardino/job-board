@@ -2,6 +2,7 @@ import { Icon, IconNames, Typography } from "@/components/base";
 import { LightBox } from "@/components/base/Lightbox/Lightbox";
 import { FileEntity } from "@/types";
 import {
+  PropsWithChildren,
   useMemo,
   useState,
   type ComponentPropsWithoutRef,
@@ -11,8 +12,8 @@ import { twMerge } from "tailwind-merge";
 import { SlideImage } from "yet-another-react-lightbox";
 import { ImageCard } from "../ImageCard/ImageCard";
 
-type Placeholder = {
-  text: string;
+type Placeholder = PropsWithChildren & {
+  text?: string;
   icon?: IconNames;
   onClick?: () => void;
   hidden?: boolean;
@@ -23,7 +24,7 @@ type Props = {
   max?: number;
   withLightBox?: boolean;
   seeMoreText?: string;
-  emptyPlaceholder?: Placeholder;
+  firstPlaceholders?: Placeholder[];
   lastPlaceholders?: Placeholder[];
 };
 
@@ -31,7 +32,7 @@ export type ImageGalleryProps = ComponentPropsWithoutRef<"ul"> & Props;
 
 export const ImageGallery: FC<ImageGalleryProps> = (props) => {
   const {
-    emptyPlaceholder,
+    firstPlaceholders,
     lastPlaceholders,
     withLightBox = false,
     images,
@@ -78,9 +79,10 @@ export const ImageGallery: FC<ImageGalleryProps> = (props) => {
   return (
     <>
       <ul {...rest} className={twMerge("flex gap-2 flex-wrap", className)}>
-        {emptyPlaceholder && images.length === 0 && (
-          <Placeholder {...emptyPlaceholder} />
-        )}
+        {!!firstPlaceholders?.length &&
+          firstPlaceholders.map((placeholder, index) => (
+            <Placeholder key={index} {...placeholder} />
+          ))}
         {slicedImages.map((image) => (
           <ImageCard
             as="li"
@@ -95,11 +97,7 @@ export const ImageGallery: FC<ImageGalleryProps> = (props) => {
             <Placeholder key={index} {...placeholder} />
           ))}
         {isLightBoxCardShowed && (
-          <ImageCard
-            as="li"
-            isPressable={withLightBox}
-            onClick={() => openModal()}
-          >
+          <Placeholder onClick={openModal}>
             <Typography tag="p" styling="sm">
               {`+${images.length - max}`}
             </Typography>
@@ -108,7 +106,7 @@ export const ImageGallery: FC<ImageGalleryProps> = (props) => {
                 {seeMoreText}
               </Typography>
             )}
-          </ImageCard>
+          </Placeholder>
         )}
       </ul>
 
@@ -124,16 +122,25 @@ export const ImageGallery: FC<ImageGalleryProps> = (props) => {
   );
 };
 
-const Placeholder: FC<Placeholder> = ({ text, icon, onClick, hidden }) => {
+const Placeholder: FC<Placeholder> = ({
+  text,
+  icon,
+  onClick,
+  hidden,
+  children,
+}) => {
   if (hidden) return null;
 
   return (
     <ImageCard as="li" isPressable={!!onClick} onClick={onClick}>
       <div className="flex flex-col items-center text-center">
         {icon && <Icon name={icon} />}
-        <Typography tag="p" styling="sm">
-          {text}
-        </Typography>
+        {text && (
+          <Typography tag="p" styling="sm">
+            {text}
+          </Typography>
+        )}
+        {children && children}
       </div>
     </ImageCard>
   );

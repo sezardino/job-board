@@ -1,11 +1,13 @@
 import { ChangeEvent, ComponentPropsWithoutRef, useMemo, type FC } from "react";
 
 import { ImageCard } from "@/components/UI/ImageCard/ImageCard";
-import { Button, Icon, Typography } from "@/components/base";
+import { Button, Grid, Icon, Typography } from "@/components/base";
+import { useFormField } from "@/hooks/use-form-field";
 import { FileEntity } from "@/types";
 import { megabytesToBytes } from "@/utils";
-import { useFormik } from "formik";
+import { FieldArray, useFormik } from "formik";
 import { useTranslations } from "next-intl";
+import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper, FormWrapperProps } from "../FormWrapper/FormWrapper";
@@ -16,7 +18,7 @@ const ACCEPTED_IMAGE_TYPES = ["image/png", "image/jpeg"];
 
 export type ImagesFormValues = {
   images: (FileEntity | File)[];
-  imagesToDelete?: string[];
+  imagesToDelete: string[];
 };
 
 type Props = {
@@ -52,10 +54,18 @@ export const ImagesForm: FC<ImagesFormProps> = (props) => {
     ...rest
   } = props;
   const t = useTranslations("forms.images");
+  const { id, errorId } = useFormField();
 
   const formik = useFormik<ImagesFormValues>({
-    initialValues,
-    onSubmit: onFormSubmit,
+    initialValues: {
+      images: initialValues.images,
+      imagesToDelete: [],
+    },
+    onSubmit: (values) => {
+      const images = values.images.filter((i) => i instanceof File);
+
+      onFormSubmit({ images, imagesToDelete: values.imagesToDelete });
+    },
     validationSchema: toFormikValidationSchema(
       z.object({
         images: z
@@ -65,13 +75,12 @@ export const ImagesForm: FC<ImagesFormProps> = (props) => {
               .refine(
                 (file: File) => {
                   if (!file) return true;
-                  return file?.size <= MAX_IMAGE_SIZE_BYTES;
+                  if (file instanceof File) {
+                    return file?.size <= MAX_IMAGE_SIZE_BYTES;
+                  }
+                  return true;
                 },
-                {
-                  message: t("logo.max-file-size", {
-                    value: MAX_IMAGE_SIZE_MB,
-                  }),
-                }
+                { message: t("max-file-size", { value: MAX_IMAGE_SIZE_MB }) }
               )
               .refine((file: File) => {
                 if (!file) return true;
@@ -79,12 +88,9 @@ export const ImagesForm: FC<ImagesFormProps> = (props) => {
                   ACCEPTED_IMAGE_TYPES.includes(file?.type);
                 }
                 return true;
-              }, t("logo.formats", { value: ACCEPTED_IMAGE_TYPES.join(", ") }))
+              }, t("formats", { value: ACCEPTED_IMAGE_TYPES.join(", ") }))
           )
-          .max(
-            maxImagesCount,
-            t("max-images-count", { value: maxImagesCount })
-          ),
+          .max(maxImagesCount, t("max-count", { value: maxImagesCount })),
       })
     ),
   });
@@ -93,8 +99,9 @@ export const ImagesForm: FC<ImagesFormProps> = (props) => {
     return formik.values.images.map((image) => {
       if (image instanceof File)
         return {
-          url: URL.createObjectURL(image),
+          size: image.size,
           name: image.name,
+          url: URL.createObjectURL(image),
           id: image.name,
         };
 
@@ -123,51 +130,92 @@ export const ImagesForm: FC<ImagesFormProps> = (props) => {
   };
 
   const removeImage = (id: string) => {
-    formik.setFieldValue(
-      "images",
-      formik.values.images.filter((i) => {
-        if (!(i instanceof File)) return i.id !== id;
+    const images = formik.values.images.filter((i) => {
+      if (i instanceof File) return i.name !== id;
+      return i.id !== id;
+    });
 
-        return i.name !== id;
-      })
-    );
+    const removedImage = formik.values.images.find((i) => {
+      if (i instanceof File) return i.name === id;
+      return i.id === id;
+    });
+
+    if (removedImage && !(removedImage instanceof File)) {
+      formik.setFieldValue("imagesToDelete", [
+        ...formik.values.imagesToDelete,
+        removedImage.id,
+      ]);
+    }
+
+    formik.setFieldValue("images", images);
   };
+
+  const isInputDisabled = formik.values.images.length >= maxImagesCount + 10;
 
   return (
     <FormWrapper {...rest} formik={formik} className="grid grid-cols-1 gap-2">
       {!!images.length && (
-        <ul className="flex gap-3 flex-wrap">
-          {images.map((i) => (
-            <ImageCard key={i.id} as="li" size="sm" image={i} className="group">
-              <Button
-                color="danger"
-                isIconOnly
-                className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
-                onClick={() => removeImage(i.id)}
-              >
-                <Icon name="HiTrash" size={16} />
-              </Button>
-            </ImageCard>
-          ))}
-        </ul>
+        <FieldArray
+          name="images"
+          render={(helpers) => (
+            <ul className="flex gap-3 flex-wrap list-none">
+              {images.map((i, index) => (
+                <Grid tag="li" key={i.id}>
+                  <ImageCard size="sm" image={i} className="group">
+                    <Button
+                      color="danger"
+                      isIconOnly
+                      className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
+                      onClick={() => removeImage(i.id)}
+                    >
+                      <Icon name="HiTrash" size={16} />
+                    </Button>
+                  </ImageCard>
+                  {Array.isArray(formik.errors.images) &&
+                    formik.errors.images?.[index] && (
+                      <Typography tag="p" styling="xs" className="text-red-500">
+                        {formik.errors.images?.[index] as string}
+                      </Typography>
+                    )}
+                </Grid>
+              ))}
+            </ul>
+          )}
+        />
       )}
-      <label className="px-3 py-2 border rounded-lg justify-self-center">
-        <Typography tag="span" styling="sm">
-          {label}
-        </Typography>{" "}
-        {!!formik.values.images.length && (
-          <Typography tag="span">
-            {formik.values.images.length} / {maxImagesCount}
+      <Grid gap={2} className="justify-self-center">
+        <label
+          className={twMerge(
+            "px-3 py-2 border rounded-lg cursor-pointer",
+            isInputDisabled && "opacity-50 cursor-not-allowed"
+          )}
+        >
+          <Typography tag="span" styling="sm">
+            {label}
+          </Typography>{" "}
+          {!!formik.values.images.length && (
+            <Typography tag="span">
+              {formik.values.images.length} / {maxImagesCount}
+            </Typography>
+          )}
+          <input
+            id={id}
+            type="file"
+            disabled={isInputDisabled}
+            multiple
+            accept={ACCEPTED_IMAGE_TYPES.join(", ")}
+            className="sr-only"
+            onChange={onFileInputChange}
+            aria-invalid={!!formik.errors.images}
+            aria-errormessage={formik.errors.images ? errorId : undefined}
+          />
+        </label>
+        {typeof formik.errors.images === "string" && (
+          <Typography tag="p" styling="xs" className="text-red-500">
+            {formik.errors.images}
           </Typography>
         )}
-        <input
-          type="file"
-          multiple
-          accept={ACCEPTED_IMAGE_TYPES.join(", ")}
-          className="sr-only"
-          onChange={onFileInputChange}
-        />
-      </label>
+      </Grid>
     </FormWrapper>
   );
 };

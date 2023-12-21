@@ -5,6 +5,8 @@ export const editCompanyRequestSchema = z.object({
   slogan: z.string().optional(),
   logo: z.any().optional(),
   logoDeleted: z.boolean().optional(),
+  gallery: z.any().optional(),
+  galleryDeleted: z.array(z.string()).optional(),
 });
 
 export const editCompanyResponseSchema = z.object({

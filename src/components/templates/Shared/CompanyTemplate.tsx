@@ -16,7 +16,10 @@ import {
   EditCompanyBioForm,
   EditCompanyBioFormValues,
 } from "@/components/forms/EditCompanyBio/EditCompanyBioForm";
-import { ImagesForm } from "@/components/forms/Images/ImagesForm";
+import {
+  ImagesForm,
+  ImagesFormValues,
+} from "@/components/forms/Images/ImagesForm";
 import {
   EditCompanyRequest,
   EditCompanyResponse,
@@ -102,6 +105,19 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
     } catch (error) {}
   };
 
+  const editGalleryHandler = async (values: ImagesFormValues) => {
+    if (!withManage || !editAction) return;
+
+    try {
+      await editAction.handler({
+        gallery: values.images,
+        galleryDeleted: values.imagesToDelete,
+      });
+
+      setIsGalleryModalOpen(false);
+    } catch (error) {}
+  };
+
   return (
     <>
       <Grid {...rest} tag="section" gap={3} className={twMerge(className)}>
@@ -148,13 +164,16 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
               {t("gallery")}
             </Typography>
             <ImageGallery
+              withLightBox
               images={company?.gallery || []}
               seeMoreText="See more"
-              emptyPlaceholder={{
-                text: t("edit-gallery.trigger"),
-                icon: "HiPhotograph",
-                onClick: () => setIsGalleryModalOpen(true),
-              }}
+              firstPlaceholders={[
+                {
+                  text: t("edit-gallery.trigger"),
+                  icon: "HiPhotograph",
+                  onClick: () => setIsGalleryModalOpen(true),
+                },
+              ]}
             />
           </Grid>
         )}
@@ -261,8 +280,11 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
                 {editAction.isLoading && <LoadingOverlay isInWrapper />}
                 <ImagesForm
                   label={t("edit-gallery.label")}
-                  initialValues={{ images: company?.gallery || [] }}
-                  onFormSubmit={() => undefined}
+                  initialValues={{
+                    images: company?.gallery || [],
+                    imagesToDelete: [],
+                  }}
+                  onFormSubmit={editGalleryHandler}
                   cancel={{
                     label: t("edit-gallery.cancel"),
                     onClick: () => setIsGalleryModalOpen(false),

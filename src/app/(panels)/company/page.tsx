@@ -18,6 +18,7 @@ const CompanyHomePage = () => {
     <>
       {isLoading && <LoadingOverlay />}
       <CompanyTemplate
+        offerLinkPrefix="#"
         isLoading={isMyCompanyLoading}
         withManage
         company={myCompany}

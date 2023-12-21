@@ -28,12 +28,16 @@ export class CompaniesApiModule extends AbstractApiModule {
 
     if (data.slogan) formData.append("slogan", data.slogan);
 
-    if (data.slogan) {
-      formData.append("slogan", data.slogan);
+    if (data.gallery) {
+      data.gallery.forEach((file: File) => {
+        formData.append("gallery[]", file);
+      });
     }
 
-    if (data.isLogoDeleted) {
-      formData.append("isLogoDeleted", data.isLogoDeleted.toString());
+    if (data.galleryDeleted?.length) {
+      data.galleryDeleted.forEach((id: string) => {
+        formData.append("galleryDeleted[]", id);
+      });
     }
 
     return await this.fetch({

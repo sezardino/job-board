@@ -16,6 +16,14 @@ export abstract class AbstractController<S> {
     let returned: Record<string, any> = {};
 
     formData.forEach((value, key) => {
+      if (key.includes("[]")) {
+        const keyWithoutBrackets = key.replace("[]", "");
+        if (!returned[keyWithoutBrackets]) returned[keyWithoutBrackets] = [];
+        returned[keyWithoutBrackets].push(value);
+
+        return;
+      }
+
       returned[key] = value;
     });
 
