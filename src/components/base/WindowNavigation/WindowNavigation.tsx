@@ -6,14 +6,14 @@ import { usePathname } from "next/navigation";
 import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
-type WindowNavigationItem = {
+export type WindowNavigationLink = {
   title: string;
   href: string;
   disabled?: boolean;
 };
 
 type Props = {
-  items: WindowNavigationItem[];
+  items: WindowNavigationLink[];
   title: string;
 };
 

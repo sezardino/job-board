@@ -5,6 +5,7 @@ import { PropsWithChildren, useMemo } from "react";
 
 import { AppSidebarItem } from "@/components/layout";
 import { AppWrapper } from "@/components/layout/AppWrapper/AppWrapper";
+import { MyCompanyProvider } from "@/context";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
@@ -36,7 +37,7 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
       onSignOutClick={signOut}
       avatar={undefined}
     >
-      {children}
+      <MyCompanyProvider>{children}</MyCompanyProvider>
     </AppWrapper>
   );
 };

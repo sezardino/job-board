@@ -1,5 +1,34 @@
-const CompanyProfile = () => {
-  return <h1>Company</h1>;
+"use client";
+
+import { LoadingOverlay } from "@/components/base";
+import { CompanyTemplate } from "@/components/templates/Shared/CompanyTemplate";
+import { useMyCompanyQuery } from "@/hooks";
+import { useEditCompanyMutation } from "@/hooks/react-query/mutation/companies";
+
+const CompanyProfilePage = () => {
+  const { data: myCompany, isFetching: isMyCompanyLoading } =
+    useMyCompanyQuery();
+
+  const { mutateAsync: editCompany, isPending: isEditLoading } =
+    useEditCompanyMutation();
+
+  const isLoading = isMyCompanyLoading;
+
+  return (
+    <>
+      {isLoading && <LoadingOverlay />}
+      <CompanyTemplate
+        offerLinkPrefix="#"
+        isLoading={isMyCompanyLoading}
+        withManage
+        company={myCompany}
+        editAction={{
+          handler: editCompany,
+          isLoading: isEditLoading,
+        }}
+      />
+    </>
+  );
 };
 
-export default CompanyProfile;
+export default CompanyProfilePage;

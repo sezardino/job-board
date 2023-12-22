@@ -3,8 +3,8 @@
 import { FC, PropsWithChildren } from "react";
 
 import { twMerge } from "tailwind-merge";
+import { AppNavbar, AppSidebar, AppSidebarItem } from "..";
 import styles from "./AppWrapper.module.css";
-import { AppSidebarItem, AppNavbar, AppSidebar } from "..";
 
 type Props = {
   lists: AppSidebarItem[][];
@@ -46,9 +46,7 @@ export const AppWrapper: FC<AppWrapperProps> = (props) => {
           className={twMerge(styles.sidebar)}
           brandHref={homeHref}
         />
-        <main className={twMerge(styles.content, "p-4 h-auto")}>
-          {children}
-        </main>
+        <div className={twMerge(styles.content, "p-4 h-auto")}>{children}</div>
       </div>
     </>
   );
