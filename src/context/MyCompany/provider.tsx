@@ -6,6 +6,7 @@ export const MyCompanyProvider: FC<PropsWithChildren> = ({ children }) => {
     () => ({
       name: "My Company",
       id: "1",
+      slogan: "We are the best",
     }),
     []
   );
