@@ -4,8 +4,8 @@ import { NextRequest } from "next/server";
 import { CompaniesService } from "./companies.service";
 import {
   AdminCompaniesResponse,
+  CompanyProfileResponse,
   EditCompanyResponse,
-  MyCompanyResponse,
   adminCompaniesRequestSchema,
   editCompanyRequestSchema,
 } from "./schema";
@@ -53,7 +53,7 @@ export class CompaniesController extends AbstractController<CompaniesService> {
     }
   }
 
-  async my() {
+  async myCompanyProfile() {
     const { response, session } = await this.handlerHelper({
       acceptedRoles: [UserRoles.OWNER],
     });
@@ -67,9 +67,9 @@ export class CompaniesController extends AbstractController<CompaniesService> {
       );
 
     try {
-      const res = await this.service.my(session.user.companyId!);
+      const res = await this.service.profile(session.user.companyId!);
 
-      return this.getNextResponse(res as MyCompanyResponse, 200);
+      return this.getNextResponse(res as CompanyProfileResponse, 200);
     } catch (error) {
       console.log(error);
       return this.getNextResponse({ error }, 500);

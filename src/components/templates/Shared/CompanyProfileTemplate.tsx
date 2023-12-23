@@ -25,13 +25,15 @@ import {
   EditCompanyResponse,
 } from "@/services/server/modules/companies/schema";
 import { ActionProp, FileEntity } from "@/types";
+import { Card, CardBody } from "@nextui-org/react";
 import { Seniority } from "@prisma/client";
 import parse from "html-react-parser";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
-export type CompanyTemplateEntity = {
+export type CompanyProfileTemplateEntity = {
   name: string;
   catchPhrase: string | null;
   bio: string | null;
@@ -42,6 +44,7 @@ export type CompanyTemplateEntity = {
     id: string;
     name: string;
     level: Seniority;
+    createdAt: string | Date;
     salary: {
       from: number;
       to: number;
@@ -50,22 +53,24 @@ export type CompanyTemplateEntity = {
     skills: { name: string }[];
   }[];
   _count: {
-    members: number;
     offers: number;
   };
 };
 
 type Props = {
   isLoading: boolean;
-  company?: CompanyTemplateEntity;
+  company?: CompanyProfileTemplateEntity;
   offerLinkPrefix: string;
   withManage?: boolean;
   editAction?: ActionProp<EditCompanyRequest, EditCompanyResponse>;
 };
 
-export type CompanyTemplateProps = ComponentPropsWithoutRef<"section"> & Props;
+export type CompanyProfileTemplateProps = ComponentPropsWithoutRef<"section"> &
+  Props;
 
-export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
+export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
+  props
+) => {
   const {
     offerLinkPrefix,
     company,
@@ -178,48 +183,59 @@ export const CompanyTemplate: FC<CompanyTemplateProps> = (props) => {
           </Grid>
         )}
 
-        <Grid gap={3} className="md:grid-cols-[1fr,320px]">
-          <div>
-            <div className="flex justify-between items-center gap-3 flex-wrap">
-              <Typography tag="h2" weight="medium" styling="lg">
-                {t("bio")}
-              </Typography>
-              <Button
-                variant="light"
-                size="sm"
-                color="primary"
-                onClick={() => setIsEditBioModalOpen(true)}
-              >
-                {t("edit-bio.trigger")}
-              </Button>
-            </div>
-            {company?.bio ? (
-              <div>{parse(company.bio)}</div>
-            ) : (
-              <Typography tag="p" weight="thin" className="italic ">
-                {t("no-bio")}
-              </Typography>
-            )}
-          </div>
-          <Grid gap={2}>
+        <Grid gap={2}>
+          <div className="flex justify-between items-center gap-3 flex-wrap">
             <Typography tag="h2" weight="medium" styling="lg">
-              {t("offers")}
+              {t("bio")}
             </Typography>
-            <Grid gap={1} tag="ul" className="list-none">
-              {company?.offers.map((offer) => (
-                <li key={offer.id}>
-                  <OfferCard
-                    linkPrefix={offerLinkPrefix}
-                    id={offer.id}
-                    name={offer.name}
-                    companyName={company.name}
-                    companyLogo={company.logo}
-                    salary={offer.salary}
-                    skills={offer.skills}
-                  />
-                </li>
-              ))}
-            </Grid>
+            <Button
+              variant="light"
+              size="sm"
+              color="primary"
+              onClick={() => setIsEditBioModalOpen(true)}
+            >
+              {t("edit-bio.trigger")}
+            </Button>
+          </div>
+          {company?.bio ? (
+            <div>{parse(company.bio)}</div>
+          ) : (
+            <Typography tag="p" weight="thin" className="italic ">
+              {t("no-bio")}
+            </Typography>
+          )}
+        </Grid>
+
+        <Grid gap={2}>
+          <Typography tag="h2" weight="medium" styling="lg">
+            {t("offers.title")}
+          </Typography>
+          <Grid tag="ul" gap={2} className="list-none">
+            {company?.offers.map((offer) => (
+              <li key={offer.id} className="h-full">
+                <OfferCard
+                  linkPrefix={offerLinkPrefix}
+                  id={offer.id}
+                  name={offer.name}
+                  companyName={company.name}
+                  companyLogo={company.logo}
+                  salary={offer.salary}
+                  skills={offer.skills}
+                  createdAt={offer.createdAt as string}
+                />
+              </li>
+            ))}
+            {company && company?.offers.length < company?._count.offers && (
+              <li>
+                <Card as={Link} href={offerLinkPrefix}>
+                  <CardBody className="text-center py-5">
+                    <Typography tag="h4" className="text-primary">
+                      {t("offers.more")}
+                    </Typography>
+                  </CardBody>
+                </Card>
+              </li>
+            )}
           </Grid>
         </Grid>
       </Grid>

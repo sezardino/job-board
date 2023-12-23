@@ -296,9 +296,12 @@
       "owner": "Owner",
       "members": "Members",
       "gallery": "Gallery",
-      "offers": "Offers",
       "bio": "Bio",
       "no-bio": "No bio",
+      "offers": {
+        "title": "Offers",
+        "more": "See more offers"
+      },
       "edit-bio": {
         "title": "Edit bio",
         "description": "You can edit bio of your company here",
@@ -321,6 +324,10 @@
         "submit": "Edit Gallery",
         "trigger": "Edit Gallery"
       }
+    },
+    "offer-card": {
+      "new": "New!",
+      "created-at": "{value} days ago"
     }
   },
   "messages": {

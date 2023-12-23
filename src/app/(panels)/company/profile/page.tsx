@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingOverlay } from "@/components/base";
-import { CompanyTemplate } from "@/components/templates/Shared/CompanyTemplate";
+import { CompanyProfileTemplate } from "@/components/templates/Shared/CompanyProfileTemplate";
 import { useMyCompanyQuery } from "@/hooks";
 import { useEditCompanyMutation } from "@/hooks/react-query/mutation/companies";
 
@@ -17,7 +17,7 @@ const CompanyProfilePage = () => {
   return (
     <>
       {isLoading && <LoadingOverlay />}
-      <CompanyTemplate
+      <CompanyProfileTemplate
         offerLinkPrefix="#"
         isLoading={isMyCompanyLoading}
         withManage

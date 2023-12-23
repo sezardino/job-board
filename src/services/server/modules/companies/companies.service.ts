@@ -97,7 +97,7 @@ export class CompaniesService extends AbstractService {
     });
   }
 
-  async my(companyId: string) {
+  async profile(companyId: string) {
     const response = await this.prismaService.company.findUnique({
       where: { id: companyId },
       select: {
@@ -108,6 +108,7 @@ export class CompaniesService extends AbstractService {
         logo: { select: { id: true, url: true, name: true } },
         gallery: { select: { id: true, url: true, name: true } },
         thumbnail: { select: { id: true, url: true, name: true } },
+        _count: { select: { offers: true } },
         offers: {
           take: 5,
           select: {
@@ -115,13 +116,8 @@ export class CompaniesService extends AbstractService {
             name: true,
             level: true,
             salary: true,
+            createdAt: true,
             skills: { select: { name: true } },
-          },
-        },
-        _count: {
-          select: {
-            offers: true,
-            members: { where: { isAcceptInvite: true } },
           },
         },
       },

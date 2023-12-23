@@ -9,10 +9,11 @@ import {
   CardProps,
 } from "@nextui-org/react";
 import { Salary } from "@prisma/client";
+import dayjs from "dayjs";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
-
-import Link from "next/link";
 import styles from "./OfferCard.module.css";
 
 type Props = {
@@ -23,6 +24,7 @@ type Props = {
   skills: { name: string }[];
   salary: Salary;
   linkPrefix: string;
+  createdAt: string;
 };
 
 export type OfferCardProps = CardProps & Props;
@@ -36,9 +38,17 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
     companyName,
     skills,
     salary,
+    createdAt,
     className,
     ...rest
   } = props;
+  const t = useTranslations("components.offer-card");
+
+  const daysAfterPublication = dayjs(createdAt).diff(new Date(), "days") * -1;
+  const dateOfPublicationString =
+    daysAfterPublication === 1
+      ? t("new")
+      : t("created-at", { value: daysAfterPublication });
 
   return (
     <Card
@@ -59,9 +69,14 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
             {name}
           </Typography>
 
-          <Typography tag="p" styling="xs" className="text-teal-400">
-            {salary.from} - {salary.to} {salary.currency}
-          </Typography>
+          <div className="flex items-center gap-1">
+            <Typography tag="p" styling="xs" className="text-teal-400">
+              {salary.from} - {salary.to} {salary.currency}
+            </Typography>
+            <Badge size="sm">
+              <Typography tag="span">{dateOfPublicationString}</Typography>
+            </Badge>
+          </div>
         </CardHeader>
 
         <CardBody
