@@ -1,1 +1,1 @@
-export * from "./edit";
+export * from "./edit-my-company";

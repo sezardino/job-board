@@ -104,6 +104,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
       await editAction.handler({
         logo: values.logo,
         logoDeleted: values.isLogoDeleted,
+        slogan: values.slogan,
       });
 
       setIsEditBaseDataModalOpen(false);

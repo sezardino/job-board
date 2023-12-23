@@ -50,7 +50,7 @@ export class CompaniesApiModule extends AbstractApiModule {
     });
   }
 
-  async my() {
+  async myCompanyProfile() {
     return await this.fetch({
       endpoint: "companies",
       schema: companyProfileResponseSchema,

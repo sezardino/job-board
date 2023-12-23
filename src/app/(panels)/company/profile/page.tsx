@@ -2,15 +2,15 @@
 
 import { LoadingOverlay } from "@/components/base";
 import { CompanyProfileTemplate } from "@/components/templates/Shared/CompanyProfileTemplate";
-import { useMyCompanyQuery } from "@/hooks";
-import { useEditCompanyMutation } from "@/hooks/react-query/mutation/companies";
+import { useMyCompanyProfileQuery } from "@/hooks";
+import { useEditMyCompanyMutation } from "@/hooks/react-query/mutation/companies";
 
 const CompanyProfilePage = () => {
   const { data: myCompany, isFetching: isMyCompanyLoading } =
-    useMyCompanyQuery();
+    useMyCompanyProfileQuery();
 
   const { mutateAsync: editCompany, isPending: isEditLoading } =
-    useEditCompanyMutation();
+    useEditMyCompanyMutation();
 
   const isLoading = isMyCompanyLoading;
 

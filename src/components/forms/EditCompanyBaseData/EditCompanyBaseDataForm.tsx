@@ -135,7 +135,7 @@ export const EditCompanyBaseDataForm: FC<EditCompanyBaseDataFormProps> = (
         error={logoHasError ? formik.errors.logo : undefined}
       />
 
-      <ControlledTextarea name="slogan" />
+      <ControlledTextarea name="slogan" label={t("slogan.label")} />
     </FormWrapper>
   );
 };
