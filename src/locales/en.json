@@ -4,7 +4,11 @@
       "dashboard": "Dashboard",
       "companies": "Companies",
       "industries": "Industries",
-      "users": "Users"
+      "users": "Users",
+      "company": {
+        "dashboard": "Dashboard",
+        "offers": "Offers"
+      }
     },
     "admin-users": {
       "title": "Users",

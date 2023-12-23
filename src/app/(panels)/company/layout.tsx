@@ -18,9 +18,14 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
     () => [
       [
         {
-          label: t("dashboard"),
+          label: t("company.dashboard"),
           icon: "HiOutlineHome",
           to: CompanyPageUrls.home,
+        },
+        {
+          label: t("company.offers"),
+          icon: "HiOutlineBriefcase",
+          to: CompanyPageUrls.offers,
         },
       ],
     ],
