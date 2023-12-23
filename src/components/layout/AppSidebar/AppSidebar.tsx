@@ -1,6 +1,6 @@
 "use client";
 
-import { IconNames, Icon } from "@/components/base";
+import { Icon, IconNames } from "@/components/base";
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -48,6 +48,7 @@ export const AppSidebar: FC<AppSidebarProps> = (props) => {
           <ul
             key={index}
             className={twMerge(
+              "list-none",
               index === 0
                 ? "space-y-2"
                 : "pt-5 mt-5 space-y-2 border-t border-gray-200"
