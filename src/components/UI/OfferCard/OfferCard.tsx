@@ -71,7 +71,7 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
 
           <div className="flex items-center gap-1">
             <Typography tag="p" styling="xs" className="text-teal-400">
-              {salary.from} - {salary.to} {salary.currency}
+              {salary.from} - {salary.to}
             </Typography>
             <Badge size="sm">
               <Typography tag="span">{dateOfPublicationString}</Typography>
