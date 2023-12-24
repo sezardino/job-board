@@ -2,7 +2,7 @@ import { AbstractService } from "@/services/server/helpers";
 
 import { DEFAULT_PAGE_LIMIT } from "@/const";
 import { Prisma } from "@prisma/client";
-import { MyCompanyOffersRequest } from "./scema";
+import { CompanyOffersRequest } from "./scema";
 
 type FindManyJobOffersArgs = {
   where: Prisma.JobOfferWhereInput;
@@ -34,7 +34,7 @@ export class JobOffersService extends AbstractService {
     return { offers, meta };
   }
 
-  async companyOffers(data: MyCompanyOffersRequest, companyId: string) {
+  async companyOffers(data: CompanyOffersRequest, companyId: string) {
     const { search, status, limit = DEFAULT_PAGE_LIMIT, page = 0 } = data;
 
     const where: Prisma.JobOfferWhereInput = { companyId };

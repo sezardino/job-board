@@ -2,7 +2,7 @@ import { AbstractController } from "@/services/server/helpers";
 import { UserRoles } from "@prisma/client";
 import { NextRequest } from "next/server";
 import { JobOffersService } from "./job-offers.service";
-import { MyCompanyOffersResponse, myCompanyOffersRequestSchema } from "./scema";
+import { CompanyOffersResponse, companyOffersRequestSchema } from "./scema";
 
 export class JobOffersController extends AbstractController<JobOffersService> {
   async myCompanyOffers(req: NextRequest) {
@@ -15,7 +15,7 @@ export class JobOffersController extends AbstractController<JobOffersService> {
         UserRoles.MODERATOR,
         UserRoles.RECRUITER,
       ],
-      schema: myCompanyOffersRequestSchema,
+      schema: companyOffersRequestSchema,
     });
 
     if (response) return response;
@@ -32,7 +32,7 @@ export class JobOffersController extends AbstractController<JobOffersService> {
         session.user.companyId!
       );
 
-      return this.getNextResponse(res as MyCompanyOffersResponse, 200);
+      return this.getNextResponse(res as CompanyOffersResponse, 200);
     } catch (error) {
       console.log(error);
       return this.getNextResponse({ error }, 500);
