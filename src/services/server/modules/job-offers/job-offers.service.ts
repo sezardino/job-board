@@ -1,44 +1,58 @@
 import { AbstractService } from "@/services/server/helpers";
 
-import { faker } from "@faker-js/faker";
-import { Seniority } from "@prisma/client";
+import { DEFAULT_PAGE_LIMIT } from "@/const";
+import { Prisma } from "@prisma/client";
+import { MyCompanyOffersRequest } from "./scema";
+
+type FindManyJobOffersArgs = {
+  where: Prisma.JobOfferWhereInput;
+  select: Prisma.JobOfferSelect;
+  page: number;
+  limit: number;
+};
+
 export class JobOffersService extends AbstractService {
-  create({
-    industryId,
-    categoryId,
-    companyId,
-  }: {
-    industryId: string;
-    categoryId: string;
-    companyId: string;
-  }) {
-    const from = faker.number.float({ min: 1000, max: 10000 });
+  async findMany(args: FindManyJobOffersArgs) {
+    const { limit, page, select, where } = args;
 
-    const to = faker.number.float({ min: from, max: 100000 });
+    const offersCount = await this.prismaService.jobOffer.count({ where });
 
-    this.prismaService.industry.findMany({
-      select: { id: true, categories: { select: { id: true } } },
+    const { skip, take, meta } = this.getPagination({
+      count: offersCount,
+      limit,
+      page,
     });
 
-    this.prismaService.jobOffer.create({
-      data: {
-        name: faker.company.catchPhraseNoun(),
-        industryId,
-        categoryId,
-        companyId,
-        level: faker.helpers.arrayElement([
-          Seniority.TRAINEE,
-          Seniority.JUNIOR,
-          Seniority.MIDDLE,
-          Seniority.SENIOR,
-          Seniority.LEAD,
-          Seniority.ARCHITECT,
-        ]),
-        salary: {
-          from,
-          to,
-          currency: faker.finance.currencyCode(),
-        },
+    const offers = await this.prismaService.jobOffer.findMany({
+      where,
+      skip: skip,
+      take: take,
+      orderBy: { createdAt: "desc" },
+      select,
+    });
+
+    return { offers, meta };
+  }
+
+  async companyOffers(data: MyCompanyOffersRequest, companyId: string) {
+    const { search, status, limit = DEFAULT_PAGE_LIMIT, page = 0 } = data;
+
+    const where: Prisma.JobOfferWhereInput = { companyId };
+
+    if (search) where.name = { contains: search, mode: "insensitive" };
+    if (status) where.status = status;
+
+    return this.findMany({
+      limit,
+      page,
+      where,
+      select: {
+        id: true,
+        name: true,
+        level: true,
+        salary: true,
+        createdAt: true,
+        skills: { select: { name: true } },
       },
     });
   }

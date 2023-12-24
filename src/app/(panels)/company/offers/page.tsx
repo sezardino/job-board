@@ -1,5 +1,14 @@
+"use client";
+
+import { useMyCompanyOffersQuery } from "@/hooks/react-query/query/offers";
+
 const CompanyOffersPage = () => {
-  return <h1>Company</h1>;
+  const { data: myCompanyOffers, isFetching: isMyCompanyOffersLoading } =
+    useMyCompanyOffersQuery({});
+
+  const isLoading = isMyCompanyOffersLoading;
+
+  return <h1>{JSON.stringify(myCompanyOffers)}</h1>;
 };
 
 export default CompanyOffersPage;
