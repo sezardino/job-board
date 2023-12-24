@@ -2,11 +2,11 @@
 
 import { ManageCustomersTemplate } from "@/components/templates/Admin/ManageCustomersTemplate";
 import { useCustomersUsersQuery } from "@/hooks/react-query/query/users";
-import { useTableOnPage } from "@/hooks/use-table-on-page";
+import { useDataOnPage } from "@/hooks/use-data-on-page";
 
 const CustomersPage = () => {
   const { limit, onLimitChange, onPageChange, onSearchChange, page, search } =
-    useTableOnPage();
+    useDataOnPage();
   const { data: customers, isFetching: isCustomersLoading } =
     useCustomersUsersQuery({
       limit,

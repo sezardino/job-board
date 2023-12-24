@@ -1,10 +1,20 @@
 "use client";
 
+import { useDataOnPage } from "@/hooks";
 import { useMyCompanyOffersQuery } from "@/hooks/react-query/query/offers";
+import { useSession } from "next-auth/react";
 
 const CompanyOffersPage = () => {
+  const { data } = useSession();
+  const { limit, page, search } = useDataOnPage();
+
   const { data: myCompanyOffers, isFetching: isMyCompanyOffersLoading } =
-    useMyCompanyOffersQuery({});
+    useMyCompanyOffersQuery({
+      limit,
+      page,
+      search,
+      companyId: data?.user.companyId!,
+    });
 
   const isLoading = isMyCompanyOffersLoading;
 

@@ -6,12 +6,12 @@ import {
   useInviteAdminMutation,
 } from "@/hooks/react-query";
 import { useCheckEmailAvailableMutation } from "@/hooks/react-query/mutation/";
-import { useTableOnPage } from "@/hooks/use-table-on-page";
+import { useDataOnPage } from "@/hooks/use-data-on-page";
 import { useCallback } from "react";
 
 const AdminsPage = () => {
   const { limit, onLimitChange, onPageChange, onSearchChange, page, search } =
-    useTableOnPage();
+    useDataOnPage();
   const { data: admins, isFetching: isAdminsLoading } = useAdminUsersQuery({
     limit,
     page,
