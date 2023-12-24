@@ -7,6 +7,7 @@ const { industries } = require("./models/industries");
 const { categories } = require("./models/categories");
 const { generateMockCompany } = require("./models/companies");
 const { generateMockOffers } = require("./models/offers");
+const { mockCompanyOwner } = require("./models/const");
 
 const { statuses } = require("./models/const");
 
@@ -39,12 +40,12 @@ const generateIndustries = async () => {
 
 const generateCompanies = async () => {
   const ownersData = generateMockUsers({
-    count: 5,
+    count: faker.number.int({ min: 5, max: 20 }),
     roles: [UserRoles.OWNER],
   });
 
   await prisma.user.createMany({
-    data: ownersData,
+    data: [...ownersData, mockCompanyOwner],
   });
 
   const owners = await prisma.user.findMany({
@@ -76,12 +77,9 @@ const generateCompanies = async () => {
   await Promise.all([
     ...companies.map(async (company) => {
       const offers = generateMockOffers({
-        count: 10,
+        count: faker.number.int({ min: 10, max: 50 }),
         companyId: company.id,
-        industryId: faker.helpers.arrayElement(industries).id,
-        categoryId: faker.helpers.arrayElement(
-          faker.helpers.arrayElement(industries).categories
-        ).id,
+        industries: industries,
       });
 
       await prisma.jobOffer.createMany({
@@ -93,17 +91,17 @@ const generateCompanies = async () => {
 
 const generateUsers = async () => {
   const admins = generateMockUsers({
-    count: 2,
+    count: faker.number.int({ min: 1, max: 5 }),
     roles: [UserRoles.ADMIN],
   });
 
   const subAdmins = generateMockUsers({
-    count: 5,
+    count: faker.number.int({ min: 1, max: 20 }),
     roles: [UserRoles.SUB_ADMIN],
   });
 
   const customers = generateMockUsers({
-    count: 15,
+    count: faker.number.int({ min: 20, max: 100 }),
     status: [UserStatus.ACTIVE, UserStatus.BLOCKED, UserStatus.INACTIVE],
   });
 

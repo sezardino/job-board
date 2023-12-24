@@ -45,16 +45,16 @@ type Story {
 }
 
 enum JobOfferStatus {
+  ARCHIVED
   FINISHED
   ACTIVE
   INACTIVE
-  CREATED
+  DRAFT
 }
 
 type Salary {
-  from     Int
-  to       Int
-  currency String
+  from Int
+  to   Int
 }
 
 enum Seniority {
@@ -151,11 +151,11 @@ model JobOffer {
 
   name        String
   description String?
-  status      JobOfferStatus @default(CREATED)
+  status      JobOfferStatus @default(DRAFT)
   salary      Salary?
   company     Company        @relation(fields: [companyId], references: [id])
   companyId   String         @map("company_id") @db.ObjectId
-  level       Seniority
+  level       Seniority?
   skills      Skill[]
 
   industry   Industry @relation(fields: [industryId], references: [id])
@@ -164,7 +164,8 @@ model JobOffer {
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @map("category_id") @db.ObjectId
 
-  createdAt DateTime @default(now()) @map("created_at")
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
 }
 
 model Image {
