@@ -125,4 +125,16 @@ export class CompaniesService extends AbstractService {
 
     return response;
   }
+
+  baseData(companyId: string) {
+    return this.prismaService.company.findUnique({
+      where: { id: companyId },
+      select: {
+        id: true,
+        name: true,
+        catchPhrase: true,
+        logo: { select: { id: true, url: true, name: true } },
+      },
+    });
+  }
 }

@@ -6,6 +6,7 @@ import {
   AdminCompaniesResponse,
   CompanyProfileResponse,
   EditCompanyResponse,
+  MyCompanyBaseDataResponse,
   adminCompaniesRequestSchema,
   editCompanyRequestSchema,
 } from "./schema";
@@ -70,6 +71,33 @@ export class CompaniesController extends AbstractController<CompaniesService> {
       const res = await this.service.profile(session.user.companyId!);
 
       return this.getNextResponse(res as CompanyProfileResponse, 200);
+    } catch (error) {
+      console.log(error);
+      return this.getNextResponse({ error }, 500);
+    }
+  }
+
+  async myCompanyBaseData() {
+    const { response, session } = await this.handlerHelper({
+      acceptedRoles: [
+        UserRoles.OWNER,
+        UserRoles.MODERATOR,
+        UserRoles.RECRUITER,
+      ],
+    });
+
+    if (response) return response;
+
+    if (!session)
+      return this.getNextResponse(
+        { message: "backend-errors.unauthorized" },
+        401
+      );
+
+    try {
+      const res = await this.service.baseData(session.user.companyId!);
+
+      return this.getNextResponse(res as MyCompanyBaseDataResponse, 200);
     } catch (error) {
       console.log(error);
       return this.getNextResponse({ error }, 500);

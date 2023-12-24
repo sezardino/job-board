@@ -3,6 +3,7 @@ import {
   adminCompaniesResponseSchema,
   companyProfileResponseSchema,
   editCompanyResponseSchema,
+  myCompanyBaseDataResponseSchema,
 } from "@/services/server/modules/companies/schema";
 import { AdminIndustriesRequest } from "@/services/server/modules/industries/schema";
 import { AbstractApiModule } from "../helpers";
@@ -54,6 +55,13 @@ export class CompaniesApiModule extends AbstractApiModule {
     return await this.fetch({
       endpoint: "companies",
       schema: companyProfileResponseSchema,
+    });
+  }
+
+  async myCompanyBaseData() {
+    return await this.fetch({
+      endpoint: "companies/base",
+      schema: myCompanyBaseDataResponseSchema,
     });
   }
 
