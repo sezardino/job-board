@@ -118,6 +118,13 @@ export class CompaniesService extends AbstractService {
             salary: true,
             createdAt: true,
             skills: { select: { name: true } },
+            company: {
+              select: {
+                id: true,
+                name: true,
+                logo: { select: { id: true, url: true, name: true } },
+              },
+            },
           },
         },
       },

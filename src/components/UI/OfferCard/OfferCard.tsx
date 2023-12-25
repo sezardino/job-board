@@ -46,7 +46,7 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
 
   const daysAfterPublication = dayjs(createdAt).diff(new Date(), "days") * -1;
   const dateOfPublicationString =
-    daysAfterPublication === 1
+    daysAfterPublication === 0
       ? t("new")
       : t("created-at", { value: daysAfterPublication });
 
@@ -74,7 +74,9 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
               {salary.from} - {salary.to}
             </Typography>
             <Badge size="sm">
-              <Typography tag="span">{dateOfPublicationString}</Typography>
+              <Typography tag="span" styling="xs">
+                {dateOfPublicationString}
+              </Typography>
             </Badge>
           </div>
         </CardHeader>
@@ -82,7 +84,7 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
         <CardBody
           className={twMerge(
             styles.body,
-            "flex justify-between gap-1 flex-wrap pt-1"
+            "flex justify-between gap-1 flex-row flex-wrap pt-1"
           )}
         >
           <Typography tag="p" styling="xs">
@@ -95,11 +97,13 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
             {companyName}
           </Typography>
           {!!skills.length && (
-            <ul className="flex flex-wrap gap-0.5 items-center">
+            <ul className="flex flex-wrap gap-0.5 items-center list-none">
               {skills.slice(0, 3).map((skill) => (
                 <li key={skill.name}>
-                  <Badge color="primary" size="sm" className="mr-1">
-                    <Typography tag="span">{skill.name}</Typography>
+                  <Badge color="default" size="sm" className="mr-1">
+                    <Typography tag="span" styling="xs">
+                      {skill.name}
+                    </Typography>
                   </Badge>
                 </li>
               ))}

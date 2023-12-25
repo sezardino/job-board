@@ -15,10 +15,14 @@ export const companyProfileResponseSchema = z.object({
       id: z.string(),
       name: z.string(),
       level: z.nativeEnum(Seniority),
+      company: z.object({
+        id: z.string(),
+        name: z.string(),
+        logo: fileSchema.nullable(),
+      }),
       salary: z.object({
         from: z.number(),
         to: z.number(),
-        currency: z.string(),
       }),
       skills: z.array(z.object({ name: z.string() })),
       createdAt: z.date().or(z.string()),

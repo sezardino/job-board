@@ -1,5 +1,8 @@
 import { ImageGallery } from "@/components/UI/ImageGallery/ImageGallery";
-import { OfferCard } from "@/components/UI/OfferCard/OfferCard";
+import {
+  OfferCardEntity,
+  OffersList,
+} from "@/components/UI/OffersList/OffersList";
 import {
   Button,
   Grid,
@@ -25,11 +28,8 @@ import {
   EditCompanyResponse,
 } from "@/services/server/modules/companies/schema";
 import { ActionProp, FileEntity } from "@/types";
-import { Card, CardBody } from "@nextui-org/react";
-import { Seniority } from "@prisma/client";
 import parse from "html-react-parser";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -40,18 +40,7 @@ export type CompanyProfileTemplateEntity = {
   logo: FileEntity | null;
   gallery: FileEntity[];
   thumbnail: FileEntity | null;
-  offers: {
-    id: string;
-    name: string;
-    level: Seniority;
-    createdAt: string | Date;
-    salary: {
-      from: number;
-      to: number;
-      currency: string;
-    };
-    skills: { name: string }[];
-  }[];
+  offers: OfferCardEntity[];
   _count: {
     offers: number;
   };
@@ -211,33 +200,15 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
           <Typography tag="h2" weight="medium" styling="lg">
             {t("offers.title")}
           </Typography>
-          <Grid tag="ul" gap={2} className="list-none">
-            {company?.offers.map((offer) => (
-              <li key={offer.id} className="h-full">
-                <OfferCard
-                  linkPrefix={offerLinkPrefix}
-                  id={offer.id}
-                  name={offer.name}
-                  companyName={company.name}
-                  companyLogo={company.logo}
-                  salary={offer.salary}
-                  skills={offer.skills}
-                  createdAt={offer.createdAt as string}
-                />
-              </li>
-            ))}
-            {company && company?.offers.length < company?._count.offers && (
-              <li>
-                <Card as={Link} href={offerLinkPrefix}>
-                  <CardBody className="text-center py-5">
-                    <Typography tag="h4" className="text-primary">
-                      {t("offers.more")}
-                    </Typography>
-                  </CardBody>
-                </Card>
-              </li>
-            )}
-          </Grid>
+          <OffersList
+            offers={company?.offers || []}
+            linkPrefix={offerLinkPrefix}
+            endContent={
+              company && company.offers.length < company._count.offers
+                ? [{ label: t("offers.more"), to: offerLinkPrefix }]
+                : undefined
+            }
+          />
         </Grid>
       </Grid>
 
