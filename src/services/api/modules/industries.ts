@@ -3,6 +3,7 @@ import {
   CheckIndustryNameAvailableRequest,
   CreateIndustryRequest,
   UpdateIndustryRequest,
+  activeIndustriesResponseSchema,
   adminIndustriesResponseSchema,
   checkIndustryNameAvailableResponseSchema,
   createIndustryRequestSchema,
@@ -49,6 +50,13 @@ export class IndustriesApiModule extends AbstractApiModule {
       endpoint: "industries/check-name",
       config: { params },
       schema: checkIndustryNameAvailableResponseSchema,
+    });
+  }
+
+  async activeIndustries() {
+    return await this.fetch({
+      endpoint: "industries",
+      schema: activeIndustriesResponseSchema,
     });
   }
 }

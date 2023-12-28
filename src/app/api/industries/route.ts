@@ -1,6 +1,9 @@
 import { serverService } from "@/services/server";
 import { NextRequest } from "next/server";
 
+export const GET = (req: NextRequest) =>
+  serverService.industries.controller.activeIndustries();
+
 export const POST = (req: NextRequest) =>
   serverService.industries.controller.create(req);
 

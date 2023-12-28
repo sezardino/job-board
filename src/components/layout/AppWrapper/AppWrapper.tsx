@@ -20,34 +20,29 @@ export const AppWrapper: FC<AppWrapperProps> = (props) => {
   const { lists, homeHref, avatar, email, onSignOutClick, children } = props;
 
   return (
-    <>
-      <div
-        className={twMerge(
-          styles.element,
-          "min-h-screen antialiased bg-gray-50"
-        )}
-      >
-        <AppNavbar
-          // TODO: update
-          copy={{ logout: "Logout", userMenu: "User Menu" }}
-          onSignOutClick={onSignOutClick}
-          avatarSrc={avatar}
-          login={email}
-          className={styles.navbar}
-        />
+    <div
+      className={twMerge(styles.element, "min-h-screen antialiased bg-gray-50")}
+    >
+      <AppNavbar
+        // TODO: update
+        copy={{ logout: "Logout", userMenu: "User Menu" }}
+        onSignOutClick={onSignOutClick}
+        avatarSrc={avatar}
+        email={email}
+        className={styles.navbar}
+      />
 
-        <AppSidebar
-          copy={{
-            closeSidebar: "Close Sidebar",
-            openSidebar: "Open Sidebar",
-            title: "Sidebar",
-          }}
-          lists={lists}
-          className={twMerge(styles.sidebar)}
-          brandHref={homeHref}
-        />
-        <div className={twMerge(styles.content, "p-4 h-auto")}>{children}</div>
-      </div>
-    </>
+      <AppSidebar
+        copy={{
+          closeSidebar: "Close Sidebar",
+          openSidebar: "Open Sidebar",
+          title: "Sidebar",
+        }}
+        lists={lists}
+        className={twMerge(styles.sidebar)}
+        brandHref={homeHref}
+      />
+      <div className={twMerge(styles.content, "p-4 h-auto")}>{children}</div>
+    </div>
   );
 };
