@@ -5,10 +5,6 @@ export const activeIndustriesResponseSchema = z.object({
     z.object({
       id: z.string(),
       name: z.string(),
-      _count: z.object({
-        categories: z.number(),
-        offers: z.number(),
-      }),
     })
   ),
 });
