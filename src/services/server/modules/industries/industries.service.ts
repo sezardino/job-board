@@ -102,4 +102,20 @@ export class IndustriesService extends AbstractService {
 
     return { industries, meta };
   }
+
+  async activeIndustries() {
+    return await this.prismaService.industry.findMany({
+      where: { status: EntityStatus.ACTIVE },
+      select: {
+        id: true,
+        name: true,
+        _count: {
+          select: {
+            categories: true,
+            offers: true,
+          },
+        },
+      },
+    });
+  }
 }

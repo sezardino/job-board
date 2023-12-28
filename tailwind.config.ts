@@ -10,6 +10,7 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      aspectRatio: { thumbnail: "42 / 9" },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
         "gradient-conic":

@@ -1,8 +1,17 @@
+import { PrismaService } from "@/libs/prisma";
 import { AbstractService } from "@/services/server/helpers";
 import { Prisma } from "@prisma/client";
-import { AdminCompaniesRequest } from "./schema";
+import { FilesService } from "../files/files.service";
+import { AdminCompaniesRequest, EditCompanyRequest } from "./schema";
 
 export class CompaniesService extends AbstractService {
+  constructor(
+    prismaService: PrismaService,
+    private readonly filesService: FilesService
+  ) {
+    super(prismaService);
+  }
+
   async admin(dto: AdminCompaniesRequest) {
     const { limit = 10, page = 0, search } = dto;
 
@@ -41,5 +50,98 @@ export class CompaniesService extends AbstractService {
     });
 
     return { companies, meta };
+  }
+
+  async edit(dto: EditCompanyRequest, companyId: string) {
+    const { bio, slogan, logoDeleted, logo, gallery, galleryDeleted } = dto;
+
+    const data: Prisma.CompanyUpdateInput = {};
+
+    if (bio) data.bio = bio;
+    if (slogan) data.catchPhrase = slogan;
+    if (logoDeleted) data.logo!.delete = true;
+    if (logo) {
+      const image = await this.filesService.uploadImage(logo, companyId);
+
+      if (image) {
+        data.logo = {
+          connect: { id: image.id },
+        };
+      }
+    }
+
+    if (gallery) {
+      const images = await this.filesService.uploadImages(gallery, companyId);
+
+      if (images) {
+        data.gallery = {
+          connect: images.map((image) => ({ id: image.id })),
+        };
+      }
+    }
+
+    if (galleryDeleted) {
+      data.gallery = {
+        deleteMany: galleryDeleted.map((id) => ({ id })),
+      };
+    }
+
+    return await this.prismaService.company.update({
+      where: { id: companyId },
+      data,
+      select: {
+        id: true,
+        name: true,
+        bio: true,
+      },
+    });
+  }
+
+  async profile(companyId: string) {
+    const response = await this.prismaService.company.findUnique({
+      where: { id: companyId },
+      select: {
+        id: true,
+        name: true,
+        bio: true,
+        catchPhrase: true,
+        logo: { select: { id: true, url: true, name: true } },
+        gallery: { select: { id: true, url: true, name: true } },
+        thumbnail: { select: { id: true, url: true, name: true } },
+        _count: { select: { offers: true } },
+        offers: {
+          take: 5,
+          select: {
+            id: true,
+            name: true,
+            level: true,
+            salary: true,
+            createdAt: true,
+            skills: { select: { name: true } },
+            company: {
+              select: {
+                id: true,
+                name: true,
+                logo: { select: { id: true, url: true, name: true } },
+              },
+            },
+          },
+        },
+      },
+    });
+
+    return response;
+  }
+
+  baseData(companyId: string) {
+    return this.prismaService.company.findUnique({
+      where: { id: companyId },
+      select: {
+        id: true,
+        name: true,
+        catchPhrase: true,
+        logo: { select: { id: true, url: true, name: true } },
+      },
+    });
   }
 }

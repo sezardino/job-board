@@ -17,6 +17,14 @@ export const paginatedResponseSchema = z.object({
   }),
 });
 
+export const fileSchema = z.object({
+  id: z.string(),
+  name: z.string(),
+  url: z.string(),
+});
+
+export type FileEntity = z.infer<typeof fileSchema>;
+
 export type PaginatedRequest = z.infer<typeof paginatedRequestSchema>;
 export type PaginatedResponse = z.infer<typeof paginatedResponseSchema>;
 
@@ -27,5 +35,10 @@ export type BackendErrorResponse = NextResponse<{
 
 export type ActionProp<T, R = any> = {
   handler: (args: T) => Promise<R>;
+  isLoading: boolean;
+};
+
+export type DataProp<T> = {
+  data?: T;
   isLoading: boolean;
 };

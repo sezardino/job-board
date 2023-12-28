@@ -12,6 +12,24 @@ type HelperProps<Schema extends ZodSchema> = {
 export abstract class AbstractController<S> {
   constructor(protected readonly service: S) {}
 
+  protected formatFormData(formData: FormData) {
+    let returned: Record<string, any> = {};
+
+    formData.forEach((value, key) => {
+      if (key.includes("[]")) {
+        const keyWithoutBrackets = key.replace("[]", "");
+        if (!returned[keyWithoutBrackets]) returned[keyWithoutBrackets] = [];
+        returned[keyWithoutBrackets].push(value);
+
+        return;
+      }
+
+      returned[key] = value;
+    });
+
+    return returned;
+  }
+
   protected formatParams(params: IterableIterator<[string, string]>) {
     let formattedParams: Record<string, any> = {};
 

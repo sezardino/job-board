@@ -6,12 +6,12 @@ import { useCreateIndustryMutation } from "@/hooks/react-query/mutation/industri
 import { useDeleteIndustryMutation } from "@/hooks/react-query/mutation/industries/delete";
 import { useUpdateIndustryMutation } from "@/hooks/react-query/mutation/industries/update";
 import { useAdminIndustriesListQuery } from "@/hooks/react-query/query/industries";
-import { useTableOnPage } from "@/hooks/use-table-on-page";
+import { useDataOnPage } from "@/hooks/use-data-on-page";
 import { useCallback } from "react";
 
 const IndustriesPage = () => {
   const { limit, onLimitChange, onPageChange, onSearchChange, page, search } =
-    useTableOnPage();
+    useDataOnPage();
   const { data: industries, isFetching: isIndustriesLoading } =
     useAdminIndustriesListQuery({ limit, page, search });
 

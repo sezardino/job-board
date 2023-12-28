@@ -30,7 +30,13 @@ export const Modal: FC<ModalProps> = (props) => {
   } = props;
 
   return (
-    <Component {...rest} isOpen={isOpen} onClose={onClose} backdrop="blur">
+    <Component
+      {...rest}
+      isOpen={isOpen}
+      onClose={onClose}
+      backdrop="blur"
+      scrollBehavior="outside"
+    >
       <ModalContent>
         {(title || description) && (
           <ModalHeader className="flex flex-col gap-1 py-5">

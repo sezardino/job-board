@@ -44,18 +44,49 @@ type Story {
   createdAt DateTime @default(now()) @map("created_at")
 }
 
+enum JobOfferStatus {
+  ARCHIVED
+  FINISHED
+  ACTIVE
+  INACTIVE
+  DRAFT
+}
+
+type Salary {
+  from Int
+  to   Int
+}
+
+enum Seniority {
+  TRAINEE
+  JUNIOR
+  MIDDLE
+  SENIOR
+  LEAD
+  ARCHITECT
+}
+
+type Skill {
+  name  String
+  level Seniority
+}
+
 model User {
   id     String     @id @default(auto()) @map("_id") @db.ObjectId
   role   UserRoles  @default(CUSTOMER)
   status UserStatus @default(ACTIVE)
 
-  name String @default("")
+  name     String  @default("")
+  avatar   Image?  @relation(name: "avatar", fields: [avatarId], references: [id])
+  avatarId String? @unique @map("avatar_id") @db.ObjectId
 
-  email           String  @unique
-  isEmailVerified Boolean @default(false) @map("is_email_verified")
-  emailToken      String? @map("email_token")
+  isAcceptInvite Boolean @default(false) @map("is_accept_invite")
+  inviteToken    String? @map("invite_token")
 
-  password String
+  email      String  @unique
+  emailToken String? @map("email_token")
+
+  password String?
 
   owner     Company? @relation(name: "owner")
   company   Company? @relation(name: "member", fields: [companyId], references: [id])
@@ -93,53 +124,38 @@ model Category {
 model Company {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name    String
-  status  EntityStatus @default(CREATED)
-  owner   User         @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ownerId String       @unique @map("owner_id") @db.ObjectId
-  members User[]       @relation(name: "member")
+  status EntityStatus @default(CREATED)
+
+  logo        Image?  @relation(name: "logo", fields: [logoId], references: [id])
+  logoId      String? @unique @map("logo_id") @db.ObjectId
+  thumbnail   Image?  @relation(name: "thumbnail", fields: [thumbnailId], references: [id])
+  thumbnailId String? @unique @map("thumbnail_id") @db.ObjectId
+  gallery     Image[] @relation(name: "gallery")
+
+  name        String  @unique
+  slug        String  @unique
+  catchPhrase String? @map("catch_phrase")
+  bio         String?
+
+  owner   User   @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ownerId String @unique @map("owner_id") @db.ObjectId
+  members User[] @relation(name: "member")
 
   createdAt DateTime @default(now()) @map("created_at")
 
   offers JobOffer[]
 }
 
-enum JobOfferStatus {
-  FINISHED
-  ACTIVE
-  INACTIVE
-  CREATED
-}
-
-type Salary {
-  from String
-  to   String
-}
-
-enum Seniority {
-  TRAINEE
-  JUNIOR
-  MIDDLE
-  SENIOR
-  LEAD
-  ARCHITECT
-}
-
-type Skill {
-  name  String
-  level Seniority
-}
-
 model JobOffer {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   name        String
-  description String
-  status      JobOfferStatus @default(CREATED)
+  description String?
+  status      JobOfferStatus @default(DRAFT)
   salary      Salary?
   company     Company        @relation(fields: [companyId], references: [id])
   companyId   String         @map("company_id") @db.ObjectId
-  level       Seniority
+  level       Seniority?
   skills      Skill[]
 
   industry   Industry @relation(fields: [industryId], references: [id])
@@ -147,6 +163,32 @@ model JobOffer {
 
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @map("category_id") @db.ObjectId
+
+  publishedAt DateTime? @map("published_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+}
+
+model Image {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  thumbnail   Company? @relation(name: "thumbnail")
+  thumbnailId String?  @unique @map("thumbnail_id") @db.ObjectId
+  avatar      User?    @relation(name: "avatar")
+  gallery     Company? @relation(name: "gallery", fields: [galleryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  galleryId   String?  @map("gallery_id") @db.ObjectId
+  logo        Company? @relation(name: "logo")
+  logoId      String?  @unique @map("logo_id") @db.ObjectId
+  name        String
+  url         String
+
+  createdAt DateTime @default(now()) @map("created_at")
+}
+
+model CurriculumVitae {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  name String
+  url  String
 
   createdAt DateTime @default(now()) @map("created_at")
 }

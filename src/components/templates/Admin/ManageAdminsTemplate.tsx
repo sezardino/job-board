@@ -44,7 +44,7 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.manage-admins");
+  const t = useTranslations("page.admin.manage-admins");
   const userT = useTranslations("entity.user");
 
   const [isInviteAdminModalOpen, setIsInviteAdminModalOpen] = useState(false);
@@ -58,10 +58,11 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
           <UserInfo
             name={row.row.original.name}
             email={row.row.original.email}
+            avatar={row.row.original.avatar?.url}
           />
         ),
       }),
-      CH.accessor("isEmailVerified", {
+      CH.accessor("isAcceptInvite", {
         enableSorting: false,
         header: t("table.head.is-email-verified"),
         cell: (row) => (

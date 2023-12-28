@@ -5,5 +5,5 @@ import { useMutationHelper } from "../../helpers";
 export const useCheckEmailAvailableMutation = () =>
   useMutationHelper({
     mutationFn: (dto: CheckEmailAvailableRequest) =>
-      apiService.users.checkLoginAvailable(dto),
+      apiService.users.checkEmailAvailable(dto),
   });

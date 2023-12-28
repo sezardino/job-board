@@ -1,23 +1,43 @@
 import {
   AdminUsersRequest,
-  adminUsersResponseSchema,
+  CancelInviteRequest,
   CheckEmailAvailableRequest,
-  checkEmailAvailableResponseSchema,
+  CheckEmailsAvailableRequest,
+  CompaniesUsersRequest,
   CompanyUsersRequest,
-  companyUsersResponseSchema,
   CustomerUsersRequest,
-  customerUsersResponseSchema,
+  EditCompanyUserRequest,
   InviteAdminRequest,
+  InviteUsersRequest,
+  ResendInviteRequest,
+  adminUsersResponseSchema,
+  cancelInviteResponseSchema,
+  checkEmailAvailableResponseSchema,
+  checkEmailsAvailableResponseSchema,
+  companiesUsersResponseSchema,
+  companyUsersResponseSchema,
+  customerUsersResponseSchema,
+  editCompanyUserResponseSchema,
   inviteAdminResponseSchema,
+  inviteUsersResponseSchema,
+  resendInviteResponseSchema,
 } from "@/services/server/modules/users/schema";
 import { AbstractApiModule } from "../helpers";
 
 export class UsersApiModule extends AbstractApiModule {
-  async checkLoginAvailable(params: CheckEmailAvailableRequest) {
+  async checkEmailAvailable(params: CheckEmailAvailableRequest) {
     return await this.fetch({
       endpoint: "users/check-email",
       config: { params },
       schema: checkEmailAvailableResponseSchema,
+    });
+  }
+
+  async checkEmailsAvailable(data: CheckEmailsAvailableRequest) {
+    return await this.fetch({
+      endpoint: "users/check-emails",
+      config: { method: "POST", data },
+      schema: checkEmailsAvailableResponseSchema,
     });
   }
 
@@ -31,25 +51,65 @@ export class UsersApiModule extends AbstractApiModule {
 
   inviteAdmin(data: InviteAdminRequest) {
     return this.fetch({
-      endpoint: "users/invite-admin",
+      endpoint: "users/admin/invite",
       config: { method: "POST", data },
       schema: inviteAdminResponseSchema,
     });
   }
 
-  companies(params: CompanyUsersRequest) {
+  inviteUsers(data: InviteUsersRequest) {
     return this.fetch({
-      endpoint: "users/company",
+      endpoint: "users/invite",
+      config: { method: "POST", data },
+      schema: inviteUsersResponseSchema,
+    });
+  }
+
+  resendInvite(data: ResendInviteRequest) {
+    return this.fetch({
+      endpoint: "users/invite/resend",
+      config: { method: "POST", data },
+      schema: resendInviteResponseSchema,
+    });
+  }
+
+  cancelInvite(data: CancelInviteRequest) {
+    return this.fetch({
+      endpoint: "users/invite/cancel",
+      config: { method: "POST", data },
+      schema: cancelInviteResponseSchema,
+    });
+  }
+
+  editCompanyUser(data: EditCompanyUserRequest) {
+    return this.fetch({
+      endpoint: "users/company/edit",
+      config: { method: "POST", data },
+      schema: editCompanyUserResponseSchema,
+    });
+  }
+
+  companies(params: CompaniesUsersRequest) {
+    return this.fetch({
+      endpoint: "users/admin/companies",
       config: { params },
-      schema: companyUsersResponseSchema,
+      schema: companiesUsersResponseSchema,
     });
   }
 
   customers(params: CustomerUsersRequest) {
     return this.fetch({
-      endpoint: "users/customer",
+      endpoint: "users/admin/customers",
       config: { params },
       schema: customerUsersResponseSchema,
+    });
+  }
+
+  company(params: CompanyUsersRequest) {
+    return this.fetch({
+      endpoint: "users/company",
+      config: { params },
+      schema: companyUsersResponseSchema,
     });
   }
 }

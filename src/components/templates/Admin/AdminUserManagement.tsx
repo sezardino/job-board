@@ -1,4 +1,4 @@
-import { CompanyUsersResponse } from "@/services/server/modules/users/schema";
+import { CompaniesUsersResponse } from "@/services/server/modules/users/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
@@ -9,19 +9,21 @@ import { Icon } from "../../base";
 import { SearchForm } from "../../base/SearchForm/SearchForm";
 
 type Props = {
-  data?: CompanyUsersResponse;
+  data?: CompaniesUsersResponse;
   isTableDataLoading: boolean;
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
   onSearchChange: (search: string) => void;
 };
 
-export type ManageCompanyUsersProps = ComponentPropsWithoutRef<"section"> &
-  Props;
+export type AdminUserManagementTemplateProps =
+  ComponentPropsWithoutRef<"section"> & Props;
 
-const CH = createColumnHelper<CompanyUsersResponse["users"][number]>();
+const CH = createColumnHelper<CompaniesUsersResponse["users"][number]>();
 
-export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
+export const AdminUserManagementTemplate: FC<
+  AdminUserManagementTemplateProps
+> = (props) => {
   const {
     data,
     isTableDataLoading,
@@ -31,7 +33,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.manage-company-users");
+  const t = useTranslations("page.admin.manage-company-users");
   const userT = useTranslations("entity.user");
 
   const columns = useMemo(
@@ -43,10 +45,11 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
           <UserInfo
             name={row.row.original.name}
             email={row.row.original.email}
+            avatar={row.row.original.avatar?.url}
           />
         ),
       }),
-      CH.accessor("isEmailVerified", {
+      CH.accessor("isAcceptInvite", {
         enableSorting: false,
         header: t("table.head.is-email-verified"),
         cell: (row) => (

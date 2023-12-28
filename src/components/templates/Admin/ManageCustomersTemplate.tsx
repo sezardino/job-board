@@ -33,7 +33,7 @@ export const ManageCustomersTemplate: FC<ManageCustomersTemplateProps> = (
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.manage-customers");
+  const t = useTranslations("page.admin.manage-customers");
   const userT = useTranslations("entity.user");
 
   const columns = useMemo(
@@ -45,10 +45,11 @@ export const ManageCustomersTemplate: FC<ManageCustomersTemplateProps> = (
           <UserInfo
             name={row.row.original.name}
             email={row.row.original.email}
+            avatar={row.row.original.avatar?.url}
           />
         ),
       }),
-      CH.accessor("isEmailVerified", {
+      CH.accessor("isAcceptInvite", {
         enableSorting: false,
         header: t("table.head.is-email-verified"),
         cell: (row) => (

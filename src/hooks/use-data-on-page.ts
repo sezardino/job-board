@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useTableOnPage = () => {
+export const useDataOnPage = () => {
   const [page, setPage] = useState(0);
   const [limit, setLimit] = useState(10);
   const [search, setSearch] = useState("");
@@ -21,5 +21,6 @@ export const useTableOnPage = () => {
     onLimitChange,
     search,
     onSearchChange,
+    changeHandler: onElseChange,
   };
 };

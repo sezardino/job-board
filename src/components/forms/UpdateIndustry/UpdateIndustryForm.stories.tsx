@@ -2,8 +2,8 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { EntityStatus } from "@prisma/client";
 import {
-  EditIndustryForm as Component,
-  EditIndustryFormProps as ComponentProps,
+  UpdateIndustryForm as Component,
+  UpdateIndustryFormProps as ComponentProps,
 } from "./UpdateIndustryForm";
 
 const meta: Meta<ComponentProps> = {

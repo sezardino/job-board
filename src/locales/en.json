@@ -4,7 +4,11 @@
       "dashboard": "Dashboard",
       "companies": "Companies",
       "industries": "Industries",
-      "users": "Users"
+      "users": "Users",
+      "company": {
+        "dashboard": "Dashboard",
+        "offers": "Offers"
+      }
     },
     "admin-users": {
       "title": "Users",
@@ -15,9 +19,33 @@
         "customers": "Customers",
         "admins": "Admins"
       }
+    },
+    "company-dashboard": {
+      "profile": "See Profile",
+      "navigation": {
+        "title": "Company dashboard navigation",
+        "statistic": "Statistics",
+        "users": "Users"
+      }
     }
   },
   "forms": {
+    "invite-users": {
+      "remove": "Remove",
+      "add": "Add",
+      "email": {
+        "label": "Email",
+        "placeholder": "Email",
+        "required": "Email is required",
+        "used": "Email is already used",
+        "repeat": "Email is already added"
+      },
+      "role": {
+        "label": "Role",
+        "placeholder": "Choose role",
+        "required": "Role is required"
+      }
+    },
     "auth": {
       "email": {
         "label": "Email",
@@ -51,6 +79,7 @@
       }
     },
     "update-industry": {
+      "label": "Update Industry",
       "cancel": "Cancel",
       "submit": "Update Industry",
       "status": {
@@ -58,6 +87,34 @@
         "placeholder": "Status",
         "required": "Status is required"
       }
+    },
+    "edit-company-user": {
+      "label": "Edit user",
+      "role": {
+        "label": "Role",
+        "placeholder": "Role",
+        "required": "Role is required"
+      }
+    },
+    "edit-company-base-data": {
+      "label": "Edit Base Company Data",
+      "slogan": {
+        "label": "Slogan",
+        "placeholder": "Slogan",
+        "min-length": "Slogan should be more than {value} characters",
+        "max-length": "Slogan should be less than {value} characters"
+      },
+      "logo": {
+        "label": "Choose company logo",
+        "remove": "Remove",
+        "max-file-size": "Max file size is {value} MB",
+        "formats": "Allowed formats: {value}"
+      }
+    },
+    "images": {
+      "formats": "Allowed formats: {value}",
+      "max-file-size": "Max file size is {value} MB",
+      "max-count": "Max count of images is {value}"
     }
   },
   "entity": {
@@ -76,6 +133,7 @@
         "CUSTOMER": "Customer"
       },
       "status": {
+        "all": "All statuses",
         "ACTIVE": "Active",
         "BLOCKED": "Blocked",
         "INACTIVE": "Inactive"
@@ -83,90 +141,138 @@
     }
   },
   "page": {
-    "manage-admins": {
-      "invite": {
-        "title": "Invite admin",
-        "description": "Please enter email of the person you want to invite to the system",
-        "submit": "Invite",
-        "cancel": "Cancel",
-        "trigger": "Invite admin"
+    "admin": {
+      "manage-admins": {
+        "invite": {
+          "title": "Invite admin",
+          "description": "Please enter email of the person you want to invite to the system",
+          "submit": "Invite",
+          "cancel": "Cancel",
+          "trigger": "Invite admin"
+        },
+        "table": {
+          "no-data": "No admins found",
+          "head": {
+            "info": "Info",
+            "is-email-verified": "Email verified",
+            "role": "Role",
+            "status": "Status"
+          }
+        }
       },
-      "table": {
-        "no-data": "No admins found",
-        "head": {
-          "info": "Info",
-          "is-email-verified": "Email verified",
+      "manage-customers": {
+        "table": {
+          "no-data": "No customers found",
+          "head": {
+            "info": "Info",
+            "is-email-verified": "Email verified",
+            "role": "Role",
+            "status": "Status"
+          }
+        }
+      },
+      "manage-companies": {
+        "title": "Companies",
+        "description": "From this panel you can manage companies.",
+        "table": {
+          "no-data": "No companies found",
+          "head": {
+            "name": "Name",
+            "owner": "Owner",
+            "members": "Members",
+            "offers": "Offers"
+          }
+        }
+      },
+      "manage-company-users": {
+        "table": {
+          "no-data": "No customers found",
+          "head": {
+            "info": "Info",
+            "is-email-verified": "Email verified",
+            "company": "Company",
+            "role": "Role",
+            "status": "Status"
+          }
+        }
+      },
+      "manage-industries": {
+        "title": "Industries",
+        "description": "From this panel you can manage industries.",
+        "search": "Search industry",
+        "create": {
+          "title": "Create industry",
+          "description": "Enter valid name of the industry you want to create (in slug format)",
+          "trigger": "Create industry"
+        },
+        "update": {
+          "trigger": "Update",
+          "title": "Update industry",
+          "description": "You can only update status of the industry",
+          "cancel": "Cancel",
+          "confirm": "Update Industry"
+        },
+        "delete": {
+          "trigger": "Delete",
+          "title": "Delete industry",
+          "description": "Are you sure you want to delete this industry?",
+          "cancel": "Cancel",
+          "confirm": "Delete Industry"
+        },
+        "table": {
+          "no-data": "No Industries found",
+          "head": {
+            "name": "Name",
+            "offers": "Offers",
+            "categories": "Categories",
+            "status": "Status"
+          }
+        }
+      }
+    },
+    "company": {
+      "users": {
+        "title": "Users",
+        "description": "From this panel you can manage users of your company.",
+        "search": "Search user",
+        "filter": "Filter by status",
+        "table": {
+          "user": "User",
+          "accept-invite": "Accept invite",
           "role": "Role",
-          "status": "Status"
-        }
-      }
-    },
-    "manage-customers": {
-      "table": {
-        "no-data": "No customers found",
-        "head": {
-          "info": "Info",
-          "is-email-verified": "Email verified",
-          "role": "Role",
-          "status": "Status"
-        }
-      }
-    },
-    "manage-companies": {
-      "title": "Companies",
-      "description": "From this panel you can manage companies.",
-      "table": {
-        "no-data": "No companies found",
-        "head": {
-          "name": "Name",
-          "owner": "Owner",
-          "members": "Members",
-          "offers": "Offers"
-        }
-      }
-    },
-    "manage-company-users": {
-      "table": {
-        "no-data": "No customers found",
-        "head": {
-          "info": "Info",
-          "is-email-verified": "Email verified",
-          "company": "Company",
-          "role": "Role",
-          "status": "Status"
-        }
-      }
-    },
-    "manage-industries": {
-      "title": "Industries",
-      "description": "From this panel you can manage industries.",
-      "search": "Search industry",
-      "create": {
-        "title": "Create industry",
-        "description": "Enter valid name of the industry you want to create (in slug format)",
-        "trigger": "Create industry"
-      },
-      "update": {
-        "trigger": "Update",
-        "title": "Update industry",
-        "description": "You can only update status of the industry",
-        "cancel": "Cancel",
-        "confirm": "Update Industry"
-      },
-      "delete": {
-        "trigger": "Delete",
-        "title": "Delete industry",
-        "description": "Are you sure you want to delete this industry?",
-        "cancel": "Cancel",
-        "confirm": "Delete Industry"
-      },
-      "table": {
-        "no-data": "No Industries found",
-        "head": {
-          "name": "Name",
-          "offers": "Offers",
-          "categories": "Categories",
-          "status": "Status"
+          "status": "Status",
+          "actions": {
+            "label": "Actions",
+            "resend-invite": "Resend invitation",
+            "cancel-invite": "Cancel invitation",
+            "edit": "Edit"
+          }
+        },
+        "invite-user": {
+          "label": "Invite user",
+          "title": "Invite user",
+          "description": "Please enter email of the person you want to invite to the system",
+          "trigger": "Invite user",
+          "cancel": "Cancel",
+          "submit": "Invite users"
+        },
+        "resend-invite": {
+          "title": "Resend invitation",
+          "description": "Are you sure you want to resend invitation to this user?",
+          "cancel": "Cancel",
+          "confirm": "Resend invitation"
+        },
+        "cancel-invite": {
+          "title": "Cancel invitation",
+          "description": "Are you sure you want to cancel invitation to this user?",
+          "cancel": "Cancel",
+          "confirm": "Cancel invitation"
+        },
+        "edit-user": {
+          "title": "Edit user",
+          "description": "You can only edit role of the user",
+          "cancel": "Cancel",
+          "confirm": "Edit user"
         }
       }
     }
@@ -186,6 +292,46 @@
       "placeholder": "Enter your password",
       "required": "Password is required",
       "min-length": "Password must be at least {value} characters long"
+    }
+  },
+  "components": {
+    "company-template": {
+      "users": "Users:",
+      "owner": "Owner",
+      "members": "Members",
+      "gallery": "Gallery",
+      "bio": "Bio",
+      "no-bio": "No bio",
+      "offers": {
+        "title": "Offers",
+        "more": "See more offers"
+      },
+      "edit-bio": {
+        "title": "Edit bio",
+        "description": "You can edit bio of your company here",
+        "cancel": "Cancel",
+        "submit": "Edit bio",
+        "trigger": "Edit bio"
+      },
+      "edit-base-data": {
+        "title": "Edit Base Data",
+        "description": "You can edit base data of your company here",
+        "cancel": "Cancel",
+        "submit": "Edit Base Data",
+        "trigger": "Edit Base Data"
+      },
+      "edit-gallery": {
+        "label": "Select Images",
+        "title": "Edit Gallery",
+        "description": "You can edit gallery of your company here",
+        "cancel": "Cancel",
+        "submit": "Edit Gallery",
+        "trigger": "Edit Gallery"
+      }
+    },
+    "offer-card": {
+      "new": "New!",
+      "created-at": "{value} days ago"
     }
   },
   "messages": {

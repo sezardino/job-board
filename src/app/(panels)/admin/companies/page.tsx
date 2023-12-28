@@ -2,11 +2,11 @@
 
 import { ManageCompaniesTemplate } from "@/components/templates/Admin/ManageCompaniesTemplate";
 import { useAdminCompaniesListQuery } from "@/hooks/react-query/query/companies";
-import { useTableOnPage } from "@/hooks/use-table-on-page";
+import { useDataOnPage } from "@/hooks/use-data-on-page";
 
 const CompaniesPage = () => {
   const { limit, onLimitChange, onPageChange, onSearchChange, page, search } =
-    useTableOnPage();
+    useDataOnPage();
   const { data: companies, isFetching: isCompaniesLoading } =
     useAdminCompaniesListQuery({ limit, page, search });
 

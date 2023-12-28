@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { Select as Component, SelectProps as ComponentProps } from "./Select";
 
-const meta: Meta<ComponentProps> = {
+const meta: Meta<ComponentProps<string>> = {
   component: Component,
 };
 
@@ -16,5 +16,7 @@ const options = [
 ];
 
 export const Select: Story = {
-  render: () => <Component options={options} onChange={() => undefined} />,
+  render: () => (
+    <Component options={options} onSelectChange={() => undefined} />
+  ),
 };

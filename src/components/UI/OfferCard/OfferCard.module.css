@@ -1,0 +1,19 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-areas:
+    "footer head"
+    "footer body";
+}
+
+.head {
+  grid-area: head;
+}
+
+.body {
+  grid-area: body;
+}
+
+.footer {
+  grid-area: footer;
+}

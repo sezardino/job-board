@@ -3,16 +3,28 @@ import { UserRoles } from "@prisma/client";
 import { NextRequest } from "next/server";
 import {
   AdminUsersResponse,
+  CancelInviteResponse,
   CheckEmailAvailableResponse,
-  CompanyUsersResponse,
+  CompaniesUsersResponse,
   CustomerUsersResponse,
   InviteAdminResponse,
+  InviteUsersResponse,
+  ResendInviteResponse,
   adminUsersRequestSchema,
   checkEmailAvailableRequestSchema,
-  companyUsersRequestSchema,
+  companiesUsersRequestSchema,
   customerUsersRequestSchema,
   inviteAdminRequestSchema,
+  inviteUsersRequestSchema,
 } from "./schema";
+import {
+  CheckEmailsAvailableResponse,
+  checkEmailsAvailableRequestSchema,
+} from "./schema/check-emails-available";
+import {
+  EditCompanyUserResponse,
+  editCompanyUserRequestSchema,
+} from "./schema/edit-company-user";
 import { UsersService } from "./users.service";
 
 export class UsersController extends AbstractController<UsersService> {
@@ -33,6 +45,25 @@ export class UsersController extends AbstractController<UsersService> {
         { available: bllResponse } as CheckEmailAvailableResponse,
         200
       );
+    } catch (error) {
+      return this.getNextResponse({ message: "backend-errors.server" }, 500);
+    }
+  }
+
+  async checkEmailsAvailable(req: NextRequest) {
+    const data = await req.json();
+
+    const { response, dto } = await this.handlerHelper({
+      data,
+      schema: checkEmailsAvailableRequestSchema,
+    });
+
+    if (response) return response;
+
+    try {
+      const res = await this.service.checkEmailsAvailable(dto!.emails!);
+
+      return this.getNextResponse(res as CheckEmailsAvailableResponse, 200);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
@@ -61,6 +92,69 @@ export class UsersController extends AbstractController<UsersService> {
     }
   }
 
+  async inviteUsers(req: NextRequest) {
+    const data = await req.json();
+
+    const { response, dto, session } = await this.handlerHelper({
+      data,
+      schema: inviteUsersRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
+    });
+
+    if (response) return response;
+
+    const hasOwnerRole = dto?.users.some(
+      (user) => user.role === UserRoles.OWNER
+    );
+    const hasAdminRole = dto?.users.some(
+      (user) => user.role === UserRoles.ADMIN
+    );
+
+    if (hasOwnerRole && hasAdminRole)
+      return this.getNextResponse(
+        { message: "backend-errors.not-allowed" },
+        405
+      );
+
+    if (
+      session?.user.role === UserRoles.OWNER &&
+      (hasAdminRole ||
+        dto?.users.some((user) => user.role === UserRoles.SUB_ADMIN))
+    ) {
+      return this.getNextResponse(
+        { message: "backend-errors.not-allowed" },
+        405
+      );
+    }
+
+    if (
+      session?.user.role === UserRoles.ADMIN &&
+      (hasOwnerRole ||
+        dto?.users.some(
+          (user) =>
+            user.role === UserRoles.MODERATOR ||
+            user.role === UserRoles.RECRUITER
+        ))
+    ) {
+      return this.getNextResponse(
+        { message: "backend-errors.not-allowed" },
+        405
+      );
+    }
+
+    try {
+      const res = await this.service.inviteUsers(
+        dto!,
+        session?.user.companyId!
+      );
+
+      return this.getNextResponse(res as InviteUsersResponse, 201);
+    } catch (error) {
+      console.log(error);
+      return this.getNextResponse({ message: "backend-errors.server" }, 500);
+    }
+  }
+
   async inviteAdmin(req: NextRequest) {
     const data = await req.json();
 
@@ -84,21 +178,72 @@ export class UsersController extends AbstractController<UsersService> {
     }
   }
 
+  async resendInvite(req: NextRequest) {
+    const data = await req.json();
+
+    const { response } = await this.handlerHelper({
+      data,
+      schema: inviteUsersRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
+    });
+
+    if (!response) return response;
+
+    // TODO: implement resend invite
+
+    return this.getNextResponse({ success: true } as ResendInviteResponse, 200);
+  }
+
+  async cancelInvite(req: NextRequest) {
+    const data = await req.json();
+
+    const { response } = await this.handlerHelper({
+      data,
+      schema: inviteUsersRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
+    });
+
+    if (!response) return response;
+
+    // TODO: implement cancel invite
+
+    return this.getNextResponse({ success: true } as CancelInviteResponse, 200);
+  }
+
+  async editCompanyUser(req: NextRequest) {
+    const data = await req.json();
+
+    const { response } = await this.handlerHelper({
+      data,
+      schema: editCompanyUserRequestSchema,
+      acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
+    });
+
+    if (!response) return response;
+
+    // TODO: implement cancel invite
+
+    return this.getNextResponse(
+      { success: true } as EditCompanyUserResponse,
+      200
+    );
+  }
+
   async companies(req: NextRequest) {
     const params = this.formatParams(req.nextUrl.searchParams.entries());
 
     const { response, dto } = await this.handlerHelper({
       data: params,
-      schema: companyUsersRequestSchema,
+      schema: companiesUsersRequestSchema,
       acceptedRoles: [UserRoles.ADMIN, UserRoles.SUB_ADMIN],
     });
 
     if (response) return response;
 
     try {
-      const res = await this.service.company(dto!);
+      const res = await this.service.companies(dto!);
 
-      return this.getNextResponse(res as CompanyUsersResponse, 200);
+      return this.getNextResponse(res as CompaniesUsersResponse, 200);
     } catch (error) {
       return this.getNextResponse(
         { message: "backend-errors.server", error },
@@ -122,6 +267,32 @@ export class UsersController extends AbstractController<UsersService> {
       const res = await this.service.customers(dto!);
 
       return this.getNextResponse(res as CustomerUsersResponse, 200);
+    } catch (error) {
+      return this.getNextResponse(
+        { message: "backend-errors.server", error },
+        500
+      );
+    }
+  }
+
+  async company(req: NextRequest) {
+    const params = this.formatParams(req.nextUrl.searchParams.entries());
+
+    const { response, dto, session } = await this.handlerHelper({
+      data: params,
+      schema: companiesUsersRequestSchema,
+      acceptedRoles: [UserRoles.OWNER, UserRoles.MODERATOR],
+    });
+
+    if (!session?.user.companyId)
+      return this.getNextResponse({ message: "backend-errors.server" }, 404);
+
+    if (response) return response;
+
+    try {
+      const res = await this.service.company(dto!, session.user.companyId);
+
+      return this.getNextResponse(res as CompaniesUsersResponse, 200);
     } catch (error) {
       return this.getNextResponse(
         { message: "backend-errors.server", error },

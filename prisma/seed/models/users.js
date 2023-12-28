@@ -2,16 +2,14 @@ const { UserRoles, UserStatus } = require("@prisma/client");
 const { faker } = require("@faker-js/faker");
 
 const { rangeArray } = require("./helpers");
-
-// password: "password",
-const mockPassword =
-  "$argon2id$v=19$m=65536,t=3,p=4$aoeCUKn+4UX1pkX7ESxk4g$rz+1GkqG7owCPtWSGMfg0GauPs4zhNhVmKAkhAVriQw";
+const { mockPassword } = require("./const");
 
 const generateMockUser = ({
   roles = [UserRoles.CUSTOMER],
   status = [UserStatus.ACTIVE],
 }) => ({
   email: faker.internet.email(),
+  isAcceptInvite: true,
   name: faker.person.fullName(),
   password: mockPassword,
   role: faker.helpers.arrayElement(roles),
