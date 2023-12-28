@@ -3,6 +3,7 @@ import { UserRoles } from "@prisma/client";
 import { NextRequest } from "next/server";
 import { IndustriesService } from "./industries.service";
 import {
+  ActiveIndustriesResponse,
   AdminIndustriesResponse,
   CheckIndustryNameAvailableResponse,
   CreateIndustryResponse,
@@ -130,6 +131,19 @@ export class IndustriesController extends AbstractController<IndustriesService> 
 
       return this.getNextResponse(
         { industry: res } as DeleteIndustryResponse,
+        200
+      );
+    } catch (error) {
+      return this.getNextResponse({ message: "backend-errors.server" }, 500);
+    }
+  }
+
+  async activeIndustries() {
+    try {
+      const res = await this.service.activeIndustries();
+
+      return this.getNextResponse(
+        { industries: res } as ActiveIndustriesResponse,
         200
       );
     } catch (error) {
