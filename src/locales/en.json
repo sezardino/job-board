@@ -161,77 +161,54 @@
       "restaurants-and-food-service": "Restaurants & food-service"
     },
     "categories": {
-      "information-technology": {
-        "software-developer": "Software Developer",
-        "qa-engineer": "QA Engineer",
-        "mobile-developer": "Mobile Developer",
-        "designer": "Designer",
-        "database-administrator": "Database Administrator",
-        "cybersecurity-specialist": "Cybersecurity Specialist",
-        "data-analyst": "Data Analyst",
-        "devops-engineer": "DevOps Engineer",
-        "systems-architect": "Systems Architect",
-        "product-owner": "Product Owner",
-        "ai-ml-specialist": "AI/ML Specialist"
-      },
-      "marketing-and-advertising": {
-        "marketing-specialist": "Marketing Specialist",
-        "advertising-manager": "Advertising Manager",
-        "content-marketing-specialist": "Content Marketing Specialist",
-        "market-analyst": "Market Analyst"
-      },
-      "finance-and-accounting": {
-        "financial-analyst": "Financial Analyst",
-        "accountant": "Accountant",
-        "financial-consultant": "Financial Consultant",
-        "credit-analyst": "Credit Analyst"
-      },
-      "art-and-design": {
-        "artist-designer": "Artist/Designer",
-        "graphic-designer": "Graphic Designer",
-        "art-director": "Art Director"
-      },
-      "services-and-hospitality": {
-        "customer-service-specialist": "Customer Service Specialist",
-        "hairstylist-stylist": "Hairstylist/Stylist",
-        "masseuse-masseur": "Masseuse/Masseur",
-        "waiter-waitress": "Waiter/Waitress"
-      },
-      "tourism-and-hospitality": {
-        "tourism-manager": "Tourism Manager",
-        "hotel-resort-staff": "Hotel/Resort Staff",
-        "tour-guide": "Tour Guide"
-      },
-      "law-and-legal": {
-        "lawyer": "Lawyer",
-        "attorney": "Attorney",
-        "judicial-officer": "Judicial Officer",
-        "notary": "Notary"
-      },
-      "sports-and-fitness": {
-        "fitness-trainer": "Fitness Trainer",
-        "sports-manager": "Sports Manager",
-        "physiotherapist": "Physiotherapist",
-        "personal-trainer": "Personal Trainer"
-      },
-      "media-and-entertainment": {
-        "journalist": "Journalist",
-        "tv-radio-host": "TV/Radio Host",
-        "content-editor": "Content Editor",
-        "screenwriter": "Screenwriter"
-      },
-      "construction-and-architecture": {
-        "architect": "Architect",
-        "construction-engineer": "Construction Engineer",
-        "site-supervisor": "Site Supervisor",
-        "interior-designer": "Interior Designer"
-      },
-      "restaurants-and-food-service": {
-        "chef": "Chef",
-        "waiter-waitress": "Waiter/Waitress",
-        "bartender": "Bartender",
-        "baker": "Baker"
-      }
+      "software-developer": "Software Developer",
+      "qa-engineer": "QA Engineer",
+      "mobile-developer": "Mobile Developer",
+      "designer": "Designer",
+      "database-administrator": "Database Administrator",
+      "cybersecurity-specialist": "Cybersecurity Specialist",
+      "data-analyst": "Data Analyst",
+      "devops-engineer": "DevOps Engineer",
+      "systems-architect": "Systems Architect",
+      "product-owner": "Product Owner",
+      "ai-ml-specialist": "AI/ML Specialist",
+      "marketing-specialist": "Marketing Specialist",
+      "advertising-manager": "Advertising Manager",
+      "content-marketing-specialist": "Content Marketing Specialist",
+      "market-analyst": "Market Analyst",
+      "financial-analyst": "Financial Analyst",
+      "accountant": "Accountant",
+      "financial-consultant": "Financial Consultant",
+      "credit-analyst": "Credit Analyst",
+      "artist-designer": "Artist/Designer",
+      "graphic-designer": "Graphic Designer",
+      "art-director": "Art Director",
+      "customer-service-specialist": "Customer Service Specialist",
+      "hairstylist-stylist": "Hairstylist/Stylist",
+      "masseuse-masseur": "Masseuse/Masseur",
+      "tourism-manager": "Tourism Manager",
+      "hotel-resort-staff": "Hotel/Resort Staff",
+      "tour-guide": "Tour Guide",
+      "lawyer": "Lawyer",
+      "attorney": "Attorney",
+      "judicial-officer": "Judicial Officer",
+      "notary": "Notary",
+      "fitness-trainer": "Fitness Trainer",
+      "sports-manager": "Sports Manager",
+      "physiotherapist": "Physiotherapist",
+      "personal-trainer": "Personal Trainer",
+      "journalist": "Journalist",
+      "tv-radio-host": "TV/Radio Host",
+      "content-editor": "Content Editor",
+      "screenwriter": "Screenwriter",
+      "architect": "Architect",
+      "construction-engineer": "Construction Engineer",
+      "site-supervisor": "Site Supervisor",
+      "interior-designer": "Interior Designer",
+      "chef": "Chef",
+      "waiter-waitress": "Waiter/Waitress",
+      "bartender": "Bartender",
+      "baker": "Baker"
     }
   },
   "page": {
