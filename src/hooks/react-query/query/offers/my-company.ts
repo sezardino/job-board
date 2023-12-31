@@ -8,7 +8,7 @@ export const useMyCompanyOffersQuery = (
   params: CompanyOffersRequest & { companyId: string }
 ) => {
   return useQuery({
-    queryKey: [MY_COMPANY_OFFERS_QUERY_KEY, Object.values(params)],
+    queryKey: [MY_COMPANY_OFFERS_QUERY_KEY, ...Object.values(params)],
     queryFn: () => apiService.offers.myCompany(params),
     enabled: !!params.companyId,
   });

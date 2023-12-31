@@ -1,3 +1,8 @@
+"use client";
+
+import { OffersBoardTemplate } from "@/components/templates/Board/OffersBoardTemplate";
+import { useOffersListInfiniteQuery } from "@/hooks/react-query/query/offers/list";
+
 type Props = {
   params: {
     industry: string;
@@ -5,7 +10,22 @@ type Props = {
 };
 
 const IndustryPage = (props: Props) => {
-  return <h1>{props.params.industry}</h1>;
+  const { industry } = props.params;
+
+  const {
+    data: offersList,
+    isFetching: isOffersListLoading,
+    fetchNextPage,
+    hasNextPage,
+  } = useOffersListInfiniteQuery({ industry });
+
+  return (
+    <OffersBoardTemplate
+      offersList={offersList}
+      onTriggerFetchNextPage={fetchNextPage}
+      hasNextPage={hasNextPage}
+    />
+  );
 };
 
 export default IndustryPage;

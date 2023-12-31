@@ -1,12 +1,12 @@
-import { Icon, IconNames, Typography } from "@/components/base";
-import { Card, CardBody } from "@nextui-org/react";
+import { Icon, IconNames } from "@/components/base";
+import { Button, Tooltip } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { type ComponentPropsWithoutRef, type FC } from "react";
-import { twMerge } from "tailwind-merge";
 
 type Props = {
   name: string;
+  prefix?: string;
 };
 
 const categoriesIconMapping: Record<string, IconNames> = {
@@ -60,32 +60,29 @@ const categoriesIconMapping: Record<string, IconNames> = {
   baker: "TbBread",
 };
 
-export type CategoryCardProps = ComponentPropsWithoutRef<"article"> & Props;
+export type CategoryCardProps = Omit<
+  ComponentPropsWithoutRef<"button">,
+  "onFocus" | "onBlur" | "color"
+> &
+  Props;
 
 export const CategoryCard: FC<CategoryCardProps> = (props) => {
-  const { name, className, ...rest } = props;
-  const industriesT = useTranslations("entity.categories");
+  const { name, prefix, className, ...rest } = props;
+  const categoryT = useTranslations("entity.categories");
 
   const iconName = categoriesIconMapping[name] || "HiQuestionMarkCircle";
 
   return (
-    // @ts-ignore
-    <Card
-      {...rest}
-      as="div"
-      isPressable
-      className={twMerge("h-full group hover:bg-slate-100", className)}
-    >
-      <CardBody
+    <Tooltip content={categoryT(name)}>
+      <Button
+        {...rest}
+        isIconOnly
         as={Link}
-        href={name}
-        className="grid grid-cols-1 gap-1 content-center justify-items-center"
+        href={`${prefix ? `${prefix}/` : ""}${name}`}
+        radius="full"
       >
-        <Icon name={iconName} size={32} />
-        <Typography tag="h3" styling="sm" className="text-center">
-          {industriesT(name)}
-        </Typography>
-      </CardBody>
-    </Card>
+        <Icon name={iconName} size={24} />
+      </Button>
+    </Tooltip>
   );
 };

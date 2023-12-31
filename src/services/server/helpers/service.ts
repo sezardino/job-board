@@ -1,3 +1,4 @@
+import { DEFAULT_PAGE_LIMIT } from "@/const";
 import { PrismaService } from "@/libs/prisma";
 import { FindManyPrismaEntity } from "@/types";
 import { PrismaClient } from "@prisma/client";
@@ -22,7 +23,7 @@ export abstract class AbstractService {
     const { limit, page, select, where } = args;
     let pagination: ReturnType<AbstractService["getPagination"]> | null = null;
 
-    if (page && limit) {
+    if (typeof page === "number" && typeof limit === "number") {
       // @ts-ignore
       const offersCount = await this.prismaService[entity].count({
         where,
@@ -48,15 +49,14 @@ export abstract class AbstractService {
   }
 
   protected getPagination(args: GetPaginationArgs) {
-    const { page = 0, limit = 10, count = 0 } = args;
-    const totalPages = Math.ceil(count / limit);
+    const { page = 0, limit = DEFAULT_PAGE_LIMIT, count = 0 } = args;
 
     return {
       skip: page * limit,
       take: limit,
       meta: {
-        totalPages,
-        page: page + 1,
+        totalPages: Math.ceil(count / limit) - 1,
+        page,
         limit,
         count,
       },

@@ -7,6 +7,7 @@ import { PropsWithChildren, type FC } from "react";
 type Props = {
   params: {
     industry: string;
+    category: string;
   };
 };
 
@@ -18,10 +19,10 @@ const BoardLayout: FC<PropsWithChildren & Props> = (props) => {
 
   return (
     <div className="grid grid-cols-1 gap-4">
-      <ul className="grid grid-cols-main-cards gap-1 list-none">
+      <ul className="flex flex-wrap items-center gap-1 list-none">
         {activeCategories?.data.map((category) => (
           <li key={category.id}>
-            <CategoryCard name={category.name} />
+            <CategoryCard prefix={params.industry} name={category.name} />
           </li>
         ))}
       </ul>
