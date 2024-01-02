@@ -32,7 +32,7 @@ export const BoardLayoutWrapper: FC<BoardLayoutProps> = (props) => {
           </li>
         ))}
       </ul>
-      <main>{children}</main>
+      <main className="container">{children}</main>
     </div>
   );
 };

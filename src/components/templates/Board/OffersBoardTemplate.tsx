@@ -1,6 +1,7 @@
 import { OffersList } from "@/components/UI/OffersList/OffersList";
 import { OffersListResponse } from "@/services/server/modules/job-offers/scema";
 import { type ComponentPropsWithoutRef, type FC } from "react";
+import { twMerge } from "tailwind-merge";
 
 type Props = {
   offersList?: OffersListResponse;
@@ -20,7 +21,7 @@ export const OffersBoardTemplate: FC<OffersBoardTemplateProps> = (props) => {
   } = props;
 
   return (
-    <div {...rest}>
+    <div {...rest} className={twMerge("pb-4", className)}>
       <OffersList
         offers={offersList?.data || []}
         linkPrefix={""}

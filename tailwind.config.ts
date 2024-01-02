@@ -16,6 +16,9 @@ const config: Config = {
         "gradient-conic":
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
+      container: {
+        center: true,
+      },
       gridTemplateColumns: {
         "main-cards": "repeat(auto-fit, minmax(120px, 1fr))",
       },

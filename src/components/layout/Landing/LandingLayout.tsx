@@ -104,7 +104,7 @@ export const LandingWrapper: FC<LandingWrapperProps> = (props) => {
         </NavbarMenu>
       </Navbar>
 
-      <div className={twMerge("p-4 h-auto")}>{children}</div>
+      <main className={twMerge("container h-auto")}>{children}</main>
     </div>
   );
 };
