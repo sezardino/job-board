@@ -29,7 +29,7 @@ type Props = {
 export type ManageAdminsTemplateProps = ComponentPropsWithoutRef<"section"> &
   Props;
 
-const CH = createColumnHelper<AdminUsersResponse["users"][number]>();
+const CH = createColumnHelper<AdminUsersResponse["data"][number]>();
 
 export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
   const {
@@ -114,7 +114,7 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
         <TableWidget
           // @ts-ignore
           columns={columns}
-          data={data?.users || []}
+          data={data?.data || []}
           isLoading={isTableDataLoading}
           noDataMessage={t("table.no-data")}
           page={data?.meta.page || 0}

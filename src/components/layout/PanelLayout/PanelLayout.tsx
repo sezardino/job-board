@@ -2,9 +2,13 @@
 
 import { FC, PropsWithChildren } from "react";
 
+import { AppNavbar } from "@/components/UI/AppNavbar/AppNavbar";
+import {
+  AppSidebar,
+  AppSidebarItem,
+} from "@/components/UI/AppSidebar/AppSidebar";
 import { twMerge } from "tailwind-merge";
-import { AppNavbar, AppSidebar, AppSidebarItem } from "..";
-import styles from "./AppWrapper.module.css";
+import styles from "./PanelLayout.module.css";
 
 type Props = {
   lists: AppSidebarItem[][];
@@ -14,9 +18,9 @@ type Props = {
   email: string;
 };
 
-type AppWrapperProps = PropsWithChildren<Props>;
+type PanelLayoutProps = PropsWithChildren<Props>;
 
-export const AppWrapper: FC<AppWrapperProps> = (props) => {
+export const PanelLayout: FC<PanelLayoutProps> = (props) => {
   const { lists, homeHref, avatar, email, onSignOutClick, children } = props;
 
   return (

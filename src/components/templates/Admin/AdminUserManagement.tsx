@@ -19,7 +19,7 @@ type Props = {
 export type AdminUserManagementTemplateProps =
   ComponentPropsWithoutRef<"section"> & Props;
 
-const CH = createColumnHelper<CompaniesUsersResponse["users"][number]>();
+const CH = createColumnHelper<CompaniesUsersResponse["data"][number]>();
 
 export const AdminUserManagementTemplate: FC<
   AdminUserManagementTemplateProps
@@ -87,7 +87,7 @@ export const AdminUserManagementTemplate: FC<
         <TableWidget
           // @ts-ignore
           columns={columns}
-          data={data?.users || []}
+          data={data?.data || []}
           isLoading={isTableDataLoading}
           noDataMessage={t("table.no-data")}
           page={data?.meta.page || 0}

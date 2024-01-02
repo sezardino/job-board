@@ -12,7 +12,7 @@ export const customerUsersRequestSchema = z
 
 export const customerUsersResponseSchema = z
   .object({
-    users: z.array(
+    data: z.array(
       z.object({
         id: z.string(),
         name: z.string(),
