@@ -17,7 +17,7 @@ const generateIndustries = async () => {
   await prisma.industry.createMany({
     data: Object.values(industries).map((name) => ({
       name,
-      status: statuses.ACTIVE,
+      status: "ACTIVE",
     })),
   });
 

@@ -7,6 +7,7 @@ import { type ComponentPropsWithoutRef, type FC } from "react";
 type Props = {
   name: string;
   prefix?: string;
+  isActive: boolean;
 };
 
 const categoriesIconMapping: Record<string, IconNames> = {
@@ -67,7 +68,7 @@ export type CategoryCardProps = Omit<
   Props;
 
 export const CategoryCard: FC<CategoryCardProps> = (props) => {
-  const { name, prefix, className, ...rest } = props;
+  const { name, prefix, isActive, className, ...rest } = props;
   const categoryT = useTranslations("entity.categories");
 
   const iconName = categoriesIconMapping[name] || "HiQuestionMarkCircle";
@@ -78,7 +79,8 @@ export const CategoryCard: FC<CategoryCardProps> = (props) => {
         {...rest}
         isIconOnly
         as={Link}
-        href={`${prefix ? `${prefix}/` : ""}${name}`}
+        href={prefix ? prefix + "/" + name : name}
+        color={isActive ? "primary" : undefined}
         radius="full"
       >
         <Icon name={iconName} size={24} />
