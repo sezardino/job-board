@@ -366,6 +366,15 @@
     }
   },
   "components": {
+    "landing-navbar": {
+      "home": "Home",
+      "about": "About",
+      "login": "Login",
+      "registration": "Sign up",
+      "logout": "Logout",
+      "open-menu": "Open menu",
+      "close-menu": "Close menu"
+    },
     "company-template": {
       "users": "Users:",
       "owner": "Owner",

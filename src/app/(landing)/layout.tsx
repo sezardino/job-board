@@ -2,15 +2,15 @@
 
 import { PropsWithChildren } from "react";
 
-import { LandingWrapper } from "@/components/layout";
+import { LandingLayout } from "@/components/layout";
 import { signOut, useSession } from "next-auth/react";
 
-const LandingLayout = (props: PropsWithChildren) => {
+const BaseLayout = (props: PropsWithChildren) => {
   const { children } = props;
   const session = useSession();
 
   return (
-    <LandingWrapper
+    <LandingLayout
       user={
         session.data?.user
           ? {
@@ -23,8 +23,8 @@ const LandingLayout = (props: PropsWithChildren) => {
       onSignOutClick={signOut}
     >
       {children}
-    </LandingWrapper>
+    </LandingLayout>
   );
 };
 
-export default LandingLayout;
+export default BaseLayout;
