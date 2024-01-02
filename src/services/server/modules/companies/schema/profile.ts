@@ -6,7 +6,7 @@ export const companyProfileResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
   bio: z.string().nullable(),
-  catchPhrase: z.string().nullable(),
+  slogan: z.string().nullable(),
   thumbnail: fileSchema.nullable(),
   logo: fileSchema.nullable(),
   gallery: z.array(fileSchema),

@@ -4,31 +4,19 @@ const {
   Seniority,
   UserStatus,
   UserRoles,
+  JobOperatingMode,
+  JobContract,
 } = require("@prisma/client");
 
 const statuses = Object.values(EntityStatus);
 
-const userStatuses = [
-  UserStatus.ACTIVE,
-  UserStatus.INACTIVE,
-  UserStatus.BLOCKED,
-];
+const userStatuses = Object.values(UserStatus);
 
-const jobOfferStatuses = [
-  JobOfferStatus.DRAFT,
-  JobOfferStatus.ACTIVE,
-  JobOfferStatus.INACTIVE,
-  JobOfferStatus.FINISHED,
-];
+const jobOperatingModes = Object.values(JobOperatingMode);
+const jobContracts = Object.values(JobContract);
+const jobOfferStatuses = Object.values(JobOfferStatus);
 
-const seniorities = [
-  Seniority.TRAINEE,
-  Seniority.JUNIOR,
-  Seniority.MIDDLE,
-  Seniority.SENIOR,
-  Seniority.LEAD,
-  Seniority.ARCHITECT,
-];
+const seniorities = Object.values(Seniority);
 
 // password: "admin",
 const mockPassword =
@@ -215,4 +203,6 @@ module.exports = {
   userStatuses,
   jobDescriptionHTML,
   jobSkills,
+  jobOperatingModes,
+  jobContracts,
 };

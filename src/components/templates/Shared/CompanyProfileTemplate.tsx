@@ -35,7 +35,7 @@ import { twMerge } from "tailwind-merge";
 
 export type CompanyProfileTemplateEntity = {
   name: string;
-  catchPhrase: string | null;
+  slogan: string | null;
   bio: string | null;
   logo: FileEntity | null;
   gallery: FileEntity[];
@@ -143,9 +143,9 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
                   {t("edit-base-data.trigger")}
                 </Button>
               </div>
-              {company?.catchPhrase && (
+              {company?.slogan && (
                 <Typography tag="p" styling="sm" className="italic">
-                  {company.catchPhrase}
+                  {company.slogan}
                 </Typography>
               )}
             </Grid>
@@ -245,7 +245,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
                 {editAction.isLoading && <LoadingOverlay isInWrapper />}
                 <EditCompanyBaseDataForm
                   initialValues={{
-                    slogan: company?.catchPhrase || "",
+                    slogan: company?.slogan || "",
                     logo: company?.logo?.url || null,
                     isLogoDeleted: false,
                   }}

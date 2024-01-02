@@ -7,6 +7,8 @@ const {
   jobOfferStatuses,
   jobDescriptionHTML,
   jobSkills,
+  jobContracts,
+  jobOperatingModes,
 } = require("./const");
 
 const generateMockOffer = ({ companyId, industries }) => {
@@ -33,10 +35,13 @@ const generateMockOffer = ({ companyId, industries }) => {
     categoryId,
     companyId,
     skills,
+    contract: faker.helpers.arrayElement(jobContracts),
+    operating: faker.helpers.arrayElement(jobOperatingModes),
     description: jobDescriptionHTML,
     level: faker.helpers.arrayElement(seniorities),
     status: faker.helpers.arrayElement(jobOfferStatuses),
     salary: { from, to },
+    deadlineAt: faker.date.future(),
   };
 };
 

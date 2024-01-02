@@ -58,7 +58,7 @@ export class CompaniesService extends AbstractService {
     const data: Prisma.CompanyUpdateInput = {};
 
     if (bio) data.bio = bio;
-    if (slogan) data.catchPhrase = slogan;
+    if (slogan) data.slogan = slogan;
     if (logoDeleted) data.logo!.delete = true;
     if (logo) {
       const image = await this.filesService.uploadImage(logo, companyId);
@@ -104,7 +104,7 @@ export class CompaniesService extends AbstractService {
         id: true,
         name: true,
         bio: true,
-        catchPhrase: true,
+        slogan: true,
         logo: { select: { id: true, url: true, name: true } },
         gallery: { select: { id: true, url: true, name: true } },
         thumbnail: { select: { id: true, url: true, name: true } },
@@ -139,7 +139,7 @@ export class CompaniesService extends AbstractService {
       select: {
         id: true,
         name: true,
-        catchPhrase: true,
+        slogan: true,
         logo: { select: { id: true, url: true, name: true } },
       },
     });
