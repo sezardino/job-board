@@ -13,7 +13,7 @@ export const MyCompanyProvider: FC<PropsWithChildren> = ({ children }) => {
     return {
       id: baseData.id,
       name: baseData.name,
-      slogan: baseData.catchPhrase,
+      slogan: baseData.slogan,
       logo: baseData.logo,
     };
   }, [baseData]);

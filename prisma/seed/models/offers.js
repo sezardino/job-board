@@ -4,9 +4,13 @@ const { faker } = require("@faker-js/faker");
 const { rangeArray } = require("./helpers");
 const {
   seniorities,
+  skillLevels,
   jobOfferStatuses,
   jobDescriptionHTML,
   jobSkills,
+  jobContracts,
+  jobOperatingModes,
+  jobTypes,
 } = require("./const");
 
 const generateMockOffer = ({ companyId, industries }) => {
@@ -24,7 +28,7 @@ const generateMockOffer = ({ companyId, industries }) => {
     .slice(1, faker.number.int({ min: 1, max: 10 }))
     .map((name) => ({
       name,
-      level: faker.helpers.arrayElement(seniorities),
+      level: faker.helpers.arrayElement(skillLevels),
     }));
 
   return {
@@ -33,10 +37,15 @@ const generateMockOffer = ({ companyId, industries }) => {
     categoryId,
     companyId,
     skills,
+    contract: faker.helpers.arrayElement(jobContracts),
+    operating: faker.helpers.arrayElement(jobOperatingModes),
     description: jobDescriptionHTML,
     level: faker.helpers.arrayElement(seniorities),
     status: faker.helpers.arrayElement(jobOfferStatuses),
+    type: faker.helpers.arrayElement(jobTypes),
     salary: { from, to },
+    publishedAt: faker.date.past(),
+    deadlineAt: faker.date.future(),
   };
 };
 

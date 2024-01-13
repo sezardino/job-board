@@ -33,7 +33,7 @@ const AdminUsersLayout: FC<PropsWithChildren> = ({ children }) => {
         title={t("navigation.title")}
       />
 
-      <main>{children}</main>
+      <main className="container">{children}</main>
     </div>
   );
 };

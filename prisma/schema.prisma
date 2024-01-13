@@ -19,12 +19,31 @@ enum UserRoles {
   CUSTOMER
 }
 
-enum ReviewedEntityStatus {
-  ACCEPTED
-  REJECTED
-  RETURNED
-  REVIEW
-  PENDING
+enum CVFileStatus {
+  ACTIVE
+  ARCHIVED
+}
+
+enum JobContract {
+  B2B
+  PERMANENT
+  MANDATE_CONTRACT
+  SPECIFIC_TASK_CONTRACT
+  INTERNSHIP
+}
+
+enum JobType {
+  FULL_TIME
+  PART_TIME
+  PRACTICE_INTERNSHIP
+  FREELANCE
+}
+
+enum JobOperatingMode {
+  REMOTE
+  OFFICE
+  HYBRID
+  OTHER
 }
 
 enum EntityStatus {
@@ -39,11 +58,6 @@ enum UserStatus {
   INACTIVE
 }
 
-type Story {
-  message   String
-  createdAt DateTime @default(now()) @map("created_at")
-}
-
 enum JobOfferStatus {
   ARCHIVED
   FINISHED
@@ -52,23 +66,38 @@ enum JobOfferStatus {
   DRAFT
 }
 
+enum Seniority {
+  INTERN
+  JUNIOR
+  MID
+  SENIOR
+  EXPERT
+}
+
+enum SkillLevel {
+  NICE_TO_HAVE
+  BASIC
+  MEDIUM
+  ADVANCED
+  EXPERT
+}
+
+type Skill {
+  name  String
+  level SkillLevel
+}
+
 type Salary {
   from Int
   to   Int
 }
 
-enum Seniority {
-  TRAINEE
-  JUNIOR
-  MIDDLE
-  SENIOR
-  LEAD
-  ARCHITECT
-}
-
-type Skill {
-  name  String
-  level Seniority
+type Location {
+  country  String
+  city     String
+  street   String
+  building String
+  zipCode  String
 }
 
 model User {
@@ -88,7 +117,8 @@ model User {
 
   password String?
 
-  owner     Company? @relation(name: "owner")
+  owner Company? @relation(name: "owner")
+
   company   Company? @relation(name: "member", fields: [companyId], references: [id])
   companyId String?  @map("company_id") @db.ObjectId
 
@@ -112,10 +142,11 @@ model Industry {
 model Category {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name       String
-  status     EntityStatus @default(CREATED)
-  industry   Industry     @relation(fields: [industryId], references: [id])
-  industryId String       @map("industry_id") @db.ObjectId
+  name   String
+  status EntityStatus @default(CREATED)
+
+  industry   Industry @relation(fields: [industryId], references: [id])
+  industryId String   @map("industry_id") @db.ObjectId
 
   createdAt DateTime   @default(now()) @map("created_at")
   offers    JobOffer[]
@@ -126,16 +157,20 @@ model Company {
 
   status EntityStatus @default(CREATED)
 
-  logo        Image?  @relation(name: "logo", fields: [logoId], references: [id])
-  logoId      String? @unique @map("logo_id") @db.ObjectId
+  logo   Image?  @relation(name: "logo", fields: [logoId], references: [id])
+  logoId String? @unique @map("logo_id") @db.ObjectId
+
   thumbnail   Image?  @relation(name: "thumbnail", fields: [thumbnailId], references: [id])
   thumbnailId String? @unique @map("thumbnail_id") @db.ObjectId
-  gallery     Image[] @relation(name: "gallery")
 
-  name        String  @unique
-  slug        String  @unique
-  catchPhrase String? @map("catch_phrase")
-  bio         String?
+  gallery Image[] @relation(name: "gallery")
+
+  name   String  @unique
+  slug   String  @unique
+  slogan String? @map("slogan")
+  bio    String?
+
+  location Location[]
 
   owner   User   @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ownerId String @unique @map("owner_id") @db.ObjectId
@@ -149,23 +184,31 @@ model Company {
 model JobOffer {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name        String
+  name      String
+  status    JobOfferStatus    @default(DRAFT)
+  salary    Salary?
+  type      JobType?
+  contract  JobContract?
+  operating JobOperatingMode?
+  level     Seniority?
+  skills    Skill[]
+
   description String?
-  status      JobOfferStatus @default(DRAFT)
-  salary      Salary?
-  company     Company        @relation(fields: [companyId], references: [id])
-  companyId   String         @map("company_id") @db.ObjectId
-  level       Seniority?
-  skills      Skill[]
+
+  company   Company @relation(fields: [companyId], references: [id])
+  companyId String  @map("company_id") @db.ObjectId
 
   industry   Industry @relation(fields: [industryId], references: [id])
   industryId String   @map("industry_id") @db.ObjectId
 
+  // TODO: offer can be in 2 categories
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @map("category_id") @db.ObjectId
 
   publishedAt DateTime? @map("published_at")
-  createdAt   DateTime  @default(now()) @map("created_at")
+  deadlineAt  DateTime? @map("deadline_at")
+
+  createdAt DateTime @default(now()) @map("created_at")
 }
 
 model Image {
@@ -189,6 +232,8 @@ model CurriculumVitae {
 
   name String
   url  String
+
+  status CVFileStatus @default(ACTIVE)
 
   createdAt DateTime @default(now()) @map("created_at")
 }

@@ -11,7 +11,7 @@ export const ReactQueryProvider = ({ children }: PropsWithChildren) => {
   return (
     <QueryClientProvider client={client}>
       <ReactQueryStreamedHydration>{children}</ReactQueryStreamedHydration>
-      <ReactQueryDevtools initialIsOpen={false} buttonPosition="top-left" />
+      <ReactQueryDevtools initialIsOpen={false} buttonPosition="bottom-left" />
     </QueryClientProvider>
   );
 };

@@ -33,7 +33,8 @@ export type TypographyProps = ComponentPropsWithoutRef<"p"> & {
     | "success"
     | "danger"
     | "warning"
-    | "default";
+    | "default"
+    | "default-500";
 };
 
 export const Typography: FC<TypographyProps> = (props) => {
@@ -71,6 +72,7 @@ export const Typography: FC<TypographyProps> = (props) => {
         stylingString[styling],
         weightString[weight],
         `text-${color}`,
+
         className
       )}
     >

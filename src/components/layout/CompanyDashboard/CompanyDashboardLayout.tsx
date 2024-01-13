@@ -43,7 +43,7 @@ export const CompanyDashboardLayout: FC<PropsWithChildren> = ({ children }) => {
           items={navigationLinks}
         />
       </div>
-      <main>{children}</main>
+      <main className="container">{children}</main>
     </div>
   );
 };

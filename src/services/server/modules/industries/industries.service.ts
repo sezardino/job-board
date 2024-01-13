@@ -109,12 +109,6 @@ export class IndustriesService extends AbstractService {
       select: {
         id: true,
         name: true,
-        _count: {
-          select: {
-            categories: true,
-            offers: true,
-          },
-        },
       },
     });
   }

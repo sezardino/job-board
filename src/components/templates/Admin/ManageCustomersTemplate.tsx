@@ -19,7 +19,7 @@ type Props = {
 export type ManageCustomersTemplateProps = ComponentPropsWithoutRef<"section"> &
   Props;
 
-const CH = createColumnHelper<CustomerUsersResponse["users"][number]>();
+const CH = createColumnHelper<CustomerUsersResponse["data"][number]>();
 
 export const ManageCustomersTemplate: FC<ManageCustomersTemplateProps> = (
   props
@@ -77,7 +77,7 @@ export const ManageCustomersTemplate: FC<ManageCustomersTemplateProps> = (
       <TableWidget
         // @ts-ignore
         columns={columns}
-        data={data?.users || []}
+        data={data?.data || []}
         isLoading={isTableDataLoading}
         noDataMessage={t("table.no-data")}
         page={data?.meta.page || 0}

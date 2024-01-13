@@ -26,7 +26,7 @@ export type OfferCardEntity = {
 type Props = {
   offers: OfferCardEntity[];
   linkPrefix: string;
-  endContent?: { label: string; to?: string }[];
+  endContent?: { label: string; to?: string; onClick?: () => void }[];
 };
 
 export type OffersListProps = ComponentPropsWithoutRef<"ul"> & Props;
@@ -59,8 +59,9 @@ export const OffersList: FC<OffersListProps> = (props) => {
         endContent.map((c, i) => (
           <li key={i}>
             <Card
+              {...c}
               as={c.to ? Link : "div"}
-              {...{ href: c.to ? c.to : undefined }}
+              isPressable={!!c.to || !!c.onClick}
             >
               <CardBody className="text-center py-5">
                 <Typography tag="h4" className="text-primary">

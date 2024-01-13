@@ -18,7 +18,7 @@ type CopyProp = {
 
 export type AppNavbarProps = ComponentPropsWithoutRef<"nav"> & {
   avatarSrc?: string;
-  login: string;
+  email?: string;
   onSignOutClick: () => void;
   copy: CopyProp;
   dropdownLinks?: { href?: string; label: string; onClick?: () => void }[];
@@ -30,7 +30,7 @@ export const AppNavbar: FC<AppNavbarProps> = (props) => {
     onSignOutClick,
     copy,
     avatarSrc,
-    login,
+    email,
     className,
     ...rest
   } = props;
@@ -49,7 +49,7 @@ export const AppNavbar: FC<AppNavbarProps> = (props) => {
               <Avatar
                 src={avatarSrc}
                 radius="full"
-                name={login?.slice(0, 1).toUpperCase()}
+                name={email?.slice(0, 1).toUpperCase()}
                 className="text-xl"
               />
             </button>

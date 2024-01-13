@@ -4,7 +4,7 @@ import { z } from "zod";
 export const myCompanyBaseDataResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
-  catchPhrase: z.string().nullable(),
+  slogan: z.string().nullable(),
   logo: fileSchema.nullable(),
 });
 

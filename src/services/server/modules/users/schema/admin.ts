@@ -14,7 +14,7 @@ export const adminUsersRequestSchema = z
 
 export const adminUsersResponseSchema = z
   .object({
-    users: z.array(
+    data: z.array(
       z.object({
         id: z.string(),
         name: z.string(),

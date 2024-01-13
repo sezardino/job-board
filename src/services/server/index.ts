@@ -1,6 +1,7 @@
 import { PrismaService, prisma } from "@/libs/prisma";
 import {
   AuthModule,
+  CategoriesModule,
   CompaniesModule,
   FilesModule,
   IndustriesModule,
@@ -15,6 +16,7 @@ class Server {
   companies: CompaniesModule;
   files: FilesModule;
   jobOffers: JobOffersModule;
+  categories: CategoriesModule;
 
   constructor(private readonly prismaService: PrismaService) {
     this.users = new UsersModule(prismaService);
@@ -23,6 +25,7 @@ class Server {
     this.files = new FilesModule(prismaService);
     this.companies = new CompaniesModule(prismaService, this.files.service);
     this.jobOffers = new JobOffersModule(prismaService);
+    this.categories = new CategoriesModule(prismaService);
   }
 }
 

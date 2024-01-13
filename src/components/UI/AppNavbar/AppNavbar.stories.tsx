@@ -15,7 +15,7 @@ type Story = StoryObj<typeof Component>;
 export const AppNavbar: Story = {
   render: () => (
     <Component
-      login="A..."
+      email="A..."
       onSignOutClick={() => undefined}
       copy={{
         logout: "Logout",
