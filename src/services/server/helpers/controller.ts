@@ -41,7 +41,7 @@ export abstract class AbstractController<S> {
   }
 
   protected getNextResponse<T extends object>(response: T, status: number) {
-    return NextResponse.json({ ...response }, { status });
+    return Response.json({ ...response }, { status });
   }
 
   protected validateParams<Schema extends ZodSchema>(

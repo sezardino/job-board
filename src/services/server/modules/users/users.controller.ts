@@ -187,7 +187,7 @@ export class UsersController extends AbstractController<UsersService> {
       acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
     });
 
-    if (!response) return response;
+    if (response) return response;
 
     // TODO: implement resend invite
 
@@ -203,7 +203,7 @@ export class UsersController extends AbstractController<UsersService> {
       acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
     });
 
-    if (!response) return response;
+    if (response) return response;
 
     // TODO: implement cancel invite
 
@@ -219,7 +219,7 @@ export class UsersController extends AbstractController<UsersService> {
       acceptedRoles: [UserRoles.ADMIN, UserRoles.OWNER],
     });
 
-    if (!response) return response;
+    if (response) return response;
 
     // TODO: implement cancel invite
 
