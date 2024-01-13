@@ -1,6 +1,7 @@
 import {
   OffersListRequest,
   offersListResponseSchema,
+  oneOfferResponseSchema,
 } from "@/services/server/modules/job-offers/scema";
 import {
   CompanyOffersRequest,
@@ -24,6 +25,13 @@ export class OffersApiModule extends AbstractApiModule {
       endpoint: `offers`,
       config: { params },
       schema: offersListResponseSchema,
+    });
+  }
+
+  one(id: string) {
+    return this.fetch({
+      endpoint: `offers/${id}`,
+      schema: oneOfferResponseSchema,
     });
   }
 }

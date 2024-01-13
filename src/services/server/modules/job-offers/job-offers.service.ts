@@ -101,4 +101,34 @@ export class JobOffersService extends AbstractService {
       "jobOffer"
     );
   }
+
+  one(id: string, userCompanyId?: string) {
+    return this.prismaService.jobOffer.findUnique({
+      where: { id, status: JobOfferStatus.ACTIVE },
+      select: {
+        id: true,
+        name: true,
+        level: true,
+        contract: true,
+        deadlineAt: true,
+        publishedAt: true,
+        description: true,
+        operating: true,
+        salary: true,
+        skills: true,
+        status: true,
+        type: true,
+        category: { select: { name: true } },
+        industry: { select: { name: true } },
+        company: {
+          select: {
+            id: true,
+            name: true,
+            slogan: true,
+            logo: { select: { id: true, url: true, name: true } },
+          },
+        },
+      },
+    });
+  }
 }

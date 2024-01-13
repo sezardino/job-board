@@ -5,6 +5,7 @@ import { JobOffersService } from "./job-offers.service";
 import {
   CompanyOffersResponse,
   OffersListResponse,
+  OneOfferResponse,
   companyOffersRequestSchema,
   offersListRequestSchema,
 } from "./scema";
@@ -58,6 +59,17 @@ export class JobOffersController extends AbstractController<JobOffersService> {
       const res = await this.service.list(dto!);
 
       return this.getNextResponse(res as OffersListResponse, 200);
+    } catch (error) {
+      console.log(error);
+      return this.getNextResponse({ error }, 500);
+    }
+  }
+
+  async one(id: string) {
+    try {
+      const res = await this.service.one(id);
+
+      return this.getNextResponse(res as OneOfferResponse, 200);
     } catch (error) {
       console.log(error);
       return this.getNextResponse({ error }, 500);

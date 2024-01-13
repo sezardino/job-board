@@ -6,6 +6,7 @@ const {
   UserRoles,
   JobOperatingMode,
   JobContract,
+  JobType,
 } = require("@prisma/client");
 
 const statuses = Object.values(EntityStatus);
@@ -15,6 +16,7 @@ const userStatuses = Object.values(UserStatus);
 const jobOperatingModes = Object.values(JobOperatingMode);
 const jobContracts = Object.values(JobContract);
 const jobOfferStatuses = Object.values(JobOfferStatus);
+const jobTypes = Object.values(JobType);
 
 const seniorities = Object.values(Seniority);
 
@@ -205,4 +207,5 @@ module.exports = {
   jobSkills,
   jobOperatingModes,
   jobContracts,
+  jobTypes,
 };

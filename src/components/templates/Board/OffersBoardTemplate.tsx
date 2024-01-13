@@ -1,4 +1,5 @@
 import { OffersList } from "@/components/UI/OffersList/OffersList";
+import { PublicPageUrls } from "@/const";
 import { OffersListResponse } from "@/services/server/modules/job-offers/scema";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
@@ -24,7 +25,7 @@ export const OffersBoardTemplate: FC<OffersBoardTemplateProps> = (props) => {
     <div {...rest} className={twMerge("pb-4", className)}>
       <OffersList
         offers={offersList?.data || []}
-        linkPrefix={""}
+        linkPrefix={PublicPageUrls.offers}
         endContent={
           hasNextPage
             ? [{ label: "load more", onClick: onTriggerFetchNextPage }]

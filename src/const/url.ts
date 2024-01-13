@@ -26,4 +26,5 @@ export const PublicPageUrls = {
   about: "/about",
   login: "/auth",
   registration: "/auth/registration",
+  offers: "/offers",
 } as const;
