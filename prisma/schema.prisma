@@ -46,14 +46,6 @@ enum JobOperatingMode {
   OTHER
 }
 
-enum ReviewedEntityStatus {
-  ACCEPTED
-  REJECTED
-  RETURNED
-  REVIEW
-  PENDING
-}
-
 enum EntityStatus {
   ACTIVE
   INACTIVE
@@ -75,17 +67,24 @@ enum JobOfferStatus {
 }
 
 enum Seniority {
-  TRAINEE
+  INTERN
   JUNIOR
-  MIDDLE
+  MID
   SENIOR
-  LEAD
-  ARCHITECT
+  EXPERT
+}
+
+enum SkillLevel {
+  NICE_TO_HAVE
+  BASIC
+  MEDIUM
+  ADVANCED
+  EXPERT
 }
 
 type Skill {
   name  String
-  level Seniority
+  level SkillLevel
 }
 
 type Salary {
@@ -93,7 +92,7 @@ type Salary {
   to   Int
 }
 
-type CompanyLocation {
+type Location {
   country  String
   city     String
   street   String
@@ -171,7 +170,7 @@ model Company {
   slogan String? @map("slogan")
   bio    String?
 
-  location CompanyLocation[]
+  location Location[]
 
   owner   User   @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ownerId String @unique @map("owner_id") @db.ObjectId
@@ -202,6 +201,7 @@ model JobOffer {
   industry   Industry @relation(fields: [industryId], references: [id])
   industryId String   @map("industry_id") @db.ObjectId
 
+  // TODO: offer can be in 2 categories
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @map("category_id") @db.ObjectId
 
