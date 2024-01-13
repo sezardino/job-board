@@ -13,7 +13,7 @@ const AdminUsersLayout: FC<PropsWithChildren> = ({ children }) => {
   const session = useSession();
 
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <div className="container grid grid-cols-1 gap-4">
       <TitleDescription
         title={t("title")}
         titleLevel="h1"
@@ -33,7 +33,7 @@ const AdminUsersLayout: FC<PropsWithChildren> = ({ children }) => {
         title={t("navigation.title")}
       />
 
-      <main className="container">{children}</main>
+      <main>{children}</main>
     </div>
   );
 };

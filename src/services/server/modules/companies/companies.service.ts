@@ -49,7 +49,7 @@ export class CompaniesService extends AbstractService {
       where,
     });
 
-    return { companies, meta };
+    return { data: companies, meta };
   }
 
   async edit(dto: EditCompanyRequest, companyId: string) {

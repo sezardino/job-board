@@ -143,7 +143,7 @@ export class IndustriesController extends AbstractController<IndustriesService> 
       const res = await this.service.activeIndustries();
 
       return this.getNextResponse(
-        { industries: res } as ActiveIndustriesResponse,
+        { data: res } as ActiveIndustriesResponse,
         200
       );
     } catch (error) {

@@ -8,7 +8,7 @@ export const adminIndustriesRequestSchema = z
 
 export const adminIndustriesResponseSchema = z
   .object({
-    industries: z.array(
+    data: z.array(
       z.object({
         id: z.string(),
         name: z.string(),

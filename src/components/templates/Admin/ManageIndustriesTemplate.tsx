@@ -42,7 +42,7 @@ type Props = {
 export type ManageIndustriesTemplateProps =
   ComponentPropsWithoutRef<"section"> & Props;
 
-const CH = createColumnHelper<AdminIndustriesResponse["industries"][number]>();
+const CH = createColumnHelper<AdminIndustriesResponse["data"][number]>();
 
 export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
   props
@@ -181,7 +181,7 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         <TableWidget
           // @ts-ignore
           columns={columns}
-          data={data?.industries || []}
+          data={data?.data || []}
           isLoading={isTableDataLoading}
           noDataMessage={t("table.no-data")}
           page={data?.meta.page || 0}

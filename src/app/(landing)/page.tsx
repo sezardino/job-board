@@ -14,7 +14,7 @@ const HomePage = () => {
     <>
       {isLoading && <LoadingOverlay />}
 
-      <HomeTemplate industries={activeIndustries?.industries || []} />
+      <HomeTemplate industries={activeIndustries?.data || []} />
     </>
   );
 };

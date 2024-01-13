@@ -64,7 +64,7 @@ type Props = {
 export type ManageCompanyUsersProps = ComponentPropsWithoutRef<"section"> &
   Props;
 
-const CH = createColumnHelper<CompanyUsersResponse["users"][number]>();
+const CH = createColumnHelper<CompanyUsersResponse["data"][number]>();
 
 export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
   const {
@@ -237,7 +237,7 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
         </header>
 
         <TableWidget
-          data={users.data?.users || []}
+          data={users.data?.data || []}
           isLoading={users.isLoading}
           columns={columns}
           limit={users.data?.meta.limit || DEFAULT_PAGE_LIMIT}

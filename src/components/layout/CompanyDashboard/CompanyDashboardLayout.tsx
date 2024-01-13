@@ -21,7 +21,7 @@ export const CompanyDashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   );
 
   return (
-    <div className="grid grid-cols-1 gap-3">
+    <div className="container grid grid-cols-1 gap-3">
       <div className="grid grid-cols-1 gap-3">
         <div className="flex items-center justify-between">
           <div className="grid grid-cols-1 gap-1">
@@ -43,7 +43,7 @@ export const CompanyDashboardLayout: FC<PropsWithChildren> = ({ children }) => {
           items={navigationLinks}
         />
       </div>
-      <main className="container">{children}</main>
+      <main>{children}</main>
     </div>
   );
 };

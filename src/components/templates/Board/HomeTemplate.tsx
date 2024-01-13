@@ -5,7 +5,7 @@ import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
-  industries: ActiveIndustriesResponse["industries"];
+  industries: ActiveIndustriesResponse["data"];
 };
 
 export type HomeTemplateProps = ComponentPropsWithoutRef<"div"> & Props;

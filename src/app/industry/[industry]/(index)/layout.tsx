@@ -16,15 +16,7 @@ const BoardLayout: FC<PropsWithChildren & Props> = (props) => {
 
   return (
     <BoardLayoutWrapper
-      user={
-        session.data?.user
-          ? {
-              avatar: null,
-              email: session.data.user.email,
-              name: session.data.user.name,
-            }
-          : undefined
-      }
+      user={session.data?.user}
       onSignOutClick={signOut}
       industry={params.industry}
     >

@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const activeIndustriesResponseSchema = z.object({
-  industries: z.array(
+  data: z.array(
     z.object({
       id: z.string(),
       name: z.string(),

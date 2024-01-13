@@ -13,13 +13,16 @@ const CompanyUsersPage = () => {
   const { onLimitChange, onPageChange, page, limit, search, onSearchChange } =
     useDataOnPage();
   const [status, setStatus] = useState<UserStatusesSelectOptions>("all");
-  const { data: companyUsers, isFetching: isCompanyUsersLoading } =
-    useCompanyUsersQuery({
-      page,
-      limit,
-      search,
-      status: status === "all" ? undefined : status,
-    });
+  const {
+    data: companyUsers,
+    isFetching: isCompanyUsersLoading,
+    error,
+  } = useCompanyUsersQuery({
+    page,
+    limit,
+    search,
+    status: status === "all" ? undefined : status,
+  });
 
   const { mutateAsync: checkEmails, isPending: isCheckEmailsLoading } =
     useCheckEmailsAvailableMutation();

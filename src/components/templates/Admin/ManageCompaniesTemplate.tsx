@@ -18,7 +18,7 @@ type Props = {
 export type ManageCompaniesTemplateProps = ComponentPropsWithoutRef<"section"> &
   Props;
 
-const CH = createColumnHelper<AdminCompaniesResponse["companies"][number]>();
+const CH = createColumnHelper<AdminCompaniesResponse["data"][number]>();
 
 export const ManageCompaniesTemplate: FC<ManageCompaniesTemplateProps> = (
   props
@@ -72,7 +72,7 @@ export const ManageCompaniesTemplate: FC<ManageCompaniesTemplateProps> = (
         <TableWidget
           // @ts-ignore
           columns={columns}
-          data={data?.companies || []}
+          data={data?.data || []}
           isLoading={isTableDataLoading}
           noDataMessage={t("table.no-data")}
           page={data?.meta.page || 0}

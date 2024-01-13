@@ -100,7 +100,7 @@ export class IndustriesService extends AbstractService {
       where,
     });
 
-    return { industries, meta };
+    return { data: industries, meta };
   }
 
   async activeIndustries() {

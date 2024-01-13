@@ -32,7 +32,10 @@ export const BoardLayoutWrapper: FC<BoardLayoutProps> = (props) => {
     useActiveCategoriesQuery(industry);
 
   return (
-    <div {...rest} className={twMerge("grid grid-cols-1 gap-4", className)}>
+    <div
+      {...rest}
+      className={twMerge("container grid grid-cols-1 gap-4", className)}
+    >
       <LandingNavbar user={user} onSignOutClick={onSignOutClick}>
         <ul className="py-2 flex flex-wrap items-center gap-1 list-none">
           {activeCategories?.data.map((category) => (
@@ -46,7 +49,7 @@ export const BoardLayoutWrapper: FC<BoardLayoutProps> = (props) => {
           ))}
         </ul>
       </LandingNavbar>
-      <main className="container">{children}</main>
+      <main>{children}</main>
     </div>
   );
 };

@@ -14,7 +14,7 @@ export const companyUsersRequestSchema = z
 
 export const companyUsersResponseSchema = z
   .object({
-    users: z.array(
+    data: z.array(
       z.object({
         id: z.string(),
         name: z.string(),
