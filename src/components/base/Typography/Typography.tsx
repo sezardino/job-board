@@ -9,7 +9,8 @@ export type TypographyStyling =
   | "lg"
   | "xl"
   | "2xl"
-  | "3xl";
+  | "3xl"
+  | "7xl";
 export type TypographyTag =
   | "p"
   | "span"
@@ -49,6 +50,7 @@ export const Typography: FC<TypographyProps> = (props) => {
   } = props;
 
   const stylingString: Record<TypographyStyling, string> = {
+    "7xl": "text-7xl lg:text-9xl",
     "3xl": "text-3xl md:text-4xl lg:text-5xl",
     "2xl": "text-2xl lg:text-4xl md:text-3xl",
     xl: "text-xl md:text-2xl lg:text-3xl",

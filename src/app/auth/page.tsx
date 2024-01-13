@@ -14,7 +14,6 @@ const LoginPage = () => {
   const loginHandler = async (values: AuthFormValues) => {
     let res = await signIn("credentials", {
       ...values,
-      redirect: false,
     });
 
     if (res?.ok) {

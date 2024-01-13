@@ -38,6 +38,7 @@ export const nextAuthOptions: AuthOptions = {
   pages: {
     signIn: PublicPageUrls.login,
     error: PublicPageUrls.login,
+    signOut: PublicPageUrls.login,
   },
 
   callbacks: {

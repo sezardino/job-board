@@ -26,7 +26,7 @@ export default withAuth((req: NextRequestWithAuth) => {
       currentPathName.startsWith(CompanyPageUrls.home) ||
       currentPathName.startsWith(UserPageUrls.home))
   ) {
-    return NextResponse.rewrite(new URL(PublicPageUrls.login, req.url));
+    return NextResponse.redirect(new URL(PublicPageUrls.login, req.url));
   }
 
   if (
@@ -34,7 +34,7 @@ export default withAuth((req: NextRequestWithAuth) => {
     token &&
     !adminRoles.includes(token.role as (typeof adminRoles)[number])
   ) {
-    return NextResponse.rewrite(new URL("/404", req.url));
+    return NextResponse.redirect(new URL("/404", req.url));
   }
 
   if (
