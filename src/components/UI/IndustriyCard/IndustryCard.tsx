@@ -1,4 +1,5 @@
 import { Icon, IconNames, Typography } from "@/components/base";
+import { PublicPageUrls } from "@/const";
 import { Card, CardBody } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -41,7 +42,7 @@ export const IndustryCard: FC<IndustryCardProps> = (props) => {
     >
       <CardBody
         as={Link}
-        href={name}
+        href={PublicPageUrls.industry(name)}
         className="grid grid-cols-1 gap-1 content-center justify-items-center"
       >
         <Icon name={iconName} size={32} />

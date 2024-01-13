@@ -26,7 +26,7 @@ export const PublicPageUrls = {
   about: "/about",
   login: "/auth",
   registration: "/auth/registration",
-  industry: (id: string) => `/${id}`,
+  industry: (id: string) => `/industry/${id}`,
   category: (industry: string, category: string) => `/${industry}/${category}`,
   offer: (id: string) => `/offers/${id}`,
   company: (id: string) => `/companies/${id}`,

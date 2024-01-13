@@ -6,7 +6,7 @@ export type ErrorTemplateProps = {
   code: number;
   title: string;
   description: string;
-  action: { text: string; href: string };
+  action?: { text: string; href: string };
 };
 
 export const ErrorTemplate: FC<ErrorTemplateProps> = (props) => {
