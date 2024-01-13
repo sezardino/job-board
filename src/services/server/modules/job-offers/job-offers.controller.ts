@@ -3,8 +3,6 @@ import { UserRoles } from "@prisma/client";
 import { NextRequest } from "next/server";
 import { JobOffersService } from "./job-offers.service";
 import {
-  CompanyOffersResponse,
-  OffersListResponse,
   OneOfferResponse,
   companyOffersRequestSchema,
   offersListRequestSchema,
@@ -38,7 +36,7 @@ export class JobOffersController extends AbstractController<JobOffersService> {
         session.user.companyId!
       );
 
-      return this.getNextResponse(res as CompanyOffersResponse, 200);
+      return this.getNextResponse(res, 200);
     } catch (error) {
       console.log(error);
       return this.getNextResponse({ error }, 500);
@@ -58,7 +56,7 @@ export class JobOffersController extends AbstractController<JobOffersService> {
     try {
       const res = await this.service.list(dto!);
 
-      return this.getNextResponse(res as OffersListResponse, 200);
+      return this.getNextResponse(res, 200);
     } catch (error) {
       console.log(error);
       return this.getNextResponse({ error }, 500);

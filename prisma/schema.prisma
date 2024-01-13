@@ -185,15 +185,15 @@ model JobOffer {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   name      String
-  status    JobOfferStatus    @default(DRAFT)
-  salary    Salary?
-  type      JobType?
-  contract  JobContract?
-  operating JobOperatingMode?
-  level     Seniority?
+  status    JobOfferStatus   @default(DRAFT)
+  salary    Salary
+  type      JobType
+  contract  JobContract
+  operating JobOperatingMode
+  level     Seniority
   skills    Skill[]
 
-  description String?
+  description String @default("")
 
   company   Company @relation(fields: [companyId], references: [id])
   companyId String  @map("company_id") @db.ObjectId

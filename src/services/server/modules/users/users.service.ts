@@ -1,5 +1,6 @@
 import { passwordService } from "@/services/password";
 import { AbstractService } from "@/services/server/helpers";
+import { FindManyPrismaEntity } from "@/types";
 import { Prisma, User, UserRoles } from "@prisma/client";
 import {
   AdminUsersRequest,
@@ -9,33 +10,31 @@ import {
   InviteUsersRequest,
 } from "./schema";
 
-type FindManyUsersArgs = {
-  where: Prisma.UserWhereInput;
-  select: Prisma.UserSelect;
-  page: number;
-  limit: number;
-};
-
 export class UsersService extends AbstractService {
-  // private async findMany(args: FindManyUsersArgs) {
-  //   const { limit = 10, page = 0, select, where } = args;
+  protected async findMany(
+    props: FindManyPrismaEntity<Prisma.UserWhereInput, Prisma.UserSelect>
+  ) {
+    const { limit, page, select, where } = props;
+    let pagination: ReturnType<AbstractService["getPagination"]> | null = null;
 
-  //   const count = await this.prismaService.user.count({ where });
+    if (typeof page === "number" && typeof limit === "number") {
+      const count = await this.prismaService.user.count({
+        where,
+      });
 
-  //   const { meta, skip, take } = this.getPagination({ page, limit, count });
+      pagination = this.getPagination({ count, limit, page });
+    }
 
-  //   const users = await this.prismaService.user.findMany({
-  //     where,
-  //     select,
-  //     skip,
-  //     take,
-  //     orderBy: {
-  //       createdAt: "desc",
-  //     },
-  //   });
+    const data = await this.prismaService.user.findMany({
+      where,
+      skip: pagination?.skip ? pagination.skip : undefined,
+      take: pagination?.take ? pagination.take : undefined,
+      orderBy: { createdAt: "desc" },
+      select,
+    });
 
-  //   return { users, meta };
-  // }
+    return { data, meta: pagination?.meta };
+  }
 
   async checkEmailAvailable(email: string): Promise<boolean> {
     const user = await this.prismaService.user.findUnique({
@@ -130,23 +129,20 @@ export class UsersService extends AbstractService {
       };
     if (status) where.status = status;
 
-    return this.findMany(
-      {
-        limit,
-        page,
-        where,
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          avatar: { select: { id: true, name: true, url: true } },
-          role: true,
-          status: true,
-          isAcceptInvite: true,
-        },
+    return this.findMany({
+      limit,
+      page,
+      where,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: { select: { id: true, name: true, url: true } },
+        role: true,
+        status: true,
+        isAcceptInvite: true,
       },
-      "user"
-    );
+    });
   }
 
   async companies(dto: CompaniesUsersRequest) {
@@ -175,29 +171,26 @@ export class UsersService extends AbstractService {
       ];
     }
 
-    return await this.findMany(
-      {
-        page,
-        limit,
-        where,
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          avatar: { select: { id: true, name: true, url: true } },
-          isAcceptInvite: true,
-          status: true,
-          role: true,
-          company: {
-            select: {
-              id: true,
-              name: true,
-            },
+    return await this.findMany({
+      page,
+      limit,
+      where,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: { select: { id: true, name: true, url: true } },
+        isAcceptInvite: true,
+        status: true,
+        role: true,
+        company: {
+          select: {
+            id: true,
+            name: true,
           },
         },
       },
-      "user"
-    );
+    });
   }
 
   async company(dto: CompanyUsersRequest, companyId: string) {
@@ -227,23 +220,20 @@ export class UsersService extends AbstractService {
       ];
     }
 
-    return await this.findMany(
-      {
-        page,
-        limit,
-        where,
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          avatar: { select: { id: true, name: true, url: true } },
-          isAcceptInvite: true,
-          status: true,
-          role: true,
-        },
+    return await this.findMany({
+      page,
+      limit,
+      where,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: { select: { id: true, name: true, url: true } },
+        isAcceptInvite: true,
+        status: true,
+        role: true,
       },
-      "user"
-    );
+    });
   }
 
   async customers(dto: CustomerUsersRequest) {
@@ -264,21 +254,18 @@ export class UsersService extends AbstractService {
       ];
     }
 
-    return await this.findMany(
-      {
-        page,
-        limit,
-        where,
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          avatar: { select: { id: true, name: true, url: true } },
-          status: true,
-          isAcceptInvite: true,
-        },
+    return await this.findMany({
+      page,
+      limit,
+      where,
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        avatar: { select: { id: true, name: true, url: true } },
+        status: true,
+        isAcceptInvite: true,
       },
-      "user"
-    );
+    });
   }
 }

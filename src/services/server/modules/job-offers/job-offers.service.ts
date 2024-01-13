@@ -1,6 +1,7 @@
 import { AbstractService } from "@/services/server/helpers";
 
 import { DEFAULT_PAGE_LIMIT } from "@/const";
+import { FindManyPrismaEntity } from "@/types";
 import { JobOfferStatus, Prisma } from "@prisma/client";
 import { CompanyOffersRequest, OffersListRequest } from "./scema";
 
@@ -12,27 +13,33 @@ type FindManyJobOffersArgs = {
 };
 
 export class JobOffersService extends AbstractService {
-  // async findMany(args: FindManyJobOffersArgs) {
-  //   const { limit, page, select, where } = args;
+  protected async findMany(
+    props: FindManyPrismaEntity<
+      Prisma.JobOfferWhereInput,
+      Prisma.JobOfferSelect
+    >
+  ) {
+    const { limit, page, select, where } = props;
+    let pagination: ReturnType<AbstractService["getPagination"]> | null = null;
 
-  //   const offersCount = await this.prismaService.jobOffer.count({ where });
+    if (typeof page === "number" && typeof limit === "number") {
+      const count = await this.prismaService.jobOffer.count({
+        where,
+      });
 
-  //   const { skip, take, meta } = this.getPagination({
-  //     count: offersCount,
-  //     limit,
-  //     page,
-  //   });
+      pagination = this.getPagination({ count, limit, page });
+    }
 
-  //   const offers = await this.prismaService.jobOffer.findMany({
-  //     where,
-  //     skip: skip,
-  //     take: take,
-  //     orderBy: { createdAt: "desc" },
-  //     select,
-  //   });
+    const data = await this.prismaService.jobOffer.findMany({
+      where,
+      skip: pagination?.skip ? pagination.skip : undefined,
+      take: pagination?.take ? pagination.take : undefined,
+      orderBy: { createdAt: "desc" },
+      select,
+    });
 
-  //   return { offers, meta };
-  // }
+    return { data, meta: pagination?.meta };
+  }
 
   async companyOffers(data: CompanyOffersRequest, companyId: string) {
     const { search, status, limit = DEFAULT_PAGE_LIMIT, page = 0 } = data;
@@ -42,22 +49,25 @@ export class JobOffersService extends AbstractService {
     if (search) where.name = { contains: search, mode: "insensitive" };
     if (status) where.status = status;
 
-    return this.findMany(
-      {
-        limit,
-        page,
-        where,
-        select: {
-          id: true,
-          name: true,
-          level: true,
-          salary: true,
-          createdAt: true,
-          skills: { select: { name: true } },
+    return this.findMany({
+      limit,
+      page,
+      where,
+      select: {
+        id: true,
+        name: true,
+        level: true,
+        createdAt: true,
+        company: {
+          select: {
+            id: true,
+            name: true,
+            logo: { select: { id: true, url: true, name: true } },
+          },
         },
+        skills: { select: { name: true } },
       },
-      "jobOffer"
-    );
+    });
   }
 
   async list(data: OffersListRequest) {
@@ -77,29 +87,26 @@ export class JobOffersService extends AbstractService {
     if (search) where.name = { contains: search, mode: "insensitive" };
     if (category) where.category = { name: category };
 
-    return this.findMany(
-      {
-        limit,
-        page,
-        where,
-        select: {
-          id: true,
-          name: true,
-          level: true,
-          salary: true,
-          createdAt: true,
-          skills: { select: { name: true } },
-          company: {
-            select: {
-              id: true,
-              name: true,
-              logo: { select: { id: true, url: true, name: true } },
-            },
+    return this.findMany({
+      limit,
+      page,
+      where,
+      select: {
+        id: true,
+        name: true,
+        level: true,
+        salary: true,
+        createdAt: true,
+        skills: { select: { name: true } },
+        company: {
+          select: {
+            id: true,
+            name: true,
+            logo: { select: { id: true, url: true, name: true } },
           },
         },
       },
-      "jobOffer"
-    );
+    });
   }
 
   one(id: string, userCompanyId?: string) {
