@@ -26,5 +26,8 @@ export const PublicPageUrls = {
   about: "/about",
   login: "/auth",
   registration: "/auth/registration",
-  offers: "/offers",
+  industry: (id: string) => `/${id}`,
+  category: (industry: string, category: string) => `/${industry}/${category}`,
+  offer: (id: string) => `/offers/${id}`,
+  company: (id: string) => `/companies/${id}`,
 } as const;

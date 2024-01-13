@@ -8861,10 +8861,10 @@ hosted-git-info@^2.1.4:
   resolved "https://registry.yarnpkg.com/hosted-git-info/-/hosted-git-info-2.8.9.tgz#dffc0bf9a21c02209090f2aa69429e1414daf3f9"
   integrity sha512-mxIDAb9Lsm6DoOJ7xH+5+X4y1LU/4Hi50L9C5sIswK3JzULS4bwk1FvjdBgvYR4bzT4tuUQiC15FE2f5HbLvYw==
 
-html-dom-parser@5.0.4:
-  version "5.0.4"
-  resolved "https://registry.yarnpkg.com/html-dom-parser/-/html-dom-parser-5.0.4.tgz#2941a762317d088e747db31c8cf290987ec30a55"
-  integrity sha512-azy8THLKd4Ar0OVJpEgX+MSjYvKdNDWlGiRBIlovMqEQYMAnLLXBhhiSwjylDD3RDdcCYT8Utg6uoRDeLHUyHg==
+html-dom-parser@5.0.6:
+  version "5.0.6"
+  resolved "https://registry.yarnpkg.com/html-dom-parser/-/html-dom-parser-5.0.6.tgz#bc7ee4bbf508030d5326eab0800d67e2fcd7d586"
+  integrity sha512-6KSMOgxzAIZZ1Tcc6eNEfRFC/XE0+TiYaWanKNYKHSEQOtdxrR0t8ILKXNDcRea/WbIDltLUIP8mi/tw7dtFvQ==
   dependencies:
     domhandler "5.0.3"
     htmlparser2 "9.0.0"
@@ -8887,13 +8887,13 @@ html-minifier-terser@^6.0.2:
     relateurl "^0.2.7"
     terser "^5.10.0"
 
-html-react-parser@^5.0.7:
-  version "5.0.7"
-  resolved "https://registry.yarnpkg.com/html-react-parser/-/html-react-parser-5.0.7.tgz#3ada0420c0ae05dce2915fff78aad2b9d678041f"
-  integrity sha512-00ve/0B7ukLUAcAbmD6Vh74EicB+ktLvAM4APeXJjiBsRiPz2ouochTvyUhOJB8apP2t40xAXvpmd+t50aVnJg==
+html-react-parser@^5.1.0:
+  version "5.1.0"
+  resolved "https://registry.yarnpkg.com/html-react-parser/-/html-react-parser-5.1.0.tgz#93037971c883ca1c2ea708d67b211304e6373357"
+  integrity sha512-9BXtf81EFbi/YZDvDQkiwuPg4y8bXQrrWwrMvpIJxREXPv5HiLS0aQvtjY7YP3z2mYFD4urCWSl2ebSDdrrGwg==
   dependencies:
     domhandler "5.0.3"
-    html-dom-parser "5.0.4"
+    html-dom-parser "5.0.6"
     react-property "2.0.2"
     style-to-js "1.1.10"
 

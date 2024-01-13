@@ -35,14 +35,14 @@ enum JobContract {
 enum JobType {
   FULL_TIME
   PART_TIME
-  PRACTIVE_INTERNSHIP
+  PRACTICE_INTERNSHIP
   FREELANCE
 }
 
 enum JobOperatingMode {
   REMOTE
   OFFICE
-  HIBRID
+  HYBRID
   OTHER
 }
 

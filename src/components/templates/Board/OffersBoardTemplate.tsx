@@ -25,7 +25,7 @@ export const OffersBoardTemplate: FC<OffersBoardTemplateProps> = (props) => {
     <div {...rest} className={twMerge("pb-4", className)}>
       <OffersList
         offers={offersList?.data || []}
-        linkPrefix={PublicPageUrls.offers}
+        linkPrefix={PublicPageUrls.offer("")}
         endContent={
           hasNextPage
             ? [{ label: "load more", onClick: onTriggerFetchNextPage }]

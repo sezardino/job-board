@@ -1,0 +1,43 @@
+.element * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Set a default font and font size for better readability */
+.element body {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+}
+
+/* Add some spacing between block-level elements */
+.element h1,
+.element h2,
+.element h3,
+.element h4,
+.element h5,
+.element h6,
+.element p,
+.element div,
+.element ul,
+.element ol,
+.element li {
+  margin-bottom: 10px;
+}
+
+/* Add spacing around headings */
+.element h1,
+.element h2,
+.element h3,
+.element h4,
+.element h5,
+.element h6 {
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+/* Set a default width for images to prevent overflow */
+.element img {
+  max-width: 100%;
+  height: auto;
+}

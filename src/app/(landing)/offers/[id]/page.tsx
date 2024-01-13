@@ -1,5 +1,6 @@
 "use client";
 
+import { JobOfferTemplate } from "@/components/templates/Board/JobOfferTemplate";
 import { useOneOfferQuery } from "@/hooks/react-query/query/offers";
 
 type Props = {
@@ -17,7 +18,9 @@ const OfferPage = (props: Props) => {
     error,
   } = useOneOfferQuery(id);
 
-  return <>{JSON.stringify({ oneOffer, error })}</>;
+  if (!oneOffer) return null;
+
+  return <JobOfferTemplate offer={oneOffer} />;
 };
 
 export default OfferPage;
