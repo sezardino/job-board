@@ -1,13 +1,5 @@
 {
   "layout": {
-    "landing": {
-      "user-menu-title": "User menu",
-      "logout": "Logout",
-      "login": "Login",
-      "registration": "Sign up",
-      "home": "Home",
-      "about": "About"
-    },
     "app": {
       "dashboard": "Dashboard",
       "companies": "Companies",
@@ -400,6 +392,8 @@
   },
   "components": {
     "landing-navbar": {
+      "user-menu-title": "User menu",
+      "dashboard": "Dashboard",
       "home": "Home",
       "about": "About",
       "login": "Login",

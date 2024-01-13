@@ -70,6 +70,7 @@ export class UsersService extends AbstractService {
       select: {
         id: true,
         email: true,
+        avatar: { select: { url: true } },
         companyId: true,
         password: true,
         role: true,

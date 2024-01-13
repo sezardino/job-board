@@ -43,6 +43,10 @@ export class AuthService extends AbstractService {
 
     if (!isPasswordValid) throw new Error("Wrong credentials");
 
-    return user;
+    return {
+      ...user,
+      avatar: user.avatar?.url,
+      companyId: user.companyId || undefined,
+    };
   }
 }

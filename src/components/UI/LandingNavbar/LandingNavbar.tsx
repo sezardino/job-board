@@ -1,4 +1,5 @@
 import { BRAND_NAME, PublicPageUrls } from "@/const";
+import { getDashboardPath } from "@/utils";
 import {
   Button,
   Navbar,
@@ -9,6 +10,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/react";
+import { User } from "next-auth";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import {
@@ -21,7 +23,7 @@ import { twMerge } from "tailwind-merge";
 import { AvatarDropdown } from "../AvatarDropdown/AvatarDropdown";
 
 type Props = {
-  user?: { name?: string | null; email: string; avatar: string | null };
+  user?: User;
   onSignOutClick: () => void;
 };
 
@@ -32,13 +34,20 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
   const t = useTranslations("components.landing-navbar");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const menuItems = useMemo(
-    () => [
+  const menuItems = useMemo(() => {
+    const links: { label: string; href: string }[] = [
       { label: t("home"), href: PublicPageUrls.home },
       { label: t("about"), href: PublicPageUrls.about },
-    ],
-    [t]
-  );
+    ];
+
+    if (user?.role)
+      links.unshift({
+        label: t("dashboard"),
+        href: getDashboardPath(user.role),
+      });
+
+    return links;
+  }, [t, user?.role]);
 
   const unauthorizedMenuItems = (
     <>

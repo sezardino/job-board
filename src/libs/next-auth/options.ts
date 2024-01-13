@@ -49,6 +49,7 @@ export const nextAuthOptions: AuthOptions = {
           ...session.user,
           companyId: token.companyId,
           id: token.id,
+          avatar: token.avatar,
           email: token.email,
           role: token.role,
         },
@@ -61,6 +62,7 @@ export const nextAuthOptions: AuthOptions = {
           ...token,
           id: user.id,
           companyId: user.companyId,
+          avatar: token.avatar,
           email: user.email,
           role: user.role,
         };

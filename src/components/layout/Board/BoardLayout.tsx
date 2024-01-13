@@ -3,12 +3,13 @@
 import { CategoryCard } from "@/components/UI/CategoryCard/CategoryCard";
 import { LandingNavbar } from "@/components/UI/LandingNavbar/LandingNavbar";
 import { useActiveCategoriesQuery } from "@/hooks/react-query/query/categories/active-categories";
+import { User } from "next-auth";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 
 import { twMerge } from "tailwind-merge";
 
 type Props = {
-  user?: { name?: string | null; email: string; avatar: string | null };
+  user?: User;
   onSignOutClick: () => void;
   activeCategory?: string;
   industry: string;

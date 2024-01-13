@@ -4,7 +4,8 @@ import "next-auth";
 declare module "next-auth" {
   interface User {
     email: string;
-    companyId: string | null;
+    companyId?: string;
+    avatar?: string;
     role: UserRoles;
     id: string;
   }
