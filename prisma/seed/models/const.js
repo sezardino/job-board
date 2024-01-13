@@ -7,6 +7,7 @@ const {
   JobOperatingMode,
   JobContract,
   JobType,
+  SkillLevel,
 } = require("@prisma/client");
 
 const statuses = Object.values(EntityStatus);
@@ -19,6 +20,7 @@ const jobOfferStatuses = Object.values(JobOfferStatus);
 const jobTypes = Object.values(JobType);
 
 const seniorities = Object.values(Seniority);
+const skillLevels = Object.values(SkillLevel);
 
 // password: "admin",
 const mockPassword =
@@ -208,4 +210,5 @@ module.exports = {
   jobOperatingModes,
   jobContracts,
   jobTypes,
+  skillLevels,
 };

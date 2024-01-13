@@ -4,6 +4,7 @@ const { faker } = require("@faker-js/faker");
 const { rangeArray } = require("./helpers");
 const {
   seniorities,
+  skillLevels,
   jobOfferStatuses,
   jobDescriptionHTML,
   jobSkills,
@@ -27,7 +28,7 @@ const generateMockOffer = ({ companyId, industries }) => {
     .slice(1, faker.number.int({ min: 1, max: 10 }))
     .map((name) => ({
       name,
-      level: faker.helpers.arrayElement(seniorities),
+      level: faker.helpers.arrayElement(skillLevels),
     }));
 
   return {

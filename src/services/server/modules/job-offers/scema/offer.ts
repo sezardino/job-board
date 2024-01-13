@@ -5,6 +5,7 @@ import {
   JobOperatingMode,
   JobType,
   Seniority,
+  SkillLevel,
 } from "@prisma/client";
 import { z } from "zod";
 
@@ -24,7 +25,7 @@ export const oneOfferResponseSchema = z.object({
     })
     .nullable(),
   skills: z.array(
-    z.object({ name: z.string(), level: z.nativeEnum(Seniority) })
+    z.object({ name: z.string(), level: z.nativeEnum(SkillLevel) })
   ),
   company: z.object({
     id: z.string(),

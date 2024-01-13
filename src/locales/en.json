@@ -160,6 +160,13 @@
       "HYBRID": "Hybrid",
       "OTHER": "Other"
     },
+    "skill-level": {
+      "NICE_TO_HAVE": "Nice to have",
+      "BASIC": "Basic",
+      "MEDIUM": "Medium",
+      "ADVANCED": "Advanced",
+      "EXPERT": "Expert"
+    },
     "job-type": {
       "FULL_TIME": "Full time",
       "PART_TIME": "Part time",
@@ -433,6 +440,21 @@
         "cancel": "Cancel",
         "submit": "Edit Gallery",
         "trigger": "Edit Gallery"
+      }
+    },
+    "job-offer-template": {
+      "contract": "Job Contract",
+      "seniority": "Seniority",
+      "type": "Job Type",
+      "home": "Home",
+      "operating": "Operating",
+      "apply": "Apply now",
+      "deadline": "Deadline",
+      "publication": {
+        "label": "Published ",
+        "today": "Today",
+        "yesterday": "Yesterday",
+        "days-ago": "{value} days ago"
       }
     },
     "offer-card": {
