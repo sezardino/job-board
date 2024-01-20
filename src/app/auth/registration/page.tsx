@@ -1,7 +1,9 @@
 "use client";
 
+import { UserRegistrationTemplate } from "@/components/templates/Auth/UserRegistrationTemplate";
+
 const RegistrationPage = () => {
-  return <h1>register user</h1>;
+  return <UserRegistrationTemplate />;
 };
 
 export default RegistrationPage;

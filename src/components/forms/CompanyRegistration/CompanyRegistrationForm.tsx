@@ -2,6 +2,7 @@
 
 import { Grid, Typography } from "@/components/base";
 import { ControlledInput } from "@/components/controlled";
+import { MIN_PASSWORD_LENGTH } from "@/const";
 import { Location } from "@prisma/client";
 import { useFormik } from "formik";
 import { useTranslations } from "next-intl";
@@ -29,8 +30,6 @@ export type CompanyRegistrationFormProps = ComponentPropsWithoutRef<"form"> & {
   onOwnerEmailAvailableRequest: (email: string) => Promise<boolean>;
   onCompanyEmailAvailableRequest: (email: string) => Promise<boolean>;
 };
-
-const MIN_PASSWORD_LENGTH = 5;
 
 export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
   props
@@ -130,7 +129,7 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
     <FormWrapper
       {...rest}
       formik={formik}
-      submit={{ label: "Create company", isFullWidth: true }}
+      submit={{ label: t("trigger"), isFullWidth: true }}
     >
       <Grid gap={6}>
         <Grid gap={4}>

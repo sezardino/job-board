@@ -67,6 +67,7 @@
       }
     },
     "register-company": {
+      "trigger": "Sign up",
       "owner": "Owner data",
       "company": "Company data",
       "email": {
@@ -117,6 +118,33 @@
         "label": "Zip code",
         "placeholder": "Zip code",
         "required": "Zip code is required"
+      }
+    },
+    "register-user": {
+      "trigger": "Sign up",
+      "email": {
+        "label": "Email",
+        "placeholder": "Email",
+        "required": "Email is required",
+        "invalid": "Email is invalid",
+        "used": "Email is already used"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Password",
+        "required": "Password is required",
+        "short": "Password must be at least {value} characters"
+      },
+      "repeat-password": {
+        "label": "Repeat password",
+        "placeholder": "Repeat password",
+        "required": "Repeat password is required",
+        "not-match": "Passwords do not match"
+      },
+      "name": {
+        "label": "Name",
+        "placeholder": "Name",
+        "required": "Name is required"
       }
     },
     "industry": {
@@ -423,6 +451,20 @@
           "cancel": "Cancel",
           "confirm": "Edit user"
         }
+      }
+    },
+    "user-registration": {
+      "title": "Register new user",
+      "login": {
+        "description": "Already have an account?",
+        "link": "Login"
+      }
+    },
+    "company-registration": {
+      "title": "Register new company",
+      "login": {
+        "description": "Already have an account?",
+        "link": "Login"
       }
     }
   },
