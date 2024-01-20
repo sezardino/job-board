@@ -53,13 +53,12 @@ export class CompaniesService extends AbstractService {
   }
 
   async edit(dto: EditCompanyRequest, companyId: string) {
-    const { bio, slogan, logoDeleted, logo, gallery, galleryDeleted } = dto;
+    const { bio, slogan, logo, gallery, galleryDeleted } = dto;
 
     const data: Prisma.CompanyUpdateInput = {};
 
     if (bio) data.bio = bio;
     if (slogan) data.slogan = slogan;
-    if (logoDeleted) data.logo!.delete = true;
     if (logo) {
       const image = await this.filesService.uploadImage(logo, companyId);
 

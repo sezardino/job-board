@@ -22,9 +22,6 @@ export class CompaniesApiModule extends AbstractApiModule {
 
     if (data.logo) formData.append("logo", data.logo);
 
-    if (data.logoDeleted)
-      formData.append("logoDeleted", data.logoDeleted.toString());
-
     if (data.bio) formData.append("bio", data.bio);
 
     if (data.slogan) formData.append("slogan", data.slogan);
