@@ -1,7 +1,7 @@
+import { Button, Grid, Icon, Link, Typography } from "@/components/base";
 import { BRAND_NAME, PublicPageUrls } from "@/const";
 import { getDashboardPath } from "@/utils";
 import {
-  Button,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -9,10 +9,13 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
 } from "@nextui-org/react";
 import { User } from "next-auth";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+import NextLink from "next/link";
 import {
   useMemo,
   useState,
@@ -52,17 +55,59 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
   const unauthorizedMenuItems = (
     <>
       <NavbarItem>
-        <Link href={PublicPageUrls.login}>{t("login")}</Link>
+        <Link as={NextLink} to={PublicPageUrls.login} color="foreground">
+          {t("login")}
+        </Link>
       </NavbarItem>
       <NavbarItem>
-        <Button
-          as={Link}
-          color="primary"
-          href={PublicPageUrls.registration}
-          variant="flat"
-        >
-          {t("registration")}
-        </Button>
+        <Popover offset={10} placement="bottom" backdrop="blur">
+          <PopoverTrigger>
+            <Button variant="bordered" color="primary">
+              {t("register.trigger")}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-[240px]">
+            {(titleProps) => (
+              <Grid gap={4} className="px-1 py-2 w-full">
+                <Typography
+                  tag="h3"
+                  weight="medium"
+                  styling="md"
+                  className="text-center"
+                  {...titleProps}
+                >
+                  {t("register.title")}
+                </Typography>
+                <Grid tag="ul" gap={2} className="list-none">
+                  <li>
+                    <Button
+                      as={NextLink}
+                      href={PublicPageUrls.registerUser}
+                      className="w-full"
+                      color="primary"
+                      variant="bordered"
+                      startContent={<Icon name="HiUser" />}
+                    >
+                      {t("register.customer")}
+                    </Button>
+                  </li>
+                  <li>
+                    <Button
+                      as={NextLink}
+                      href={PublicPageUrls.registerCompany}
+                      className="w-full"
+                      variant="bordered"
+                      color="primary"
+                      startContent={<Icon name="HiBuildingOffice" />}
+                    >
+                      {t("register.company")}
+                    </Button>
+                  </li>
+                </Grid>
+              </Grid>
+            )}
+          </PopoverContent>
+        </Popover>
       </NavbarItem>
     </>
   );
@@ -99,7 +144,12 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
           <NavbarContent className="hidden sm:flex gap-4" justify="center">
             {menuItems.map((item) => (
               <NavbarItem key={item.href}>
-                <Link className="w-full" href={item.href}>
+                <Link
+                  as={NextLink}
+                  className="w-full"
+                  color="foreground"
+                  href={item.href}
+                >
                   {item.label}
                 </Link>
               </NavbarItem>
@@ -118,7 +168,12 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
           <NavbarMenu className="list-none">
             {menuItems.map((item) => (
               <NavbarMenuItem key={item.href}>
-                <Link className="w-full" href={item.href}>
+                <Link
+                  as={NextLink}
+                  className="w-full"
+                  color="foreground"
+                  href={item.href}
+                >
                   {item.label}
                 </Link>
               </NavbarMenuItem>
