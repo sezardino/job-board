@@ -52,6 +52,13 @@ enum EntityStatus {
   CREATED
 }
 
+enum CompanyStatus {
+  CREATED
+  ACTIVE
+  INACTIVE
+  BLOCKED
+}
+
 enum UserStatus {
   ACTIVE
   BLOCKED
@@ -155,18 +162,19 @@ model Category {
 model Company {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  status EntityStatus @default(CREATED)
+  status CompanyStatus @default(CREATED)
 
-  logo   Image?  @relation(name: "logo", fields: [logoId], references: [id])
-  logoId String? @unique @map("logo_id") @db.ObjectId
+  // needed while registration
+  logo   Image  @relation(name: "logo", fields: [logoId], references: [id])
+  logoId String @unique @map("logo_id") @db.ObjectId
+  name   String @unique
+  slug   String @unique
 
   thumbnail   Image?  @relation(name: "thumbnail", fields: [thumbnailId], references: [id])
   thumbnailId String? @unique @map("thumbnail_id") @db.ObjectId
 
   gallery Image[] @relation(name: "gallery")
 
-  name   String  @unique
-  slug   String  @unique
   slogan String? @map("slogan")
   bio    String?
 
