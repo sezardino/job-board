@@ -165,28 +165,28 @@ model Company {
   status CompanyStatus @default(CREATED)
 
   // needed while registration
-  logo   Image  @relation(name: "logo", fields: [logoId], references: [id])
-  logoId String @unique @map("logo_id") @db.ObjectId
-  name   String @unique
-  slug   String @unique
+  logo     Image      @relation(name: "logo", fields: [logoId], references: [id])
+  logoId   String     @unique @map("logo_id") @db.ObjectId
+  location Location[]
+  // not editable fields
+  name     String     @unique
+  email    String     @unique
+  slug     String     @unique
+  owner    User       @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  ownerId  String     @unique @map("owner_id") @db.ObjectId
 
+  // needed for profile
+  gallery     Image[] @relation(name: "gallery")
   thumbnail   Image?  @relation(name: "thumbnail", fields: [thumbnailId], references: [id])
   thumbnailId String? @unique @map("thumbnail_id") @db.ObjectId
+  slogan      String? @map("slogan")
+  bio         String?
 
-  gallery Image[] @relation(name: "gallery")
-
-  slogan String? @map("slogan")
-  bio    String?
-
-  location Location[]
-
-  owner   User   @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ownerId String @unique @map("owner_id") @db.ObjectId
-  members User[] @relation(name: "member")
+  members User[]     @relation(name: "member")
+  offers  JobOffer[]
 
   createdAt DateTime @default(now()) @map("created_at")
-
-  offers JobOffer[]
+  updatedAt DateTime @updatedAt @map("updated_at")
 }
 
 model JobOffer {

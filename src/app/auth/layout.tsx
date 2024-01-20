@@ -4,7 +4,7 @@ import { PropsWithChildren } from "react";
 
 const AuthLayout = ({ children }: PropsWithChildren) => {
   return (
-    <main className="min-h-screen flex flex-col justify-center max-w-md m-auto container">
+    <main className="min-h-screen flex flex-col justify-center container">
       {/* <Image src={BrandLogo} alt="Wish List logo" className="mx-auto mb-5" /> */}
       {children}
     </main>

@@ -66,6 +66,59 @@
         "not-match": "Passwords do not match"
       }
     },
+    "register-company": {
+      "owner": "Owner data",
+      "company": "Company data",
+      "email": {
+        "label": "Email",
+        "placeholder": "Email",
+        "required": "Email is required",
+        "invalid": "Email is invalid",
+        "used": "Email is already used"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Password",
+        "required": "Password is required",
+        "short": "Password must be at least {value} characters"
+      },
+      "repeat-password": {
+        "label": "Repeat password",
+        "placeholder": "Repeat password",
+        "required": "Repeat password is required",
+        "not-match": "Passwords do not match"
+      },
+      "name": {
+        "label": "Name",
+        "placeholder": "Name",
+        "required": "Name is required"
+      },
+      "building": {
+        "label": "Building",
+        "placeholder": "Building",
+        "required": "Building is required"
+      },
+      "city": {
+        "label": "City",
+        "placeholder": "City",
+        "required": "City is required"
+      },
+      "country": {
+        "label": "Country",
+        "placeholder": "Country",
+        "required": "Country is required"
+      },
+      "street": {
+        "label": "Street",
+        "placeholder": "Street",
+        "required": "Street is required"
+      },
+      "zip-code": {
+        "label": "Zip code",
+        "placeholder": "Zip code",
+        "required": "Zip code is required"
+      }
+    },
     "industry": {
       "label": "Create Industry",
       "cancel": "Cancel",

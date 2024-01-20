@@ -1,7 +1,9 @@
 "use client";
 
+import { CompanyRegistrationTemplate } from "@/components/templates/Auth/CompanyRegistrationTemplate";
+
 const RegistrationPage = () => {
-  return <h1>register company</h1>;
+  return <CompanyRegistrationTemplate />;
 };
 
 export default RegistrationPage;
