@@ -461,7 +461,12 @@
       },
       "success": {
         "title": "Registration successful",
-        "description": "Please check your email to activate your account"
+        "description": "Please check your email to activate your account",
+        "resend-email": {
+          "trigger": "Resend verification email",
+          "description": "If you didn't receive verification email, you can resend it here",
+          "interval": "You can resend verification email in {value} seconds"
+        }
       }
     },
     "company-registration": {

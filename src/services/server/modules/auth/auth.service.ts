@@ -11,6 +11,7 @@ import {
   RegistrationStatus,
   VerifyEmailTokenStatus,
 } from "./schema";
+import { ResendVerificationEmailStatus } from "./schema/resend-verification-email";
 
 export class AuthService extends AbstractService {
   constructor(
@@ -18,6 +19,17 @@ export class AuthService extends AbstractService {
     private readonly usersService: UsersService
   ) {
     super(prismaService);
+  }
+
+  async sendWelcomeEmail(email: string, name: string, token: string) {
+    await mailService.sendMail({
+      to: email,
+      templateKey: "welcomeTemplate",
+      data: {
+        name,
+        token,
+      },
+    });
   }
 
   async customerRegistration(
@@ -37,16 +49,21 @@ export class AuthService extends AbstractService {
       password,
     });
 
-    await mailService.sendMail({
-      to: newUserData.email,
-      templateKey: "welcomeTemplate",
-      data: {
-        name: newUserData.name,
-        token: newUserData.emailToken!,
-      },
-    });
+    await this.sendWelcomeEmail(email, name, newUserData.emailToken);
 
     return RegistrationStatus.Success;
+  }
+
+  async resendVerificationEmail(email: string) {
+    const user = await this.usersService.findByEmail(email);
+
+    if (!user) return ResendVerificationEmailStatus.NotFound;
+    if (user.emailVerified)
+      return ResendVerificationEmailStatus.AlreadyVerified;
+
+    await this.sendWelcomeEmail(email, user.name, user.emailToken);
+
+    return ResendVerificationEmailStatus.Success;
   }
 
   async verifyEmailToken(token: string): Promise<VerifyEmailTokenStatus> {

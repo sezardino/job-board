@@ -1,17 +1,20 @@
-import { Grid, Link, Typography } from "@/components/base";
+import { Button, Grid, Link, Typography } from "@/components/base";
 import {
   CustomerRegistrationForm,
   CustomerRegistrationFormValues,
 } from "@/components/forms/CustomerRegistration/CustomerRegistrationForm";
 import { PublicPageUrls } from "@/const";
+import useTimer from "@/hooks/use-timer";
 import {
   CustomerRegistrationResponse,
   RegistrationStatus,
 } from "@/services/server/modules/auth/schema";
+import { ActionProp } from "@/types";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import {
   useCallback,
+  useRef,
   useState,
   type ComponentPropsWithoutRef,
   type FC,
@@ -23,14 +26,18 @@ export interface CustomerRegistrationTemplateProps
   onRegistrationRequest: (
     data: CustomerRegistrationFormValues
   ) => Promise<CustomerRegistrationResponse>;
+  resendEmailAction: ActionProp<string>;
 }
 
 export const CustomerRegistrationTemplate: FC<
   CustomerRegistrationTemplateProps
 > = (props) => {
-  const { onRegistrationRequest, className, ...rest } = props;
+  const { resendEmailAction, onRegistrationRequest, className, ...rest } =
+    props;
   const t = useTranslations("page.customer-registration");
   const [step, setStep] = useState<"form" | "success">("form");
+  const submittedEmail = useRef<string | null>(null);
+  const { isActive: isTimerActive, startTimer, left: timeLeft } = useTimer({});
 
   const formSubmitHandler = useCallback(
     async (values: CustomerRegistrationFormValues) => {
@@ -39,11 +46,23 @@ export const CustomerRegistrationTemplate: FC<
 
         if (response.status === RegistrationStatus.Success) {
           setStep("success");
+          submittedEmail.current = values.email;
+          startTimer();
         }
       } catch (error) {}
     },
-    [onRegistrationRequest]
+    [onRegistrationRequest, startTimer]
   );
+
+  const resendHandler = useCallback(async () => {
+    if (submittedEmail.current === null) return;
+    if (isTimerActive) return;
+
+    try {
+      await resendEmailAction.handler(submittedEmail.current);
+      startTimer();
+    } catch (error) {}
+  }, [isTimerActive, resendEmailAction, startTimer]);
 
   return (
     <Grid
@@ -88,6 +107,29 @@ export const CustomerRegistrationTemplate: FC<
           <Typography tag="p" styling="sm" className="text-center">
             {t("success.description")}
           </Typography>
+
+          <Grid gap={2} className="mt-4">
+            <Button
+              isDisabled={resendEmailAction.isLoading || isTimerActive}
+              isLoading={resendEmailAction.isLoading}
+              variant="shadow"
+              color="primary"
+              className="justify-self-center"
+              size="md"
+              onClick={resendHandler}
+            >
+              {t("success.resend-email.trigger")}
+            </Button>
+
+            <Typography tag="p" styling="xs" className="text-center">
+              {t("success.resend-email.description")}
+            </Typography>
+            {!!timeLeft && (
+              <Typography tag="p" styling="xs" className="text-center">
+                {t("success.resend-email.interval", { value: timeLeft })}
+              </Typography>
+            )}
+          </Grid>
         </Grid>
       )}
     </Grid>

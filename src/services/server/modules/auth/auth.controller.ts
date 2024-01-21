@@ -10,6 +10,10 @@ import {
   loginRequestSchema,
   verifyEmailTokenRequestSchema,
 } from "./schema";
+import {
+  ResendVerificationEmailResponse,
+  resendVerificationEmailRequestSchema,
+} from "./schema/resend-verification-email";
 
 export class AuthController extends AbstractController<AuthService> {
   async customerRegistration(req: NextRequest) {
@@ -71,6 +75,28 @@ export class AuthController extends AbstractController<AuthService> {
       return res as LoginResponse;
     } catch (error) {
       return null;
+    }
+  }
+
+  async resendVerificationEmail(req: NextRequest) {
+    const body = await req.json();
+
+    const { response, dto } = await this.handlerHelper({
+      data: body,
+      schema: resendVerificationEmailRequestSchema,
+    });
+
+    if (response) return response;
+
+    try {
+      const res = await this.service.resendVerificationEmail(dto?.email!);
+
+      return this.getNextResponse(
+        { status: res } as ResendVerificationEmailResponse,
+        200
+      );
+    } catch (error) {
+      return this.getNextResponse(error as {}, 500);
     }
   }
 }

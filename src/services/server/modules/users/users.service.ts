@@ -44,8 +44,10 @@ export class UsersService extends AbstractService {
       select: {
         id: true,
         email: true,
+        name: true,
         avatar: { select: { url: true } },
         emailVerified: true,
+        emailToken: true,
         isAcceptInvite: true,
         status: true,
         companyId: true,
