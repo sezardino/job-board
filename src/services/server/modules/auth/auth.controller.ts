@@ -2,25 +2,26 @@ import { NextRequest } from "next/server";
 import { AbstractController } from "../../helpers";
 import { AuthService } from "./auth.service";
 import {
+  CustomerRegistrationResponse,
   LoginRequest,
+  customerRegistrationRequestSchema,
   loginRequestSchema,
-  registrationRequestSchema,
 } from "./schema";
 
 export class AuthController extends AbstractController<AuthService> {
-  async registration(req: NextRequest) {
+  async customerRegistration(req: NextRequest) {
     const body = await req.json();
     const { response, dto } = await this.handlerHelper({
       data: body,
-      schema: registrationRequestSchema,
+      schema: customerRegistrationRequestSchema,
     });
 
     if (response) return response;
 
     try {
-      const bllResponse = await this.service.registration(dto!);
+      await this.service.customerRegistration(dto!);
 
-      return this.getNextResponse({ success: bllResponse }, 201);
+      return this.getNextResponse({} as CustomerRegistrationResponse, 201);
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }

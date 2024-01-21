@@ -10,25 +10,27 @@ import z from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper } from "../FormWrapper/FormWrapper";
 
-export type UserRegistrationFormValues = {
+export type CustomerRegistrationFormValues = {
   name: string;
   email: string;
   password: string;
   repeatPassword: string;
 };
 
-export type UserRegistrationFormProps = ComponentPropsWithoutRef<"form"> & {
-  onFormSubmit: (data: UserRegistrationFormValues) => void;
+export type CustomerRegistrationFormProps = ComponentPropsWithoutRef<"form"> & {
+  onFormSubmit: (data: CustomerRegistrationFormValues) => void;
   onEmailAvailableRequest: (email: string) => Promise<boolean>;
 };
 
-export const UserRegistrationForm: FC<UserRegistrationFormProps> = (props) => {
+export const CustomerRegistrationForm: FC<CustomerRegistrationFormProps> = (
+  props
+) => {
   const { onFormSubmit, onEmailAvailableRequest, ...rest } = props;
   const t = useTranslations("forms.register-user");
   const checkOwnerEmailHistory = useRef<Record<string, boolean>>({});
 
-  const formik = useFormik<UserRegistrationFormValues>({
-    onSubmit: async () => undefined,
+  const formik = useFormik<CustomerRegistrationFormValues>({
+    onSubmit: onFormSubmit,
     initialValues: {
       email: "",
       name: "",

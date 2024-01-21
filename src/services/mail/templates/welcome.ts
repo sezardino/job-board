@@ -556,7 +556,7 @@ const html = (args: { name: string; token: string }) => `
                                             font-size: 16px;
                                             color: #6b7489;
                                           "
-                                          >Congratulations and welcome to Your
+                                          >Congratulations and welcome to Our
                                           Platform! We're thrilled to have you
                                           on board, and we appreciate you
                                           choosing us.</span

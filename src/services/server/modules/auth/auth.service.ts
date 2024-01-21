@@ -1,8 +1,9 @@
 import { PrismaService } from "@/libs/prisma";
+import { mailService } from "@/services/mail";
 import { passwordService } from "@/services/password";
 import { AbstractService } from "@/services/server/helpers";
 import { UsersService } from "../users/users.service";
-import { LoginRequest, RegistrationRequest } from "./schema";
+import { CustomerRegistrationRequest, LoginRequest } from "./schema";
 
 export class AuthService extends AbstractService {
   constructor(
@@ -12,8 +13,8 @@ export class AuthService extends AbstractService {
     super(prismaService);
   }
 
-  async registration(dto: RegistrationRequest): Promise<boolean> {
-    const { email, password } = dto;
+  async customerRegistration(dto: CustomerRegistrationRequest) {
+    const { email, password, name } = dto;
 
     const isEmailAvailable = await this.usersService.checkEmailAvailable(email);
 
@@ -21,12 +22,20 @@ export class AuthService extends AbstractService {
 
     const hashedPassword = await passwordService.hash(password);
 
-    const newUser = await this.usersService.createUser({
+    const newUserData = await this.usersService.registerCustomer({
+      name,
       email,
-      password,
+      password: hashedPassword,
     });
 
-    return !!newUser;
+    await mailService.sendMail({
+      to: newUserData.email,
+      templateKey: "welcomeTemplate",
+      data: {
+        name: newUserData.name,
+        token: newUserData.emailToken!,
+      },
+    });
   }
 
   async login(dto: LoginRequest) {

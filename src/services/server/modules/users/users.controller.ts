@@ -155,6 +155,7 @@ export class UsersController extends AbstractController<UsersService> {
     }
   }
 
+  // TODO: change functionality, admin can provide password
   async inviteAdmin(req: NextRequest) {
     const data = await req.json();
 
@@ -167,7 +168,7 @@ export class UsersController extends AbstractController<UsersService> {
     if (response) return response;
 
     try {
-      const res = await this.service.createUser({
+      const res = await this.service.inviteUser({
         ...dto!,
         role: UserRoles.SUB_ADMIN,
       });

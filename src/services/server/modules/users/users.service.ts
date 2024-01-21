@@ -1,7 +1,8 @@
-import { passwordService } from "@/services/password";
+import { getHashService, passwordService } from "@/services/password";
 import { AbstractService } from "@/services/server/helpers";
 import { FindManyPrismaEntity } from "@/types";
 import { Prisma, User, UserRoles } from "@prisma/client";
+import { CustomerRegistrationRequest } from "../auth/schema";
 import {
   AdminUsersRequest,
   CompaniesUsersRequest,
@@ -94,7 +95,25 @@ export class UsersService extends AbstractService {
     return { users };
   }
 
-  async createUser(data: {
+  async registerCustomer(data: CustomerRegistrationRequest) {
+    const { email, password, name } = data;
+
+    const hashedPassword = await passwordService.hash(password);
+    const verificationToken = await getHashService(email).hash(email);
+
+    return await this.prismaService.user.create({
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        role: UserRoles.CUSTOMER,
+        emailToken: verificationToken,
+      },
+      select: { email: true, emailToken: true, name: true },
+    });
+  }
+
+  async inviteUser(data: {
     email: string;
     password: string;
     role?: UserRoles;

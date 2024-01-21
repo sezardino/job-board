@@ -453,11 +453,15 @@
         }
       }
     },
-    "user-registration": {
-      "title": "Register new user",
-      "login": {
-        "description": "Already have an account?",
+    "customer-registration": {
+      "form": {
+        "title": "Register new user",
+        "text": "Already have an account?",
         "link": "Login"
+      },
+      "success": {
+        "title": "Registration successful",
+        "description": "Please check your email to activate your account"
       }
     },
     "company-registration": {

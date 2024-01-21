@@ -1,18 +1,25 @@
+import { MAX_STRING_LENGTH } from "@/const";
 import { z } from "zod";
 
-export const registrationRequestSchema = z.object({
+export const customerRegistrationRequestSchema = z.object({
+  name: z
+    .string({ required_error: "name is required" })
+    .max(MAX_STRING_LENGTH, "max name length"),
   email: z
-    .string()
-    .min(1, "backend-errors.validation.registration.login.min")
-    .max(20, "backend-errors.validation.registration.login.max"),
+    .string({ required_error: "email is required" })
+    .email("invalid email")
+    .max(MAX_STRING_LENGTH, "max email length"),
   password: z
     .string()
-    .min(6, "backend-errors.validation.registration.password"),
+    .min(6, "min password length")
+    .max(MAX_STRING_LENGTH, "max password length"),
 });
 
-export const registrationResponseSchema = z.object({
-  success: z.boolean(),
-});
+export const customerRegistrationResponseSchema = z.object({});
 
-export type RegistrationRequest = z.infer<typeof registrationRequestSchema>;
-export type RegistrationResponse = z.infer<typeof registrationResponseSchema>;
+export type CustomerRegistrationRequest = z.infer<
+  typeof customerRegistrationRequestSchema
+>;
+export type CustomerRegistrationResponse = z.infer<
+  typeof customerRegistrationResponseSchema
+>;
