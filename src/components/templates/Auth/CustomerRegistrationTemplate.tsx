@@ -4,6 +4,10 @@ import {
   CustomerRegistrationFormValues,
 } from "@/components/forms/CustomerRegistration/CustomerRegistrationForm";
 import { PublicPageUrls } from "@/const";
+import {
+  CustomerRegistrationResponse,
+  RegistrationStatus,
+} from "@/services/server/modules/auth/schema";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import {
@@ -16,7 +20,9 @@ import { twMerge } from "tailwind-merge";
 
 export interface CustomerRegistrationTemplateProps
   extends ComponentPropsWithoutRef<"div"> {
-  onRegistrationRequest: (data: CustomerRegistrationFormValues) => Promise<any>;
+  onRegistrationRequest: (
+    data: CustomerRegistrationFormValues
+  ) => Promise<CustomerRegistrationResponse>;
 }
 
 export const CustomerRegistrationTemplate: FC<
@@ -29,8 +35,11 @@ export const CustomerRegistrationTemplate: FC<
   const formSubmitHandler = useCallback(
     async (values: CustomerRegistrationFormValues) => {
       try {
-        await onRegistrationRequest(values);
-        setStep("success");
+        const response = await onRegistrationRequest(values);
+
+        if (response.status === RegistrationStatus.Success) {
+          setStep("success");
+        }
       } catch (error) {}
     },
     [onRegistrationRequest]

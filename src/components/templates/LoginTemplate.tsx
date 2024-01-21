@@ -14,7 +14,7 @@ export const LoginTemplate: FC<LoginTemplateProps> = (props) => {
   const t = useTranslations("login-page");
 
   return (
-    <section {...rest} className="border-2 rounded-md p-4">
+    <section {...rest} className="max-w-xl mx-auto border-2 rounded-md p-4">
       <div className="text-center">
         <Typography tag="h1" styling="xl">
           {t("title")}

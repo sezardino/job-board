@@ -470,6 +470,22 @@
         "description": "Already have an account?",
         "link": "Login"
       }
+    },
+    "verify-email": {
+      "success": {
+        "title": "Email verified",
+        "description": "Your email has been verified successfully",
+        "trigger": "Login"
+      },
+      "not-found": {
+        "title": "Invalid verification link",
+        "description": "Your verification link is invalid"
+      },
+      "already-verified": {
+        "title": "Email already verified",
+        "description": "Your email has been already verified",
+        "trigger": "Login"
+      }
     }
   },
   "login-page": {

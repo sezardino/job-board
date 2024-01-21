@@ -1,2 +1,3 @@
+export * from "./customer-registration";
 export * from "./login";
-export * from "./registration";
+export * from "./verify-email-token";

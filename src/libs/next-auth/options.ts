@@ -14,14 +14,19 @@ export const nextAuthOptions: AuthOptions = {
       },
       async authorize(credentials, req) {
         if (!credentials || !credentials.email || !credentials.password)
-          return null;
+          return Promise.reject({ message: "no credentials" });
 
         try {
-          const user = await serverService.auth.controller.login(credentials);
+          const res = await serverService.auth.controller.login(credentials);
 
-          return user;
+          if (res && "id" in res) return res;
+
+          if (res && "status" in res)
+            return Promise.reject({ message: res.status });
+
+          return Promise.reject({ message: "not found" });
         } catch (error) {
-          return null;
+          return Promise.reject(error);
         }
       },
     }),

@@ -4,8 +4,11 @@ import { AuthService } from "./auth.service";
 import {
   CustomerRegistrationResponse,
   LoginRequest,
+  LoginResponse,
+  VerifyEmailTokenResponse,
   customerRegistrationRequestSchema,
   loginRequestSchema,
+  verifyEmailTokenRequestSchema,
 } from "./schema";
 
 export class AuthController extends AbstractController<AuthService> {
@@ -19,11 +22,36 @@ export class AuthController extends AbstractController<AuthService> {
     if (response) return response;
 
     try {
-      await this.service.customerRegistration(dto!);
+      const status = await this.service.customerRegistration(dto!);
 
-      return this.getNextResponse({} as CustomerRegistrationResponse, 201);
+      return this.getNextResponse(
+        { status } as CustomerRegistrationResponse,
+        201
+      );
     } catch (error) {
       return this.getNextResponse({ message: "backend-errors.server" }, 500);
+    }
+  }
+
+  async verifyEmailToken(req: NextRequest) {
+    const body = await req.json();
+
+    const { response, dto } = await this.handlerHelper({
+      data: body,
+      schema: verifyEmailTokenRequestSchema,
+    });
+
+    if (response) return response;
+
+    try {
+      const res = await this.service.verifyEmailToken(dto?.token!);
+
+      return this.getNextResponse(
+        { status: res } as VerifyEmailTokenResponse,
+        200
+      );
+    } catch (error) {
+      return this.getNextResponse(error as {}, 500);
     }
   }
 
@@ -36,7 +64,11 @@ export class AuthController extends AbstractController<AuthService> {
     if (response) throw new Error();
 
     try {
-      return await this.service.login(dto!);
+      const res = await this.service.login(dto!);
+
+      if (typeof res === "string") return { status: res } as LoginResponse;
+
+      return res as LoginResponse;
     } catch (error) {
       return null;
     }

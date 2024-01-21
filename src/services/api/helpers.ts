@@ -23,8 +23,15 @@ export abstract class AbstractApiModule {
     return axios<
       AxiosError<BackendErrorResponse>,
       AxiosResponse<z.infer<Schema>>
-    >(`${this.restUrl}/${endpoint}`, { ...config }).then((res) =>
-      schema.parse(res.data)
-    );
+    >(`${this.restUrl}/${endpoint}`, { ...config }).then((res) => {
+      const validationResponse = schema.safeParse(res.data);
+
+      if (!validationResponse.success) {
+        console.error(validationResponse.error);
+        throw new Error(validationResponse.error.message);
+      }
+
+      return validationResponse.data;
+    });
   }
 }

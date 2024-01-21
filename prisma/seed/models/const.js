@@ -22,9 +22,9 @@ const jobTypes = Object.values(JobType);
 const seniorities = Object.values(Seniority);
 const skillLevels = Object.values(SkillLevel);
 
-// password: "admin",
+// password: "password",
 const mockPassword =
-  "$argon2id$v=19$m=65536,t=3,p=4$aoeCUKn+4UX1pkX7ESxk4g$rz+1GkqG7owCPtWSGMfg0GauPs4zhNhVmKAkhAVriQw";
+  "$argon2id$v=19$m=65536,t=3,p=4$10ShtgkPnvHRc3Xe6DXXOw$D7Ycbyy58LU5ff5i0wGcOjaTjn3GzLEeSCYvQhIucZA";
 
 const jobDescriptionHTML = `
   <h1>Job Title: Web Developer</h1>
@@ -193,6 +193,7 @@ const mockCompanyOwner = {
   name: "Company Owner",
   email: "company@mail.com",
   password: mockPassword,
+  emailToken: "123",
   role: UserRoles.OWNER,
   isAcceptInvite: true,
   status: UserStatus.ACTIVE,

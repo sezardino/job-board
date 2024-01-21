@@ -24,6 +24,7 @@ const LoginPage = () => {
       router.replace(PublicPageUrls.home);
       return;
     } else {
+      console.log(res);
       reactToastify({ type: "error", message: t("error") });
     }
 

@@ -20,6 +20,7 @@ const generateMockCompany = () => {
 
   return {
     name,
+    email: faker.internet.email(),
     slug: generateSlug(name),
     status: faker.helpers.arrayElement(statuses),
     members: generateMockUsers({

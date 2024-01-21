@@ -2,8 +2,15 @@ import { PrismaService } from "@/libs/prisma";
 import { mailService } from "@/services/mail";
 import { passwordService } from "@/services/password";
 import { AbstractService } from "@/services/server/helpers";
+import { UserStatus } from "@prisma/client";
 import { UsersService } from "../users/users.service";
-import { CustomerRegistrationRequest, LoginRequest } from "./schema";
+import {
+  CustomerRegistrationRequest,
+  LoginRequest,
+  LoginStatus,
+  RegistrationStatus,
+  VerifyEmailTokenStatus,
+} from "./schema";
 
 export class AuthService extends AbstractService {
   constructor(
@@ -13,19 +20,21 @@ export class AuthService extends AbstractService {
     super(prismaService);
   }
 
-  async customerRegistration(dto: CustomerRegistrationRequest) {
+  async customerRegistration(
+    dto: CustomerRegistrationRequest
+  ): Promise<RegistrationStatus> {
     const { email, password, name } = dto;
 
-    const isEmailAvailable = await this.usersService.checkEmailAvailable(email);
+    const user = await this.usersService.checkEmailAvailable(email);
 
-    if (!isEmailAvailable) throw new Error("Login is already taken");
-
-    const hashedPassword = await passwordService.hash(password);
+    if (user && user.emailVerified) return RegistrationStatus.EmailUsed;
+    if (user && !user.emailVerified)
+      return RegistrationStatus.WaitingForEmailConfirmation;
 
     const newUserData = await this.usersService.registerCustomer({
       name,
       email,
-      password: hashedPassword,
+      password,
     });
 
     await mailService.sendMail({
@@ -36,6 +45,20 @@ export class AuthService extends AbstractService {
         token: newUserData.emailToken!,
       },
     });
+
+    return RegistrationStatus.Success;
+  }
+
+  async verifyEmailToken(token: string): Promise<VerifyEmailTokenStatus> {
+    const neededUser = await this.usersService.findUserByEmailToken(token);
+
+    if (!neededUser) return VerifyEmailTokenStatus.NotFound;
+
+    if (neededUser.emailVerified) return VerifyEmailTokenStatus.AlreadyVerified;
+
+    await this.usersService.verifyEmailToken(neededUser.email);
+
+    return VerifyEmailTokenStatus.Success;
   }
 
   async login(dto: LoginRequest) {
@@ -43,19 +66,27 @@ export class AuthService extends AbstractService {
 
     const user = await this.usersService.findByEmail(email);
 
-    if (!user || !user.password) throw new Error("Wrong credentials");
+    if (!user) return LoginStatus.WrongCredentials;
+    if (!user.emailVerified) return LoginStatus.EmailNotVerified;
+    if (!user.isAcceptInvite) return LoginStatus.NotAcceptInvite;
+    if (user.status === UserStatus.BLOCKED) return LoginStatus.Blocked;
+    if (user.status === UserStatus.INACTIVE) return LoginStatus.Inactive;
 
     const isPasswordValid = await passwordService.compare(
       password,
       user.password
     );
 
-    if (!isPasswordValid) throw new Error("Wrong credentials");
+    if (!isPasswordValid) return LoginStatus.WrongCredentials;
+
+    const { avatar, companyId, id, role } = user;
 
     return {
-      ...user,
-      avatar: user.avatar?.url,
-      companyId: user.companyId || undefined,
+      email,
+      id,
+      role,
+      avatar: avatar?.url,
+      companyId: companyId || undefined,
     };
   }
 }

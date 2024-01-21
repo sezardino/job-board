@@ -1,5 +1,6 @@
-import { getHashService, passwordService } from "@/services/password";
+import { passwordService } from "@/services/password";
 import { AbstractService } from "@/services/server/helpers";
+import { tokenService } from "@/services/token";
 import { FindManyPrismaEntity } from "@/types";
 import { Prisma, User, UserRoles } from "@prisma/client";
 import { CustomerRegistrationRequest } from "../auth/schema";
@@ -37,13 +38,46 @@ export class UsersService extends AbstractService {
     return { data, meta: pagination?.meta };
   }
 
-  async checkEmailAvailable(email: string): Promise<boolean> {
+  async findByEmail(email: string) {
     const user = await this.prismaService.user.findUnique({
       where: { email },
-      select: { id: true },
+      select: {
+        id: true,
+        email: true,
+        avatar: { select: { url: true } },
+        emailVerified: true,
+        isAcceptInvite: true,
+        status: true,
+        companyId: true,
+        password: true,
+        role: true,
+      },
     });
 
-    return !Boolean(user);
+    return user;
+  }
+
+  async checkEmailAvailable(email: string) {
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+      select: { email: true, emailVerified: true },
+    });
+
+    return user;
+  }
+
+  async findUserByEmailToken(token: string) {
+    return await this.prismaService.user.findUnique({
+      where: { emailToken: token },
+      select: { emailVerified: true, email: true },
+    });
+  }
+
+  async verifyEmailToken(email: string) {
+    await this.prismaService.user.update({
+      where: { email },
+      data: { emailVerified: true },
+    });
   }
 
   async checkEmailsAvailable(
@@ -64,27 +98,15 @@ export class UsersService extends AbstractService {
     return emailsAvailable;
   }
 
-  async findByEmail(email: string) {
-    const user = await this.prismaService.user.findUnique({
-      where: { email },
-      select: {
-        id: true,
-        email: true,
-        avatar: { select: { url: true } },
-        companyId: true,
-        password: true,
-        role: true,
-      },
-    });
-
-    if (!user) throw new Error("User not found");
-
-    return user;
-  }
-
   async inviteUsers(dto: InviteUsersRequest, companyId: string | null) {
     await this.prismaService.user.createMany({
-      data: dto.users.map((u) => ({ ...u, companyId })),
+      data: await Promise.all(
+        dto.users.map(async (u) => {
+          const emailToken = await tokenService.generate(u.email);
+
+          return { ...u, emailToken, companyId };
+        })
+      ),
     });
 
     const users = await this.prismaService.user.findMany({
@@ -99,7 +121,7 @@ export class UsersService extends AbstractService {
     const { email, password, name } = data;
 
     const hashedPassword = await passwordService.hash(password);
-    const verificationToken = await getHashService(email).hash(email);
+    const verificationToken = tokenService.generate(email);
 
     return await this.prismaService.user.create({
       data: {
@@ -108,6 +130,7 @@ export class UsersService extends AbstractService {
         password: hashedPassword,
         role: UserRoles.CUSTOMER,
         emailToken: verificationToken,
+        isAcceptInvite: true,
       },
       select: { email: true, emailToken: true, name: true },
     });
@@ -121,9 +144,10 @@ export class UsersService extends AbstractService {
     const { email, password, role } = data;
 
     const hashedPassword = await passwordService.hash(password);
+    const emailToken = await tokenService.generate(email);
 
     return await this.prismaService.user.create({
-      data: { email, password: hashedPassword, role },
+      data: { email, emailToken, password: hashedPassword, role },
       select: { id: true, email: true, role: true },
     });
   }

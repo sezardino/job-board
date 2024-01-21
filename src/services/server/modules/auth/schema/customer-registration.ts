@@ -1,6 +1,12 @@
 import { MAX_STRING_LENGTH } from "@/const";
 import { z } from "zod";
 
+export enum RegistrationStatus {
+  Success = "success",
+  EmailUsed = "email-used",
+  WaitingForEmailConfirmation = "waiting-for-email-confirmation",
+}
+
 export const customerRegistrationRequestSchema = z.object({
   name: z
     .string({ required_error: "name is required" })
@@ -15,7 +21,9 @@ export const customerRegistrationRequestSchema = z.object({
     .max(MAX_STRING_LENGTH, "max password length"),
 });
 
-export const customerRegistrationResponseSchema = z.object({});
+export const customerRegistrationResponseSchema = z.object({
+  status: z.nativeEnum(RegistrationStatus),
+});
 
 export type CustomerRegistrationRequest = z.infer<
   typeof customerRegistrationRequestSchema

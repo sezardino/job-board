@@ -1,15 +1,13 @@
 import { hash, verify } from "argon2";
 
 export class Argon {
-  constructor(private readonly secret: string) {}
+  constructor() {}
 
   async hash(plainText: string) {
-    return await hash(plainText, { secret: Buffer.from(this.secret) });
+    return await hash(plainText);
   }
 
   async compare(plain: string, hash: string) {
-    return await verify(hash, plain, {
-      secret: Buffer.from(this.secret),
-    });
+    return await verify(hash, plain);
   }
 }

@@ -42,7 +42,7 @@ export class UsersController extends AbstractController<UsersService> {
       const bllResponse = await this.service.checkEmailAvailable(dto!.email!);
 
       return this.getNextResponse(
-        { available: bllResponse } as CheckEmailAvailableResponse,
+        { available: !bllResponse } as CheckEmailAvailableResponse,
         200
       );
     } catch (error) {

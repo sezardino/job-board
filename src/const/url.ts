@@ -22,6 +22,7 @@ export const UserPageUrls = {
 };
 
 export const PublicPageUrls = {
+  notFound: "/404",
   home: "/",
   about: "/about",
   login: "/auth",

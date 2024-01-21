@@ -91,17 +91,18 @@ const generateCompanies = async () => {
 
 const generateUsers = async () => {
   const admins = generateMockUsers({
-    count: faker.number.int({ min: 1, max: 5 }),
+    count: faker.number.int({ min: 1, max: 2 }),
     roles: [UserRoles.ADMIN],
   });
 
   const subAdmins = generateMockUsers({
-    count: faker.number.int({ min: 1, max: 20 }),
+    count: faker.number.int({ min: 1, max: 2 }),
     roles: [UserRoles.SUB_ADMIN],
   });
 
   const customers = generateMockUsers({
-    count: faker.number.int({ min: 20, max: 100 }),
+    count: 0,
+    // count: faker.number.int({ min: 20, max: 100 }),
     status: [UserStatus.ACTIVE, UserStatus.BLOCKED, UserStatus.INACTIVE],
   });
 
@@ -116,9 +117,9 @@ const generateUsers = async () => {
 
 (async () => {
   try {
-    await generateUsers();
+    // await generateUsers();
     await generateIndustries();
-    await generateCompanies();
+    // await generateCompanies();
   } catch (error) {
     console.error(error);
     process.exit(1);

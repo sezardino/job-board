@@ -117,12 +117,13 @@ model User {
   avatarId String? @unique @map("avatar_id") @db.ObjectId
 
   isAcceptInvite Boolean @default(false) @map("is_accept_invite")
-  inviteToken    String? @map("invite_token")
+  inviteToken    String? @unique @map("invite_token")
 
-  email      String  @unique
-  emailToken String? @map("email_token")
+  email         String  @unique
+  emailToken    String  @unique @map("email_token")
+  emailVerified Boolean @default(false) @map("email_verified")
 
-  password String?
+  password String @default("")
 
   owner Company? @relation(name: "owner")
 
@@ -165,8 +166,8 @@ model Company {
   status CompanyStatus @default(CREATED)
 
   // needed while registration
-  logo     Image      @relation(name: "logo", fields: [logoId], references: [id])
-  logoId   String     @unique @map("logo_id") @db.ObjectId
+  logo     Image?     @relation(name: "logo", fields: [logoId], references: [id])
+  logoId   String?    @unique @map("logo_id") @db.ObjectId
   location Location[]
   // not editable fields
   name     String     @unique
