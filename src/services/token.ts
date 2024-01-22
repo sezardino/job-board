@@ -1,3 +1,3 @@
-import { Crypto } from "@/libs/crypto";
+import { JWT } from "@/libs/jwt";
 
-export const tokenService = new Crypto();
+export const tokenService = new JWT();

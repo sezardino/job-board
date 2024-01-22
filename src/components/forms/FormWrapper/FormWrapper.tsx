@@ -7,12 +7,14 @@ type Props = {
   formik: FormikContextType<any>;
   cancel?: { label: string; onClick: () => void };
   submit: { label: string; isFullWidth?: boolean };
+  isLoading?: boolean;
 };
 
 export type FormWrapperProps = ComponentPropsWithoutRef<"form"> & Props;
 
 export const FormWrapper: FC<FormWrapperProps> = (props) => {
-  const { cancel, submit, formik, children, className, ...rest } = props;
+  const { isLoading, cancel, submit, formik, children, className, ...rest } =
+    props;
 
   return (
     <FormikProvider value={formik}>
@@ -27,7 +29,8 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
           )}
           <Button
             type="submit"
-            isDisabled={!formik.dirty}
+            isDisabled={!formik.dirty || isLoading}
+            isLoading={isLoading}
             color="primary"
             fullWidth={submit.isFullWidth}
           >

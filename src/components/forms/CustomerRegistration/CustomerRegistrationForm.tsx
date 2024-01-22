@@ -20,12 +20,13 @@ export type CustomerRegistrationFormValues = {
 export type CustomerRegistrationFormProps = ComponentPropsWithoutRef<"form"> & {
   onFormSubmit: (data: CustomerRegistrationFormValues) => void;
   onEmailAvailableRequest: (email: string) => Promise<boolean>;
+  isLoading?: boolean;
 };
 
 export const CustomerRegistrationForm: FC<CustomerRegistrationFormProps> = (
   props
 ) => {
-  const { onFormSubmit, onEmailAvailableRequest, ...rest } = props;
+  const { isLoading, onFormSubmit, onEmailAvailableRequest, ...rest } = props;
   const t = useTranslations("forms.register-user");
   const checkOwnerEmailHistory = useRef<Record<string, boolean>>({});
 
@@ -86,6 +87,7 @@ export const CustomerRegistrationForm: FC<CustomerRegistrationFormProps> = (
     <FormWrapper
       {...rest}
       formik={formik}
+      isLoading={isLoading}
       submit={{ label: t("trigger"), isFullWidth: true }}
     >
       <Grid gap={4}>

@@ -2,6 +2,7 @@ import { passwordService } from "@/services/password";
 import { AbstractService } from "@/services/server/helpers";
 import { tokenService } from "@/services/token";
 import { FindManyPrismaEntity } from "@/types";
+import { daysToSeconds } from "@/utils/days-to-seconds";
 import { Prisma, User, UserRoles } from "@prisma/client";
 import { CustomerRegistrationRequest } from "../auth/schema";
 import {
@@ -36,6 +37,25 @@ export class UsersService extends AbstractService {
     });
 
     return { data, meta: pagination?.meta };
+  }
+
+  async findUnique(where: Prisma.UserWhereUniqueInput) {
+    const user = await this.prismaService.user.findUnique({
+      where,
+      select: {
+        id: true,
+        email: true,
+        name: true,
+        emailVerified: true,
+        emailToken: true,
+        isAcceptInvite: true,
+        status: true,
+        companyId: true,
+        role: true,
+      },
+    });
+
+    return user;
   }
 
   async findByEmail(email: string) {
@@ -104,9 +124,19 @@ export class UsersService extends AbstractService {
     await this.prismaService.user.createMany({
       data: await Promise.all(
         dto.users.map(async (u) => {
-          const emailToken = await tokenService.generate(u.email);
+          const inviteToken = tokenService.generate(
+            { email: u.email },
+            u.email,
+            daysToSeconds(1)
+          );
 
-          return { ...u, emailToken, companyId };
+          return {
+            ...u,
+            emailToken: "",
+            inviteToken,
+            emailVerified: true,
+            companyId,
+          };
         })
       ),
     });
@@ -119,11 +149,29 @@ export class UsersService extends AbstractService {
     return { users };
   }
 
+  async updateEmailToken(email: string) {
+    const emailToken = tokenService.generate(
+      { email },
+      email,
+      daysToSeconds(1)
+    );
+
+    return await this.prismaService.user.update({
+      where: { email },
+      data: { emailToken },
+      select: { emailToken: true },
+    });
+  }
+
   async registerCustomer(data: CustomerRegistrationRequest) {
     const { email, password, name } = data;
 
     const hashedPassword = await passwordService.hash(password);
-    const verificationToken = tokenService.generate(email);
+    const verificationToken = tokenService.generate(
+      { email },
+      email,
+      daysToSeconds(1)
+    );
 
     return await this.prismaService.user.create({
       data: {
@@ -146,7 +194,11 @@ export class UsersService extends AbstractService {
     const { email, password, role } = data;
 
     const hashedPassword = await passwordService.hash(password);
-    const emailToken = await tokenService.generate(email);
+    const emailToken = tokenService.generate(
+      { email },
+      email,
+      daysToSeconds(1)
+    );
 
     return await this.prismaService.user.create({
       data: { email, emailToken, password: hashedPassword, role },

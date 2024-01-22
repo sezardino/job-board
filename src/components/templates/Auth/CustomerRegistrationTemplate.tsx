@@ -8,6 +8,7 @@ import useTimer from "@/hooks/use-timer";
 import {
   CustomerRegistrationResponse,
   RegistrationStatus,
+  ResendVerificationEmailResponse,
 } from "@/services/server/modules/auth/schema";
 import { ActionProp } from "@/types";
 import { useTranslations } from "next-intl";
@@ -23,35 +24,36 @@ import { twMerge } from "tailwind-merge";
 
 export interface CustomerRegistrationTemplateProps
   extends ComponentPropsWithoutRef<"div"> {
-  onRegistrationRequest: (
-    data: CustomerRegistrationFormValues
-  ) => Promise<CustomerRegistrationResponse>;
-  resendEmailAction: ActionProp<string>;
+  registrationAction: ActionProp<
+    CustomerRegistrationFormValues,
+    CustomerRegistrationResponse
+  >;
+  resendEmailAction: ActionProp<string, ResendVerificationEmailResponse>;
 }
 
 export const CustomerRegistrationTemplate: FC<
   CustomerRegistrationTemplateProps
 > = (props) => {
-  const { resendEmailAction, onRegistrationRequest, className, ...rest } =
-    props;
+  const { resendEmailAction, registrationAction, className, ...rest } = props;
   const t = useTranslations("page.customer-registration");
-  const [step, setStep] = useState<"form" | "success">("form");
+  const [step, setStep] = useState<RegistrationStatus | "form">("form");
   const submittedEmail = useRef<string | null>(null);
   const { isActive: isTimerActive, startTimer, left: timeLeft } = useTimer({});
 
   const formSubmitHandler = useCallback(
     async (values: CustomerRegistrationFormValues) => {
       try {
-        const response = await onRegistrationRequest(values);
+        const response = await registrationAction.handler(values);
+
+        setStep(response.status);
+        submittedEmail.current = values.email;
 
         if (response.status === RegistrationStatus.Success) {
-          setStep("success");
-          submittedEmail.current = values.email;
           startTimer();
         }
       } catch (error) {}
     },
-    [onRegistrationRequest, startTimer]
+    [registrationAction.handler, startTimer]
   );
 
   const resendHandler = useCallback(async () => {
@@ -90,7 +92,7 @@ export const CustomerRegistrationTemplate: FC<
         </>
       )}
 
-      {step === "success" && (
+      {step !== "form" && (
         <Grid
           gap={2}
           className="px-4 py-6 sm:px-6  sm:py-10 border-2 rounded-2xl"
@@ -102,34 +104,50 @@ export const CustomerRegistrationTemplate: FC<
             weight="bold"
             className="text-center"
           >
-            {t("success.title")}
+            {t(`${step}.title`)}
           </Typography>
           <Typography tag="p" styling="sm" className="text-center">
-            {t("success.description")}
+            {t(`${step}.description`)}
           </Typography>
 
-          <Grid gap={2} className="mt-4">
+          {step === RegistrationStatus.EmailUsed && (
             <Button
-              isDisabled={resendEmailAction.isLoading || isTimerActive}
-              isLoading={resendEmailAction.isLoading}
+              as={NextLink}
+              href={PublicPageUrls.login}
               variant="shadow"
               color="primary"
               className="justify-self-center"
               size="md"
-              onClick={resendHandler}
             >
-              {t("success.resend-email.trigger")}
+              {t("email-used.trigger")}
             </Button>
+          )}
 
-            <Typography tag="p" styling="xs" className="text-center">
-              {t("success.resend-email.description")}
-            </Typography>
-            {!!timeLeft && (
+          {(step === RegistrationStatus.Success ||
+            step === RegistrationStatus.WaitingForEmailConfirmation) && (
+            <Grid gap={2} className="mt-4">
+              <Button
+                isDisabled={resendEmailAction.isLoading || isTimerActive}
+                isLoading={resendEmailAction.isLoading}
+                variant="shadow"
+                color="primary"
+                className="justify-self-center"
+                size="md"
+                onClick={resendHandler}
+              >
+                {t("success.resend-email.trigger")}
+              </Button>
+
               <Typography tag="p" styling="xs" className="text-center">
-                {t("success.resend-email.interval", { value: timeLeft })}
+                {t("success.resend-email.description")}
               </Typography>
-            )}
-          </Grid>
+              {!!timeLeft && isTimerActive && (
+                <Typography tag="p" styling="xs" className="text-center">
+                  {t("success.resend-email.interval", { value: timeLeft })}
+                </Typography>
+              )}
+            </Grid>
+          )}
         </Grid>
       )}
     </Grid>

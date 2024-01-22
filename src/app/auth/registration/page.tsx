@@ -1,6 +1,5 @@
 "use client";
 
-import { LoadingOverlay } from "@/components/base";
 import { CustomerRegistrationTemplate } from "@/components/templates/Auth/CustomerRegistrationTemplate";
 import { useCustomerRegistrationMutation } from "@/hooks/react-query/mutation/auth";
 import { useResendVerificationEmailMutation } from "@/hooks/react-query/mutation/auth/resend-verification-email";
@@ -24,10 +23,13 @@ const RegistrationPage = () => {
 
   return (
     <>
-      {isCustomerRegistrationLoading && <LoadingOverlay />}
+      {/* {isCustomerRegistrationLoading && <LoadingOverlay />} */}
 
       <CustomerRegistrationTemplate
-        onRegistrationRequest={customerRegistration}
+        registrationAction={{
+          handler: customerRegistration,
+          isLoading: isCustomerRegistrationLoading,
+        }}
         resendEmailAction={{
           handler: resendHandler,
           isLoading: isResendVerificationEmailLoading,

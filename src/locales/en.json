@@ -467,6 +467,21 @@
           "description": "If you didn't receive verification email, you can resend it here",
           "interval": "You can resend verification email in {value} seconds"
         }
+      },
+      "email-used": {
+        "title": "Email already used",
+        "description": "This email is already used by another user",
+        "trigger": "Login"
+      },
+
+      "waiting-for-email-confirmation": {
+        "title": "Waiting for email confirmation",
+        "description": "Please check your email to activate your account",
+        "resend-email": {
+          "trigger": "Resend verification email",
+          "description": "If you didn't receive verification email, you can resend it here",
+          "interval": "You can resend verification email in {value} seconds"
+        }
       }
     },
     "company-registration": {
@@ -485,6 +500,12 @@
       "not-found": {
         "title": "Invalid verification link",
         "description": "Your verification link is invalid"
+      },
+      "expired": {
+        "title": "Expired verification link",
+        "description": "Your verification link has expired",
+        "trigger": "Resend verification email",
+        "interval": "You can resend verification email in {value} seconds"
       },
       "already-verified": {
         "title": "Email already verified",

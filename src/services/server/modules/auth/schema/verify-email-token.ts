@@ -3,6 +3,8 @@ import { z } from "zod";
 export enum VerifyEmailTokenStatus {
   Success = "success",
   NotFound = "not-found",
+  Expired = "expired",
+  Invalid = "invalid",
   AlreadyVerified = "already-verified",
 }
 

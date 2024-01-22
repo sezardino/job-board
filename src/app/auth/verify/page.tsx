@@ -3,8 +3,10 @@
 import { LoadingOverlay } from "@/components/base";
 import { VerifyEmailTemplate } from "@/components/templates/Auth/VerifyEmailTemplate";
 import { PublicPageUrls } from "@/const";
+import { useResendVerificationEmailMutation } from "@/hooks/react-query/mutation/auth/resend-verification-email";
 import { useVerifyEmailTokenQuery } from "@/hooks/react-query/query/auth/verify-email-token";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
 
 const LoginPage = () => {
   const router = useRouter();
@@ -13,14 +15,16 @@ const LoginPage = () => {
   const { data: verifyTokenStatus, isFetching: isVerifyTokenStatusLoading } =
     useVerifyEmailTokenQuery(token!);
 
-  // const isCheckedRef = useRef(false);
-  // useEffect(() => {
-  //   if (isCheckedRef.current || !token || !EMAIL_TOKEN_REGEXP.test(token))
-  //     return;
+  const {
+    mutateAsync: resendVerificationEmail,
+    isPending: isResendVerificationEmailLoading,
+  } = useResendVerificationEmailMutation();
 
-  //   isCheckedRef.current = true;
-  //   verifyEmailToken({ token: token });
-  // }, []);
+  const resendHandler = useCallback(
+    async (arg: any) =>
+      token ? resendVerificationEmail({ token }) : undefined,
+    [resendVerificationEmail, token]
+  );
 
   if (!token) {
     router.replace(PublicPageUrls.notFound);
@@ -34,7 +38,13 @@ const LoginPage = () => {
       {isLoading && <LoadingOverlay />}
 
       {verifyTokenStatus && (
-        <VerifyEmailTemplate status={verifyTokenStatus.status} />
+        <VerifyEmailTemplate
+          status={verifyTokenStatus.status}
+          resendEmailAction={{
+            handler: resendHandler,
+            isLoading: isResendVerificationEmailLoading,
+          }}
+        />
       )}
     </>
   );

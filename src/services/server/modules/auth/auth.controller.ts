@@ -89,7 +89,7 @@ export class AuthController extends AbstractController<AuthService> {
     if (response) return response;
 
     try {
-      const res = await this.service.resendVerificationEmail(dto?.email!);
+      const res = await this.service.resendVerificationEmail(dto!);
 
       return this.getNextResponse(
         { status: res } as ResendVerificationEmailResponse,
