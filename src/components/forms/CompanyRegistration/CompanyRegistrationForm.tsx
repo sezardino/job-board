@@ -3,9 +3,9 @@
 import { Grid, Typography } from "@/components/base";
 import { ControlledInput } from "@/components/controlled";
 import { MIN_PASSWORD_LENGTH } from "@/const";
+import { useFormikHelper } from "@/hooks/use-formik-helper";
 import { useStringVerification } from "@/hooks/use-string-verification";
 import { Location } from "@prisma/client";
-import { useFormik } from "formik";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 import z from "zod";
@@ -108,8 +108,22 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
     [t]
   );
 
-  const formik = useFormik<CompanyRegistrationFormValues>({
-    onSubmit: onFormSubmit,
+  const formik = useFormikHelper<CompanyRegistrationFormValues>({
+    onSubmit: async (values) => {
+      const isOwnerEmailAvailable = await validateOwnerEmail(
+        values.owner.email
+      );
+
+      if (!isOwnerEmailAvailable) return;
+
+      const isCompanyNameAvailable = await validateCompanyName(
+        values.company.name
+      );
+
+      if (!isCompanyNameAvailable) return;
+
+      onFormSubmit(values);
+    },
     initialValues,
     validationSchema,
   });
@@ -137,11 +151,6 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
               label={t("email.label")}
               placeholder={t("email.placeholder")}
               className="flex-1 min-w-[220px]"
-              onBlur={(evt) =>
-                evt.currentTarget.value
-                  ? validateOwnerEmail(evt.currentTarget.value)
-                  : undefined
-              }
             />
           </div>
 
@@ -167,11 +176,6 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
             label={t("name.label")}
             placeholder={t("name.placeholder")}
             className="flex-1 min-w-[220px]"
-            onBlur={(evt) =>
-              evt.currentTarget.value
-                ? validateCompanyName(evt.currentTarget.value)
-                : undefined
-            }
           />
           <div className="flex flex-wrap gap-2 items-start">
             <ControlledInput
