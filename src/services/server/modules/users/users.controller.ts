@@ -29,7 +29,7 @@ import { UsersService } from "./users.service";
 
 export class UsersController extends AbstractController<UsersService> {
   async checkEmailAvailable(req: NextRequest) {
-    const params = this.formatParams(req.nextUrl.searchParams.entries());
+    const params = this.formatParams(req.nextUrl.searchParams);
 
     const { response, dto } = await this.handlerHelper({
       data: params,
@@ -70,7 +70,7 @@ export class UsersController extends AbstractController<UsersService> {
   }
 
   async admins(req: NextRequest) {
-    const params = this.formatParams(req.nextUrl.searchParams.entries());
+    const params = this.formatParams(req.nextUrl.searchParams);
 
     const { response, dto } = await this.handlerHelper({
       data: params,
@@ -231,7 +231,7 @@ export class UsersController extends AbstractController<UsersService> {
   }
 
   async companies(req: NextRequest) {
-    const params = this.formatParams(req.nextUrl.searchParams.entries());
+    const params = this.formatParams(req.nextUrl.searchParams);
 
     const { response, dto } = await this.handlerHelper({
       data: params,
@@ -254,7 +254,7 @@ export class UsersController extends AbstractController<UsersService> {
   }
 
   async customers(req: NextRequest) {
-    const params = this.formatParams(req.nextUrl.searchParams.entries());
+    const params = this.formatParams(req.nextUrl.searchParams);
 
     const { response, dto } = await this.handlerHelper({
       data: params,
@@ -277,7 +277,7 @@ export class UsersController extends AbstractController<UsersService> {
   }
 
   async company(req: NextRequest) {
-    const params = this.formatParams(req.nextUrl.searchParams.entries());
+    const params = this.formatParams(req.nextUrl.searchParams);
 
     const { response, dto, session } = await this.handlerHelper({
       data: params,

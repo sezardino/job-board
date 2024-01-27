@@ -18,7 +18,7 @@ import {
 
 export class IndustriesController extends AbstractController<IndustriesService> {
   async checkNameAvailable(req: NextRequest) {
-    const params = this.formatParams(req.nextUrl.searchParams.entries());
+    const params = this.formatParams(req.nextUrl.searchParams);
 
     const { response, dto } = await this.handlerHelper({
       data: params,
@@ -40,7 +40,7 @@ export class IndustriesController extends AbstractController<IndustriesService> 
   }
 
   async admin(req: NextRequest) {
-    const params = this.formatParams(req.nextUrl.searchParams.entries());
+    const params = this.formatParams(req.nextUrl.searchParams);
 
     const { response, dto } = await this.handlerHelper({
       data: params,

@@ -30,11 +30,20 @@ export abstract class AbstractController<S> {
     return returned;
   }
 
-  protected formatParams(params: IterableIterator<[string, string]>) {
+  protected formatParams(params: URLSearchParams) {
     let formattedParams: Record<string, any> = {};
 
-    Array.from(params).forEach(([k, v]) => {
-      formattedParams[k] = v;
+    params.forEach((value, key) => {
+      if (key.includes("[]")) {
+        const keyWithoutBrackets = key.replace("[]", "");
+        if (!formattedParams[keyWithoutBrackets])
+          formattedParams[keyWithoutBrackets] = [];
+        formattedParams[keyWithoutBrackets].push(value);
+
+        return;
+      }
+
+      formattedParams[key] = value;
     });
 
     return formattedParams;
@@ -49,6 +58,7 @@ export abstract class AbstractController<S> {
     schema: Schema
   ): NextResponse<{ message: string; errors: ZodIssue[] }> | Schema["_output"] {
     const validation = schema.safeParse(data);
+
     if (!validation.success) {
       return this.getNextResponse(
         {

@@ -13,7 +13,7 @@ import {
 
 export class CompaniesController extends AbstractController<CompaniesService> {
   async admin(req: NextRequest) {
-    const params = this.formatParams(req.nextUrl.searchParams.entries());
+    const params = this.formatParams(req.nextUrl.searchParams);
 
     const { response, dto } = await this.handlerHelper({
       data: params,

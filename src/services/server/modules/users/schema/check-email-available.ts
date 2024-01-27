@@ -4,7 +4,7 @@ export const checkEmailAvailableRequestSchema = z.object({
   email: z
     .string()
     .min(1, "backend-errors.validation.registration.login.min")
-    .max(20, "backend-errors.validation.registration.login.max"),
+    .max(255, "backend-errors.validation.registration.login.max"),
 });
 
 export const checkEmailAvailableResponseSchema = z.object({

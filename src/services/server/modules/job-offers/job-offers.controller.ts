@@ -10,7 +10,7 @@ import {
 
 export class JobOffersController extends AbstractController<JobOffersService> {
   async myCompanyOffers(req: NextRequest) {
-    const data = this.formatParams(req.nextUrl.searchParams.entries());
+    const data = this.formatParams(req.nextUrl.searchParams);
 
     const { dto, response, session } = await this.handlerHelper({
       data,
@@ -44,7 +44,7 @@ export class JobOffersController extends AbstractController<JobOffersService> {
   }
 
   async list(req: NextRequest) {
-    const data = this.formatParams(req.nextUrl.searchParams.entries());
+    const data = this.formatParams(req.nextUrl.searchParams);
 
     const { dto, response } = await this.handlerHelper({
       data,
