@@ -108,7 +108,8 @@
       "name": {
         "label": "Name",
         "placeholder": "Name",
-        "required": "Name is required"
+        "required": "Name is required",
+        "used": "Name is already used"
       },
       "building": {
         "label": "Building",
@@ -489,7 +490,6 @@
         "description": "This email is already used by another user",
         "trigger": "Login"
       },
-
       "waiting-for-email-confirmation": {
         "title": "Waiting for email confirmation",
         "description": "Please check your email to activate your account",
@@ -505,6 +505,29 @@
       "login": {
         "description": "Already have an account?",
         "link": "Login"
+      },
+      "success": {
+        "title": "Registration successful",
+        "description": "Please check your email to activate your account",
+        "resend-email": {
+          "trigger": "Resend verification email",
+          "description": "If you didn't receive verification email, you can resend it here",
+          "interval": "You can resend verification email in {value} seconds"
+        }
+      },
+      "email-used": {
+        "title": "Email already used",
+        "description": "This email is already used by another user",
+        "trigger": "Login"
+      },
+      "waiting-for-email-confirmation": {
+        "title": "Waiting for email confirmation",
+        "description": "Please check your email to activate your account",
+        "resend-email": {
+          "trigger": "Resend verification email",
+          "description": "If you didn't receive verification email, you can resend it here",
+          "interval": "You can resend verification email in {value} seconds"
+        }
       }
     },
     "verify-email": {

@@ -3,6 +3,7 @@
 import { CompanyRegistrationTemplate } from "@/components/templates/Auth/CompanyRegistrationTemplate";
 import { useCheckEmailAvailableMutation } from "@/hooks";
 import { useCompanyRegistrationMutation } from "@/hooks/react-query/mutation/auth/company-registration";
+import { useResendVerificationEmailMutation } from "@/hooks/react-query/mutation/auth/resend-verification-email";
 import { useCheckCompanyNameAvailableMutation } from "@/hooks/react-query/mutation/companies";
 import { useCallback } from "react";
 
@@ -31,6 +32,16 @@ const RegistrationPage = () => {
     [checkCompanyNameAvailable]
   );
 
+  const {
+    mutateAsync: resendVerificationEmail,
+    isPending: isResendVerificationEmailLoading,
+  } = useResendVerificationEmailMutation();
+
+  const resendHandler = useCallback(
+    async (email: string) => resendVerificationEmail({ email }),
+    [resendVerificationEmail]
+  );
+
   return (
     <CompanyRegistrationTemplate
       registrationAction={{
@@ -44,6 +55,10 @@ const RegistrationPage = () => {
       checkCompanyNameAvailableAction={{
         handler: checkNameAvailableHandler,
         isLoading: isCheckNameLoading,
+      }}
+      resendEmailAction={{
+        handler: resendHandler,
+        isLoading: isResendVerificationEmailLoading,
       }}
     />
   );

@@ -66,7 +66,7 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
   });
   const { validate: validateCompanyName } = useStringVerification({
     handler: onCompanyNameAvailableRequest,
-    onError: () => formik.setFieldError("company.email", t("email.used")),
+    onError: () => formik.setFieldError("company.name", t("name.used")),
   });
 
   const validationSchema = useMemo(

@@ -163,8 +163,7 @@ model Company {
   status CompanyStatus @default(CREATED)
 
   // needed while registration
-  logo     Image?     @relation(name: "logo", fields: [logoId], references: [id])
-  logoId   String?    @unique @map("logo_id") @db.ObjectId
+  logo     Image?
   location Location[]
   // not editable fields
   name     String     @unique
@@ -223,8 +222,8 @@ model Image {
   gallery   Company? @relation(name: "gallery", fields: [galleryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   galleryId String?  @map("gallery_id") @db.ObjectId
 
-  logo   Company? @relation(name: "logo")
-  logoId String?  @unique @map("logo_id") @db.ObjectId
+  company   Company? @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  companyId String?  @unique @db.ObjectId
 
   name String
   url  String
