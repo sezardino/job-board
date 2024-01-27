@@ -100,13 +100,6 @@ export class UsersService extends AbstractService {
     return user;
   }
 
-  async findUserByEmailToken(token: string) {
-    return await this.prismaService.user.findUnique({
-      where: { emailToken: token },
-      select: { emailVerified: true, email: true },
-    });
-  }
-
   async verifyEmailToken(email: string) {
     await this.prismaService.user.update({
       where: { email },
@@ -169,7 +162,7 @@ export class UsersService extends AbstractService {
     const updateResponse = await this.prismaService.user.update({
       where: { email },
       data: { emailToken },
-      select: {},
+      select: { id: true },
     });
 
     return { ...updateResponse, emailToken };
@@ -192,6 +185,7 @@ export class UsersService extends AbstractService {
         role: UserRoles.CUSTOMER,
         emailToken: await hashService.hash(verificationToken),
         isAcceptInvite: true,
+        inviteToken: "",
       },
       select: { email: true, name: true },
     });

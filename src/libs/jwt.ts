@@ -21,4 +21,10 @@ export class JWT {
 
     return decoded as T;
   }
+
+  decode<T extends Record<string, any>>(token: string): T | null {
+    const decoded = jwt.decode(token);
+
+    return decoded as T;
+  }
 }

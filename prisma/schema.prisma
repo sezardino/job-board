@@ -116,10 +116,10 @@ model User {
   avatar Image?
 
   isAcceptInvite Boolean @default(false) @map("is_accept_invite")
-  inviteToken    String? @unique @map("invite_token")
+  inviteToken    String? @map("invite_token")
 
   email         String  @unique
-  emailToken    String  @unique @map("email_token")
+  emailToken    String? @map("email_token")
   emailVerified Boolean @default(false) @map("email_verified")
 
   password String @default("")

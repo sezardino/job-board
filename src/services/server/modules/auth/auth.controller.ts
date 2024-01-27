@@ -37,6 +37,7 @@ export class AuthController extends AbstractController<AuthService> {
         201
       );
     } catch (error) {
+      console.log(error);
       return this.getNextResponse(error as {}, 500);
     }
   }
@@ -115,13 +116,25 @@ export class AuthController extends AbstractController<AuthService> {
     if (response) return response;
 
     try {
-      const res = await this.service.resendVerificationEmail(dto!);
+      if ("email" in dto!) {
+        const res = await this.service.resendVerificationEmailByEmail(
+          dto.email
+        );
+
+        return this.getNextResponse(
+          { status: res } as ResendVerificationEmailResponse,
+          200
+        );
+      }
+
+      const res = await this.service.resendVerificationEmailByToken(dto!.token);
 
       return this.getNextResponse(
         { status: res } as ResendVerificationEmailResponse,
         200
       );
     } catch (error) {
+      console.error(error);
       return this.getNextResponse(error as {}, 500);
     }
   }

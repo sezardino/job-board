@@ -17,10 +17,7 @@ import {
   CompanyRegistrationRequest,
   CompanyRegistrationStatus,
 } from "./schema/company-registration";
-import {
-  ResendVerificationEmailRequest,
-  ResendVerificationEmailStatus,
-} from "./schema/resend-verification-email";
+import { ResendVerificationEmailStatus } from "./schema/resend-verification-email";
 
 export class AuthService extends AbstractService {
   constructor(
@@ -86,16 +83,37 @@ export class AuthService extends AbstractService {
     await this.sendWelcomeEmail(
       newCompany.email,
       newCompany.name,
-      newCompany.emailToken
+      newCompany.emailToken!
     );
     return CompanyRegistrationStatus.Success;
   }
 
-  async resendVerificationEmail(data: ResendVerificationEmailRequest) {
-    const user = await this.usersService.findUnique({
-      email: "email" in data ? data.email : undefined,
-      emailToken: "token" in data ? data.token : undefined,
-    });
+  async resendVerificationEmailByEmail(email: string) {
+    const user = await this.usersService.findUnique(
+      { email: email },
+      { email: true, emailVerified: true, name: true }
+    );
+
+    if (!user) return ResendVerificationEmailStatus.NotFound;
+    if (user.emailVerified)
+      return ResendVerificationEmailStatus.AlreadyVerified;
+
+    const { emailToken } = await this.usersService.updateEmailToken(user.email);
+
+    await this.sendWelcomeEmail(user.email, user.name, emailToken);
+
+    return ResendVerificationEmailStatus.Success;
+  }
+
+  async resendVerificationEmailByToken(token: string) {
+    const payload = emailVerificationTokenService.decode<{ email: string }>(
+      token
+    );
+
+    const user = await this.usersService.findUnique(
+      { email: payload?.email },
+      { email: true, emailVerified: true, name: true }
+    );
 
     if (!user) return ResendVerificationEmailStatus.NotFound;
     if (user.emailVerified)
@@ -127,7 +145,7 @@ export class AuthService extends AbstractService {
       if (!user) return VerifyEmailTokenStatus.NotFound;
       if (user.emailVerified) return VerifyEmailTokenStatus.AlreadyVerified;
 
-      const isTokensMatch = hashService.compare(token, user.emailToken);
+      const isTokensMatch = hashService.compare(token, user.emailToken!);
 
       if (!isTokensMatch) return VerifyEmailTokenStatus.Invalid;
 
