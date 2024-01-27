@@ -4,6 +4,7 @@ import { hashService } from "@/services/hash";
 import { mailService } from "@/services/mail";
 import { AbstractService } from "@/services/server/helpers";
 import { emailVerificationTokenService } from "@/services/token";
+import { CompaniesService } from "../companies/companies.service";
 import { UsersService } from "../users/users.service";
 import {
   CustomerRegistrationRequest,
@@ -13,6 +14,10 @@ import {
   VerifyEmailTokenStatus,
 } from "./schema";
 import {
+  CompanyRegistrationRequest,
+  CompanyRegistrationStatus,
+} from "./schema/company-registration";
+import {
   ResendVerificationEmailRequest,
   ResendVerificationEmailStatus,
 } from "./schema/resend-verification-email";
@@ -20,7 +25,8 @@ import {
 export class AuthService extends AbstractService {
   constructor(
     prismaService: PrismaService,
-    private readonly usersService: UsersService
+    private readonly usersService: UsersService,
+    private readonly companiesService: CompaniesService
   ) {
     super(prismaService);
   }
@@ -56,6 +62,33 @@ export class AuthService extends AbstractService {
     await this.sendWelcomeEmail(email, name, newUserData.emailToken);
 
     return RegistrationStatus.Success;
+  }
+
+  async companyRegistration(
+    dto: CompanyRegistrationRequest
+  ): Promise<CompanyRegistrationStatus> {
+    const { owner, company } = dto;
+    const userResponse = await this.usersService.checkEmailAvailable(
+      owner.email
+    );
+    const companyResponse = await this.companiesService.checkEmailAvailable(
+      company.email
+    );
+
+    if (companyResponse) return CompanyRegistrationStatus.CompanyEmailUsed;
+    if (userResponse && userResponse.emailVerified)
+      return CompanyRegistrationStatus.EmailUsed;
+    if (userResponse && !userResponse.emailVerified)
+      return CompanyRegistrationStatus.WaitingForEmailConfirmation;
+
+    const newCompany = await this.companiesService.createNewCompany(dto);
+
+    await this.sendWelcomeEmail(
+      newCompany.owner.email,
+      newCompany.owner.name,
+      newCompany.owner.emailToken
+    );
+    return CompanyRegistrationStatus.Success;
   }
 
   async resendVerificationEmail(data: ResendVerificationEmailRequest) {

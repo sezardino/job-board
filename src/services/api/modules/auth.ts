@@ -5,14 +5,26 @@ import {
   resendVerificationEmailResponseSchema,
   verifyEmailTokenResponseSchema,
 } from "@/services/server/modules/auth/schema";
+import {
+  CompanyRegistrationRequest,
+  companyRegistrationResponseSchema,
+} from "@/services/server/modules/auth/schema/company-registration";
 import { AbstractApiModule } from "../helpers";
 
 export class AuthApiModule extends AbstractApiModule {
-  async registration(data: CustomerRegistrationRequest) {
+  async customerRegistration(data: CustomerRegistrationRequest) {
     return await this.fetch({
       endpoint: "auth/registration",
       config: { data, method: "POST" },
       schema: customerRegistrationResponseSchema,
+    });
+  }
+
+  async companyRegistration(data: CompanyRegistrationRequest) {
+    return await this.fetch({
+      endpoint: "auth/registration/company",
+      config: { data, method: "POST" },
+      schema: companyRegistrationResponseSchema,
     });
   }
 

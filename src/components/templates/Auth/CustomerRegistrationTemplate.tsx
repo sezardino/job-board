@@ -29,12 +29,19 @@ export interface CustomerRegistrationTemplateProps
     CustomerRegistrationResponse
   >;
   resendEmailAction: ActionProp<string, ResendVerificationEmailResponse>;
+  checkEmailAvailableAction: ActionProp<string, boolean>;
 }
 
 export const CustomerRegistrationTemplate: FC<
   CustomerRegistrationTemplateProps
 > = (props) => {
-  const { resendEmailAction, registrationAction, className, ...rest } = props;
+  const {
+    checkEmailAvailableAction,
+    resendEmailAction,
+    registrationAction,
+    className,
+    ...rest
+  } = props;
   const t = useTranslations("page.customer-registration");
   const [step, setStep] = useState<RegistrationStatus | "form">("form");
   const submittedEmail = useRef<string | null>(null);
@@ -79,7 +86,7 @@ export const CustomerRegistrationTemplate: FC<
             {t("form.title")}
           </Typography>
           <CustomerRegistrationForm
-            onEmailAvailableRequest={async () => true}
+            onEmailAvailableRequest={checkEmailAvailableAction.handler}
             onFormSubmit={formSubmitHandler}
             className="px-4 py-6 sm:px-6  sm:py-10 border-2 rounded-2xl"
           />

@@ -11,6 +11,10 @@ import {
   verifyEmailTokenRequestSchema,
 } from "./schema";
 import {
+  CompanyRegistrationResponse,
+  companyRegistrationRequestSchema,
+} from "./schema/company-registration";
+import {
   ResendVerificationEmailResponse,
   resendVerificationEmailRequestSchema,
 } from "./schema/resend-verification-email";
@@ -30,6 +34,27 @@ export class AuthController extends AbstractController<AuthService> {
 
       return this.getNextResponse(
         { status } as CustomerRegistrationResponse,
+        201
+      );
+    } catch (error) {
+      return this.getNextResponse(error as {}, 500);
+    }
+  }
+
+  async companyRegistration(req: NextRequest) {
+    const body = await req.json();
+    const { response, dto } = await this.handlerHelper({
+      data: body,
+      schema: companyRegistrationRequestSchema,
+    });
+
+    if (response) return response;
+
+    try {
+      const status = await this.service.companyRegistration(dto!);
+
+      return this.getNextResponse(
+        { status } as CompanyRegistrationResponse,
         201
       );
     } catch (error) {

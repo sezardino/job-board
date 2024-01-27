@@ -1,6 +1,11 @@
 import { PrismaService } from "@/libs/prisma";
+import { hashService } from "@/services/hash";
 import { AbstractService } from "@/services/server/helpers";
-import { Prisma } from "@prisma/client";
+import { emailVerificationTokenService } from "@/services/token";
+import { daysToSeconds } from "@/utils/days-to-seconds";
+import { generateSlug } from "@/utils/generate-slug";
+import { Prisma, UserRoles } from "@prisma/client";
+import { CompanyRegistrationRequest } from "../auth/schema/company-registration";
 import { FilesService } from "../files/files.service";
 import { AdminCompaniesRequest, EditCompanyRequest } from "./schema";
 
@@ -142,5 +147,45 @@ export class CompaniesService extends AbstractService {
         logo: { select: { id: true, url: true, name: true } },
       },
     });
+  }
+
+  async checkEmailAvailable(email: string) {
+    const user = await this.prismaService.company.findUnique({
+      where: { email },
+      select: { email: true },
+    });
+
+    return user;
+  }
+
+  async createNewCompany(dto: CompanyRegistrationRequest) {
+    const { company, owner } = dto;
+
+    const hashedPassword = await hashService.hash(owner.password);
+    const verificationToken = emailVerificationTokenService.generate({
+      payload: { email: owner.email },
+      expiresIn: daysToSeconds(1),
+    });
+
+    const response = await this.prismaService.company.create({
+      data: {
+        name: company.name,
+        email: company.email,
+        location: company.location,
+        slug: generateSlug(company.name),
+        owner: {
+          create: {
+            name: owner.name,
+            email: owner.email,
+            password: hashedPassword,
+            role: UserRoles.OWNER,
+            emailToken: verificationToken,
+          },
+        },
+      },
+      select: { owner: true },
+    });
+
+    return { owner: { ...response.owner, emailToken: verificationToken } };
   }
 }

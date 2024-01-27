@@ -19,11 +19,15 @@ class Server {
   categories: CategoriesModule;
 
   constructor(private readonly prismaService: PrismaService) {
-    this.users = new UsersModule(prismaService);
-    this.auth = new AuthModule(prismaService, this.users.service);
-    this.industries = new IndustriesModule(prismaService);
     this.files = new FilesModule(prismaService);
+    this.users = new UsersModule(prismaService);
     this.companies = new CompaniesModule(prismaService, this.files.service);
+    this.auth = new AuthModule(
+      prismaService,
+      this.users.service,
+      this.companies.service
+    );
+    this.industries = new IndustriesModule(prismaService);
     this.jobOffers = new JobOffersModule(prismaService);
     this.categories = new CategoriesModule(prismaService);
   }

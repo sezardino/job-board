@@ -45,7 +45,7 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
   const checkCompanyEmailHistory = useRef<Record<string, boolean>>({});
 
   const formik = useFormik<CompanyRegistrationFormValues>({
-    onSubmit: async () => undefined,
+    onSubmit: onFormSubmit,
     initialValues: {
       owner: {
         email: "",

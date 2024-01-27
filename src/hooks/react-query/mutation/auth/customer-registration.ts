@@ -5,5 +5,5 @@ import { useMutationHelper } from "../../helpers";
 export const useCustomerRegistrationMutation = () =>
   useMutationHelper({
     mutationFn: (req: CustomerRegistrationRequest) =>
-      apiService.auth.registration(req),
+      apiService.auth.customerRegistration(req),
   });
