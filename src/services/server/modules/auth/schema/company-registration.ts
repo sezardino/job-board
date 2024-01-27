@@ -23,9 +23,6 @@ export const companyRegistrationRequestSchema = z.object({
       .max(MAX_STRING_LENGTH, "max password length"),
   }),
   company: z.object({
-    email: z
-      .string({ required_error: "company email is required" })
-      .email("invalid email"),
     name: z.string({ required_error: "company name is required" }),
     location: z.object({
       building: z.string({ required_error: "building is required" }),

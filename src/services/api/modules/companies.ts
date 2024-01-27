@@ -1,6 +1,8 @@
 import {
+  CheckCompanyNameAvailableRequest,
   EditCompanyRequest,
   adminCompaniesResponseSchema,
+  checkCompanyNameAvailableResponseSchema,
   companyProfileResponseSchema,
   editCompanyResponseSchema,
   myCompanyBaseDataResponseSchema,
@@ -73,6 +75,14 @@ export class CompaniesApiModule extends AbstractApiModule {
         method: "POST",
         data: formData,
       },
+    });
+  }
+
+  async checkNameAvailable(params: CheckCompanyNameAvailableRequest) {
+    return await this.fetch({
+      endpoint: "companies/check-name",
+      config: { params },
+      schema: checkCompanyNameAvailableResponseSchema,
     });
   }
 }

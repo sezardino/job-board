@@ -4,10 +4,12 @@ import { NextRequest } from "next/server";
 import { CompaniesService } from "./companies.service";
 import {
   AdminCompaniesResponse,
+  CheckCompanyNameAvailableResponse,
   CompanyProfileResponse,
   EditCompanyResponse,
   MyCompanyBaseDataResponse,
   adminCompaniesRequestSchema,
+  checkCompanyNameAvailableRequestSchema,
   editCompanyRequestSchema,
 } from "./schema";
 
@@ -101,6 +103,28 @@ export class CompaniesController extends AbstractController<CompaniesService> {
     } catch (error) {
       console.log(error);
       return this.getNextResponse({ error }, 500);
+    }
+  }
+
+  async checkNameAvailable(req: NextRequest) {
+    const params = this.formatParams(req.nextUrl.searchParams);
+
+    const { response, dto } = await this.handlerHelper({
+      data: params,
+      schema: checkCompanyNameAvailableRequestSchema,
+    });
+
+    if (response) return response;
+
+    try {
+      const bllResponse = await this.service.checkNameAvailable(dto!.name!);
+
+      return this.getNextResponse(
+        { available: !bllResponse } as CheckCompanyNameAvailableResponse,
+        200
+      );
+    } catch (error) {
+      return this.getNextResponse({ message: "backend-errors.server" }, 500);
     }
   }
 }

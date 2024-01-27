@@ -3,9 +3,10 @@
 import { Grid } from "@/components/base";
 import { ControlledInput } from "@/components/controlled";
 import { MIN_PASSWORD_LENGTH } from "@/const";
+import { useStringVerification } from "@/hooks/use-string-verification";
 import { useFormik } from "formik";
 import { useTranslations } from "next-intl";
-import { useRef, type ComponentPropsWithoutRef, type FC } from "react";
+import { type ComponentPropsWithoutRef, type FC } from "react";
 import z from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper } from "../FormWrapper/FormWrapper";
@@ -28,7 +29,10 @@ export const CustomerRegistrationForm: FC<CustomerRegistrationFormProps> = (
 ) => {
   const { isLoading, onFormSubmit, onEmailAvailableRequest, ...rest } = props;
   const t = useTranslations("forms.register-user");
-  const checkOwnerEmailHistory = useRef<Record<string, boolean>>({});
+  const { validate: validateEmail } = useStringVerification({
+    handler: onEmailAvailableRequest,
+    onError: () => formik.setFieldError("email", t("email.used")),
+  });
 
   const formik = useFormik<CustomerRegistrationFormValues>({
     onSubmit: onFormSubmit,
@@ -62,27 +66,6 @@ export const CustomerRegistrationForm: FC<CustomerRegistrationFormProps> = (
     ),
   });
 
-  const validateUserEmailHandler = async (email: string) => {
-    if (!onEmailAvailableRequest) return true;
-
-    const historyValue = checkOwnerEmailHistory.current[email];
-    if (historyValue) return historyValue;
-
-    if (historyValue === false) {
-      formik.setFieldError("email", t("email.used"));
-      return false;
-    }
-
-    const response = await onEmailAvailableRequest(email);
-    checkOwnerEmailHistory.current[email] = response;
-
-    if (response) return response;
-
-    formik.setFieldError("email", t("email.used"));
-
-    return false;
-  };
-
   return (
     <FormWrapper
       {...rest}
@@ -103,6 +86,11 @@ export const CustomerRegistrationForm: FC<CustomerRegistrationFormProps> = (
             label={t("email.label")}
             placeholder={t("email.placeholder")}
             className="flex-1 min-w-[220px]"
+            onBlur={(evt) =>
+              evt.currentTarget.value
+                ? validateEmail(evt.currentTarget.value)
+                : undefined
+            }
           />
         </div>
 

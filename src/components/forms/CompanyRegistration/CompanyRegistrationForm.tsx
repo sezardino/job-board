@@ -3,10 +3,11 @@
 import { Grid, Typography } from "@/components/base";
 import { ControlledInput } from "@/components/controlled";
 import { MIN_PASSWORD_LENGTH } from "@/const";
+import { useStringVerification } from "@/hooks/use-string-verification";
 import { Location } from "@prisma/client";
 import { useFormik } from "formik";
 import { useTranslations } from "next-intl";
-import { useRef, type ComponentPropsWithoutRef, type FC } from "react";
+import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 import z from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper } from "../FormWrapper/FormWrapper";
@@ -20,7 +21,6 @@ export type CompanyRegistrationFormValues = {
   };
   company: {
     name: string;
-    email: string;
     location: Location;
   };
 };
@@ -28,7 +28,26 @@ export type CompanyRegistrationFormValues = {
 export type CompanyRegistrationFormProps = ComponentPropsWithoutRef<"form"> & {
   onFormSubmit: (data: CompanyRegistrationFormValues) => void;
   onOwnerEmailAvailableRequest: (email: string) => Promise<boolean>;
-  onCompanyEmailAvailableRequest: (email: string) => Promise<boolean>;
+  onCompanyNameAvailableRequest: (email: string) => Promise<boolean>;
+};
+
+const initialValues = {
+  owner: {
+    email: "",
+    name: "",
+    password: "",
+    repeatPassword: "",
+  },
+  company: {
+    name: "",
+    location: {
+      building: "",
+      city: "",
+      country: "",
+      street: "",
+      zipCode: "",
+    },
+  },
 };
 
 export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
@@ -37,93 +56,63 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
   const {
     onFormSubmit,
     onOwnerEmailAvailableRequest,
-    onCompanyEmailAvailableRequest,
+    onCompanyNameAvailableRequest,
     ...rest
   } = props;
   const t = useTranslations("forms.register-company");
-  const checkOwnerEmailHistory = useRef<Record<string, boolean>>({});
-  const checkCompanyEmailHistory = useRef<Record<string, boolean>>({});
+  const { validate: validateOwnerEmail } = useStringVerification({
+    handler: onOwnerEmailAvailableRequest,
+    onError: () => formik.setFieldError("owner.email", t("email.used")),
+  });
+  const { validate: validateCompanyName } = useStringVerification({
+    handler: onCompanyNameAvailableRequest,
+    onError: () => formik.setFieldError("company.email", t("email.used")),
+  });
+
+  const validationSchema = useMemo(
+    () =>
+      toFormikValidationSchema(
+        z.object({
+          owner: z
+            .object({
+              email: z
+                .string({ required_error: t("email.required") })
+                .email(t("email.invalid")),
+              name: z.string({ required_error: t("name.required") }),
+              password: z
+                .string({ required_error: t("password.required") })
+                .min(
+                  MIN_PASSWORD_LENGTH,
+                  t("password.short", { value: MIN_PASSWORD_LENGTH })
+                ),
+              repeatPassword: z.string({
+                required_error: t("repeat-password.required"),
+              }),
+            })
+            .refine((data) => data.password === data.repeatPassword, {
+              path: ["repeatPassword"],
+              message: t("repeat-password.not-match"),
+            }),
+          company: z.object({
+            name: z.string({ required_error: t("name.required") }),
+            location: z.object({
+              building: z.string({ required_error: t("building.required") }),
+              city: z.string({ required_error: t("city.required") }),
+              country: z.string({ required_error: t("country.required") }),
+              street: z.string({ required_error: t("street.required") }),
+              zipCode: z.string({ required_error: t("zip-code.required") }),
+            }),
+          }),
+        })
+      ),
+    [t]
+  );
 
   const formik = useFormik<CompanyRegistrationFormValues>({
     onSubmit: onFormSubmit,
-    initialValues: {
-      owner: {
-        email: "",
-        name: "",
-        password: "",
-        repeatPassword: "",
-      },
-      company: {
-        email: "",
-        name: "",
-        location: {
-          building: "",
-          city: "",
-          country: "",
-          street: "",
-          zipCode: "",
-        },
-      },
-    },
-    validationSchema: toFormikValidationSchema(
-      z.object({
-        owner: z
-          .object({
-            email: z
-              .string({ required_error: t("email.required") })
-              .email(t("email.invalid")),
-            name: z.string({ required_error: t("name.required") }),
-            password: z
-              .string({ required_error: t("password.required") })
-              .min(
-                MIN_PASSWORD_LENGTH,
-                t("password.short", { value: MIN_PASSWORD_LENGTH })
-              ),
-            repeatPassword: z.string({
-              required_error: t("repeat-password.required"),
-            }),
-          })
-          .refine((data) => data.password === data.repeatPassword, {
-            path: ["repeatPassword"],
-            message: t("repeat-password.not-match"),
-          }),
-        company: z.object({
-          email: z
-            .string({ required_error: t("email.required") })
-            .email(t("email.invalid")),
-          name: z.string({ required_error: t("name.required") }),
-          location: z.object({
-            building: z.string({ required_error: t("building.required") }),
-            city: z.string({ required_error: t("city.required") }),
-            country: z.string({ required_error: t("country.required") }),
-            street: z.string({ required_error: t("street.required") }),
-            zipCode: z.string({ required_error: t("zip-code.required") }),
-          }),
-        }),
-      })
-    ),
+    initialValues,
+    validationSchema,
   });
-
-  const validateOwnerEmailHandler = async (email: string) => {
-    if (!onOwnerEmailAvailableRequest) return true;
-
-    const historyValue = checkOwnerEmailHistory.current[email];
-    if (historyValue) return historyValue;
-
-    if (historyValue === false) {
-      formik.setFieldError("email", t("email.used"));
-      return false;
-    }
-
-    const response = await onCompanyEmailAvailableRequest(email);
-    checkOwnerEmailHistory.current[email] = response;
-
-    if (response) return response;
-
-    formik.setFieldError("email", t("email.used"));
-
-    return false;
-  };
 
   return (
     <FormWrapper
@@ -131,6 +120,7 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
       formik={formik}
       submit={{ label: t("trigger"), isFullWidth: true }}
     >
+      {JSON.stringify(formik.errors)}
       <Grid gap={6}>
         <Grid gap={4}>
           <Typography tag="h2" styling="lg">
@@ -148,6 +138,11 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
               label={t("email.label")}
               placeholder={t("email.placeholder")}
               className="flex-1 min-w-[220px]"
+              onBlur={(evt) =>
+                evt.currentTarget.value
+                  ? validateOwnerEmail(evt.currentTarget.value)
+                  : undefined
+              }
             />
           </div>
 
@@ -168,20 +163,17 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
           <Typography tag="h2" styling="lg">
             {t("company")}
           </Typography>
-          <div className="flex flex-wrap gap-2 items-start">
-            <ControlledInput
-              name="company.name"
-              label={t("name.label")}
-              placeholder={t("name.placeholder")}
-              className="flex-1 min-w-[220px]"
-            />
-            <ControlledInput
-              name="company.email"
-              label={t("email.label")}
-              placeholder={t("email.placeholder")}
-              className="flex-1 min-w-[220px]"
-            />
-          </div>
+          <ControlledInput
+            name="company.name"
+            label={t("name.label")}
+            placeholder={t("name.placeholder")}
+            className="flex-1 min-w-[220px]"
+            onBlur={(evt) =>
+              evt.currentTarget.value
+                ? validateCompanyName(evt.currentTarget.value)
+                : undefined
+            }
+          />
           <div className="flex flex-wrap gap-2 items-start">
             <ControlledInput
               name="company.location.country"

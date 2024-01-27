@@ -17,7 +17,7 @@ type Props = {
     CompanyRegistrationResponse
   >;
   checkUserEmailAvailableAction: ActionProp<string, boolean>;
-  checkCompanyEmailAvailableAction: ActionProp<string, boolean>;
+  checkCompanyNameAvailableAction: ActionProp<string, boolean>;
 };
 
 export type CompanyRegistrationTemplateProps = ComponentPropsWithoutRef<"div"> &
@@ -27,7 +27,7 @@ export const CompanyRegistrationTemplate: FC<
   CompanyRegistrationTemplateProps
 > = (props) => {
   const {
-    checkCompanyEmailAvailableAction,
+    checkCompanyNameAvailableAction,
     checkUserEmailAvailableAction,
     registrationAction,
     className,
@@ -46,9 +46,7 @@ export const CompanyRegistrationTemplate: FC<
         {t("title")}
       </Typography>
       <CompanyRegistrationForm
-        onCompanyEmailAvailableRequest={
-          checkCompanyEmailAvailableAction.handler
-        }
+        onCompanyNameAvailableRequest={checkCompanyNameAvailableAction.handler}
         onOwnerEmailAvailableRequest={checkUserEmailAvailableAction.handler}
         onFormSubmit={registrationAction.handler}
         className="px-4 pt-6 sm:px-6  sm:py-10 border-2 rounded-2xl"

@@ -149,15 +149,6 @@ export class CompaniesService extends AbstractService {
     });
   }
 
-  async checkEmailAvailable(email: string) {
-    const user = await this.prismaService.company.findUnique({
-      where: { email },
-      select: { email: true },
-    });
-
-    return user;
-  }
-
   async createNewCompany(dto: CompanyRegistrationRequest) {
     const { company, owner } = dto;
 
@@ -170,7 +161,6 @@ export class CompaniesService extends AbstractService {
     const response = await this.prismaService.company.create({
       data: {
         name: company.name,
-        email: company.email,
         location: company.location,
         slug: generateSlug(company.name),
         owner: {
@@ -187,5 +177,12 @@ export class CompaniesService extends AbstractService {
     });
 
     return { owner: { ...response.owner, emailToken: verificationToken } };
+  }
+
+  async checkNameAvailable(name: string) {
+    return await this.prismaService.company.findUnique({
+      where: { name },
+      select: { id: true },
+    });
   }
 }

@@ -5,13 +5,13 @@ type Args = {
   onError: () => void;
 };
 
-export const useEmailVerification = (args: Args) => {
+export const useStringVerification = (args: Args) => {
   const { handler, onError } = args;
 
-  const checkEmailHistory = useRef<Record<string, boolean>>({});
+  const history = useRef<Record<string, boolean>>({});
 
   const validate = async (email: string) => {
-    const historyValue = checkEmailHistory.current[email];
+    const historyValue = history.current[email];
     if (historyValue) return historyValue;
 
     if (historyValue === false) {
@@ -20,7 +20,7 @@ export const useEmailVerification = (args: Args) => {
     }
 
     const response = await handler(email);
-    checkEmailHistory.current[email] = response;
+    history.current[email] = response;
 
     if (response) return response;
 

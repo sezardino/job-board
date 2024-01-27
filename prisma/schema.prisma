@@ -171,7 +171,6 @@ model Company {
   location Location[]
   // not editable fields
   name     String     @unique
-  email    String     @unique
   slug     String     @unique
   owner    User       @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   ownerId  String     @unique @map("owner_id") @db.ObjectId

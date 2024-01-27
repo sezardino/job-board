@@ -71,8 +71,8 @@ export class AuthService extends AbstractService {
     const userResponse = await this.usersService.checkEmailAvailable(
       owner.email
     );
-    const companyResponse = await this.companiesService.checkEmailAvailable(
-      company.email
+    const companyResponse = await this.companiesService.checkNameAvailable(
+      company.name
     );
 
     if (companyResponse) return CompanyRegistrationStatus.CompanyEmailUsed;
