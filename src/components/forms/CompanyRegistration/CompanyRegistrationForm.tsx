@@ -120,7 +120,6 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
       formik={formik}
       submit={{ label: t("trigger"), isFullWidth: true }}
     >
-      {JSON.stringify(formik.errors)}
       <Grid gap={6}>
         <Grid gap={4}>
           <Typography tag="h2" styling="lg">
