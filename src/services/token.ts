@@ -1,3 +1,9 @@
 import { JWT } from "@/libs/jwt";
 
-export const tokenService = new JWT();
+export const emailVerificationTokenService = new JWT(
+  process.env.EMAIL_VERIFICATION_TOKEN_SECRET!
+);
+
+export const inviteTokenService = new JWT(
+  process.env.INVITE_VERIFICATION_TOKEN_SECRET!
+);

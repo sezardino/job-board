@@ -1,15 +1,13 @@
 import { JWTError } from "@/libs/jwt";
 import { PrismaService } from "@/libs/prisma";
+import { hashService } from "@/services/hash";
 import { mailService } from "@/services/mail";
-import { passwordService } from "@/services/password";
 import { AbstractService } from "@/services/server/helpers";
-import { tokenService } from "@/services/token";
-import { UserStatus } from "@prisma/client";
+import { emailVerificationTokenService } from "@/services/token";
 import { UsersService } from "../users/users.service";
 import {
   CustomerRegistrationRequest,
   LoginRequest,
-  LoginStatus,
   RegistrationStatus,
   VerifyEmailTokenResponse,
   VerifyEmailTokenStatus,
@@ -80,26 +78,31 @@ export class AuthService extends AbstractService {
   async verifyEmailToken(
     token: string
   ): Promise<VerifyEmailTokenStatus | VerifyEmailTokenResponse> {
-    const neededUser = await this.usersService.findUserByEmailToken(token);
-
-    if (!neededUser) return VerifyEmailTokenStatus.NotFound;
-    if (neededUser.emailVerified) return VerifyEmailTokenStatus.AlreadyVerified;
-
     try {
-      const decodedToken = tokenService.verify<{ email: string }>(
-        token,
-        neededUser.email
-      );
+      const decodedToken = emailVerificationTokenService.verify<{
+        email: string;
+      }>(token);
 
-      if (!decodedToken || decodedToken?.email !== neededUser.email)
+      if (!decodedToken || !decodedToken?.email)
         return VerifyEmailTokenStatus.NotFound;
 
-      await this.usersService.verifyEmailToken(neededUser.email);
+      const user = await this.usersService.findUnique(
+        { email: decodedToken.email },
+        { emailVerified: true, emailToken: true }
+      );
+
+      if (!user) return VerifyEmailTokenStatus.NotFound;
+      if (user.emailVerified) return VerifyEmailTokenStatus.AlreadyVerified;
+
+      const isTokensMatch = hashService.compare(token, user.emailToken);
+
+      if (!isTokensMatch) return VerifyEmailTokenStatus.Invalid;
+
+      await this.usersService.verifyEmailToken(decodedToken.email);
 
       return VerifyEmailTokenStatus.Success;
     } catch (error) {
       const typedError = error as JWTError;
-      console.log(typedError);
 
       if (typedError.message === "jwt expired")
         return VerifyEmailTokenStatus.Expired;
@@ -109,31 +112,6 @@ export class AuthService extends AbstractService {
   }
 
   async login(dto: LoginRequest) {
-    const { email, password } = dto;
-
-    const user = await this.usersService.findByEmail(email);
-
-    if (!user) return LoginStatus.WrongCredentials;
-    if (!user.emailVerified) return LoginStatus.EmailNotVerified;
-    if (!user.isAcceptInvite) return LoginStatus.NotAcceptInvite;
-    if (user.status === UserStatus.BLOCKED) return LoginStatus.Blocked;
-    if (user.status === UserStatus.INACTIVE) return LoginStatus.Inactive;
-
-    const isPasswordValid = await passwordService.compare(
-      password,
-      user.password
-    );
-
-    if (!isPasswordValid) return LoginStatus.WrongCredentials;
-
-    const { avatar, companyId, id, role } = user;
-
-    return {
-      email,
-      id,
-      role,
-      avatar: avatar?.url,
-      companyId: companyId || undefined,
-    };
+    return this.usersService.verifyUserLogin(dto);
   }
 }

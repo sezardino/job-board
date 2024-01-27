@@ -33,7 +33,7 @@ export class AuthController extends AbstractController<AuthService> {
         201
       );
     } catch (error) {
-      return this.getNextResponse({ message: "backend-errors.server" }, 500);
+      return this.getNextResponse(error as {}, 500);
     }
   }
 

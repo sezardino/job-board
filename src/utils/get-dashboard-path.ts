@@ -1,4 +1,4 @@
-import { AdminPageUrls, CompanyPageUrls } from "@/const";
+import { AdminPageUrls, CompanyPageUrls, PublicPageUrls } from "@/const";
 import { UserRoles } from "@prisma/client";
 
 export const getDashboardPath = (role: UserRoles) => {
@@ -11,6 +11,6 @@ export const getDashboardPath = (role: UserRoles) => {
     case UserRoles.RECRUITER:
       return CompanyPageUrls.home;
     default:
-      throw new Error("Invalid role");
+      return PublicPageUrls.home;
   }
 };

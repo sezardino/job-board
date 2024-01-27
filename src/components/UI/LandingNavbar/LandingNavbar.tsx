@@ -1,3 +1,5 @@
+"use client";
+
 import { Link } from "@/components/base";
 import { SignUpPopover } from "@/components/modules/layout/SignUpPopover";
 import { BRAND_NAME, PublicPageUrls } from "@/const";
@@ -11,6 +13,7 @@ import {
   NavbarMenuItem,
   NavbarMenuToggle,
 } from "@nextui-org/react";
+import { UserRoles } from "@prisma/client";
 import { User } from "next-auth";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
@@ -41,7 +44,7 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
       { label: t("about"), href: PublicPageUrls.about },
     ];
 
-    if (user?.role)
+    if (user?.role && user.role !== UserRoles.CUSTOMER)
       links.unshift({
         label: t("dashboard"),
         href: getDashboardPath(user.role),

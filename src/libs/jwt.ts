@@ -2,20 +2,22 @@ import jwt, { VerifyErrors } from "jsonwebtoken";
 
 export type JWTError = VerifyErrors;
 
+type GenerateArgs = {
+  payload: Record<string, any>;
+  expiresIn: number;
+};
+
 export class JWT {
-  generate<T extends Record<string, any>>(
-    payload: T,
-    secret: string,
-    expiresIn: number
-  ) {
-    return jwt.sign(payload, secret, { expiresIn });
+  constructor(private readonly secret: string) {}
+
+  generate(args: GenerateArgs): string {
+    const { payload, expiresIn } = args;
+
+    return jwt.sign(payload, this.secret, { expiresIn });
   }
 
-  verify<T extends Record<string, any>>(
-    token: string,
-    secret: string
-  ): T | null {
-    const decoded = jwt.verify(token, secret);
+  verify<T extends Record<string, any>>(token: string): T | null {
+    const decoded = jwt.verify(token, this.secret);
 
     return decoded as T;
   }
