@@ -227,7 +227,7 @@ export class UsersService extends AbstractService {
     if (!isPasswordValid) return LoginStatus.WrongCredentials;
 
     const { avatar, companyId, id, role } = user;
-
+    console.log(user);
     return {
       email,
       id,

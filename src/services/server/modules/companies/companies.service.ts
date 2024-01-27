@@ -34,14 +34,11 @@ export class CompaniesService extends AbstractService {
       select: {
         id: true,
         name: true,
-        owner: {
-          select: {
-            id: true,
-            name: true,
-            email: true,
-          },
-        },
         status: true,
+        members: {
+          where: { role: UserRoles.OWNER },
+          select: { id: true, name: true, email: true },
+        },
         _count: {
           select: {
             offers: true,
@@ -54,7 +51,13 @@ export class CompaniesService extends AbstractService {
       where,
     });
 
-    return { data: companies, meta };
+    return {
+      data: companies.map(({ members, ...rest }) => ({
+        ...rest,
+        owner: members[0],
+      })),
+      meta,
+    };
   }
 
   async edit(dto: EditCompanyRequest, companyId: string) {
@@ -158,25 +161,25 @@ export class CompaniesService extends AbstractService {
       expiresIn: daysToSeconds(1),
     });
 
-    const response = await this.prismaService.company.create({
+    return await this.prismaService.user.create({
       data: {
-        name: company.name,
-        location: company.location,
-        slug: generateSlug(company.name),
-        owner: {
+        name: owner.name,
+        email: owner.email,
+        password: hashedPassword,
+        role: UserRoles.OWNER,
+        emailToken: verificationToken,
+        inviteToken: "",
+        isAcceptInvite: true,
+        company: {
           create: {
-            name: owner.name,
-            email: owner.email,
-            password: hashedPassword,
-            role: UserRoles.OWNER,
-            emailToken: verificationToken,
+            name: company.name,
+            location: company.location,
+            slug: generateSlug(company.name),
           },
         },
       },
-      select: { owner: true },
+      select: { id: true, emailToken: true, name: true, email: true },
     });
-
-    return { owner: { ...response.owner, emailToken: verificationToken } };
   }
 
   async checkNameAvailable(name: string) {

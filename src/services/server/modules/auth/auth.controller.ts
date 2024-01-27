@@ -58,6 +58,7 @@ export class AuthController extends AbstractController<AuthService> {
         201
       );
     } catch (error) {
+      console.log(error);
       return this.getNextResponse(error as {}, 500);
     }
   }

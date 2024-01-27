@@ -84,9 +84,9 @@ export class AuthService extends AbstractService {
     const newCompany = await this.companiesService.createNewCompany(dto);
 
     await this.sendWelcomeEmail(
-      newCompany.owner.email,
-      newCompany.owner.name,
-      newCompany.owner.emailToken
+      newCompany.email,
+      newCompany.name,
+      newCompany.emailToken
     );
     return CompanyRegistrationStatus.Success;
   }

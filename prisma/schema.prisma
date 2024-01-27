@@ -112,9 +112,8 @@ model User {
   role   UserRoles  @default(CUSTOMER)
   status UserStatus @default(ACTIVE)
 
-  name     String  @default("")
-  avatar   Image?  @relation(name: "avatar", fields: [avatarId], references: [id])
-  avatarId String? @unique @map("avatar_id") @db.ObjectId
+  name   String @default("")
+  avatar Image?
 
   isAcceptInvite Boolean @default(false) @map("is_accept_invite")
   inviteToken    String? @unique @map("invite_token")
@@ -124,8 +123,6 @@ model User {
   emailVerified Boolean @default(false) @map("email_verified")
 
   password String @default("")
-
-  owner Company? @relation(name: "owner")
 
   company   Company? @relation(name: "member", fields: [companyId], references: [id])
   companyId String?  @map("company_id") @db.ObjectId
@@ -172,8 +169,6 @@ model Company {
   // not editable fields
   name     String     @unique
   slug     String     @unique
-  owner    User       @relation(name: "owner", fields: [ownerId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  ownerId  String     @unique @map("owner_id") @db.ObjectId
 
   // needed for profile
   gallery     Image[] @relation(name: "gallery")
@@ -224,13 +219,18 @@ model Image {
 
   thumbnail   Company? @relation(name: "thumbnail")
   thumbnailId String?  @unique @map("thumbnail_id") @db.ObjectId
-  avatar      User?    @relation(name: "avatar")
-  gallery     Company? @relation(name: "gallery", fields: [galleryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  galleryId   String?  @map("gallery_id") @db.ObjectId
-  logo        Company? @relation(name: "logo")
-  logoId      String?  @unique @map("logo_id") @db.ObjectId
-  name        String
-  url         String
+
+  gallery   Company? @relation(name: "gallery", fields: [galleryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  galleryId String?  @map("gallery_id") @db.ObjectId
+
+  logo   Company? @relation(name: "logo")
+  logoId String?  @unique @map("logo_id") @db.ObjectId
+
+  name String
+  url  String
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  userId String? @unique @db.ObjectId
 
   createdAt DateTime @default(now()) @map("created_at")
 }
