@@ -3,7 +3,9 @@
 import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { Typography } from "../base";
-import { AuthForm, AuthFormProps } from "../forms";
+import { AuthFormProps } from "../forms";
+import { LoginForm } from "../forms/Login/LoginForm";
+import { SignUpPopover } from "../modules/layout/SignUpPopover";
 
 export type LoginTemplateProps = ComponentPropsWithoutRef<"section"> & {
   onFormSubmit: AuthFormProps["onFormSubmit"];
@@ -23,16 +25,16 @@ export const LoginTemplate: FC<LoginTemplateProps> = (props) => {
           {t("description")}
         </Typography>
       </div>
-      <AuthForm
-        type={"login"}
-        label={t("title")}
-        submitText={t("submit")}
-        className="mt-5"
-        onFormSubmit={onFormSubmit}
-      />
+      <LoginForm className="mt-5" onFormSubmit={onFormSubmit} />
       <Typography tag="p" className="mt-5 text-center">
         {t("forgot-password")}
       </Typography>
+      <SignUpPopover text={t("register.text")} buttonType="link" />
+
+      {/* TODO: implement forgot password functionality */}
+      {/* <Typography tag="p" className="mt-5 text-center">
+        {t("forgot-password")}
+      </Typography> */}
     </section>
   );
 };

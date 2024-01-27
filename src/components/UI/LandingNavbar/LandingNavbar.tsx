@@ -1,4 +1,5 @@
-import { Button, Grid, Icon, Link, Typography } from "@/components/base";
+import { Link } from "@/components/base";
+import { SignUpPopover } from "@/components/modules/layout/SignUpPopover";
 import { BRAND_NAME, PublicPageUrls } from "@/const";
 import { getDashboardPath } from "@/utils";
 import {
@@ -9,9 +10,6 @@ import {
   NavbarMenu,
   NavbarMenuItem,
   NavbarMenuToggle,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
 } from "@nextui-org/react";
 import { User } from "next-auth";
 import { useTranslations } from "next-intl";
@@ -59,56 +57,7 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
           {t("login")}
         </Link>
       </NavbarItem>
-      <NavbarItem>
-        <Popover offset={10} placement="bottom" backdrop="blur">
-          <PopoverTrigger>
-            <Button variant="bordered" color="primary">
-              {t("register.trigger")}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-[240px]">
-            {(titleProps) => (
-              <Grid gap={4} className="px-1 py-2 w-full">
-                <Typography
-                  tag="h3"
-                  weight="medium"
-                  styling="md"
-                  className="text-center"
-                  {...titleProps}
-                >
-                  {t("register.title")}
-                </Typography>
-                <Grid tag="ul" gap={2} className="list-none">
-                  <li>
-                    <Button
-                      as={NextLink}
-                      href={PublicPageUrls.registerUser}
-                      className="w-full"
-                      color="primary"
-                      variant="bordered"
-                      startContent={<Icon name="HiUser" />}
-                    >
-                      {t("register.customer")}
-                    </Button>
-                  </li>
-                  <li>
-                    <Button
-                      as={NextLink}
-                      href={PublicPageUrls.registerCompany}
-                      className="w-full"
-                      variant="bordered"
-                      color="primary"
-                      startContent={<Icon name="HiBuildingOffice" />}
-                    >
-                      {t("register.company")}
-                    </Button>
-                  </li>
-                </Grid>
-              </Grid>
-            )}
-          </PopoverContent>
-        </Popover>
-      </NavbarItem>
+      <NavbarItem as={SignUpPopover} />
     </>
   );
 
