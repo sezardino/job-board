@@ -24,6 +24,7 @@ type Props = {
   categories: DataProp<ActiveCategoriesResponse>;
   onSelectIndustry: (value: string) => void;
   onFormSubmit: (values: OfferFormDetailsStepFormValues) => void;
+  onCancelClick: () => void;
 };
 
 export type OfferFormDetailsStepProps = ComponentPropsWithoutRef<"form"> &
@@ -36,6 +37,7 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
     industries,
     onSelectIndustry,
     onFormSubmit,
+    onCancelClick,
     className,
     ...rest
   } = props;
@@ -97,7 +99,7 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
       {...rest}
       formik={formik}
       submit={{ label: t("next") }}
-      cancel={{ label: t("cancel"), onClick: () => undefined }}
+      cancel={{ label: t("cancel"), onClick: onCancelClick }}
       className={twMerge("", className)}
     >
       <ControlledInput

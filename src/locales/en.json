@@ -249,16 +249,18 @@
           "required": "Category is required",
           "select-industry": "Please select industry first",
           "description": "In which category is this job offer"
-        },
+        }
+      },
+      "specification": {
         "salary-from": {
           "label": "Salary from",
-          "placeholder": "Salary from",
+          "placeholder": "100",
           "required": "Salary from is required",
           "positive": "Salary from should be positive"
         },
         "salary-to": {
           "label": "Salary to",
-          "placeholder": "Salary to",
+          "placeholder": "200",
           "required": "Salary to is required",
           "positive": "Salary to should be positive",
           "greater": "Salary to should be greater than salary from"
@@ -278,22 +280,10 @@
           "placeholder": "Operating",
           "required": "Operating is required"
         },
-        "seniority": {
+        "level": {
           "label": "Seniority",
           "placeholder": "Seniority",
           "required": "Seniority is required"
-        }
-      },
-      "description": {
-        "title": "Description",
-        "description": "Please enter description of the job offer",
-        "field": {
-          "label": "Description",
-          "placeholder": "Description",
-          "required": "Description is required",
-          "min-length": "Description should be more than {value} characters",
-          "max-length": "Description should be less than {value} characters",
-          "description": "This description will be visible to the users"
         }
       },
       "skills": {
@@ -311,6 +301,30 @@
           "placeholder": "Level",
           "required": "Level is required"
         }
+      },
+      "description": {
+        "title": "Description",
+        "description": "Please enter description of the job offer",
+        "field": {
+          "label": "Description",
+          "placeholder": "Description",
+          "required": "Description is required",
+          "min-length": "Description should be more than {value} characters",
+          "max-length": "Description should be less than {value} characters",
+          "description": "This description will be visible to the users"
+        }
+      },
+      "back-modal": {
+        "title": "Go back",
+        "description": "Are you sure you want to go back? All unsaved data will be lost",
+        "cancel": "Cancel",
+        "confirm": "Go back"
+      },
+      "cancel-modal": {
+        "title": "Cancel",
+        "description": "Are you sure you want to cancel? All unsaved data will be lost",
+        "cancel": "Cancel",
+        "confirm": "Cancel"
       }
     }
   },

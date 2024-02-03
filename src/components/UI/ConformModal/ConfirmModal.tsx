@@ -1,29 +1,26 @@
 import { Button, LoadingOverlay, Modal, ModalProps } from "@/components/base";
+import NextLink from "next/link";
 import { type FC } from "react";
 
 export interface ConfirmModalProps extends Omit<ModalProps, "children"> {
-  cancelText: string;
-  confirmText: string;
-  onCancelClick: () => void;
-  onConfirmClick: () => Promise<any>;
+  cancel: {
+    text: string;
+    onClick: () => void;
+  };
+  confirm: {
+    text: string;
+    onClick?: () => Promise<any> | void;
+    href?: string;
+  };
   isLoading?: boolean;
 }
 
 export const ConfirmModal: FC<ConfirmModalProps> = (props) => {
-  const {
-    isLoading,
-    cancelText,
-    confirmText,
-    onCancelClick,
-    onClose,
-    onConfirmClick,
-    className,
-    ...rest
-  } = props;
+  const { isLoading, onClose, cancel, confirm, className, ...rest } = props;
 
   const confirmHandler = async () => {
     try {
-      await onConfirmClick();
+      await confirm.onClick?.();
       onClose();
     } catch (error) {}
   };
@@ -40,12 +37,18 @@ export const ConfirmModal: FC<ConfirmModalProps> = (props) => {
         variant="bordered"
         color="primary"
         size="md"
-        onClick={onCancelClick}
+        onClick={cancel.onClick}
       >
-        {cancelText}
+        {cancel.text}
       </Button>
-      <Button color="primary" size="md" onClick={confirmHandler}>
-        {confirmText}
+      <Button
+        as={confirm.href ? NextLink : undefined}
+        href={confirm.href}
+        color="primary"
+        size="md"
+        onClick={confirmHandler}
+      >
+        {confirm.text}
       </Button>
     </Modal>
   );

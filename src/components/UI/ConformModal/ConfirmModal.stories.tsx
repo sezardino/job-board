@@ -18,10 +18,14 @@ export const ConfirmModal: Story = {
       onClose={handler}
       title="title"
       description="description"
-      cancelText="cancel"
-      onCancelClick={handler}
-      confirmText="confirm"
-      onConfirmClick={async () => handler}
+      cancel={{
+        text: "cancel",
+        onClick: handler,
+      }}
+      confirm={{
+        text: "confirm",
+        onClick: handler,
+      }}
     />
   ),
 };
