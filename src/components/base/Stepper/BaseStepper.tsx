@@ -4,10 +4,13 @@ import { twMerge } from "tailwind-merge";
 export type BaseStepperProps = ComponentPropsWithoutRef<"div"> & {
   count: number;
   currentCount: number;
+  onStepClick?: (index: number) => void;
 };
 
 export const BaseStepper: FC<BaseStepperProps> = (props) => {
-  const { count, currentCount, className, ...rest } = props;
+  const { count, currentCount, onStepClick, className, ...rest } = props;
+
+  const Wrapper = onStepClick ? "button" : "p";
 
   return (
     <div {...rest} className={twMerge("relative", className)}>
@@ -23,17 +26,17 @@ export const BaseStepper: FC<BaseStepperProps> = (props) => {
       <ul className="relative flex w-full justify-between list-none">
         {Array.from({ length: count }).map((_, index) => (
           <li key={index} className="text-left">
-            <p
+            <Wrapper
               className={twMerge(
                 "flex h-5 w-5 items-center justify-center rounded-full bg-gray-600 text-xs font-semibold text-white",
-                index + 1 === currentCount
+                index === currentCount
                   ? "ring ring-gray-600 ring-offset-2"
                   : "",
-                index + 1 > currentCount ? "bg-gray-300" : ""
+                index > currentCount ? "bg-gray-300" : ""
               )}
             >
               {index + 1}
-            </p>
+            </Wrapper>
           </li>
         ))}
       </ul>

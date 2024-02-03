@@ -7,11 +7,14 @@ import { Button, Grid } from "@/components/base";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import { Select, SelectOption } from "@/components/base/Select/Select";
 import { CompanyOffersTable } from "@/components/modules/company/CompanyOffersTable";
+import { CompanyPageUrls } from "@/const";
 import { CompanyOffersResponse } from "@/services/server/modules/job-offers/scema";
 import { DataListProp, DataProp } from "@/types";
 import { JobOfferStatus, Seniority } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
+
+import NextLink from "next/link";
 
 type OfferFilters = {
   status: JobOfferStatusFilters;
@@ -139,7 +142,9 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
               className="max-w-[220px]"
             />
           </div>
-          <Button color="primary">{t("create")}</Button>
+          <Button as={NextLink} href={CompanyPageUrls.newOffer} color="primary">
+            {t("create")}
+          </Button>
         </div>
       </Grid>
       <CompanyOffersTable

@@ -213,6 +213,105 @@
       "formats": "Allowed formats: {value}",
       "max-file-size": "Max file size is {value} MB",
       "max-count": "Max count of images is {value}"
+    },
+    "offer": {
+      "cancel": "Cancel",
+      "back": "Back",
+      "next": "Next",
+      "new": {
+        "title": "Create new job offer",
+        "description": "Fill in the form to create new job offer",
+        "confirm": "Create job offer"
+      },
+      "edit": {
+        "title": "Edit job offer",
+        "description": "Fill in the form to edit job offer",
+        "cancel": "Cancel",
+        "confirm": "Edit job offer"
+      },
+      "details": {
+        "name": {
+          "label": "Name",
+          "placeholder": "Job offer name",
+          "required": "Name is required",
+          "max-length": "Name should be less than {value} characters",
+          "description": "This name will be visible to the users"
+        },
+        "industry": {
+          "label": "Industry",
+          "placeholder": "Select Industry",
+          "required": "Industry is required",
+          "description": "In which industry is this job offer"
+        },
+        "category": {
+          "label": "Category",
+          "placeholder": "Select Category",
+          "required": "Category is required",
+          "select-industry": "Please select industry first",
+          "description": "In which category is this job offer"
+        },
+        "salary-from": {
+          "label": "Salary from",
+          "placeholder": "Salary from",
+          "required": "Salary from is required",
+          "positive": "Salary from should be positive"
+        },
+        "salary-to": {
+          "label": "Salary to",
+          "placeholder": "Salary to",
+          "required": "Salary to is required",
+          "positive": "Salary to should be positive",
+          "greater": "Salary to should be greater than salary from"
+        },
+        "job-type": {
+          "label": "Job type",
+          "placeholder": "Job type",
+          "required": "Job type is required"
+        },
+        "contract": {
+          "label": "Job contract",
+          "placeholder": "Job contract",
+          "required": "Job contract is required"
+        },
+        "operating": {
+          "label": "Operating",
+          "placeholder": "Operating",
+          "required": "Operating is required"
+        },
+        "seniority": {
+          "label": "Seniority",
+          "placeholder": "Seniority",
+          "required": "Seniority is required"
+        }
+      },
+      "description": {
+        "title": "Description",
+        "description": "Please enter description of the job offer",
+        "field": {
+          "label": "Description",
+          "placeholder": "Description",
+          "required": "Description is required",
+          "min-length": "Description should be more than {value} characters",
+          "max-length": "Description should be less than {value} characters",
+          "description": "This description will be visible to the users"
+        }
+      },
+      "skills": {
+        "title": "Skills",
+        "description": "Please select skills required for this job offer",
+        "add-more": "Add more",
+        "delete": "Delete",
+        "name": {
+          "label": "Name",
+          "placeholder": "Name",
+          "required": "Name is required"
+        },
+        "level": {
+          "label": "Level",
+          "placeholder": "Level",
+          "required": "Level is required"
+        }
+      }
     }
   },
   "entity": {

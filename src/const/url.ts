@@ -13,6 +13,7 @@ export const CompanyPageUrls = {
   users: "/company/users",
   offers: "/company/offers",
   bank: "/company/bank",
+  newOffer: "/company/offers/new",
 };
 
 export const UserPageUrls = {

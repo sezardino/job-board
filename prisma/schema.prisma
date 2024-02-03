@@ -203,7 +203,6 @@ model JobOffer {
   industry   Industry @relation(fields: [industryId], references: [id])
   industryId String   @map("industry_id") @db.ObjectId
 
-  // TODO: offer can be in 2 categories
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @map("category_id") @db.ObjectId
 

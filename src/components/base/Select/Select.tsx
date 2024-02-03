@@ -1,8 +1,9 @@
 import {
-  Select as Component,
-  SelectProps as ComponentProps,
+  Select as NextUiSelect,
+  SelectProps as NextUiSelectProps,
   SelectItem,
 } from "@nextui-org/react";
+import { ChangeEvent } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type SelectOption<T extends string> = {
@@ -14,27 +15,34 @@ export type SelectOption<T extends string> = {
 type Props<T extends string> = {
   options: SelectOption<T>[];
   onSelectChange: (value: T) => void;
+  onAfterChange?: (value: T) => void;
 };
 
 type OmittedProps = Omit<
-  ComponentProps,
+  NextUiSelectProps,
   "variant" | "labelPlacement" | "children" | "onChange" | "radius"
 >;
 
 export type SelectProps<T extends string> = OmittedProps & Props<T>;
 
 export const Select = <T extends string>(props: SelectProps<T>) => {
-  const { selectedKeys, onSelectChange, options, ...rest } = props;
+  const { onAfterChange, selectedKeys, onSelectChange, options, ...rest } =
+    props;
+
+  const changeHandler = (evt: ChangeEvent<HTMLSelectElement>) => {
+    onSelectChange(evt.target.value as T);
+    if (onAfterChange) onAfterChange(evt.target.value as T);
+  };
 
   return (
-    <Component
+    <NextUiSelect
       {...rest}
       variant="bordered"
       labelPlacement="outside"
       radius="sm"
       // @ts-ignore
       selectedKeys={selectedKeys ? [selectedKeys] : undefined}
-      onChange={(evt) => onSelectChange(evt.target.value as T)}
+      onChange={changeHandler}
     >
       {options.map((o) => (
         <SelectItem
@@ -47,6 +55,6 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
           {o.label}
         </SelectItem>
       ))}
-    </Component>
+    </NextUiSelect>
   );
 };
