@@ -1,5 +1,11 @@
 import { paginatedRequestSchema, paginatedResponseSchema } from "@/types";
-import { JobOfferStatus, Seniority } from "@prisma/client";
+import {
+  JobContract,
+  JobOfferStatus,
+  JobOperatingMode,
+  JobType,
+  Seniority,
+} from "@prisma/client";
 import { z } from "zod";
 
 export const companyOffersRequestSchema = z
@@ -18,6 +24,13 @@ export const companyOffersResponseSchema = z
         salary: z.object({ from: z.number(), to: z.number() }),
         createdAt: z.date().or(z.string()),
         skills: z.array(z.object({ name: z.string() })),
+        status: z.nativeEnum(JobOfferStatus),
+        contract: z.nativeEnum(JobContract),
+        category: z.object({ name: z.string() }),
+        industry: z.object({ name: z.string() }),
+        deadlineAt: z.date().or(z.string()),
+        operating: z.nativeEnum(JobOperatingMode),
+        type: z.nativeEnum(JobType),
         company: z.object({
           id: z.string(),
           name: z.string(),

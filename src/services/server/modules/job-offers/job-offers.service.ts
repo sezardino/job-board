@@ -58,6 +58,13 @@ export class JobOffersService extends AbstractService {
         name: true,
         level: true,
         createdAt: true,
+        status: true,
+        contract: true,
+        category: { select: { name: true } },
+        industry: { select: { name: true } },
+        deadlineAt: true,
+        operating: true,
+        type: true,
         company: {
           select: {
             id: true,

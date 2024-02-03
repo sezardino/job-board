@@ -221,6 +221,13 @@
       "INACTIVE": "Inactive",
       "CREATED": "Created"
     },
+    "job-status": {
+      "ARCHIVED": "Archived",
+      "FINISHED": "Finished",
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "DRAFT": "Draft"
+    },
     "user": {
       "role": {
         "ADMIN": "Admin",
@@ -641,6 +648,24 @@
       "trigger": "Sign up",
       "company": "Company",
       "customer": "Customer"
+    },
+    "company-offers-template": {
+      "title": "Job Offers",
+      "description": "From this panel you can manage job offers of your company.",
+      "search": "Search job offer",
+      "create": "Create job offer",
+      "filters": {
+        "status": "Filer by status",
+        "seniority": "Filter by seniority"
+      },
+      "all": "All"
+    },
+    "company-offers-table": {
+      "no-data": "No offers found",
+      "name": "Name",
+      "seniority": "Seniority",
+      "status": "Status",
+      "level": "Level"
     }
   },
   "messages": {
