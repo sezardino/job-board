@@ -289,16 +289,17 @@
       "skills": {
         "title": "Skills",
         "description": "Please select skills required for this job offer",
-        "add-more": "Add more",
-        "delete": "Delete",
+        "add": "Add more",
+        "remove": "Remove",
         "name": {
           "label": "Name",
-          "placeholder": "Name",
+          "placeholder": "Empathy",
+          "max-length": "Name should be less than {value} characters",
           "required": "Name is required"
         },
         "level": {
           "label": "Level",
-          "placeholder": "Level",
+          "placeholder": "Basic",
           "required": "Level is required"
         }
       },

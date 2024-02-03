@@ -63,7 +63,7 @@ export const OfferForm: FC<OfferFormProps> = (props) => {
     props;
   const t = useTranslations("forms.offer");
 
-  const [step, setStep] = useState<OfferFormStep>("details");
+  const [step, setStep] = useState<OfferFormStep>("skills");
   const [values, setValues] = useState<NewOfferData>({});
   const [prevStep, setPrevStep] = useState<OfferFormStep | null>(null);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
