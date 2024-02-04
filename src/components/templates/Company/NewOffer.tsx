@@ -226,7 +226,7 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
                 )}
               <div className="flex items-center flex-wrap gap-3 justify-between">
                 <Button variant="bordered" onClick={() => setStep("details")}>
-                  {t("preview.to-first-step")}
+                  {t("to-first-step")}
                 </Button>
                 <Button
                   color="primary"

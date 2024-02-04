@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 
 import { Select as Component, SelectProps as ComponentProps } from "./Select";
 
-const meta: Meta<ComponentProps<string>> = {
+const meta: Meta<ComponentProps<string, false>> = {
   component: Component,
 };
 
@@ -17,6 +17,10 @@ const options = [
 
 export const Select: Story = {
   render: () => (
-    <Component options={options} onSelectChange={() => undefined} />
+    <Component
+      options={options}
+      isMultiple={false}
+      onSelectChange={() => undefined}
+    />
   ),
 };

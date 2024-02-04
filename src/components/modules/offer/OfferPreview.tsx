@@ -18,13 +18,13 @@ export interface OfferPreviewProps extends ComponentPropsWithoutRef<"div"> {
   industry: string;
   category: string;
   name: string;
-  contract: JobContract;
+  contract: JobContract[];
   seniority: Seniority;
   type: JobType;
   skills: Skill[];
   description: string;
   salary: { from: number; to: number } | null;
-  operating: JobOperatingMode;
+  operating: JobOperatingMode[];
 }
 
 export const OfferPreview: FC<OfferPreviewProps> = (props) => {
@@ -32,6 +32,7 @@ export const OfferPreview: FC<OfferPreviewProps> = (props) => {
     salary,
     industry,
     category,
+    operating,
     name,
     contract,
     seniority,
@@ -56,7 +57,7 @@ export const OfferPreview: FC<OfferPreviewProps> = (props) => {
       },
       {
         label: t("details.contract"),
-        value: entityT(`job-contract.${contract}`),
+        value: contract.map((c) => entityT(`job-contract.${c}`)).join(", "),
       },
       {
         label: t("details.salary.label"),
@@ -69,8 +70,22 @@ export const OfferPreview: FC<OfferPreviewProps> = (props) => {
         value: entityT(`seniority.${seniority}`),
       },
       { label: t("details.type"), value: entityT(`job-type.${type}`) },
+      {
+        label: t("details.operating"),
+        value: operating.map((o) => entityT(`operating.${o}`)).join(", "),
+      },
     ],
-    [category, contract, entityT, industry, salary, seniority, t, type]
+    [
+      category,
+      contract,
+      entityT,
+      industry,
+      operating,
+      salary,
+      seniority,
+      t,
+      type,
+    ]
   );
 
   return (

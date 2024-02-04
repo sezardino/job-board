@@ -17,8 +17,8 @@ import { FormWrapper } from "../FormWrapper/FormWrapper";
 
 export type OfferFormSpecificationStepFormValues = {
   type: JobType;
-  contract: JobContract;
-  operating: JobOperatingMode;
+  contract: JobContract[];
+  operating: JobOperatingMode[];
   seniority: Seniority;
 };
 
@@ -46,12 +46,12 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
           type: z.nativeEnum(JobType, {
             required_error: t("specification.job-type.required"),
           }),
-          contract: z.nativeEnum(JobContract, {
-            required_error: t("specification.contract.required"),
-          }),
-          operating: z.nativeEnum(JobOperatingMode, {
-            required_error: t("specification.operating.required"),
-          }),
+          contract: z
+            .array(z.nativeEnum(JobContract))
+            .min(1, t("specification.contract.required")),
+          operating: z
+            .array(z.nativeEnum(JobOperatingMode))
+            .min(1, t("specification.operating.required")),
           seniority: z.nativeEnum(Seniority, {
             required_error: t("specification.seniority.required"),
           }),
@@ -65,8 +65,8 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
     validationSchema,
     initialValues: {
       type: JobType.FULL_TIME,
-      contract: JobContract.PERMANENT,
-      operating: JobOperatingMode.OFFICE,
+      contract: [],
+      operating: [],
       seniority: Seniority.MID,
       ...initialValues,
     },
@@ -116,6 +116,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
       cancel={{ label: t("back"), onClick: () => onBackClick(formik.dirty) }}
       className={twMerge("", className)}
     >
+      {JSON.stringify(formik.values)}
       <TitleDescription
         titleLevel="h2"
         title={t("specification.title")}
@@ -124,6 +125,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
 
       <ControlledSelect
         name="type"
+        isMultiple={false}
         labelPlacement="inside"
         options={jobTypeOptions}
         label={t("specification.job-type.label")}
@@ -132,6 +134,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
       <ControlledSelect
         name="contract"
         labelPlacement="inside"
+        isMultiple
         options={contractOptions}
         label={t("specification.contract.label")}
         placeholder={t("specification.contract.placeholder")}
@@ -139,6 +142,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
       <ControlledSelect
         name="operating"
         labelPlacement="inside"
+        isMultiple
         options={operatingOptions}
         label={t("specification.operating.label")}
         placeholder={t("specification.operating.placeholder")}
@@ -146,6 +150,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
       <ControlledSelect
         name="seniority"
         labelPlacement="inside"
+        isMultiple={false}
         options={seniorityOptions}
         label={t("specification.seniority.label")}
         placeholder={t("specification.seniority.placeholder")}

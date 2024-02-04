@@ -67,6 +67,7 @@ export const UpdateIndustryForm: FC<UpdateIndustryFormProps> = (props) => {
       >
         <ControlledSelect
           name="status"
+          isMultiple={false}
           label={t("status.label")}
           placeholder={t("status.placeholder")}
           options={statusOptions}

@@ -130,6 +130,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
             <Select
               options={statusFilterOptions}
               value={status}
+              isMultiple={false}
               onSelectChange={onStatusChange}
               placeholder={t("filters.status")}
               className="max-w-[220px]"
@@ -137,6 +138,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
             <Select
               options={seniorityFilterOptions}
               value={seniority}
+              isMultiple={false}
               onSelectChange={onSeniorityChange}
               placeholder={t("filters.seniority")}
               className="max-w-[220px]"

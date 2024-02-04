@@ -1,5 +1,6 @@
 "use client";
 
+import { LoadingOverlay } from "@/components/base";
 import {
   NewOfferData,
   NewOfferTemplate,
@@ -40,21 +41,24 @@ const NewOfferPage = () => {
   );
 
   return (
-    <NewOfferTemplate
-      categories={{
-        data: activeCategories,
-        isLoading: isActiveCategoriesLoading,
-      }}
-      industries={{
-        data: activeIndustries,
-        isLoading: isActiveIndustriesLoading,
-      }}
-      onSelectIndustry={setSelectedIndustry}
-      onCreateOfferRequest={{
-        handler: handleCreateOfferRequest,
-        isLoading: isCreateJobOfferLoading,
-      }}
-    />
+    <>
+      {isCreateJobOfferLoading && <LoadingOverlay />}
+      <NewOfferTemplate
+        categories={{
+          data: activeCategories,
+          isLoading: isActiveCategoriesLoading,
+        }}
+        industries={{
+          data: activeIndustries,
+          isLoading: isActiveIndustriesLoading,
+        }}
+        onSelectIndustry={setSelectedIndustry}
+        onCreateOfferRequest={{
+          handler: handleCreateOfferRequest,
+          isLoading: isCreateJobOfferLoading,
+        }}
+      />
+    </>
   );
 };
 

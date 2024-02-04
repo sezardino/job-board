@@ -313,11 +313,6 @@
           "description": "This description will be visible to the users"
         }
       },
-      "preview": {
-        "title": "Job offer preview",
-        "description": "Please check if all data is correct",
-        "to-first-step": "To first step"
-      },
       "back-modal": {
         "title": "Go back",
         "description": "Are you sure you want to go back? All unsaved data will be lost",
@@ -603,6 +598,7 @@
         "title": "Create new job offer",
         "desc": "Fill in the form to create new job offer",
         "confirm": "Create job offer",
+        "to-first-step": "To first step",
         "cancel": "Cancel",
         "back": "Back",
         "next": "Next",

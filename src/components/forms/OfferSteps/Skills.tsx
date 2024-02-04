@@ -114,6 +114,7 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                   />
                   <ControlledSelect
                     name={`skills.[${i}].level`}
+                    isMultiple={false}
                     labelPlacement="inside"
                     label={t("skills.level.label")}
                     placeholder={t("skills.level.placeholder")}

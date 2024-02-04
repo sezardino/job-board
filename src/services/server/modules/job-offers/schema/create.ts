@@ -33,12 +33,17 @@ export const createJobOfferRequestSchema = z.object({
   type: z.nativeEnum(JobType, {
     required_error: "job type is required",
   }),
-  contract: z.nativeEnum(JobContract, {
-    required_error: "contract is required",
-  }),
-  operating: z.nativeEnum(JobOperatingMode, {
-    required_error: "operating mode is required",
-  }),
+  contract: z.array(
+    z.nativeEnum(JobContract, {
+      required_error: "contract is required",
+    }),
+    { required_error: "contract is required" }
+  ),
+  operating: z.array(
+    z.nativeEnum(JobOperatingMode, {
+      required_error: "operating mode is required",
+    })
+  ),
   seniority: z.nativeEnum(Seniority, {
     required_error: "seniority is required",
   }),

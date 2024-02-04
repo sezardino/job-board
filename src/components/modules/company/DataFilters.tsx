@@ -8,7 +8,7 @@ type Props = {
     placeholder: string;
     onSearchChange: (value: string) => void;
   };
-  filters?: SelectProps<string>[];
+  filters?: Omit<SelectProps<string, false>, "isMultiple">[];
 };
 
 export type DataFiltersProps = ComponentPropsWithoutRef<"div"> & Props;
@@ -31,7 +31,12 @@ export const DataFilters: FC<DataFiltersProps> = (props) => {
         />
       )}
       {filters?.map((f, index) => (
-        <Select key={index} {...f} className="max-w-[220px]" />
+        <Select
+          key={index}
+          {...f}
+          isMultiple={false}
+          className="max-w-[220px]"
+        />
       ))}
     </div>
   );

@@ -3,7 +3,6 @@ import {
   SelectProps as NextUiSelectProps,
   SelectItem,
 } from "@nextui-org/react";
-import { ChangeEvent } from "react";
 import { twMerge } from "tailwind-merge";
 
 export type SelectOption<T extends string> = {
@@ -12,22 +11,40 @@ export type SelectOption<T extends string> = {
   disabled?: boolean;
 };
 
-type Props<T extends string> = {
+type CommonProps<T extends string, M> = {
   options: SelectOption<T>[];
+  isMultiple: M;
+  canCancelSelect?: boolean;
+};
+
+type SingleProps<T extends string> = {
+  isMultiple: false;
   onSelectChange: (value: T) => void;
   onAfterChange?: (value: T) => void;
-  canCancelSelect?: boolean;
+};
+
+type MultipleProps<T extends string> = {
+  isMultiple: true;
+  onSelectChange: (value: T[]) => void;
+  onAfterChange?: (value: T[]) => void;
 };
 
 type OmittedProps = Omit<
   NextUiSelectProps,
-  "variant" | "children" | "onChange" | "radius"
+  "variant" | "children" | "onChange" | "radius" | "selectionMode"
 >;
 
-export type SelectProps<T extends string> = OmittedProps & Props<T>;
+type Props<T extends string, M extends boolean> = CommonProps<T, M> &
+  (SingleProps<T> | MultipleProps<T>);
 
-export const Select = <T extends string>(props: SelectProps<T>) => {
+export type SelectProps<T extends string, M extends boolean> = OmittedProps &
+  Props<T, M>;
+
+export const Select = <T extends string, M extends boolean>(
+  props: SelectProps<T, M>
+) => {
   const {
+    isMultiple,
     labelPlacement = "outside",
     canCancelSelect = false,
     onAfterChange,
@@ -37,27 +54,38 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
     ...rest
   } = props;
 
-  const changeHandler = (evt: ChangeEvent<HTMLSelectElement>) => {
-    if (!canCancelSelect && !evt.target.value) return;
-    onSelectChange(evt.target.value as T);
-    if (onAfterChange) onAfterChange(evt.target.value as T);
+  const changeHandler = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = isMultiple
+      ? Array.from(new Set(e.target.value.split(","))).filter(Boolean)
+      : e.target.value;
+
+    if (!canCancelSelect && !value) return;
+    onSelectChange(value as T & T[]);
+    if (onAfterChange) onAfterChange(value as T & T[]);
   };
 
   return (
     <NextUiSelect
       {...rest}
+      selectionMode={isMultiple ? "multiple" : "single"}
       variant="bordered"
       radius="sm"
       labelPlacement={labelPlacement}
       // @ts-ignore
-      selectedKeys={selectedKeys ? [selectedKeys] : undefined}
+      selectedKeys={
+        !selectedKeys
+          ? undefined
+          : Array.isArray(selectedKeys)
+          ? selectedKeys
+          : [selectedKeys]
+      }
       onChange={changeHandler}
     >
       {options.map((o) => (
         <SelectItem
           isReadOnly={o.disabled}
           key={o.id}
-          value={o.label}
+          value={o.id}
           textValue={o.label}
           className={twMerge(o.disabled && "opacity-40 cursor-default")}
         >

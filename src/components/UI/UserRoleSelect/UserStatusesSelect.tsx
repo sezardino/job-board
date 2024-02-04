@@ -8,7 +8,10 @@ import {
 import { UserRoles } from "@prisma/client";
 import { useTranslations } from "next-intl";
 
-type OmittedSelectProps = Omit<SelectProps<UserRoles>, "options">;
+type OmittedSelectProps = Omit<
+  SelectProps<UserRoles, false>,
+  "options" | "isMultiple"
+>;
 
 type Props = {
   acceptedRoles: UserRoles[];
@@ -25,5 +28,5 @@ export const UserRoleSelect: FC<UserRoleSelectProps> = (props) => {
     [acceptedRoles, t]
   );
 
-  return <Select {...rest} options={options} />;
+  return <Select {...rest} isMultiple={false} options={options} />;
 };

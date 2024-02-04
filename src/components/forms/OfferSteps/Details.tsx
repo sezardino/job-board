@@ -169,6 +169,7 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
       />
       <ControlledSelect
         name="industry"
+        isMultiple={false}
         labelPlacement="inside"
         isLoading={industries.isLoading}
         options={formattedIndustries}
@@ -180,6 +181,7 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
 
       <ControlledSelect
         name="category"
+        isMultiple={false}
         labelPlacement="inside"
         isLoading={categories.isLoading}
         options={formattedCategories}
