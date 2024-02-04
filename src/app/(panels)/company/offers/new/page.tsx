@@ -1,7 +1,9 @@
 "use client";
 
-import { NewOfferData } from "@/components/forms/Offer/OfferForm";
-import { NewOfferTemplate } from "@/components/templates/Company/NewOffer";
+import {
+  NewOfferData,
+  NewOfferTemplate,
+} from "@/components/templates/Company/NewOffer";
 import { CompanyPageUrls } from "@/const";
 import { useCreateJobOfferMutation } from "@/hooks/react-query/mutation/offers";
 import { useActiveCategoriesQuery } from "@/hooks/react-query/query/categories/active-categories";

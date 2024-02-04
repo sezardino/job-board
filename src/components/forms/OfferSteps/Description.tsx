@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
-import { FormWrapper } from "../../FormWrapper/FormWrapper";
+import { FormWrapper } from "../FormWrapper/FormWrapper";
 
 export type OfferFormDescriptionStepFormValues = {
   description: string;

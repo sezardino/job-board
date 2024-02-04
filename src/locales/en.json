@@ -218,17 +218,6 @@
       "cancel": "Cancel",
       "back": "Back",
       "next": "Next",
-      "new": {
-        "title": "Create new job offer",
-        "description": "Fill in the form to create new job offer",
-        "confirm": "Create job offer"
-      },
-      "edit": {
-        "title": "Edit job offer",
-        "description": "Fill in the form to edit job offer",
-        "cancel": "Cancel",
-        "confirm": "Edit job offer"
-      },
       "details": {
         "title": "Details",
         "description": "On this step you can enter basic details of the job offer",
@@ -608,6 +597,32 @@
           "description": "You can only edit role of the user",
           "cancel": "Cancel",
           "confirm": "Edit user"
+        }
+      },
+      "new-offer": {
+        "title": "Create new job offer",
+        "desc": "Fill in the form to create new job offer",
+        "confirm": "Create job offer",
+        "cancel": "Cancel",
+        "back": "Back",
+        "next": "Next",
+        "back-modal": {
+          "title": "Go back",
+          "description": "Are you sure you want to go back? All unsaved data will be lost",
+          "cancel": "Cancel",
+          "confirm": "Go back"
+        },
+        "cancel-modal": {
+          "title": "Cancel",
+          "description": "Are you sure you want to cancel? All unsaved data will be lost",
+          "cancel": "Cancel",
+          "confirm": "Confirm"
+        },
+        "confirm-modal": {
+          "title": "Confirm",
+          "description": "Create new job offer with provided data?",
+          "cancel": "Cancel",
+          "confirm": "Create"
         }
       }
     },
