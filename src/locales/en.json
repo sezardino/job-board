@@ -339,7 +339,13 @@
         "title": "Cancel",
         "description": "Are you sure you want to cancel? All unsaved data will be lost",
         "cancel": "Cancel",
-        "confirm": "Cancel"
+        "confirm": "Confirm"
+      },
+      "confirm-modal": {
+        "title": "Confirm",
+        "description": "Create new job offer with provided data?",
+        "cancel": "Cancel",
+        "confirm": "Create"
       }
     }
   },

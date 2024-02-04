@@ -1,6 +1,6 @@
 import { OffersList } from "@/components/UI/OffersList/OffersList";
 import { PublicPageUrls } from "@/const";
-import { OffersListResponse } from "@/services/server/modules/job-offers/scema";
+import { OffersListResponse } from "@/services/server/modules/job-offers/schema";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 

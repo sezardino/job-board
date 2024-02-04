@@ -2,12 +2,12 @@ import {
   TableWidget,
   TableWidgetProps,
 } from "@/components/UI/TableWidget/TableWidget";
-import { CompanyOffersResponse } from "@/services/server/modules/job-offers/scema";
+import { CurrentCompanyJobOffersResponse } from "@/services/server/modules/job-offers/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
-type Entity = CompanyOffersResponse["data"][number];
+type Entity = CurrentCompanyJobOffersResponse["data"][number];
 
 type OmittedProps = Omit<TableWidgetProps<Entity>, "columns">;
 type Props = {};

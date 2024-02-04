@@ -6,6 +6,7 @@ import { OfferPreview } from "@/components/modules/offer/OfferPreview";
 import { CompanyPageUrls } from "@/const";
 import { ActiveCategoriesResponse } from "@/services/server/modules/categories/schema";
 import { ActiveIndustriesResponse } from "@/services/server/modules/industries/schema";
+import { CreateJobOfferResponse } from "@/services/server/modules/job-offers/schema";
 import { DataProp } from "@/types";
 import { useTranslations } from "next-intl";
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
@@ -31,6 +32,10 @@ type Props = {
   industries: DataProp<ActiveIndustriesResponse>;
   categories: DataProp<ActiveCategoriesResponse>;
   onSelectIndustry: (value: string) => void;
+  onFormSubmit: (
+    values: Required<NewOfferData>
+  ) => Promise<CreateJobOfferResponse>;
+  isLoading: boolean;
 };
 
 export type OfferFormProps = ComponentPropsWithoutRef<"section"> & Props;
@@ -47,7 +52,7 @@ type OfferFormStep = (typeof offerFormSteps)[keyof typeof offerFormSteps];
 
 const stepsArray: OfferFormStep[] = Object.values(offerFormSteps);
 
-type NewOfferData = {
+export type NewOfferData = {
   details?: OfferFormDetailsStepFormValues;
   specification?: OfferFormSpecificationStepFormValues;
   skills?: OfferFormSkillsStepFormValues;
@@ -61,14 +66,21 @@ type SaveStepData =
   | { step: "description"; data: OfferFormDescriptionStepFormValues };
 
 export const OfferForm: FC<OfferFormProps> = (props) => {
-  const { industries, categories, onSelectIndustry, className, ...rest } =
-    props;
+  const {
+    industries,
+    categories,
+    onSelectIndustry,
+    onFormSubmit,
+    className,
+    ...rest
+  } = props;
   const t = useTranslations("forms.offer");
 
   const [step, setStep] = useState<OfferFormStep>("details");
   const [values, setValues] = useState<NewOfferData>({});
   const [prevStep, setPrevStep] = useState<OfferFormStep | null>(null);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
 
   const saveStepData = (value: SaveStepData) => {
     switch (value.step) {
@@ -101,6 +113,21 @@ export const OfferForm: FC<OfferFormProps> = (props) => {
       setStep(prevStep);
       setPrevStep(null);
     }
+  };
+
+  const confirmJobOfferCreation = async () => {
+    if (
+      !values.details &&
+      !values.specification &&
+      !values.skills &&
+      !values.description
+    )
+      return;
+    try {
+      await onFormSubmit(values as Required<NewOfferData>);
+
+      setIsConfirmModalOpen(false);
+    } catch (error) {}
   };
 
   const filledCount = Object.keys(values).length;
@@ -189,7 +216,7 @@ export const OfferForm: FC<OfferFormProps> = (props) => {
                     operating={values.specification.operating}
                     salary={values.details.salary}
                     skills={values.skills.skills}
-                    type={values.specification.jobType}
+                    type={values.specification.type}
                   />
                 </>
               )}
@@ -197,7 +224,12 @@ export const OfferForm: FC<OfferFormProps> = (props) => {
               <Button variant="bordered" onClick={() => setStep("details")}>
                 {t("preview.to-first-step")}
               </Button>
-              <Button color="primary">{t("new.confirm")}</Button>
+              <Button
+                color="primary"
+                onClick={() => setIsConfirmModalOpen(true)}
+              >
+                {t("new.confirm")}
+              </Button>
             </div>
           </Grid>
         )}
@@ -231,6 +263,21 @@ export const OfferForm: FC<OfferFormProps> = (props) => {
         }}
         isOpen={!!prevStep}
         onClose={() => setPrevStep(null)}
+      />
+
+      <ConfirmModal
+        title={t("confirm-modal.title")}
+        description={t("confirm-modal.description")}
+        cancel={{
+          text: t("confirm-modal.cancel"),
+          onClick: () => setIsConfirmModalOpen(false),
+        }}
+        confirm={{
+          text: t("confirm-modal.confirm"),
+          onClick: confirmJobOfferCreation,
+        }}
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
       />
     </>
   );

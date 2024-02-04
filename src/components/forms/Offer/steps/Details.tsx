@@ -162,12 +162,14 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
       />
       <ControlledInput
         name="name"
+        labelPlacement="inside"
         label={t("details.name.label")}
         placeholder={t("details.name.placeholder")}
         description={t("details.name.description")}
       />
       <ControlledSelect
         name="industry"
+        labelPlacement="inside"
         isLoading={industries.isLoading}
         options={formattedIndustries}
         label={t("details.industry.label")}
@@ -178,6 +180,7 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
 
       <ControlledSelect
         name="category"
+        labelPlacement="inside"
         isLoading={categories.isLoading}
         options={formattedCategories}
         label={t("details.category.label")}
@@ -200,6 +203,7 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
             <div className="w-full flex items-start gap-3 flex-wrap">
               <ControlledInput
                 name="salary.from"
+                labelPlacement="inside"
                 type="number"
                 label={t("details.salary.from.label")}
                 placeholder={t("details.salary.from.placeholder")}
@@ -208,6 +212,7 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
               <ControlledInput
                 name="salary.to"
                 type="number"
+                labelPlacement="inside"
                 label={t("details.salary.to.label")}
                 placeholder={t("details.salary.to.placeholder")}
                 className="flex-1 min-w-[220px]"

@@ -3,14 +3,11 @@ import { AbstractService } from "@/services/server/helpers";
 import { DEFAULT_PAGE_LIMIT } from "@/const";
 import { FindManyPrismaEntity } from "@/types";
 import { JobOfferStatus, Prisma } from "@prisma/client";
-import { CompanyOffersRequest, OffersListRequest } from "./scema";
-
-type FindManyJobOffersArgs = {
-  where: Prisma.JobOfferWhereInput;
-  select: Prisma.JobOfferSelect;
-  page: number;
-  limit: number;
-};
+import {
+  CreateJobOfferRequest,
+  CurrentCompanyJobOffersRequest,
+  OffersListRequest,
+} from "./schema";
 
 export class JobOffersService extends AbstractService {
   protected async findMany(
@@ -41,13 +38,23 @@ export class JobOffersService extends AbstractService {
     return { data, meta: pagination?.meta };
   }
 
-  async companyOffers(data: CompanyOffersRequest, companyId: string) {
-    const { search, status, limit = DEFAULT_PAGE_LIMIT, page = 0 } = data;
+  async currentCompany(
+    data: CurrentCompanyJobOffersRequest,
+    companyId: string
+  ) {
+    const {
+      search,
+      status,
+      seniority,
+      limit = DEFAULT_PAGE_LIMIT,
+      page = 0,
+    } = data;
 
     const where: Prisma.JobOfferWhereInput = { companyId };
 
     if (search) where.name = { contains: search, mode: "insensitive" };
     if (status) where.status = status;
+    if (seniority) where.seniority = seniority;
 
     return this.findMany({
       limit,
@@ -57,22 +64,8 @@ export class JobOffersService extends AbstractService {
         id: true,
         name: true,
         seniority: true,
-        createdAt: true,
         status: true,
-        contract: true,
-        category: { select: { name: true } },
-        industry: { select: { name: true } },
         deadlineAt: true,
-        operating: true,
-        type: true,
-        company: {
-          select: {
-            id: true,
-            name: true,
-            logo: { select: { id: true, url: true, name: true } },
-          },
-        },
-        skills: { select: { name: true } },
       },
     });
   }
@@ -143,6 +136,21 @@ export class JobOffersService extends AbstractService {
           },
         },
       },
+    });
+  }
+
+  create(dto: CreateJobOfferRequest, companyId: string) {
+    const { category, industry, ...rest } = dto;
+
+    return this.prismaService.jobOffer.create({
+      data: {
+        industry: { connect: { name: dto.industry } },
+        company: { connect: { id: companyId } },
+        category: { connect: { name: dto.category } },
+        // TODO: add location
+        ...rest,
+      },
+      select: { id: true },
     });
   }
 }

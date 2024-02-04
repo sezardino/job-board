@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { OffersListRequest } from "@/services/server/modules/job-offers/scema";
+import { OffersListRequest } from "@/services/server/modules/job-offers/schema";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 

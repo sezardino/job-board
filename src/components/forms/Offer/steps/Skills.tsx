@@ -108,11 +108,13 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                 >
                   <ControlledInput
                     name={`skills.[${i}].name`}
+                    labelPlacement="inside"
                     label={t("skills.name.label")}
                     placeholder={t("skills.name.placeholder")}
                   />
                   <ControlledSelect
                     name={`skills.[${i}].level`}
+                    labelPlacement="inside"
                     label={t("skills.level.label")}
                     placeholder={t("skills.level.placeholder")}
                     options={skillLevelOptions}
@@ -122,7 +124,6 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                     isIconOnly
                     color="danger"
                     variant="light"
-                    isDisabled={formik.values.skills.length === 1}
                     className="mt-2"
                     onClick={() => helpers.remove(i)}
                     aria-label={t("skills.remove")}

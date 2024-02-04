@@ -8,7 +8,7 @@ import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import { Select, SelectOption } from "@/components/base/Select/Select";
 import { CompanyOffersTable } from "@/components/modules/company/CompanyOffersTable";
 import { CompanyPageUrls } from "@/const";
-import { CompanyOffersResponse } from "@/services/server/modules/job-offers/scema";
+import { CurrentCompanyJobOffersResponse } from "@/services/server/modules/job-offers/schema";
 import { DataListProp, DataProp } from "@/types";
 import { JobOfferStatus, Seniority } from "@prisma/client";
 import { useTranslations } from "next-intl";
@@ -24,7 +24,7 @@ type OfferFilters = {
 };
 
 type Props = {
-  offers: DataProp<CompanyOffersResponse>;
+  offers: DataProp<CurrentCompanyJobOffersResponse>;
 };
 
 export type CompanyOffersTemplateProps = ComponentPropsWithoutRef<"section"> &
@@ -150,7 +150,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
       <CompanyOffersTable
         {...offers}
         data={offers.data?.data || []}
-        total={offers.data?.meta.count || 0}
+        total={offers.data?.meta.totalPages || 0}
         noDataMessage={t("no-data")}
         page={page}
         onPageChange={onPageChange}

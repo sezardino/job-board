@@ -29,7 +29,6 @@ const categories = {
     "customer-service-specialist",
     "hairstylist-stylist",
     "masseuse-masseur",
-    "waiter-waitress",
   ],
   "tourism-and-hospitality": [
     "tourism-manager",

@@ -2,7 +2,7 @@
 
 import { CompanyOffersTemplate } from "@/components/templates/Company/CompanyOffers";
 import { useDataOnPage } from "@/hooks";
-import { useMyCompanyOffersQuery } from "@/hooks/react-query/query/offers";
+import { useCurrentCompanyJobOffersQuery } from "@/hooks/react-query/query/offers";
 import { JobOfferStatus, Seniority } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -26,12 +26,12 @@ const CompanyOffersPage = () => {
   const [seniority, setSeniority] = useState<JobOfferSeniorityFilters>("all");
 
   const { data: companyOffers, isFetching: isCompanyOffersLoading } =
-    useMyCompanyOffersQuery({
+    useCurrentCompanyJobOffersQuery({
       limit,
       page,
       search,
-      companyId: data?.user.companyId!,
       status: status === "all" ? undefined : status,
+      seniority: seniority === "all" ? undefined : seniority,
     });
 
   return (

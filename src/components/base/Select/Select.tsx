@@ -21,13 +21,14 @@ type Props<T extends string> = {
 
 type OmittedProps = Omit<
   NextUiSelectProps,
-  "variant" | "labelPlacement" | "children" | "onChange" | "radius"
+  "variant" | "children" | "onChange" | "radius"
 >;
 
 export type SelectProps<T extends string> = OmittedProps & Props<T>;
 
 export const Select = <T extends string>(props: SelectProps<T>) => {
   const {
+    labelPlacement = "outside",
     canCancelSelect = false,
     onAfterChange,
     selectedKeys,
@@ -47,6 +48,7 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
       {...rest}
       variant="bordered"
       radius="sm"
+      labelPlacement={labelPlacement}
       // @ts-ignore
       selectedKeys={selectedKeys ? [selectedKeys] : undefined}
       onChange={changeHandler}

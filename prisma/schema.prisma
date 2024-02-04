@@ -147,7 +147,7 @@ model Industry {
 model Category {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name   String
+  name   String       @unique
   status EntityStatus @default(CREATED)
 
   industry   Industry @relation(fields: [industryId], references: [id])

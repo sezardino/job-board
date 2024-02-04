@@ -14,7 +14,7 @@ import { Icon } from "..";
 
 type OmittedProps = Omit<
   ComponentProps,
-  "variant" | "labelPlacement" | "radius" | "colors" | "onBlur"
+  "variant" | "radius" | "colors" | "onBlur"
 >;
 
 type Props = {
@@ -28,7 +28,13 @@ const InputComponent: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   props,
   ref
 ) => {
-  const { error, endContent, type, ...rest } = props;
+  const {
+    labelPlacement = "outside",
+    error,
+    endContent,
+    type,
+    ...rest
+  } = props;
   const [isVisible, setIsVisible] = useState(false);
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -39,7 +45,7 @@ const InputComponent: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   const endContentJSX =
     type === "password" ? (
       <button
-        className="focus:outline-none"
+        className="focus:outline-none focus-within:text-primary-500"
         type="button"
         onClick={toggleVisibility}
       >
@@ -61,6 +67,7 @@ const InputComponent: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
       errorMessage={error}
       type={currentType}
       variant="bordered"
+      labelPlacement={labelPlacement}
       placeholder={rest.placeholder || " "}
       radius="sm"
       endContent={endContentJSX}

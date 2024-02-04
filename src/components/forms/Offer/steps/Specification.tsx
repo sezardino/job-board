@@ -16,7 +16,7 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper } from "../../FormWrapper/FormWrapper";
 
 export type OfferFormSpecificationStepFormValues = {
-  jobType: JobType;
+  type: JobType;
   contract: JobContract;
   operating: JobOperatingMode;
   seniority: Seniority;
@@ -31,8 +31,6 @@ type Props = {
 export type OfferFormSpecificationStepProps = ComponentPropsWithoutRef<"form"> &
   Props;
 
-const initialSalary = { from: 0, to: 0 };
-
 export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
   props
 ) => {
@@ -45,7 +43,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
     () =>
       toFormikValidationSchema(
         z.object({
-          jobType: z.nativeEnum(JobType, {
+          type: z.nativeEnum(JobType, {
             required_error: t("specification.job-type.required"),
           }),
           contract: z.nativeEnum(JobContract, {
@@ -66,7 +64,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
     onSubmit: onFormSubmit,
     validationSchema,
     initialValues: {
-      jobType: JobType.FULL_TIME,
+      type: JobType.FULL_TIME,
       contract: JobContract.PERMANENT,
       operating: JobOperatingMode.OFFICE,
       seniority: Seniority.MID,
@@ -118,7 +116,6 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
       cancel={{ label: t("back"), onClick: () => onBackClick(formik.dirty) }}
       className={twMerge("", className)}
     >
-      {JSON.stringify(formik.values, undefined, " ")}
       <TitleDescription
         titleLevel="h2"
         title={t("specification.title")}
@@ -126,25 +123,29 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
       />
 
       <ControlledSelect
-        name="jobType"
+        name="type"
+        labelPlacement="inside"
         options={jobTypeOptions}
         label={t("specification.job-type.label")}
         placeholder={t("specification.job-type.placeholder")}
       />
       <ControlledSelect
         name="contract"
+        labelPlacement="inside"
         options={contractOptions}
         label={t("specification.contract.label")}
         placeholder={t("specification.contract.placeholder")}
       />
       <ControlledSelect
         name="operating"
+        labelPlacement="inside"
         options={operatingOptions}
         label={t("specification.operating.label")}
         placeholder={t("specification.operating.placeholder")}
       />
       <ControlledSelect
         name="seniority"
+        labelPlacement="inside"
         options={seniorityOptions}
         label={t("specification.seniority.label")}
         placeholder={t("specification.seniority.placeholder")}
