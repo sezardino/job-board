@@ -823,6 +823,8 @@
     "company-offers-table": {
       "no-data": "No offers found",
       "name": "Name",
+      "industry": "Industry",
+      "category": "Category",
       "seniority": "Seniority",
       "status": "Status"
     }

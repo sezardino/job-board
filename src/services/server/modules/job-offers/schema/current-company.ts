@@ -15,6 +15,8 @@ export const currentCompanyJobOffersResponseSchema = z
       z.object({
         id: z.string(),
         name: z.string(),
+        industry: z.object({ id: z.string(), name: z.string() }),
+        category: z.object({ id: z.string(), name: z.string() }),
         seniority: z.nativeEnum(Seniority),
         status: z.nativeEnum(JobOfferStatus),
         deadlineAt: z.date().or(z.string()).nullable(),

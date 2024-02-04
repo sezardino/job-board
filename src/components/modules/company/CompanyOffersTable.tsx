@@ -30,6 +30,16 @@ export const CompanyOffersTable: FC<CompanyOffersTableProps> = (props) => {
         header: t("name"),
         cell: (row) => row.getValue(),
       }),
+      columnHelper.accessor("industry.name", {
+        enableSorting: false,
+        header: t("industry"),
+        cell: (row) => entityT(`industries.${row.getValue()}`),
+      }),
+      columnHelper.accessor("category.name", {
+        enableSorting: false,
+        header: t("category"),
+        cell: (row) => entityT(`categories.${row.getValue()}`),
+      }),
       columnHelper.accessor("status", {
         enableSorting: false,
         header: t("status"),

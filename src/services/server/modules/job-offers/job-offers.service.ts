@@ -66,6 +66,8 @@ export class JobOffersService extends AbstractService {
         seniority: true,
         status: true,
         deadlineAt: true,
+        category: { select: { name: true, id: true } },
+        industry: { select: { name: true, id: true } },
       },
     });
   }
