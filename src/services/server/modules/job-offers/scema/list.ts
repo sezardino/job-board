@@ -15,7 +15,7 @@ export const offersListResponseSchema = z
       z.object({
         id: z.string(),
         name: z.string(),
-        level: z.nativeEnum(Seniority),
+        seniority: z.nativeEnum(Seniority),
         salary: z.object({ from: z.number(), to: z.number() }),
         createdAt: z.date().or(z.string()),
         skills: z.array(z.object({ name: z.string() })),

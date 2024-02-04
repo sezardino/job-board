@@ -27,7 +27,7 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
         value: entityT(`job-contract.${offer.contract}`),
       },
 
-      { label: t("seniority"), value: entityT(`seniority.${offer.level}`) },
+      { label: t("seniority"), value: entityT(`seniority.${offer.seniority}`) },
       { label: t("type"), value: entityT(`job-type.${offer.type}`) },
       {
         label: t("deadline"),

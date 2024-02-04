@@ -56,7 +56,7 @@ export class JobOffersService extends AbstractService {
       select: {
         id: true,
         name: true,
-        level: true,
+        seniority: true,
         createdAt: true,
         status: true,
         contract: true,
@@ -101,7 +101,7 @@ export class JobOffersService extends AbstractService {
       select: {
         id: true,
         name: true,
-        level: true,
+        seniority: true,
         salary: true,
         createdAt: true,
         skills: { select: { name: true } },
@@ -122,7 +122,7 @@ export class JobOffersService extends AbstractService {
       select: {
         id: true,
         name: true,
-        level: true,
+        seniority: true,
         contract: true,
         deadlineAt: true,
         publishedAt: true,

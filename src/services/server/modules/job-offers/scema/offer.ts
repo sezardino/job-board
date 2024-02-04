@@ -17,7 +17,7 @@ export const oneOfferResponseSchema = z.object({
   type: z.nativeEnum(JobType),
   contract: z.nativeEnum(JobContract),
   operating: z.nativeEnum(JobOperatingMode),
-  level: z.nativeEnum(Seniority),
+  seniority: z.nativeEnum(Seniority),
   salary: z
     .object({
       from: z.number(),

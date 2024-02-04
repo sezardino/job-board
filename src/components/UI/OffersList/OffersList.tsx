@@ -10,7 +10,7 @@ import { OfferCard } from "../OfferCard/OfferCard";
 export type OfferCardEntity = {
   id: string;
   name: string;
-  level: Seniority;
+  seniority: Seniority;
   createdAt: string | Date;
   company: {
     name: string;

@@ -14,7 +14,7 @@ export const companyProfileResponseSchema = z.object({
     z.object({
       id: z.string(),
       name: z.string(),
-      level: z.nativeEnum(Seniority),
+      seniority: z.nativeEnum(Seniority),
       company: z.object({
         id: z.string(),
         name: z.string(),

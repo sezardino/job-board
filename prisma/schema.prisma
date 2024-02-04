@@ -192,7 +192,7 @@ model JobOffer {
   type      JobType
   contract  JobContract
   operating JobOperatingMode
-  level     Seniority
+  seniority Seniority
   skills    Skill[]
   location  Location[]
 

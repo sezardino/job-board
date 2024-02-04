@@ -35,9 +35,9 @@ export const CompanyOffersTable: FC<CompanyOffersTableProps> = (props) => {
         header: t("status"),
         cell: (row) => entityT(`job-status.${row.getValue()}`),
       }),
-      columnHelper.accessor("level", {
+      columnHelper.accessor("seniority", {
         enableSorting: false,
-        header: t("level"),
+        header: t("seniority"),
         cell: (row) => entityT(`seniority.${row.getValue()}`),
       }),
       columnHelper.accessor("id", {

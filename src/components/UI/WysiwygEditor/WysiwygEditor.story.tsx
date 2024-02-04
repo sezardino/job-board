@@ -15,7 +15,7 @@ const Render = () => {
 
   return (
     <>
-      <Component model={model} onModelChange={setModel} />
+      <Component value={model} onChange={setModel} />
       {/* @ts-ignore */}
       <pre dangerouslySetInnerHTML={model}></pre>
     </>
