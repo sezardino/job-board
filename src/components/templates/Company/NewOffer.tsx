@@ -142,8 +142,8 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
         >
           <TitleDescription
             titleLevel="h1"
-            title={t("new.title")}
-            description={t("new.desc")}
+            title={t("title")}
+            description={t("desc")}
           />
           <BaseStepper
             count={stepsArray.length}
@@ -232,7 +232,7 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
                   color="primary"
                   onClick={() => setIsConfirmModalOpen(true)}
                 >
-                  {t("new.confirm")}
+                  {t("confirm")}
                 </Button>
               </div>
             </Grid>
