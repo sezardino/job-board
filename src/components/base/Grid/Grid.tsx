@@ -8,7 +8,7 @@ import { twMerge } from "tailwind-merge";
 
 type GridTags = Extract<
   ElementType,
-  "header" | "div" | "ul" | "ol" | "section" | "form" | "li"
+  "header" | "div" | "ul" | "ol" | "section" | "form" | "li" | "article"
 >;
 
 export type GridProps<Tag extends GridTags> = ComponentPropsWithoutRef<Tag> & {

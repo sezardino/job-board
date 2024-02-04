@@ -22,7 +22,6 @@ const TextareaComponent: ForwardRefRenderFunction<
       {...rest}
       ref={ref}
       variant="bordered"
-      labelPlacement="outside"
       placeholder={rest.placeholder || " "}
       radius="sm"
     />

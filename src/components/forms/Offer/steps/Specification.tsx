@@ -1,11 +1,11 @@
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
-import { ControlledInput, ControlledSelect } from "@/components/controlled";
+import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
+import { ControlledSelect } from "@/components/controlled";
 import {
   JobContract,
   JobOperatingMode,
   JobType,
-  Salary,
   Seniority,
 } from "@prisma/client";
 import { useFormik } from "formik";
@@ -16,11 +16,10 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper } from "../../FormWrapper/FormWrapper";
 
 export type OfferFormSpecificationStepFormValues = {
-  salary: Salary;
   jobType: JobType;
   contract: JobContract;
   operating: JobOperatingMode;
-  level: Seniority;
+  seniority: Seniority;
 };
 
 type Props = {
@@ -31,6 +30,8 @@ type Props = {
 
 export type OfferFormSpecificationStepProps = ComponentPropsWithoutRef<"form"> &
   Props;
+
+const initialSalary = { from: 0, to: 0 };
 
 export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
   props
@@ -44,23 +45,6 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
     () =>
       toFormikValidationSchema(
         z.object({
-          salary: z
-            .object({
-              from: z
-                .number({
-                  required_error: t("specification.salary-from.required"),
-                })
-                .positive(t("specification.salary-from.positive")),
-              to: z
-                .number({
-                  required_error: t("specification.salary-to.required"),
-                })
-                .positive(t("specification.salary-to.positive")),
-            })
-            .refine((value) => value.from <= value.to, {
-              path: ["to"],
-              message: t("specification.salary-to.greater"),
-            }),
           jobType: z.nativeEnum(JobType, {
             required_error: t("specification.job-type.required"),
           }),
@@ -70,8 +54,8 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
           operating: z.nativeEnum(JobOperatingMode, {
             required_error: t("specification.operating.required"),
           }),
-          level: z.nativeEnum(Seniority, {
-            required_error: t("specification.level.required"),
+          seniority: z.nativeEnum(Seniority, {
+            required_error: t("specification.seniority.required"),
           }),
         })
       ),
@@ -82,11 +66,10 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
     onSubmit: onFormSubmit,
     validationSchema,
     initialValues: {
-      salary: { from: 0, to: 0 },
       jobType: JobType.FULL_TIME,
       contract: JobContract.PERMANENT,
       operating: JobOperatingMode.OFFICE,
-      level: Seniority.MID,
+      seniority: Seniority.MID,
       ...initialValues,
     },
   });
@@ -135,22 +118,13 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
       cancel={{ label: t("back"), onClick: () => onBackClick(formik.dirty) }}
       className={twMerge("", className)}
     >
-      <div className="flex items-start gap-3 flex-wrap">
-        <ControlledInput
-          name="salary.from"
-          type="number"
-          label={t("specification.salary-from.label")}
-          placeholder={t("specification.salary-from.placeholder")}
-          className="flex-1 min-w-[220px]"
-        />
-        <ControlledInput
-          name="salary.to"
-          type="number"
-          label={t("specification.salary-to.label")}
-          placeholder={t("specification.salary-to.placeholder")}
-          className="flex-1 min-w-[220px]"
-        />
-      </div>
+      {JSON.stringify(formik.values, undefined, " ")}
+      <TitleDescription
+        titleLevel="h2"
+        title={t("specification.title")}
+        description={t("specification.description")}
+      />
+
       <ControlledSelect
         name="jobType"
         options={jobTypeOptions}
@@ -170,10 +144,10 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
         placeholder={t("specification.operating.placeholder")}
       />
       <ControlledSelect
-        name="level"
+        name="seniority"
         options={seniorityOptions}
-        label={t("specification.level.label")}
-        placeholder={t("specification.level.placeholder")}
+        label={t("specification.seniority.label")}
+        placeholder={t("specification.seniority.placeholder")}
       />
     </FormWrapper>
   );

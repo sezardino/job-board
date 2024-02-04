@@ -1,5 +1,6 @@
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
+import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { Icon } from "@/components/base";
 import { ControlledInput, ControlledSelect } from "@/components/controlled";
 import { MAX_STRING_LENGTH } from "@/const";
@@ -58,7 +59,7 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
     onSubmit: onFormSubmit,
     validationSchema,
     initialValues: {
-      skills: [BASIC_SKILL],
+      skills: [],
       ...props.initialValues,
     },
   });
@@ -72,6 +73,8 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
     [entityT]
   );
 
+  const addFirstSkill = () => formik.setFieldValue("skills", [BASIC_SKILL]);
+
   return (
     <FormWrapper
       {...rest}
@@ -80,53 +83,66 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
       cancel={{ label: t("back"), onClick: () => onBackClick(formik.dirty) }}
       className={twMerge("", className)}
     >
-      <FieldArray
-        name="skills"
-        render={(helpers) => (
-          <div className="grid grid-cols-1 gap-2">
-            {formik.values.skills.map((_, i) => (
-              <div
-                key={i}
-                className={twMerge(
-                  "grid items-start gap-1 grid-cols-[1fr_1fr_auto]"
-                )}
-              >
-                <ControlledInput
-                  name={`skills.[${i}].name`}
-                  label={t("skills.name.label")}
-                  placeholder={t("skills.name.placeholder")}
-                />
-                <ControlledSelect
-                  name={`skills.[${i}].level`}
-                  label={t("skills.level.label")}
-                  placeholder={t("skills.level.placeholder")}
-                  options={skillLevelOptions}
-                />
-
-                <Button
-                  isIconOnly
-                  color="danger"
-                  variant="light"
-                  isDisabled={formik.values.skills.length === 1}
-                  className="mt-6"
-                  onClick={() => helpers.remove(i)}
-                  aria-label={t("skills.remove")}
-                >
-                  <Icon name="HiTrash" size={16} />
-                </Button>
-              </div>
-            ))}
-            <Button
-              isIconOnly
-              className="justify-self-center"
-              onClick={() => helpers.push(BASIC_SKILL)}
-              aria-label={t("skills.add")}
-            >
-              <Icon name="HiPlus" size={16} />
-            </Button>
-          </div>
-        )}
+      <TitleDescription
+        titleLevel="h2"
+        title={t("skills.title")}
+        description={t("skills.description")}
       />
+      {!formik.values.skills.length && (
+        <Button color="primary" variant="bordered" onClick={addFirstSkill}>
+          {t("skills.add-first")}
+        </Button>
+      )}
+
+      {!!formik.values.skills.length && (
+        <FieldArray
+          name="skills"
+          render={(helpers) => (
+            <div className="grid grid-cols-1 gap-2">
+              {formik.values.skills.map((_, i) => (
+                <div
+                  key={i}
+                  className={twMerge(
+                    "grid items-start gap-1 grid-cols-[1fr_1fr_auto]"
+                  )}
+                >
+                  <ControlledInput
+                    name={`skills.[${i}].name`}
+                    label={t("skills.name.label")}
+                    placeholder={t("skills.name.placeholder")}
+                  />
+                  <ControlledSelect
+                    name={`skills.[${i}].level`}
+                    label={t("skills.level.label")}
+                    placeholder={t("skills.level.placeholder")}
+                    options={skillLevelOptions}
+                  />
+
+                  <Button
+                    isIconOnly
+                    color="danger"
+                    variant="light"
+                    isDisabled={formik.values.skills.length === 1}
+                    className="mt-2"
+                    onClick={() => helpers.remove(i)}
+                    aria-label={t("skills.remove")}
+                  >
+                    <Icon name="HiTrash" size={16} />
+                  </Button>
+                </div>
+              ))}
+              <Button
+                isIconOnly
+                className="justify-self-center"
+                onClick={() => helpers.push(BASIC_SKILL)}
+                aria-label={t("skills.add")}
+              >
+                <Icon name="HiPlus" size={16} />
+              </Button>
+            </div>
+          )}
+        />
+      )}
     </FormWrapper>
   );
 };

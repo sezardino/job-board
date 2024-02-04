@@ -5,6 +5,7 @@ import { twMerge } from "tailwind-merge";
 export type TypographyStyling =
   | "xs"
   | "sm"
+  | "base"
   | "md"
   | "lg"
   | "xl"
@@ -55,7 +56,8 @@ export const Typography: FC<TypographyProps> = (props) => {
     "2xl": "text-2xl lg:text-4xl md:text-3xl",
     xl: "text-xl md:text-2xl lg:text-3xl",
     lg: "text-lg md:text-xl lg:text-2xl",
-    md: "text-base",
+    md: "text-md md:text-lg lg:text-xl",
+    base: "text-base",
     sm: "text-sm",
     xs: "text-xs",
   };
@@ -74,7 +76,6 @@ export const Typography: FC<TypographyProps> = (props) => {
         stylingString[styling],
         weightString[weight],
         `text-${color}`,
-
         className
       )}
     >

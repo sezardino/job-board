@@ -61,7 +61,6 @@ const InputComponent: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
       errorMessage={error}
       type={currentType}
       variant="bordered"
-      labelPlacement="outside"
       placeholder={rest.placeholder || " "}
       radius="sm"
       endContent={endContentJSX}

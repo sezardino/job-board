@@ -1,10 +1,19 @@
-import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
+import {
+  useCallback,
+  useMemo,
+  type ComponentPropsWithoutRef,
+  type FC,
+} from "react";
 
+import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
+import { Icon } from "@/components/base";
 import { ControlledInput, ControlledSelect } from "@/components/controlled";
 import { MAX_STRING_LENGTH } from "@/const";
 import { ActiveCategoriesResponse } from "@/services/server/modules/categories/schema";
 import { ActiveIndustriesResponse } from "@/services/server/modules/industries/schema";
 import { DataProp } from "@/types";
+import { Button } from "@nextui-org/react";
+import { Salary } from "@prisma/client";
 import { useFormik } from "formik";
 import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";
@@ -16,6 +25,7 @@ export type OfferFormDetailsStepFormValues = {
   name: string;
   industry: string;
   category: string;
+  salary: Salary | null;
 };
 
 type Props = {
@@ -29,6 +39,8 @@ type Props = {
 
 export type OfferFormDetailsStepProps = ComponentPropsWithoutRef<"form"> &
   Props;
+
+const initialSalary = { from: 0, to: 0 };
 
 export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
   const {
@@ -61,6 +73,24 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
           category: z.string({
             required_error: t("details.category.required"),
           }),
+          salary: z
+            .object({
+              from: z
+                .number({
+                  required_error: t("details.salary.from.required"),
+                })
+                .positive(t("details.salary.from.positive")),
+              to: z
+                .number({
+                  required_error: t("details.salary.to.required"),
+                })
+                .positive(t("details.salary.to.positive")),
+            })
+            .nullable()
+            .refine((value) => (value ? value.from <= value.to : true), {
+              path: ["to"],
+              message: t("details.salary.to.greater"),
+            }),
         })
       ),
     [t]
@@ -73,6 +103,7 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
       name: "",
       industry: "",
       category: "",
+      salary: null,
       ...initialValues,
     },
   });
@@ -88,11 +119,32 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
   const formattedCategories = useMemo(
     () =>
       categories.data?.data.map((i) => ({
-        id: i.id,
+        id: i.name,
         label: entityT(`categories.${i.name}`),
       })) || [],
     [categories.data, entityT]
   );
+
+  const onAfterIndustrySelect = useCallback(
+    (value: string) => {
+      if (!value) return;
+      if (formik.values.industry === value) return;
+      onSelectIndustry(value);
+      formik.setFieldValue("category", "");
+    },
+    [formik, onSelectIndustry]
+  );
+
+  const addSalaryRange = useCallback(() => {
+    formik.setFieldValue("salary", initialSalary);
+    formik.setFieldTouched("salary", false);
+    formik.setFieldTouched("salary", false);
+  }, [formik]);
+
+  const removeSalaryRange = useCallback(() => {
+    formik.setFieldValue("salary", null);
+    formik.setFieldTouched("salary", true);
+  }, [formik]);
 
   return (
     <FormWrapper
@@ -102,6 +154,12 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
       cancel={{ label: t("cancel"), onClick: onCancelClick }}
       className={twMerge("", className)}
     >
+      <TitleDescription
+        titleLevel="h2"
+        titleStyling="md"
+        title={t("details.title")}
+        description={t("details.description")}
+      />
       <ControlledInput
         name="name"
         label={t("details.name.label")}
@@ -115,7 +173,7 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
         label={t("details.industry.label")}
         placeholder={t("details.industry.placeholder")}
         description={t("details.industry.description")}
-        onAfterChange={onSelectIndustry}
+        onAfterChange={onAfterIndustrySelect}
       />
 
       <ControlledSelect
@@ -131,6 +189,42 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
             : t("details.category.description")
         }
       />
+      <div className="flex flex-col gap-2 items-center">
+        {!formik.values.salary && (
+          <Button variant="bordered" color="primary" onClick={addSalaryRange}>
+            {t("details.salary.add")}
+          </Button>
+        )}
+        {formik.values.salary && (
+          <>
+            <div className="w-full flex items-start gap-3 flex-wrap">
+              <ControlledInput
+                name="salary.from"
+                type="number"
+                label={t("details.salary.from.label")}
+                placeholder={t("details.salary.from.placeholder")}
+                className="flex-1 min-w-[220px]"
+              />
+              <ControlledInput
+                name="salary.to"
+                type="number"
+                label={t("details.salary.to.label")}
+                placeholder={t("details.salary.to.placeholder")}
+                className="flex-1 min-w-[220px]"
+              />
+            </div>
+            <Button
+              onClick={removeSalaryRange}
+              isIconOnly
+              color="danger"
+              size="sm"
+              aria-label={t("details.salary.remove")}
+            >
+              <Icon name="TbTrash" size={16} />
+            </Button>
+          </>
+        )}
+      </div>
     </FormWrapper>
   );
 };

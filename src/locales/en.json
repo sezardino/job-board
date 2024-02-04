@@ -230,6 +230,8 @@
         "confirm": "Edit job offer"
       },
       "details": {
+        "title": "Details",
+        "description": "On this step you can enter basic details of the job offer",
         "name": {
           "label": "Name",
           "placeholder": "Job offer name",
@@ -249,22 +251,28 @@
           "required": "Category is required",
           "select-industry": "Please select industry first",
           "description": "In which category is this job offer"
+        },
+        "salary": {
+          "add": "Add salary range for this job offer",
+          "remove": "Remove salary range",
+          "from": {
+            "label": "Salary from",
+            "placeholder": "100",
+            "required": "Salary from is required",
+            "positive": "Salary from should be positive"
+          },
+          "to": {
+            "label": "Salary to",
+            "placeholder": "200",
+            "required": "Salary to is required",
+            "positive": "Salary to should be positive",
+            "greater": "Salary to should be greater than salary from"
+          }
         }
       },
       "specification": {
-        "salary-from": {
-          "label": "Salary from",
-          "placeholder": "100",
-          "required": "Salary from is required",
-          "positive": "Salary from should be positive"
-        },
-        "salary-to": {
-          "label": "Salary to",
-          "placeholder": "200",
-          "required": "Salary to is required",
-          "positive": "Salary to should be positive",
-          "greater": "Salary to should be greater than salary from"
-        },
+        "title": "Specification",
+        "description": "Please enter specification of the job offer",
         "job-type": {
           "label": "Job type",
           "placeholder": "Job type",
@@ -280,7 +288,7 @@
           "placeholder": "Operating",
           "required": "Operating is required"
         },
-        "level": {
+        "seniority": {
           "label": "Seniority",
           "placeholder": "Seniority",
           "required": "Seniority is required"
@@ -289,18 +297,19 @@
       "skills": {
         "title": "Skills",
         "description": "Please select skills required for this job offer",
+        "add-first": "Add first skill",
         "add": "Add more",
         "remove": "Remove",
         "name": {
-          "label": "Name",
-          "placeholder": "Empathy",
+          "label": "Skill Name",
+          "placeholder": "F.E. Empathy",
           "max-length": "Name should be less than {value} characters",
           "required": "Name is required"
         },
         "level": {
-          "label": "Level",
+          "label": "Skill level",
           "placeholder": "Basic",
-          "required": "Level is required"
+          "required": "Skill Level is required"
         }
       },
       "description": {
@@ -314,6 +323,11 @@
           "max-length": "Description should be less than {value} characters",
           "description": "This description will be visible to the users"
         }
+      },
+      "preview": {
+        "title": "Job offer preview",
+        "description": "Please check if all data is correct",
+        "to-first-step": "To first step"
       },
       "back-modal": {
         "title": "Go back",
@@ -753,6 +767,32 @@
         "days-ago": "{value} days ago"
       }
     },
+    "offer-preview": {
+      "details": {
+        "title": "Details",
+        "description": "Details of the job offer",
+        "industry": "Industry",
+        "category": "Category",
+        "contract": "Job Contract",
+        "seniority": "Seniority",
+        "type": "Job Type",
+        "operating": "Operating",
+        "salary": {
+          "label": "Salary",
+          "value": "{from} - {to}",
+          "no-value": "Not specified"
+        }
+      },
+      "skills": {
+        "title": "Skills",
+        "description": "Skills required for this job offer",
+        "no-data": "No skills was provided"
+      },
+      "description": {
+        "title": "Job offer description",
+        "description": "Description of the job offer"
+      }
+    },
     "offer-card": {
       "new": "New!",
       "created-at": "{value} days ago"
@@ -778,8 +818,7 @@
       "no-data": "No offers found",
       "name": "Name",
       "seniority": "Seniority",
-      "status": "Status",
-      "level": "Level"
+      "status": "Status"
     }
   },
   "messages": {

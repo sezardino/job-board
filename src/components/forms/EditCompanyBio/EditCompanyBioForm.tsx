@@ -61,7 +61,8 @@ export const EditCompanyBioForm: FC<EditCompanyBioFormProps> = (props) => {
           model={formik.values.bio}
           aria-invalid={isBioHasError}
           aria-errormessage={isBioHasError ? errorId : undefined}
-          onModelChange={(value) => formik.setFieldValue("bio", value)}
+          value={formik.values.bio}
+          onChange={(value) => formik.setFieldValue("bio", value)}
           onBlur={() => formik.setFieldTouched("bio", true)}
         />
         {isBioHasError && (

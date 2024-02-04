@@ -16,6 +16,7 @@ type Props<T extends string> = {
   options: SelectOption<T>[];
   onSelectChange: (value: T) => void;
   onAfterChange?: (value: T) => void;
+  canCancelSelect?: boolean;
 };
 
 type OmittedProps = Omit<
@@ -26,10 +27,17 @@ type OmittedProps = Omit<
 export type SelectProps<T extends string> = OmittedProps & Props<T>;
 
 export const Select = <T extends string>(props: SelectProps<T>) => {
-  const { onAfterChange, selectedKeys, onSelectChange, options, ...rest } =
-    props;
+  const {
+    canCancelSelect = false,
+    onAfterChange,
+    selectedKeys,
+    onSelectChange,
+    options,
+    ...rest
+  } = props;
 
   const changeHandler = (evt: ChangeEvent<HTMLSelectElement>) => {
+    if (!canCancelSelect && !evt.target.value) return;
     onSelectChange(evt.target.value as T);
     if (onAfterChange) onAfterChange(evt.target.value as T);
   };
@@ -38,7 +46,6 @@ export const Select = <T extends string>(props: SelectProps<T>) => {
     <NextUiSelect
       {...rest}
       variant="bordered"
-      labelPlacement="outside"
       radius="sm"
       // @ts-ignore
       selectedKeys={selectedKeys ? [selectedKeys] : undefined}

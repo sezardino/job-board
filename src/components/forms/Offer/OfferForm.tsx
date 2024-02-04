@@ -1,6 +1,8 @@
 import { ConfirmModal } from "@/components/UI/ConformModal/ConfirmModal";
+import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { Button, Grid } from "@/components/base";
 import { BaseStepper } from "@/components/base/Stepper/BaseStepper";
+import { OfferPreview } from "@/components/modules/offer/OfferPreview";
 import { CompanyPageUrls } from "@/const";
 import { ActiveCategoriesResponse } from "@/services/server/modules/categories/schema";
 import { ActiveIndustriesResponse } from "@/services/server/modules/industries/schema";
@@ -63,7 +65,7 @@ export const OfferForm: FC<OfferFormProps> = (props) => {
     props;
   const t = useTranslations("forms.offer");
 
-  const [step, setStep] = useState<OfferFormStep>("skills");
+  const [step, setStep] = useState<OfferFormStep>("details");
   const [values, setValues] = useState<NewOfferData>({});
   const [prevStep, setPrevStep] = useState<OfferFormStep | null>(null);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
@@ -101,11 +103,23 @@ export const OfferForm: FC<OfferFormProps> = (props) => {
     }
   };
 
+  const filledCount = Object.keys(values).length;
+
   return (
     <>
-      <Grid {...rest} gap={4} className={twMerge(className)}>
+      <Grid
+        {...rest}
+        gap={10}
+        className={twMerge("max-w-xl mx-auto", className)}
+      >
+        <TitleDescription
+          titleLevel="h1"
+          title={t("new.title")}
+          description={t("new.description")}
+        />
         <BaseStepper
           count={stepsArray.length}
+          filledCount={filledCount}
           currentCount={stepsArray.findIndex((i) => i === step)}
         />
         {step === "details" && (
@@ -150,15 +164,42 @@ export const OfferForm: FC<OfferFormProps> = (props) => {
             }
           />
         )}
-
         {step === "preview" && (
-          <>
-            <pre>{JSON.stringify(values, undefined, " ")}</pre>
+          <Grid gap={5}>
+            <TitleDescription
+              title={t("preview.title")}
+              titleStyling="md"
+              titleLevel="h2"
+              description={t("preview.description")}
+            />
+
+            {values.description &&
+              values.details &&
+              values.specification &&
+              values.skills &&
+              values.description && (
+                <>
+                  <OfferPreview
+                    industry={values.details.industry}
+                    category={values.details.category}
+                    contract={values.specification.contract}
+                    description={values.description.description}
+                    seniority={values.specification.seniority}
+                    name={values.details.name}
+                    operating={values.specification.operating}
+                    salary={values.details.salary}
+                    skills={values.skills.skills}
+                    type={values.specification.jobType}
+                  />
+                </>
+              )}
             <div className="flex items-center flex-wrap gap-3 justify-between">
-              <Button onClick={() => setStep("description")}>Back</Button>
-              <Button onClick={() => setStep("details")}>Reset</Button>
+              <Button variant="bordered" onClick={() => setStep("details")}>
+                {t("preview.to-first-step")}
+              </Button>
+              <Button color="primary">{t("new.confirm")}</Button>
             </div>
-          </>
+          </Grid>
         )}
       </Grid>
 

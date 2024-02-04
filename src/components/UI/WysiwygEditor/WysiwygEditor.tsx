@@ -25,23 +25,39 @@ import "froala-editor/js/plugins/colors.min.js";
 import "froala-editor/js/plugins/align.min.js";
 import "froala-editor/js/plugins/paragraph_format.min.js";
 
+import { Typography } from "@/components/base";
 import FroalaEditorComponent, { MyComponentProps } from "react-froala-wysiwyg";
+import { twMerge } from "tailwind-merge";
 
 type OmittedProps = Omit<MyComponentProps, "tag" | "config">;
 
 type Props = {
-  onModelChange: (value: string) => void;
+  label?: string;
+  placeholder?: string;
+  description?: string;
+  error?: string;
+  onChange: (value: string) => void;
+  value: string;
 };
 
 export type WysiwygEditorProps = Omit<
   ComponentPropsWithRef<"textarea">,
-  "ref"
+  "ref" | "onChange"
 > &
   OmittedProps &
   Props;
 
 export const WysiwygEditor: FC<WysiwygEditorProps> = (props) => {
-  const { placeholder, ...rest } = props;
+  const {
+    value,
+    onChange,
+    label,
+    description,
+    error,
+    placeholder,
+    className,
+    ...rest
+  } = props;
 
   const config = useMemo(
     () => ({
@@ -58,7 +74,43 @@ export const WysiwygEditor: FC<WysiwygEditorProps> = (props) => {
     [placeholder]
   );
 
-  return <FroalaEditorComponent {...rest} tag="textarea" config={config} />;
+  const editor = (
+    <FroalaEditorComponent
+      {...rest}
+      model={value}
+      onModelChange={onChange}
+      tag="textarea"
+      config={config}
+    />
+  );
+
+  const descriptionString = error ? error : description;
+
+  return (
+    <div className={twMerge("grid grid-cols-1 gap-1", className)}>
+      {label ? (
+        <>
+          <Typography tag="span" styling="sm">
+            {label}
+          </Typography>
+
+          {editor}
+        </>
+      ) : (
+        editor
+      )}
+
+      {descriptionString && (
+        <Typography
+          tag="span"
+          styling="xs"
+          color={error ? "danger" : undefined}
+        >
+          {descriptionString}
+        </Typography>
+      )}
+    </div>
+  );
 };
 
 export default WysiwygEditor;

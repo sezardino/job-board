@@ -188,12 +188,13 @@ model JobOffer {
 
   name      String
   status    JobOfferStatus   @default(DRAFT)
-  salary    Salary
+  salary    Salary?
   type      JobType
   contract  JobContract
   operating JobOperatingMode
   level     Seniority
   skills    Skill[]
+  location  Location[]
 
   description String @default("")
 
