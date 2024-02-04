@@ -28,10 +28,9 @@ export abstract class AbstractApiModule {
 
       if (!validationResponse.success) {
         console.error(validationResponse.error);
-        throw new Error(validationResponse.error.message);
       }
 
-      return validationResponse.data;
+      return res.data as z.infer<T>;
     });
   }
 }

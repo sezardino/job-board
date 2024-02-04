@@ -11,8 +11,8 @@ import { useTranslations } from "next-intl";
 export type UserStatusesSelectOptions = UserStatus | "all";
 
 type OmittedSelectProps = Omit<
-  SelectProps<UserStatusesSelectOptions>,
-  "options"
+  SelectProps<UserStatusesSelectOptions, false>,
+  "options" | "isMultiple"
 >;
 
 type Props = {
@@ -51,5 +51,5 @@ export const UserStatusesSelect: FC<UserStatusesSelectProps> = (props) => {
     return [...(withAll ? [allOption] : []), ...options];
   }, [disabledBlocked, statusT, withAll]);
 
-  return <Select {...rest} options={options} />;
+  return <Select {...rest} isMultiple={false} options={options} />;
 };

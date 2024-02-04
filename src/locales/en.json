@@ -213,6 +213,124 @@
       "formats": "Allowed formats: {value}",
       "max-file-size": "Max file size is {value} MB",
       "max-count": "Max count of images is {value}"
+    },
+    "offer": {
+      "cancel": "Cancel",
+      "back": "Back",
+      "next": "Next",
+      "details": {
+        "title": "Details",
+        "description": "On this step you can enter basic details of the job offer",
+        "name": {
+          "label": "Name",
+          "placeholder": "Job offer name",
+          "required": "Name is required",
+          "max-length": "Name should be less than {value} characters",
+          "description": "This name will be visible to the users"
+        },
+        "industry": {
+          "label": "Industry",
+          "placeholder": "Select Industry",
+          "required": "Industry is required",
+          "description": "In which industry is this job offer"
+        },
+        "category": {
+          "label": "Category",
+          "placeholder": "Select Category",
+          "required": "Category is required",
+          "select-industry": "Please select industry first",
+          "description": "In which category is this job offer"
+        },
+        "salary": {
+          "add": "Add salary range for this job offer",
+          "remove": "Remove salary range",
+          "from": {
+            "label": "Salary from",
+            "placeholder": "100",
+            "required": "Salary from is required",
+            "positive": "Salary from should be positive"
+          },
+          "to": {
+            "label": "Salary to",
+            "placeholder": "200",
+            "required": "Salary to is required",
+            "positive": "Salary to should be positive",
+            "greater": "Salary to should be greater than salary from"
+          }
+        }
+      },
+      "specification": {
+        "title": "Specification",
+        "description": "Please enter specification of the job offer",
+        "job-type": {
+          "label": "Job type",
+          "placeholder": "Job type",
+          "required": "Job type is required"
+        },
+        "contract": {
+          "label": "Job contract",
+          "placeholder": "Job contract",
+          "required": "Job contract is required"
+        },
+        "operating": {
+          "label": "Operating",
+          "placeholder": "Operating",
+          "required": "Operating is required"
+        },
+        "seniority": {
+          "label": "Seniority",
+          "placeholder": "Seniority",
+          "required": "Seniority is required"
+        }
+      },
+      "skills": {
+        "title": "Skills",
+        "description": "Please select skills required for this job offer",
+        "add-first": "Add first skill",
+        "add": "Add more",
+        "remove": "Remove",
+        "name": {
+          "label": "Skill Name",
+          "placeholder": "F.E. Empathy",
+          "max-length": "Name should be less than {value} characters",
+          "required": "Name is required"
+        },
+        "level": {
+          "label": "Skill level",
+          "placeholder": "Basic",
+          "required": "Skill Level is required"
+        }
+      },
+      "description": {
+        "title": "Description",
+        "description": "Please enter description of the job offer",
+        "field": {
+          "label": "Description",
+          "placeholder": "Description",
+          "required": "Description is required",
+          "min-length": "Description should be more than {value} characters",
+          "max-length": "Description should be less than {value} characters",
+          "description": "This description will be visible to the users"
+        }
+      },
+      "back-modal": {
+        "title": "Go back",
+        "description": "Are you sure you want to go back? All unsaved data will be lost",
+        "cancel": "Cancel",
+        "confirm": "Go back"
+      },
+      "cancel-modal": {
+        "title": "Cancel",
+        "description": "Are you sure you want to cancel? All unsaved data will be lost",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "confirm-modal": {
+        "title": "Confirm",
+        "description": "Create new job offer with provided data?",
+        "cancel": "Cancel",
+        "confirm": "Create"
+      }
     }
   },
   "entity": {
@@ -220,6 +338,13 @@
       "ACTIVE": "Active",
       "INACTIVE": "Inactive",
       "CREATED": "Created"
+    },
+    "job-status": {
+      "ARCHIVED": "Archived",
+      "FINISHED": "Finished",
+      "ACTIVE": "Active",
+      "INACTIVE": "Inactive",
+      "DRAFT": "Draft"
     },
     "user": {
       "role": {
@@ -468,6 +593,33 @@
           "cancel": "Cancel",
           "confirm": "Edit user"
         }
+      },
+      "new-offer": {
+        "title": "Create new job offer",
+        "desc": "Fill in the form to create new job offer",
+        "confirm": "Create job offer",
+        "to-first-step": "To first step",
+        "cancel": "Cancel",
+        "back": "Back",
+        "next": "Next",
+        "back-modal": {
+          "title": "Go back",
+          "description": "Are you sure you want to go back? All unsaved data will be lost",
+          "cancel": "Cancel",
+          "confirm": "Go back"
+        },
+        "cancel-modal": {
+          "title": "Cancel",
+          "description": "Are you sure you want to cancel? All unsaved data will be lost",
+          "cancel": "Cancel",
+          "confirm": "Confirm"
+        },
+        "confirm-modal": {
+          "title": "Confirm",
+          "description": "Create new job offer with provided data?",
+          "cancel": "Cancel",
+          "confirm": "Create"
+        }
       }
     },
     "customer-registration": {
@@ -632,6 +784,32 @@
         "days-ago": "{value} days ago"
       }
     },
+    "offer-preview": {
+      "details": {
+        "title": "Details",
+        "description": "Details of the job offer",
+        "industry": "Industry",
+        "category": "Category",
+        "contract": "Job Contract",
+        "seniority": "Seniority",
+        "type": "Job Type",
+        "operating": "Operating",
+        "salary": {
+          "label": "Salary",
+          "value": "{from} - {to}",
+          "no-value": "Not specified"
+        }
+      },
+      "skills": {
+        "title": "Skills",
+        "description": "Skills required for this job offer",
+        "no-data": "No skills was provided"
+      },
+      "description": {
+        "title": "Job offer description",
+        "description": "Description of the job offer"
+      }
+    },
     "offer-card": {
       "new": "New!",
       "created-at": "{value} days ago"
@@ -641,6 +819,26 @@
       "trigger": "Sign up",
       "company": "Company",
       "customer": "Customer"
+    },
+    "company-offers-template": {
+      "title": "Job Offers",
+      "description": "From this panel you can manage job offers of your company.",
+      "search": "Search job offer",
+      "create": "Create job offer",
+      "filters": {
+        "status": "Filer by status",
+        "seniority": "Filter by seniority"
+      },
+      "all": "All"
+    },
+    "company-offers-table": {
+      "no-data": "No offers found",
+      "name": "Name",
+      "industry": "Industry",
+      "category": "Category",
+      "deadline": "Deadline",
+      "seniority": "Seniority",
+      "status": "Status"
     }
   },
   "messages": {

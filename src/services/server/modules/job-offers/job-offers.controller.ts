@@ -3,13 +3,15 @@ import { UserRoles } from "@prisma/client";
 import { NextRequest } from "next/server";
 import { JobOffersService } from "./job-offers.service";
 import {
+  CreateJobOfferResponse,
   OneOfferResponse,
-  companyOffersRequestSchema,
+  createJobOfferRequestSchema,
+  currentCompanyJobOffersRequestSchema,
   offersListRequestSchema,
-} from "./scema";
+} from "./schema";
 
 export class JobOffersController extends AbstractController<JobOffersService> {
-  async myCompanyOffers(req: NextRequest) {
+  async currentCompany(req: NextRequest) {
     const data = this.formatParams(req.nextUrl.searchParams);
 
     const { dto, response, session } = await this.handlerHelper({
@@ -19,7 +21,7 @@ export class JobOffersController extends AbstractController<JobOffersService> {
         UserRoles.MODERATOR,
         UserRoles.RECRUITER,
       ],
-      schema: companyOffersRequestSchema,
+      schema: currentCompanyJobOffersRequestSchema,
     });
 
     if (response) return response;
@@ -31,7 +33,7 @@ export class JobOffersController extends AbstractController<JobOffersService> {
       );
 
     try {
-      const res = await this.service.companyOffers(
+      const res = await this.service.currentCompany(
         dto!,
         session.user.companyId!
       );
@@ -71,6 +73,34 @@ export class JobOffersController extends AbstractController<JobOffersService> {
     } catch (error) {
       console.log(error);
       return this.getNextResponse({ error }, 500);
+    }
+  }
+
+  async create(req: NextRequest) {
+    const body = await req.json();
+
+    const { response, dto, session } = await this.handlerHelper({
+      data: body,
+      schema: createJobOfferRequestSchema,
+      acceptedRoles: [
+        UserRoles.OWNER,
+        UserRoles.MODERATOR,
+        UserRoles.RECRUITER,
+      ],
+    });
+
+    if (response || !session || !session.user.companyId) return response;
+
+    try {
+      const newOffer = await this.service.create(dto!, session.user.companyId);
+
+      return this.getNextResponse(
+        { status: !!newOffer.id } as CreateJobOfferResponse,
+        201
+      );
+    } catch (error) {
+      console.log(error);
+      return this.getNextResponse(error as {}, 500);
     }
   }
 }

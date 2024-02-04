@@ -229,12 +229,15 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         isLoading={isDeleteIndustryLoading}
         title={t("delete.title")}
         description={t("delete.description")}
-        cancelText={t("delete.cancel")}
-        onCancelClick={() => setToDeleteId(null)}
-        confirmText={t("delete.confirm")}
-        onConfirmClick={async () =>
-          toDeleteId ? onDeleteIndustry(toDeleteId) : undefined
-        }
+        cancel={{
+          text: t("delete.cancel"),
+          onClick: () => setToDeleteId(null),
+        }}
+        confirm={{
+          text: t("delete.confirm"),
+          onClick: async () =>
+            toDeleteId ? onDeleteIndustry(toDeleteId) : undefined,
+        }}
       />
     </>
   );

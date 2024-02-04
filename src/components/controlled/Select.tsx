@@ -1,24 +1,33 @@
 import { useField } from "formik";
 import { Select, SelectProps } from "../base/Select/Select";
 
-export type ControlledSelectProps<T extends string> = Omit<
-  SelectProps<T>,
-  "value" | "onChange" | "onSelectChange"
-> & {
+type OmittedProps<T extends string, M extends boolean> = Omit<
+  SelectProps<T, M>,
+  "value" | "onSelectChange"
+>;
+
+type Props = {
   name: string;
 };
 
-export const ControlledSelect = <T extends string>(
-  props: ControlledSelectProps<T>
+export type ControlledSelectProps<
+  T extends string,
+  M extends boolean
+> = OmittedProps<T, M> & Props;
+
+export const ControlledSelect = <T extends string, M extends boolean>(
+  props: ControlledSelectProps<T, M>
 ) => {
-  const { name, onBlur, ...rest } = props;
-  const [field, meta, helper] = useField(name);
+  const { name, ...rest } = props;
+  const [{ onChange, ...field }, meta, helper] = useField(name);
 
   return (
+    // @ts-ignore
     <Select
       {...rest}
       {...field}
       selectedKeys={field.value}
+      // @ts-ignore
       onSelectChange={(value) => helper.setValue(value)}
       errorMessage={meta.touched ? meta.error : undefined}
     />

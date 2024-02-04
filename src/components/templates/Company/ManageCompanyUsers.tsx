@@ -295,15 +295,18 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
         onClose={() => setUserToResendInvite(null)}
         title={t("resend-invite.title")}
         description={t("resend-invite.description")}
-        cancelText={t("resend-invite.cancel")}
-        confirmText={t("resend-invite.confirm")}
-        onCancelClick={() => setUserToResendInvite(null)}
+        cancel={{
+          text: t("resend-invite.cancel"),
+          onClick: () => setUserToResendInvite(null),
+        }}
+        confirm={{
+          text: t("resend-invite.confirm"),
+          onClick: async () =>
+            userToResendInvite
+              ? resendInviteAction.handler({ id: userToResendInvite })
+              : undefined,
+        }}
         isLoading={resendInviteAction.isLoading}
-        onConfirmClick={async () =>
-          userToResendInvite
-            ? resendInviteAction.handler({ id: userToResendInvite })
-            : undefined
-        }
       />
 
       <ConfirmModal
@@ -311,15 +314,18 @@ export const ManageCompanyUsers: FC<ManageCompanyUsersProps> = (props) => {
         onClose={() => setUserToCancelInvite(null)}
         title={t("cancel-invite.title")}
         description={t("cancel-invite.description")}
-        cancelText={t("cancel-invite.cancel")}
-        confirmText={t("cancel-invite.confirm")}
-        onCancelClick={() => setUserToCancelInvite(null)}
+        cancel={{
+          text: t("cancel-invite.cancel"),
+          onClick: () => setUserToCancelInvite(null),
+        }}
+        confirm={{
+          text: t("cancel-invite.confirm"),
+          onClick: async () =>
+            userToCancelInvite
+              ? cancelInviteAction.handler({ id: userToCancelInvite })
+              : undefined,
+        }}
         isLoading={resendInviteAction.isLoading}
-        onConfirmClick={async () =>
-          userToCancelInvite
-            ? resendInviteAction.handler({ id: userToCancelInvite })
-            : undefined
-        }
       />
     </>
   );

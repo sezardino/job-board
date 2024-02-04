@@ -121,7 +121,7 @@ export class CompaniesService extends AbstractService {
           select: {
             id: true,
             name: true,
-            level: true,
+            seniority: true,
             salary: true,
             createdAt: true,
             skills: { select: { name: true } },

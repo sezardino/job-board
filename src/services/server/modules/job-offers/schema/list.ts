@@ -1,20 +1,21 @@
 import { paginatedRequestSchema, paginatedResponseSchema } from "@/types";
-import { JobOfferStatus, Seniority } from "@prisma/client";
+import { Seniority } from "@prisma/client";
 import { z } from "zod";
 
-export const companyOffersRequestSchema = z
+export const offersListRequestSchema = z
   .object({
-    status: z.nativeEnum(JobOfferStatus).optional(),
+    industry: z.string(),
+    category: z.string().optional(),
   })
   .merge(paginatedRequestSchema);
 
-export const companyOffersResponseSchema = z
+export const offersListResponseSchema = z
   .object({
     data: z.array(
       z.object({
         id: z.string(),
         name: z.string(),
-        level: z.nativeEnum(Seniority),
+        seniority: z.nativeEnum(Seniority),
         salary: z.object({ from: z.number(), to: z.number() }),
         createdAt: z.date().or(z.string()),
         skills: z.array(z.object({ name: z.string() })),
@@ -30,5 +31,5 @@ export const companyOffersResponseSchema = z
   })
   .merge(paginatedResponseSchema);
 
-export type CompanyOffersRequest = z.infer<typeof companyOffersRequestSchema>;
-export type CompanyOffersResponse = z.infer<typeof companyOffersResponseSchema>;
+export type OffersListRequest = z.infer<typeof offersListRequestSchema>;
+export type OffersListResponse = z.infer<typeof offersListResponseSchema>;

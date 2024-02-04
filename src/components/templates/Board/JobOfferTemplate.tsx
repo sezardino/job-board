@@ -4,7 +4,7 @@ import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
 import { BaseBreadcrumbs } from "@/components/base/Breadcrumbs/BaseBreadcrumbs";
 import { HTMLWrapper } from "@/components/base/HTMLWrapper/HTMLWrapper";
 import { DEFAULT_DATE_FORMAT, PublicPageUrls } from "@/const";
-import { OneOfferResponse } from "@/services/server/modules/job-offers/scema";
+import { OneOfferResponse } from "@/services/server/modules/job-offers/schema";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
@@ -27,7 +27,7 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
         value: entityT(`job-contract.${offer.contract}`),
       },
 
-      { label: t("seniority"), value: entityT(`seniority.${offer.level}`) },
+      { label: t("seniority"), value: entityT(`seniority.${offer.seniority}`) },
       { label: t("type"), value: entityT(`job-type.${offer.type}`) },
       {
         label: t("deadline"),
@@ -74,7 +74,7 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
   );
 
   return (
-    <article
+    <section
       {...rest}
       className={twMerge(
         "mx-auto p-4 container md:grid md:grid-cols-[1fr,0.4fr] gap-4 items-start",
@@ -157,6 +157,6 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
           {/* form where user can give feedback about job offer */}
         </CardFooter>
       </Card>
-    </article>
+    </section>
   );
 };

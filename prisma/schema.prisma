@@ -147,7 +147,7 @@ model Industry {
 model Category {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  name   String
+  name   String       @unique
   status EntityStatus @default(CREATED)
 
   industry   Industry @relation(fields: [industryId], references: [id])
@@ -187,13 +187,14 @@ model JobOffer {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   name      String
-  status    JobOfferStatus   @default(DRAFT)
-  salary    Salary
+  status    JobOfferStatus     @default(DRAFT)
+  salary    Salary?
   type      JobType
-  contract  JobContract
-  operating JobOperatingMode
-  level     Seniority
+  contract  JobContract[]
+  operating JobOperatingMode[]
+  seniority Seniority
   skills    Skill[]
+  location  Location[]
 
   description String @default("")
 
@@ -203,7 +204,6 @@ model JobOffer {
   industry   Industry @relation(fields: [industryId], references: [id])
   industryId String   @map("industry_id") @db.ObjectId
 
-  // TODO: offer can be in 2 categories
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String   @map("category_id") @db.ObjectId
 

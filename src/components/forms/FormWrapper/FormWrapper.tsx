@@ -29,7 +29,7 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
           )}
           <Button
             type="submit"
-            isDisabled={!formik.dirty || isLoading}
+            isDisabled={formik.isValid ? false : !formik.dirty || isLoading}
             isLoading={isLoading}
             color="primary"
             fullWidth={submit.isFullWidth}
