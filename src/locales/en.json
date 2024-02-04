@@ -825,6 +825,7 @@
       "name": "Name",
       "industry": "Industry",
       "category": "Category",
+      "deadline": "Deadline",
       "seniority": "Seniority",
       "status": "Status"
     }

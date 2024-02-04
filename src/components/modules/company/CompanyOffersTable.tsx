@@ -2,8 +2,10 @@ import {
   TableWidget,
   TableWidgetProps,
 } from "@/components/UI/TableWidget/TableWidget";
+import { DEFAULT_DATE_FORMAT } from "@/const";
 import { CurrentCompanyJobOffersResponse } from "@/services/server/modules/job-offers/schema";
 import { createColumnHelper } from "@tanstack/react-table";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
@@ -49,6 +51,14 @@ export const CompanyOffersTable: FC<CompanyOffersTableProps> = (props) => {
         enableSorting: false,
         header: t("seniority"),
         cell: (row) => entityT(`seniority.${row.getValue()}`),
+      }),
+      columnHelper.accessor("deadlineAt", {
+        enableSorting: false,
+        header: t("deadline"),
+        cell: (row) =>
+          row.getValue()
+            ? dayjs(row.getValue()).format(DEFAULT_DATE_FORMAT)
+            : "-",
       }),
       columnHelper.accessor("id", {
         enableSorting: false,

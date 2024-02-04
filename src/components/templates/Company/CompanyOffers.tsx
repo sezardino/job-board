@@ -151,7 +151,6 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
         {...offers}
         data={offers.data?.data || []}
         total={offers.data?.meta.totalPages || 0}
-        noDataMessage={t("no-data")}
         page={page}
         onPageChange={onPageChange}
         limit={limit}
