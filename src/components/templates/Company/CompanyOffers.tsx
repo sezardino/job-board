@@ -133,6 +133,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
               isMultiple={false}
               onSelectChange={onStatusChange}
               placeholder={t("filters.status")}
+              aria-label="label"
               className="max-w-[220px]"
             />
             <Select
@@ -141,6 +142,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
               isMultiple={false}
               onSelectChange={onSeniorityChange}
               placeholder={t("filters.seniority")}
+              aria-label="label"
               className="max-w-[220px]"
             />
           </div>

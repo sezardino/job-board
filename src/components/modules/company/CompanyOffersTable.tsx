@@ -2,8 +2,11 @@ import {
   TableWidget,
   TableWidgetProps,
 } from "@/components/UI/TableWidget/TableWidget";
+import { Button, Icon } from "@/components/base";
+import { Dropdown } from "@/components/base/Dropdown/Dropdown";
 import { DEFAULT_DATE_FORMAT } from "@/const";
 import { CurrentCompanyJobOffersResponse } from "@/services/server/modules/job-offers/schema";
+import { JobOfferStatus } from "@prisma/client";
 import { createColumnHelper } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
@@ -63,7 +66,45 @@ export const CompanyOffersTable: FC<CompanyOffersTableProps> = (props) => {
       columnHelper.accessor("id", {
         enableSorting: false,
         header: () => null,
-        cell: (row) => null,
+        cell: (row) => (
+          <Dropdown
+            items={[
+              { label: t("actions.details") },
+              {
+                label: t("actions.edit.label"),
+                disabled: row.row.original.status !== JobOfferStatus.DRAFT,
+                tooltip:
+                  row.row.original.status !== JobOfferStatus.DRAFT
+                    ? t("actions.edit.wrong-status")
+                    : undefined,
+              },
+              {
+                label: t("actions.publish.label"),
+                disabled: row.row.original.status !== JobOfferStatus.DRAFT,
+                tooltip: "123",
+                // tooltip:
+                //   row.row.original.status !== JobOfferStatus.DRAFT
+                //     ? t("actions.publish.unpublish")
+                //     : undefined,
+              },
+              {
+                label: t("actions.archive.label"),
+                disabled: true,
+                onClick: () => console.log("archive"),
+                tooltip: "123",
+                // tooltip:
+                //   row.row.original.status !== JobOfferStatus.DRAFT
+                //     ? t("actions.archive.wrong-status")
+                //     : undefined,
+              },
+            ]}
+            aria-label={t("actions.label")}
+          >
+            <Button variant="light">
+              <Icon name="HiDotsVertical" />
+            </Button>
+          </Dropdown>
+        ),
       }),
     ],
     [entityT, t]

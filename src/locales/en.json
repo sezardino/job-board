@@ -838,7 +838,23 @@
       "category": "Category",
       "deadline": "Deadline",
       "seniority": "Seniority",
-      "status": "Status"
+      "status": "Status",
+      "actions": {
+        "label": "Actions",
+        "details": "Details",
+        "edit": {
+          "label": "Edit",
+          "wrong-status": "Only draft offers can be edited"
+        },
+        "publish": {
+          "label": "Publish",
+          "unpublish": "You can't unpublish job offer"
+        },
+        "archive": {
+          "label": "Archive",
+          "wrong-status": "Only inactive offers can be archived"
+        }
+      }
     }
   },
   "messages": {
