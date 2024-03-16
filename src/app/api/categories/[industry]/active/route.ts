@@ -1,5 +1,11 @@
-import { serverService } from "@/services/server";
-import { ActiveCategoriesRequest } from "@/services/server/modules/categories/schema";
+import { withValidation } from "@/app/api/utils";
+import { activeCategoriesRequestSchema } from "@/services/server/modules/categories/schema";
+import { getActiveCategories } from "./get";
 
-export const GET = (_: any, params: { params: ActiveCategoriesRequest }) =>
-  serverService.categories.controller.active(params);
+// export const GET = (_: any, params: { params: ActiveCategoriesRequest }) =>
+//   serverService.categories.controller.active(params);
+export const GET = withValidation({
+  handler: getActiveCategories,
+  schema: activeCategoriesRequestSchema,
+  input: "params",
+});

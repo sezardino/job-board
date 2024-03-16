@@ -6,7 +6,7 @@ type Args<Schema extends ZodSchema> = {
   schema?: Schema;
   handler: Function;
   authorization?: boolean;
-  input?: "body" | "search";
+  input?: "body" | "search" | "params";
 };
 
 export const formatUrlSearchParams = (params: URLSearchParams) => {
@@ -46,12 +46,13 @@ export const withValidation = <Schema extends ZodSchema>(
       let data;
 
       if (input === "body") data = await req.clone().json();
+      if (input === "params") data = params.params;
       if (input === "search")
         data = formatUrlSearchParams(req.nextUrl.searchParams);
 
       await schema.parseAsync(data);
 
-      return handler(req);
+      return handler(req, params);
     } catch (error) {
       if (error instanceof ZodError) {
         return NextResponse.json(
@@ -60,7 +61,10 @@ export const withValidation = <Schema extends ZodSchema>(
         );
       }
 
-      return NextResponse.json({ message: "Invalid request" }, { status: 500 });
+      return NextResponse.json(
+        { message: "Invalid request", error },
+        { status: 500 }
+      );
     }
   };
 };
