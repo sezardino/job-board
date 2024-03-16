@@ -39,7 +39,7 @@ export type CompanyProfileTemplateEntity = {
   bio: string | null;
   logo: FileEntity | null;
   gallery: FileEntity[];
-  thumbnail: FileEntity | null;
+  // thumbnail: FileEntity | null;
   offers: OfferCardEntity[];
   _count: {
     offers: number;

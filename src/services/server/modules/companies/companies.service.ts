@@ -114,7 +114,7 @@ export class CompaniesService extends AbstractService {
         slogan: true,
         logo: { select: { id: true, url: true, name: true } },
         gallery: { select: { id: true, url: true, name: true } },
-        thumbnail: { select: { id: true, url: true, name: true } },
+        // thumbnail: { select: { id: true, url: true, name: true } },
         _count: { select: { offers: true } },
         offers: {
           take: 5,

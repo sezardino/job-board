@@ -170,11 +170,11 @@ model Company {
   slug     String     @unique
 
   // needed for profile
-  gallery     Image[] @relation(name: "gallery")
-  thumbnail   Image?  @relation(name: "thumbnail", fields: [thumbnailId], references: [id])
-  thumbnailId String? @unique @map("thumbnail_id") @db.ObjectId
-  slogan      String? @map("slogan")
-  bio         String?
+  gallery Image[] @relation(name: "gallery")
+  // thumbnail   Image?  @relation(name: "thumbnail", fields: [thumbnailId], references: [id])
+  // thumbnailId String? @unique @map("thumbnail_id") @db.ObjectId
+  slogan  String? @map("slogan")
+  bio     String?
 
   members User[]     @relation(name: "member")
   offers  JobOffer[]
@@ -216,8 +216,8 @@ model JobOffer {
 model Image {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  thumbnail   Company? @relation(name: "thumbnail")
-  thumbnailId String?  @unique @map("thumbnail_id") @db.ObjectId
+  // thumbnail   Company? @relation(name: "thumbnail")
+  // thumbnailId String?  @unique @map("thumbnail_id") @db.ObjectId
 
   gallery   Company? @relation(name: "gallery", fields: [galleryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   galleryId String?  @map("gallery_id") @db.ObjectId

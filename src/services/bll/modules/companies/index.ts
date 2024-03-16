@@ -5,9 +5,9 @@ import { emailVerificationTokenService } from "@/services/token";
 import { daysToSeconds } from "@/utils/days-to-seconds";
 import { generateSlug } from "@/utils/generate-slug";
 import { Prisma, UserRoles } from "@prisma/client";
+import { FilesBllModule } from "..";
 import { CompanyRegistrationRequest } from "../auth/schema/company-registration";
 import { AdminCompaniesRequest, EditCompanyRequest } from "./schema";
-import { FilesBllModule } from "..";
 
 export class CompaniesBllModule extends AbstractService {
   constructor(
@@ -114,7 +114,7 @@ export class CompaniesBllModule extends AbstractService {
         slogan: true,
         logo: { select: { id: true, url: true, name: true } },
         gallery: { select: { id: true, url: true, name: true } },
-        thumbnail: { select: { id: true, url: true, name: true } },
+        // thumbnail: { select: { id: true, url: true, name: true } },
         _count: { select: { offers: true } },
         offers: {
           take: 5,
