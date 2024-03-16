@@ -38,10 +38,7 @@ export class JobOffersBllModule extends AbstractService {
     return { data, meta: pagination?.meta };
   }
 
-  async currentCompany(
-    data: CurrentCompanyJobOffersRequest,
-    companyId: string
-  ) {
+  async companyOffers(data: CurrentCompanyJobOffersRequest, companyId: string) {
     const {
       search,
       status,

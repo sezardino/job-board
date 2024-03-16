@@ -14,7 +14,7 @@ import { AbstractApiModule } from "../helpers";
 export class OffersApiModule extends AbstractApiModule {
   currentCompany(params: CurrentCompanyJobOffersRequest) {
     return this.fetch({
-      endpoint: "offers/company",
+      endpoint: "job-offers/company",
       config: { params },
       schema: currentCompanyJobOffersResponseSchema,
     });
@@ -22,7 +22,7 @@ export class OffersApiModule extends AbstractApiModule {
 
   list(params: OffersListRequest) {
     return this.fetch({
-      endpoint: `offers`,
+      endpoint: "job-offers",
       config: { params },
       schema: offersListResponseSchema,
     });
@@ -30,14 +30,14 @@ export class OffersApiModule extends AbstractApiModule {
 
   one(id: string) {
     return this.fetch({
-      endpoint: `offers/${id}`,
+      endpoint: `job-offers/${id}`,
       schema: oneOfferResponseSchema,
     });
   }
 
   create(data: CreateJobOfferRequest) {
     return this.fetch({
-      endpoint: `offers/create`,
+      endpoint: "job-offers",
       schema: createJobOfferResponseSchema,
       config: { method: "POST", data },
     });
