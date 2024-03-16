@@ -1,5 +1,8 @@
-import { serverService } from "@/services/server";
-import { NextRequest } from "next/server";
+import { withValidation } from "@/app/api/utils";
+import { companyRegistrationRequestSchema } from "@/services/server/modules/auth/schema/company-registration";
+import { postCompanyRegistration } from "./post";
 
-export const POST = (req: NextRequest) =>
-  serverService.auth.controller.companyRegistration(req);
+export const POST = withValidation({
+  handler: postCompanyRegistration,
+  schema: companyRegistrationRequestSchema,
+});

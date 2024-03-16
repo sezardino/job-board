@@ -1,12 +1,9 @@
 import { bllService } from "@/services/bll";
-import {
-  CustomerRegistrationRequest,
-  CustomerRegistrationResponse,
-} from "@/services/server/modules/auth/schema";
+import { CustomerRegistrationResponse } from "@/services/server/modules/auth/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const postCustomerRegistration = async (req: NextRequest) => {
-  const body = (await req.json()) as CustomerRegistrationRequest;
+  const body = await req.json();
 
   try {
     const status = await bllService.auth.customerRegistration(body);
