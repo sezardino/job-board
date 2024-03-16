@@ -1,5 +1,8 @@
-import { serverService } from "@/services/server";
-import { NextRequest } from "next/server";
+import { withValidation } from "@/app/api/utils";
+import { resendVerificationEmailRequestSchema } from "@/services/server/modules/auth/schema";
+import { postResendVerificationEmail } from "./post";
 
-export const POST = (req: NextRequest) =>
-  serverService.auth.controller.resendVerificationEmail(req);
+export const POST = withValidation({
+  handler: postResendVerificationEmail,
+  schema: resendVerificationEmailRequestSchema,
+});
