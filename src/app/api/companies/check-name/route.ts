@@ -1,5 +1,9 @@
-import { serverService } from "@/services/server";
-import { NextRequest } from "next/server";
+import { checkCompanyNameAvailableRequestSchema } from "@/services/server/modules/companies/schema";
+import { withValidation } from "../../utils";
+import { getCompanyNameAvailability } from "./get";
 
-export const GET = (req: NextRequest) =>
-  serverService.companies.controller.checkNameAvailable(req);
+export const GET = withValidation({
+  handler: getCompanyNameAvailability,
+  schema: checkCompanyNameAvailableRequestSchema,
+  input: "params",
+});

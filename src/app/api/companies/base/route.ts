@@ -1,3 +1,8 @@
-import { serverService } from "@/services/server";
+import { UserRoles } from "@prisma/client";
+import { withValidation } from "../../utils";
+import { getMyCompanyBaseData } from "./get";
 
-export const GET = () => serverService.companies.controller.myCompanyBaseData();
+export const GET = withValidation({
+  handler: getMyCompanyBaseData,
+  role: [UserRoles.OWNER, UserRoles.MODERATOR, UserRoles.RECRUITER],
+});
