@@ -5,5 +5,5 @@ import { getCompanyNameAvailability } from "./get";
 export const GET = withValidation({
   handler: getCompanyNameAvailability,
   schema: checkCompanyNameAvailableRequestSchema,
-  input: "params",
+  input: "search",
 });
