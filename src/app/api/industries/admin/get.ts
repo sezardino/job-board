@@ -12,7 +12,7 @@ export const getIndustriesForManage = async (req: NextRequest) => {
     return NextResponse.json(res as AdminIndustriesResponse, { status: 200 });
   } catch (error) {
     return NextResponse.json(
-      { message: "backend-errors.server" },
+      { message: "Can't get industries" },
       { status: 500 }
     );
   }
