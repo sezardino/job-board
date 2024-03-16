@@ -1,12 +1,13 @@
 import { getNextAuthSession } from "@/libs/next-auth";
+import { UserRoles } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, ZodSchema } from "zod";
 
 type Args<Schema extends ZodSchema> = {
   schema?: Schema;
   handler: Function;
-  authorization?: boolean;
-  input?: "body" | "search" | "params";
+  role?: UserRoles[];
+  input?: "body" | "search" | "params" | "formData";
 };
 
 export const formatUrlSearchParams = (params: URLSearchParams) => {
@@ -28,15 +29,37 @@ export const formatUrlSearchParams = (params: URLSearchParams) => {
   return formattedParams;
 };
 
+export const formatFormData = (formData: FormData) => {
+  let returned: Record<string, any> = {};
+
+  formData.forEach((value, key) => {
+    if (key.includes("[]")) {
+      const keyWithoutBrackets = key.replace("[]", "");
+      if (!returned[keyWithoutBrackets]) returned[keyWithoutBrackets] = [];
+      returned[keyWithoutBrackets].push(value);
+
+      return;
+    }
+
+    returned[key] = value;
+  });
+
+  return returned;
+};
+
 export const withValidation = <Schema extends ZodSchema>(
   args: Args<Schema>
 ) => {
-  const { schema, handler, authorization, input = "body" } = args;
+  const { schema, handler, role, input = "body" } = args;
 
   return async (req: NextRequest, params: any) => {
     const session = await getNextAuthSession();
 
-    if (authorization && !session) {
+    if (role && !session) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    }
+
+    if (role && !role?.includes(session?.user.role!)) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
@@ -49,6 +72,8 @@ export const withValidation = <Schema extends ZodSchema>(
       if (input === "params") data = params.params;
       if (input === "search")
         data = formatUrlSearchParams(req.nextUrl.searchParams);
+      if (input === "formData")
+        data = formatFormData(await req.clone().formData());
 
       await schema.parseAsync(data);
 
