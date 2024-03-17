@@ -1,7 +1,6 @@
 import {
   AdminUsersRequest,
   CancelInviteRequest,
-  CheckEmailAvailableRequest,
   CheckEmailsAvailableRequest,
   CompaniesUsersRequest,
   CompanyUsersRequest,
@@ -12,7 +11,6 @@ import {
   ResendInviteRequest,
   adminUsersResponseSchema,
   cancelInviteResponseSchema,
-  checkEmailAvailableResponseSchema,
   checkEmailsAvailableResponseSchema,
   companiesUsersResponseSchema,
   companyUsersResponseSchema,
@@ -21,21 +19,13 @@ import {
   inviteAdminResponseSchema,
   inviteUsersResponseSchema,
   resendInviteResponseSchema,
-} from "@/services/server/modules/users/schema";
+} from "@/services/bll/modules/users/schema";
 import { AbstractApiModule } from "../helpers";
 
 export class UsersApiModule extends AbstractApiModule {
-  async checkEmailAvailable(params: CheckEmailAvailableRequest) {
-    return await this.fetch({
-      endpoint: "users/check-email",
-      config: { params },
-      schema: checkEmailAvailableResponseSchema,
-    });
-  }
-
   async checkEmailsAvailable(data: CheckEmailsAvailableRequest) {
     return await this.fetch({
-      endpoint: "users/check-emails",
+      endpoint: "users/check-email",
       config: { method: "POST", data },
       schema: checkEmailsAvailableResponseSchema,
     });
@@ -67,16 +57,16 @@ export class UsersApiModule extends AbstractApiModule {
 
   resendInvite(data: ResendInviteRequest) {
     return this.fetch({
-      endpoint: "users/invite/resend",
-      config: { method: "POST", data },
+      endpoint: "users/invite",
+      config: { method: "PATCH", data },
       schema: resendInviteResponseSchema,
     });
   }
 
   cancelInvite(data: CancelInviteRequest) {
     return this.fetch({
-      endpoint: "users/invite/cancel",
-      config: { method: "POST", data },
+      endpoint: "users/invite",
+      config: { method: "DELETE", data },
       schema: cancelInviteResponseSchema,
     });
   }

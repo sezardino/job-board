@@ -1,5 +1,11 @@
-import { serverService } from "@/services/server";
-import { NextRequest } from "next/server";
+import { adminUsersRequestSchema } from "@/services/server/modules/users/schema";
+import { UserRoles } from "@prisma/client";
+import { withValidation } from "../../utils";
+import { getAdmins } from "./get";
 
-export const GET = (req: NextRequest) =>
-  serverService.users.controller.admins(req);
+export const GET = withValidation({
+  handler: getAdmins,
+  schema: adminUsersRequestSchema,
+  role: [UserRoles.ADMIN],
+  input: "search",
+});

@@ -14,6 +14,7 @@ import {
 } from "../auth/schema";
 import {
   AdminUsersRequest,
+  CheckEmailAvailableRequest,
   CompaniesUsersRequest,
   CompanyUsersRequest,
   CustomerUsersRequest,
@@ -91,13 +92,29 @@ export class UsersBllModule extends AbstractService {
     return user;
   }
 
-  async checkEmailAvailable(email: string) {
-    const user = await this.prismaService.user.findUnique({
-      where: { email },
-      select: { email: true, emailVerified: true },
+  async checkEmailAvailable(data: CheckEmailAvailableRequest) {
+    if ("email" in data) {
+      const user = await this.prismaService.user.findUnique({
+        where: { email: data.email },
+        select: { email: true, emailVerified: true },
+      });
+
+      return user;
+    }
+
+    const users = await this.prismaService.user.findMany({
+      where: { email: { in: data.emails } },
+      select: { email: true },
     });
 
-    return user;
+    const emailsAvailable: Record<string, boolean> = {};
+
+    data.emails.forEach((email) => {
+      emailsAvailable[email] =
+        !users.some((user) => user.email === email) ?? true;
+    });
+
+    return emailsAvailable;
   }
 
   async verifyEmailToken(email: string) {
@@ -105,24 +122,6 @@ export class UsersBllModule extends AbstractService {
       where: { email },
       data: { emailVerified: true },
     });
-  }
-
-  async checkEmailsAvailable(
-    emails: string[]
-  ): Promise<Record<string, boolean>> {
-    const users = await this.prismaService.user.findMany({
-      where: { email: { in: emails } },
-      select: { email: true },
-    });
-
-    const emailsAvailable: Record<string, boolean> = {};
-
-    emails.forEach((email) => {
-      emailsAvailable[email] =
-        !users.some((user) => user.email === email) ?? true;
-    });
-
-    return emailsAvailable;
   }
 
   async inviteUsers(dto: InviteUsersRequest, companyId: string | null) {
@@ -286,7 +285,7 @@ export class UsersBllModule extends AbstractService {
     });
   }
 
-  async companies(dto: CompaniesUsersRequest) {
+  async companyUsers(dto: CompaniesUsersRequest) {
     const { companyId, status, limit = 10, page = 0, search = "" } = dto;
 
     const where: Prisma.UserWhereInput = {

@@ -1,5 +1,9 @@
-import { serverService } from "@/services/server";
-import { NextRequest } from "next/server";
+import { checkEmailAvailableRequestSchema } from "@/services/bll/modules/users/schema";
+import { withValidation } from "../../utils";
+import { getEmailAvailable } from "./get";
 
-export const GET = (req: NextRequest) =>
-  serverService.users.controller.checkEmailAvailable(req);
+export const GET = withValidation({
+  handler: getEmailAvailable,
+  schema: checkEmailAvailableRequestSchema,
+  input: "search",
+});
