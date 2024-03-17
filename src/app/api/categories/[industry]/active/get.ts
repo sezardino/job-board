@@ -2,7 +2,7 @@ import { bllService } from "@/services/bll";
 import {
   ActiveCategoriesRequest,
   ActiveCategoriesResponse,
-} from "@/services/server/modules/categories/schema";
+} from "@/services/bll/modules/categories/schema";
 import { NextResponse } from "next/server";
 
 export const getActiveCategories = async (

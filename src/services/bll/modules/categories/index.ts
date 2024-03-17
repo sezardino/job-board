@@ -1,8 +1,11 @@
-import { AbstractService } from "@/services/server/helpers";
 import { FindManyPrismaEntity } from "@/types";
 import { Prisma } from "@prisma/client";
+import {
+  AbstractBllService,
+  GetPaginationReturnType,
+} from "../../module.abstract";
 
-export class CategoriesBllModule extends AbstractService {
+export class CategoriesBllModule extends AbstractBllService {
   protected async findMany(
     props: FindManyPrismaEntity<
       Prisma.CategoryWhereInput,
@@ -10,7 +13,7 @@ export class CategoriesBllModule extends AbstractService {
     >
   ) {
     const { limit, page, select, where } = props;
-    let pagination: ReturnType<AbstractService["getPagination"]> | null = null;
+    let pagination: GetPaginationReturnType | null = null;
 
     if (typeof page === "number" && typeof limit === "number") {
       const count = await this.prismaService.category.count({

@@ -2,7 +2,7 @@
 
 import { UserStatusesSelectOptions } from "@/components/UI/UserStatusesSelect/UserStatusesSelect";
 import { ManageCompanyUsers } from "@/components/templates/Company/ManageCompanyUsers";
-import { useCheckEmailsAvailableMutation, useDataOnPage } from "@/hooks";
+import { useCheckEmailAvailableMutation, useDataOnPage } from "@/hooks";
 import { useCancelInviteMutation } from "@/hooks/react-query/mutation/users/cancel-invite";
 import { useEditCompanyUserMutation } from "@/hooks/react-query/mutation/users/edit-company-user";
 import { useInviteUsersMutation } from "@/hooks/react-query/mutation/users/invite-users";
@@ -25,7 +25,7 @@ const CompanyUsersPage = () => {
   });
 
   const { mutateAsync: checkEmails, isPending: isCheckEmailsLoading } =
-    useCheckEmailsAvailableMutation();
+    useCheckEmailAvailableMutation();
 
   const { mutateAsync: inviteUsers, isPending: isInviteUsersLoading } =
     useInviteUsersMutation();

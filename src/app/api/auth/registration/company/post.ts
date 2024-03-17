@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { CompanyRegistrationResponse } from "@/services/server/modules/auth/schema/company-registration";
+import { CompanyRegistrationResponse } from "@/services/bll/modules/auth/schema/company-registration";
 import { NextRequest, NextResponse } from "next/server";
 
 export const postCompanyRegistration = async (req: NextRequest) => {

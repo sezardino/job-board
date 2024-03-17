@@ -1,17 +1,15 @@
 import {
-  CreateJobOfferRequest,
-  OffersListRequest,
-  createJobOfferResponseSchema,
-  offersListResponseSchema,
-  oneOfferResponseSchema,
-} from "@/services/server/modules/job-offers/schema";
-import {
   CurrentCompanyJobOffersRequest,
   currentCompanyJobOffersResponseSchema,
-} from "@/services/server/modules/job-offers/schema/current-company";
+  OffersListRequest,
+  offersListResponseSchema,
+  oneOfferResponseSchema,
+  CreateJobOfferRequest,
+  createJobOfferResponseSchema,
+} from "@/services/bll/modules/job-offers/schema";
 import { AbstractApiModule } from "../helpers";
 
-export class OffersApiModule extends AbstractApiModule {
+export class JobOffersApiModule extends AbstractApiModule {
   currentCompany(params: CurrentCompanyJobOffersRequest) {
     return this.fetch({
       endpoint: "job-offers/company",

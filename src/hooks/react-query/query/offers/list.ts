@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { OffersListRequest } from "@/services/server/modules/job-offers/schema";
+import { OffersListRequest } from "@/services/bll/modules/job-offers/schema";
 import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 
@@ -8,7 +8,7 @@ export const OFFERS_LIST_QUERY_KEY = "offers-list";
 export const useOffersListQuery = (params: OffersListRequest) => {
   return useQuery({
     queryKey: [OFFERS_LIST_QUERY_KEY, ...Object.values(params)],
-    queryFn: () => apiService.offers.list(params),
+    queryFn: () => apiService.jobOffers.list(params),
     enabled: !!params.industry,
   });
 };
@@ -17,7 +17,7 @@ export const useOffersListInfiniteQuery = (params: OffersListRequest) => {
   const query = useInfiniteQuery({
     queryKey: [OFFERS_LIST_QUERY_KEY, ...Object.values(params)],
     queryFn: ({ pageParam }) =>
-      apiService.offers.list({ ...params, page: pageParam }),
+      apiService.jobOffers.list({ ...params, page: pageParam }),
     getNextPageParam: ({ meta }) => {
       return meta.page < meta.totalPages ? meta.page + 1 : undefined;
     },

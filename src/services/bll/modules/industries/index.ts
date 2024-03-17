@@ -1,4 +1,3 @@
-import { AbstractService } from "@/services/server/helpers";
 import { EntityStatus, Prisma } from "@prisma/client";
 import {
   AdminIndustriesRequest,
@@ -6,8 +5,9 @@ import {
   CreateIndustryRequest,
   UpdateIndustryRequest,
 } from "./schema";
+import { AbstractBllService } from "../../module.abstract";
 
-export class IndustriesBllModule extends AbstractService {
+export class IndustriesBllModule extends AbstractBllService {
   async checkNameAvailable(name: string): Promise<boolean> {
     const user = await this.prismaService.industry.findUnique({
       where: { name },

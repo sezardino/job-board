@@ -1,5 +1,5 @@
 import { withValidation } from "@/app/api/utils";
-import { customerUsersRequestSchema } from "@/services/server/modules/users/schema";
+import { customerUsersRequestSchema } from "@/services/bll/modules/users/schema";
 import { UserRoles } from "@prisma/client";
 import { getCustomers } from "./get";
 

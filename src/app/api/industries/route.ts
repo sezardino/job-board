@@ -2,7 +2,7 @@ import {
   createIndustryRequestSchema,
   deleteIndustryRequestSchema,
   updateIndustryRequestSchema,
-} from "@/services/server/modules/industries/schema";
+} from "@/services/bll/modules/industries/schema";
 import { UserRoles } from "@prisma/client";
 import { withValidation } from "../utils";
 import { deleteIndustry } from "./delete";

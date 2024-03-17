@@ -1,4 +1,4 @@
-import { ResendInviteResponse } from "@/services/server/modules/users/schema";
+import { ResendInviteResponse } from "@/services/bll/modules/users/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const patchResendInvite = async (req: NextRequest) => {

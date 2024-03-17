@@ -2,7 +2,7 @@ import { bllService } from "@/services/bll";
 import {
   InviteAdminRequest,
   InviteAdminResponse,
-} from "@/services/server/modules/users/schema";
+} from "@/services/bll/modules/users/schema";
 import { UserRoles } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 

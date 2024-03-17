@@ -2,7 +2,7 @@ import { bllService } from "@/services/bll";
 import {
   CheckCompanyNameAvailableRequest,
   CheckCompanyNameAvailableResponse,
-} from "@/services/server/modules/companies/schema";
+} from "@/services/bll/modules/companies/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { formatUrlSearchParams } from "../../utils";
 

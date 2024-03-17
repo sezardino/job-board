@@ -2,8 +2,9 @@ import { JWTError } from "@/libs/jwt";
 import { PrismaService } from "@/libs/prisma";
 import { hashService } from "@/services/hash";
 import { mailService } from "@/services/mail";
-import { AbstractService } from "@/services/server/helpers";
 import { emailVerificationTokenService } from "@/services/token";
+import { CompaniesBllModule, UsersBllModule } from "..";
+import { AbstractBllService } from "../../module.abstract";
 import {
   CustomerRegistrationRequest,
   LoginRequest,
@@ -16,9 +17,8 @@ import {
   CompanyRegistrationStatus,
 } from "./schema/company-registration";
 import { ResendVerificationEmailStatus } from "./schema/resend-verification-email";
-import { UsersBllModule, CompaniesBllModule } from "..";
 
-export class AuthBllModule extends AbstractService {
+export class AuthBllModule extends AbstractBllService {
   constructor(
     prismaService: PrismaService,
     private readonly usersService: UsersBllModule,
@@ -43,7 +43,7 @@ export class AuthBllModule extends AbstractService {
   ): Promise<RegistrationStatus> {
     const { email, password, name } = dto;
 
-    const user = await this.usersService.checkEmailAvailable(email);
+    const user = await this.usersService.checkEmailAvailable({ email });
 
     if (user && user.emailVerified) return RegistrationStatus.EmailUsed;
     if (user && !user.emailVerified)
@@ -64,9 +64,9 @@ export class AuthBllModule extends AbstractService {
     dto: CompanyRegistrationRequest
   ): Promise<CompanyRegistrationStatus> {
     const { owner, company } = dto;
-    const userResponse = await this.usersService.checkEmailAvailable(
-      owner.email
-    );
+    const userResponse = await this.usersService.checkEmailAvailable({
+      email: owner.email,
+    });
     const companyResponse = await this.companiesService.checkNameAvailable(
       company.name
     );

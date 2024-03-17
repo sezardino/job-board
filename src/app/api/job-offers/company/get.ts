@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { CurrentCompanyJobOffersRequest } from "@/services/server/modules/job-offers/schema";
+import { CurrentCompanyJobOffersRequest } from "@/services/bll/modules/job-offers/schema";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 import { formatUrlSearchParams } from "../../utils";

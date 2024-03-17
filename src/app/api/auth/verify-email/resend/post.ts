@@ -2,7 +2,7 @@ import { bllService } from "@/services/bll";
 import {
   ResendVerificationEmailRequest,
   ResendVerificationEmailResponse,
-} from "@/services/server/modules/auth/schema";
+} from "@/services/bll/modules/auth/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const postResendVerificationEmail = async (req: NextRequest) => {

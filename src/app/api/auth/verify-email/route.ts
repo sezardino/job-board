@@ -1,4 +1,4 @@
-import { verifyEmailTokenRequestSchema } from "@/services/server/modules/auth/schema";
+import { verifyEmailTokenRequestSchema } from "@/services/bll/modules/auth/schema";
 import { withValidation } from "../../utils";
 import { postVerifyEmail } from "./post";
 

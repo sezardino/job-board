@@ -1,4 +1,4 @@
-import { CancelInviteResponse } from "@/services/server/modules/users/schema";
+import { CancelInviteResponse } from "@/services/bll/modules/users/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const deleteCancelInvite = async (req: NextRequest) => {

@@ -1,5 +1,5 @@
 import { withValidation } from "@/app/api/utils";
-import { companyRegistrationRequestSchema } from "@/services/server/modules/auth/schema/company-registration";
+import { companyRegistrationRequestSchema } from "@/services/bll/modules/auth/schema/company-registration";
 import { postCompanyRegistration } from "./post";
 
 export const POST = withValidation({

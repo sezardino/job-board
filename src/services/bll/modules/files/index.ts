@@ -1,8 +1,8 @@
 import { uploadFile } from "@/libs/firebase/storage";
-import { AbstractService } from "@/services/server/helpers";
 import { FileEntity } from "@/types";
+import { AbstractBllService } from "../../module.abstract";
 
-export class FilesBllModule extends AbstractService {
+export class FilesBllModule extends AbstractBllService {
   async uploadImage(file: File, companyId: string) {
     const imageData = await uploadFile(`${companyId}/images`, file);
 

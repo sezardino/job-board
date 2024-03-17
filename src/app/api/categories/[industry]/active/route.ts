@@ -1,5 +1,5 @@
 import { withValidation } from "@/app/api/utils";
-import { activeCategoriesRequestSchema } from "@/services/server/modules/categories/schema";
+import { activeCategoriesRequestSchema } from "@/services/bll/modules/categories/schema";
 import { getActiveCategories } from "./get";
 
 // export const GET = (_: any, params: { params: ActiveCategoriesRequest }) =>

@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { CustomerRegistrationResponse } from "@/services/server/modules/auth/schema";
+import { CustomerRegistrationResponse } from "@/services/bll/modules/auth/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const postCustomerRegistration = async (req: NextRequest) => {

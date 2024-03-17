@@ -4,7 +4,7 @@ import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
 import { BaseBreadcrumbs } from "@/components/base/Breadcrumbs/BaseBreadcrumbs";
 import { HTMLWrapper } from "@/components/base/HTMLWrapper/HTMLWrapper";
 import { DEFAULT_DATE_FORMAT, PublicPageUrls } from "@/const";
-import { OneOfferResponse } from "@/services/server/modules/job-offers/schema";
+import { OneOfferResponse } from "@/services/bll/modules/job-offers/schema";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";

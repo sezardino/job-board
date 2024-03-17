@@ -1,4 +1,4 @@
-import { checkIndustryNameAvailableRequestSchema } from "@/services/server/modules/industries/schema";
+import { checkIndustryNameAvailableRequestSchema } from "@/services/bll/modules/industries/schema";
 import { UserRoles } from "@prisma/client";
 import { withValidation } from "../../utils";
 import { getIndustryNameAvailable } from "./get";

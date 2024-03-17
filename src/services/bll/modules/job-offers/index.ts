@@ -1,15 +1,17 @@
-import { AbstractService } from "@/services/server/helpers";
-
 import { DEFAULT_PAGE_LIMIT } from "@/const";
 import { FindManyPrismaEntity } from "@/types";
 import { JobOfferStatus, Prisma } from "@prisma/client";
+import {
+  AbstractBllService,
+  GetPaginationReturnType,
+} from "../../module.abstract";
 import {
   CreateJobOfferRequest,
   CurrentCompanyJobOffersRequest,
   OffersListRequest,
 } from "./schema";
 
-export class JobOffersBllModule extends AbstractService {
+export class JobOffersBllModule extends AbstractBllService {
   protected async findMany(
     props: FindManyPrismaEntity<
       Prisma.JobOfferWhereInput,
@@ -17,7 +19,7 @@ export class JobOffersBllModule extends AbstractService {
     >
   ) {
     const { limit, page, select, where } = props;
-    let pagination: ReturnType<AbstractService["getPagination"]> | null = null;
+    let pagination: GetPaginationReturnType | null = null;
 
     if (typeof page === "number" && typeof limit === "number") {
       const count = await this.prismaService.jobOffer.count({

@@ -1,4 +1,4 @@
-import { AdminUsersResponse } from "@/services/server/modules/users/schema";
+import { AdminUsersResponse } from "@/services/bll/modules/users/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import {

@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { VerifyEmailTokenResponse } from "@/services/server/modules/auth/schema";
+import { VerifyEmailTokenResponse } from "@/services/bll/modules/auth/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const postVerifyEmail = async (req: NextRequest) => {

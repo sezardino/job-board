@@ -1,4 +1,4 @@
-import { adminCompaniesRequestSchema } from "@/services/server/modules/companies/schema";
+import { adminCompaniesRequestSchema } from "@/services/bll/modules/companies/schema";
 import { UserRoles } from "@prisma/client";
 import { withValidation } from "../../utils";
 import { getAllCompanies } from "./get";

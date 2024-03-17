@@ -8,7 +8,7 @@ import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import { Select, SelectOption } from "@/components/base/Select/Select";
 import { CompanyOffersTable } from "@/components/modules/company/CompanyOffersTable";
 import { CompanyPageUrls } from "@/const";
-import { CurrentCompanyJobOffersResponse } from "@/services/server/modules/job-offers/schema";
+import { CurrentCompanyJobOffersResponse } from "@/services/bll/modules/job-offers/schema";
 import { DataListProp, DataProp } from "@/types";
 import { JobOfferStatus, Seniority } from "@prisma/client";
 import { useTranslations } from "next-intl";

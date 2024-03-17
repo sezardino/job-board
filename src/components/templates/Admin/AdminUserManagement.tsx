@@ -1,4 +1,4 @@
-import { CompaniesUsersResponse } from "@/services/server/modules/users/schema";
+import { CompaniesUsersResponse } from "@/services/bll/modules/users/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";

@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { MyCompanyBaseDataResponse } from "@/services/server/modules/companies/schema";
+import { MyCompanyBaseDataResponse } from "@/services/bll/modules/companies/schema";
 import { getServerSession } from "next-auth";
 import { NextResponse } from "next/server";
 

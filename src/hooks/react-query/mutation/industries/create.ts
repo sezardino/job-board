@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { CreateIndustryRequest } from "@/services/server/modules/industries/schema";
+import { CreateIndustryRequest } from "@/services/bll/modules/industries/schema";
 import { ADMIN_INDUSTRIES_LIST_QUERY_KEY } from "../..";
 import { useMutationHelper } from "../../helpers";
 

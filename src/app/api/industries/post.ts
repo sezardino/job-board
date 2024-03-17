@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { CreateIndustryResponse } from "@/services/server/modules/industries/schema";
+import { CreateIndustryResponse } from "@/services/bll/modules/industries/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const postCreateIndustry = async (req: NextRequest) => {

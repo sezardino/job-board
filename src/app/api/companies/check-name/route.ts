@@ -1,4 +1,4 @@
-import { checkCompanyNameAvailableRequestSchema } from "@/services/server/modules/companies/schema";
+import { checkCompanyNameAvailableRequestSchema } from "@/services/bll/modules/companies/schema";
 import { withValidation } from "../../utils";
 import { getCompanyNameAvailability } from "./get";
 

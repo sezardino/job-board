@@ -1,6 +1,5 @@
 import { PrismaService } from "@/libs/prisma";
 import { hashService } from "@/services/hash";
-import { AbstractService } from "@/services/server/helpers";
 import { emailVerificationTokenService } from "@/services/token";
 import { daysToSeconds } from "@/utils/days-to-seconds";
 import { generateSlug } from "@/utils/generate-slug";
@@ -8,8 +7,9 @@ import { Prisma, UserRoles } from "@prisma/client";
 import { FilesBllModule } from "..";
 import { CompanyRegistrationRequest } from "../auth/schema/company-registration";
 import { AdminCompaniesRequest, EditCompanyRequest } from "./schema";
+import { AbstractBllService } from "../../module.abstract";
 
-export class CompaniesBllModule extends AbstractService {
+export class CompaniesBllModule extends AbstractBllService {
   constructor(
     prismaService: PrismaService,
     private readonly filesService: FilesBllModule

@@ -1,4 +1,4 @@
-import { currentCompanyJobOffersRequestSchema } from "@/services/server/modules/job-offers/schema";
+import { currentCompanyJobOffersRequestSchema } from "@/services/bll/modules/job-offers/schema";
 import { UserRoles } from "@prisma/client";
 import { withValidation } from "../../utils";
 import { getCurrentCompanyJobOffers } from "./get";

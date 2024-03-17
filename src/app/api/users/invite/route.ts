@@ -2,7 +2,7 @@ import {
   cancelInviteRequestSchema,
   inviteUsersRequestSchema,
   resendInviteRequestSchema,
-} from "@/services/server/modules/users/schema";
+} from "@/services/bll/modules/users/schema";
 import { UserRoles } from "@prisma/client";
 import { withValidation } from "../../utils";
 import { patchResendInvite } from "./patch";

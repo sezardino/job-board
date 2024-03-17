@@ -1,4 +1,4 @@
-import { adminIndustriesRequestSchema } from "@/services/server/modules/industries/schema";
+import { adminIndustriesRequestSchema } from "@/services/bll/modules/industries/schema";
 import { UserRoles } from "@prisma/client";
 import { withValidation } from "../../utils";
 import { getIndustriesForManage } from "./get";

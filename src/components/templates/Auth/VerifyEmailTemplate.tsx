@@ -2,7 +2,7 @@ import { Button, Grid, Typography } from "@/components/base";
 import {
   ResendVerificationEmailResponse,
   VerifyEmailTokenStatus,
-} from "@/services/server/modules/auth/schema";
+} from "@/services/bll/modules/auth/schema";
 import { useTranslations } from "next-intl";
 import { useCallback, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";

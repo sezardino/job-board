@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { CreateJobOfferResponse } from "@/services/server/modules/job-offers/schema";
+import { CreateJobOfferResponse } from "@/services/bll/modules/job-offers/schema";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 

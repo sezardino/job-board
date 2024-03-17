@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { UpdateIndustryResponse } from "@/services/server/modules/industries/schema";
+import { UpdateIndustryResponse } from "@/services/bll/modules/industries/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const patchUpdateIndustry = async (req: NextRequest) => {

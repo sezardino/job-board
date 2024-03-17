@@ -1,7 +1,30 @@
 import { PublicPageUrls } from "@/const/url";
-import { serverService } from "@/services/server";
+import { bllService } from "@/services/bll";
+import {
+  LoginRequest,
+  loginRequestSchema,
+  LoginResponse,
+} from "@/services/bll/modules/auth/schema";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+
+const loginHandler = async (body: LoginRequest) => {
+  const validation = loginRequestSchema.safeParse(body);
+
+  if (!validation.success) {
+    throw new Error("Invalid request");
+  }
+
+  try {
+    const res = await bllService.auth.login(validation.data);
+
+    if (typeof res === "string") return { status: res } as LoginResponse;
+
+    return res as LoginResponse;
+  } catch (error) {
+    return null;
+  }
+};
 
 export const nextAuthOptions: AuthOptions = {
   providers: [
@@ -17,7 +40,7 @@ export const nextAuthOptions: AuthOptions = {
           return Promise.reject({ message: "no credentials" });
 
         try {
-          const res = await serverService.auth.controller.login(credentials);
+          const res = await loginHandler(credentials);
 
           if (res && "id" in res) return res;
 

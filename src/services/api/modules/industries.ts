@@ -1,15 +1,15 @@
 import {
   AdminIndustriesRequest,
-  CheckIndustryNameAvailableRequest,
-  CreateIndustryRequest,
-  UpdateIndustryRequest,
-  activeIndustriesResponseSchema,
   adminIndustriesResponseSchema,
-  checkIndustryNameAvailableResponseSchema,
+  CreateIndustryRequest,
   createIndustryRequestSchema,
   deleteIndustryResponseSchema,
+  UpdateIndustryRequest,
   updateIndustryRequestSchema,
-} from "@/services/server/modules/industries/schema";
+  CheckIndustryNameAvailableRequest,
+  checkIndustryNameAvailableResponseSchema,
+  activeIndustriesResponseSchema,
+} from "@/services/bll/modules/industries/schema";
 import { AbstractApiModule } from "../helpers";
 
 export class IndustriesApiModule extends AbstractApiModule {

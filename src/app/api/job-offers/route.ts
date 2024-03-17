@@ -1,7 +1,7 @@
 import {
   createJobOfferRequestSchema,
   offersListRequestSchema,
-} from "@/services/server/modules/job-offers/schema";
+} from "@/services/bll/modules/job-offers/schema";
 import { UserRoles } from "@prisma/client";
 import { withValidation } from "../utils";
 import { getOffersList } from "./get";

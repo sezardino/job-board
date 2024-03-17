@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { CheckIndustryNameAvailableResponse } from "@/services/server/modules/industries/schema";
+import { CheckIndustryNameAvailableResponse } from "@/services/bll/modules/industries/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { formatUrlSearchParams } from "../../utils";
 

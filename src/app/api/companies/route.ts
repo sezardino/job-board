@@ -1,4 +1,4 @@
-import { editCompanyRequestSchema } from "@/services/server/modules/companies/schema";
+import { editCompanyRequestSchema } from "@/services/bll/modules/companies/schema";
 import { withValidation } from "../utils";
 import { getMyCompanyProfile } from "./get";
 import { putEditCompany } from "./put";

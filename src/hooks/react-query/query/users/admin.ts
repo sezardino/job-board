@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { AdminUsersRequest } from "@/services/server/modules/users/schema";
+import { AdminUsersRequest } from "@/services/bll/modules/users/schema";
 import { useQuery } from "@tanstack/react-query";
 
 export const ADMINS_USERS_QUERY_KEY = "admin-users";

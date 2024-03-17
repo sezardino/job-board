@@ -1,4 +1,4 @@
-import { activeCategoriesResponseSchema } from "@/services/server/modules/categories/schema";
+import { activeCategoriesResponseSchema } from "@/services/bll/modules/categories/schema";
 import { AbstractApiModule } from "../helpers";
 
 export class CategoriesApiModule extends AbstractApiModule {

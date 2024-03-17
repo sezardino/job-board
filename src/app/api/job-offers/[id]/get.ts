@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { OneOfferResponse } from "@/services/server/modules/job-offers/schema";
+import { OneOfferResponse } from "@/services/bll/modules/job-offers/schema";
 import { NextResponse } from "next/server";
 
 export const getJobOffer = async (

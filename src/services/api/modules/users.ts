@@ -1,7 +1,7 @@
 import {
   AdminUsersRequest,
   CancelInviteRequest,
-  CheckEmailsAvailableRequest,
+  CheckEmailAvailableRequest,
   CompaniesUsersRequest,
   CompanyUsersRequest,
   CustomerUsersRequest,
@@ -11,7 +11,7 @@ import {
   ResendInviteRequest,
   adminUsersResponseSchema,
   cancelInviteResponseSchema,
-  checkEmailsAvailableResponseSchema,
+  checkEmailAvailableResponseSchema,
   companiesUsersResponseSchema,
   companyUsersResponseSchema,
   customerUsersResponseSchema,
@@ -23,11 +23,11 @@ import {
 import { AbstractApiModule } from "../helpers";
 
 export class UsersApiModule extends AbstractApiModule {
-  async checkEmailsAvailable(data: CheckEmailsAvailableRequest) {
+  async checkEmailAvailable(data: CheckEmailAvailableRequest) {
     return await this.fetch({
       endpoint: "users/check-email",
       config: { method: "POST", data },
-      schema: checkEmailsAvailableResponseSchema,
+      schema: checkEmailAvailableResponseSchema,
     });
   }
 

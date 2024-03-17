@@ -1,5 +1,4 @@
 import { hashService } from "@/services/hash";
-import { AbstractService } from "@/services/server/helpers";
 import {
   emailVerificationTokenService,
   inviteTokenService,
@@ -7,6 +6,10 @@ import {
 import { FindManyPrismaEntity } from "@/types";
 import { daysToSeconds } from "@/utils/days-to-seconds";
 import { Prisma, User, UserRoles, UserStatus } from "@prisma/client";
+import {
+  AbstractBllService,
+  GetPaginationReturnType,
+} from "../../module.abstract";
 import {
   CustomerRegistrationRequest,
   LoginRequest,
@@ -21,12 +24,12 @@ import {
   InviteUsersRequest,
 } from "./schema";
 
-export class UsersBllModule extends AbstractService {
+export class UsersBllModule extends AbstractBllService {
   protected async findMany(
     props: FindManyPrismaEntity<Prisma.UserWhereInput, Prisma.UserSelect>
   ) {
     const { limit, page, select, where } = props;
-    let pagination: ReturnType<AbstractService["getPagination"]> | null = null;
+    let pagination: GetPaginationReturnType | null = null;
 
     if (typeof page === "number" && typeof limit === "number") {
       const count = await this.prismaService.user.count({

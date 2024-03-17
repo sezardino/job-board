@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { AdminUsersResponse } from "@/services/server/modules/users/schema";
+import { AdminUsersResponse } from "@/services/bll/modules/users/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { formatUrlSearchParams } from "../../utils";
 

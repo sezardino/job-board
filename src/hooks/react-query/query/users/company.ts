@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { CompanyUsersRequest } from "@/services/server/modules/users/schema";
+import { CompanyUsersRequest } from "@/services/bll/modules/users/schema";
 import { useQuery } from "@tanstack/react-query";
 
 export const COMPANY_USERS_QUERY_KEY = "company-users";

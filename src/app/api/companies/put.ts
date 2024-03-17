@@ -1,6 +1,6 @@
 import { getNextAuthSession } from "@/libs/next-auth";
 import { bllService } from "@/services/bll";
-import { EditCompanyResponse } from "@/services/server/modules/companies/schema";
+import { EditCompanyResponse } from "@/services/bll/modules/companies/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { formatFormData } from "../utils";
 

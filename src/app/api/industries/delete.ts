@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { DeleteIndustryResponse } from "@/services/server/modules/industries/schema";
+import { DeleteIndustryResponse } from "@/services/bll/modules/industries/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const deleteIndustry = async (req: NextRequest) => {

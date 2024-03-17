@@ -6,8 +6,8 @@ import {
   companyProfileResponseSchema,
   editCompanyResponseSchema,
   myCompanyBaseDataResponseSchema,
-} from "@/services/server/modules/companies/schema";
-import { AdminIndustriesRequest } from "@/services/server/modules/industries/schema";
+} from "@/services/bll/modules/companies/schema";
+import { AdminIndustriesRequest } from "@/services/bll/modules/industries/schema";
 import { AbstractApiModule } from "../helpers";
 
 export class CompaniesApiModule extends AbstractApiModule {

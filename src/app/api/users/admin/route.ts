@@ -1,4 +1,4 @@
-import { adminUsersRequestSchema } from "@/services/server/modules/users/schema";
+import { adminUsersRequestSchema } from "@/services/bll/modules/users/schema";
 import { UserRoles } from "@prisma/client";
 import { withValidation } from "../../utils";
 import { getAdmins } from "./get";

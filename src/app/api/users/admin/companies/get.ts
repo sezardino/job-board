@@ -1,6 +1,6 @@
 import { formatUrlSearchParams } from "@/app/api/utils";
 import { bllService } from "@/services/bll";
-import { CompaniesUsersResponse } from "@/services/server/modules/users/schema";
+import { CompaniesUsersResponse } from "@/services/bll/modules/users/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const getCompanyUsers = async (req: NextRequest) => {

@@ -1,5 +1,5 @@
 import { bllService } from "@/services/bll";
-import { ActiveIndustriesResponse } from "@/services/server/modules/industries/schema";
+import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { NextResponse } from "next/server";
 
 export const getActiveIndustries = async () => {

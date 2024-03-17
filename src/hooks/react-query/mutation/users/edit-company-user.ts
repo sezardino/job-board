@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { EditCompanyUserRequest } from "@/services/server/modules/users/schema";
+import { EditCompanyUserRequest } from "@/services/bll/modules/users/schema";
 import { useMutationHelper } from "../../helpers";
 import { COMPANY_USERS_QUERY_KEY } from "../../query/users/company";
 
