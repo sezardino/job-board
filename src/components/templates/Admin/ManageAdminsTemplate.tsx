@@ -92,9 +92,7 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
       try {
         await onInviteAdminFormSubmit(values);
         setIsInviteAdminModalOpen(false);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     [onInviteAdminFormSubmit]
   );

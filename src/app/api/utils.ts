@@ -76,10 +76,6 @@ export const withValidation = <Schema extends ZodSchema>(
       if (input === "formData")
         data = formatFormData(await req.clone().formData());
 
-      req.nextUrl.searchParams.forEach((value, key) => {
-        console.log(key, value);
-      });
-
       await schema.parseAsync(data);
 
       return handler(req, params);

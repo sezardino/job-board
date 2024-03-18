@@ -5,7 +5,7 @@ import { NextResponse } from "next/server";
 
 export const getMyCompanyBaseData = async () => {
   const session = await getNextAuthSession();
-  console.log({ session });
+
   const res = await bllService.companies.baseData(session?.user.companyId!);
 
   return NextResponse.json(res as MyCompanyBaseDataResponse, { status: 200 });

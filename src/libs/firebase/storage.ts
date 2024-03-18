@@ -17,9 +17,7 @@ export const uploadFile = async (pathToFile: string, file: File) => {
     const publicUrl = await getDownloadURL(fileRef);
 
     return { publicUrl, fileName: file.name };
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };
 
 export const deleteFile = async (pathToFile: string) => {
@@ -27,7 +25,5 @@ export const deleteFile = async (pathToFile: string) => {
 
   try {
     await deleteObject(fileRef);
-  } catch (error) {
-    console.log(error);
-  }
+  } catch (error) {}
 };

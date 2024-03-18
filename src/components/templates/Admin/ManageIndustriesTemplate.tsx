@@ -138,9 +138,7 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
       try {
         await onCreateIndustry(values);
         setIsCreateIndustryModalOpen(false);
-      } catch (error) {
-        console.log(error);
-      }
+      } catch (error) {}
     },
     [onCreateIndustry]
   );

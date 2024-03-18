@@ -142,7 +142,6 @@ export class CompaniesBllModule extends AbstractBllService {
   }
 
   async baseData(companyId: string) {
-    console.log("companyId", companyId);
     const company = await this.prismaService.company.findUnique({
       where: { id: companyId },
       select: {
