@@ -23,10 +23,10 @@ import {
 import { AbstractApiModule } from "../helpers";
 
 export class UsersApiModule extends AbstractApiModule {
-  async checkEmailAvailable(data: CheckEmailAvailableRequest) {
+  async checkEmailAvailable(params: CheckEmailAvailableRequest) {
     return await this.fetch({
       endpoint: "users/check-email",
-      config: { method: "POST", data },
+      config: { method: "GET", params },
       schema: checkEmailAvailableResponseSchema,
     });
   }

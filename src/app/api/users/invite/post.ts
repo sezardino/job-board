@@ -5,12 +5,11 @@ import {
 } from "@/services/bll/modules/users/schema";
 import { NotAllowedBllError } from "@/services/bll/types";
 import { UserRoles } from "@prisma/client";
-import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export const postInviteUsers = async (req: NextRequest) => {
   const data = (await req.json()) as InviteUsersRequest;
-  const session = await getServerSession();
+  const session = await getNextAuthSession();
 
   const hasOwnerRole = data?.users.some(
     (user) => user.role === UserRoles.OWNER

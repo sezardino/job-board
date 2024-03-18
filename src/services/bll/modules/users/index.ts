@@ -223,7 +223,7 @@ export class UsersBllModule extends AbstractBllService {
     if (!isPasswordValid) return LoginStatus.WrongCredentials;
 
     const { avatar, companyId, id, role } = user;
-    console.log(user);
+
     return {
       email,
       id,

@@ -76,6 +76,10 @@ export const withValidation = <Schema extends ZodSchema>(
       if (input === "formData")
         data = formatFormData(await req.clone().formData());
 
+      req.nextUrl.searchParams.forEach((value, key) => {
+        console.log(key, value);
+      });
+
       await schema.parseAsync(data);
 
       return handler(req, params);
@@ -108,7 +112,11 @@ export const withApiRouteHandler = (
         return NextResponse.json({ message }, { status: code });
       }
 
-      return NextResponse.json({ message: errorMessage }, { status: 500 });
+      console.log(error);
+      return NextResponse.json(
+        { message: errorMessage, error },
+        { status: 500 }
+      );
     }
   };
 };

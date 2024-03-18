@@ -5,9 +5,10 @@ import { daysToSeconds } from "@/utils/days-to-seconds";
 import { generateSlug } from "@/utils/generate-slug";
 import { Prisma, UserRoles } from "@prisma/client";
 import { FilesBllModule } from "..";
+import { AbstractBllService } from "../../module.abstract";
+import { NotFoundBllError } from "../../types";
 import { CompanyRegistrationRequest } from "../auth/schema/company-registration";
 import { AdminCompaniesRequest, EditCompanyRequest } from "./schema";
-import { AbstractBllService } from "../../module.abstract";
 
 export class CompaniesBllModule extends AbstractBllService {
   constructor(
@@ -140,8 +141,9 @@ export class CompaniesBllModule extends AbstractBllService {
     return response;
   }
 
-  baseData(companyId: string) {
-    return this.prismaService.company.findUnique({
+  async baseData(companyId: string) {
+    console.log("companyId", companyId);
+    const company = await this.prismaService.company.findUnique({
       where: { id: companyId },
       select: {
         id: true,
@@ -150,6 +152,10 @@ export class CompaniesBllModule extends AbstractBllService {
         logo: { select: { id: true, url: true, name: true } },
       },
     });
+
+    if (!company) throw new NotFoundBllError("Company not found");
+
+    return company;
   }
 
   async createNewCompany(dto: CompanyRegistrationRequest) {
