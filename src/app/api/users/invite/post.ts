@@ -4,7 +4,7 @@ import {
   InviteUsersRequest,
   InviteUsersResponse,
 } from "@/services/bll/modules/users/schema";
-import { NotAllowedBllError } from "@/services/bll/types";
+import { NotAllowedException } from "@/types";
 import { UserRoles } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -20,14 +20,14 @@ export const postInviteUsers = async (req: NextRequest) => {
   );
 
   if (hasOwnerRole && hasAdminRole)
-    throw new NotAllowedBllError("Method not allowed");
+    throw new NotAllowedException("Method not allowed");
 
   if (
     session?.user.role === UserRoles.OWNER &&
     (hasAdminRole ||
       data?.users.some((user) => user.role === UserRoles.SUB_ADMIN))
   ) {
-    throw new NotAllowedBllError("Method not allowed");
+    throw new NotAllowedException("Method not allowed");
   }
 
   if (
@@ -38,7 +38,7 @@ export const postInviteUsers = async (req: NextRequest) => {
           user.role === UserRoles.MODERATOR || user.role === UserRoles.RECRUITER
       ))
   ) {
-    throw new NotAllowedBllError("Method not allowed");
+    throw new NotAllowedException("Method not allowed");
   }
 
   const res = await bllService.users.inviteUsers(

@@ -6,9 +6,9 @@ import { generateSlug } from "@/utils/generate-slug";
 import { Prisma, UserRoles } from "@prisma/client";
 import { FilesBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
-import { NotFoundBllError } from "../../types";
 import { CompanyRegistrationRequest } from "../auth/schema/company-registration";
 import { AdminCompaniesRequest, EditCompanyRequest } from "./schema";
+import { NotFoundException } from "@/types";
 
 export class CompaniesBllModule extends AbstractBllService {
   constructor(
@@ -152,7 +152,7 @@ export class CompaniesBllModule extends AbstractBllService {
       },
     });
 
-    if (!company) throw new NotFoundBllError("Company not found");
+    if (!company) throw new NotFoundException("Company not found");
 
     return company;
   }

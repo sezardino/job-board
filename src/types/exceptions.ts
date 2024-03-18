@@ -1,4 +1,4 @@
-export class BllError {
+export class CustomException {
   message: string;
   code: number;
 
@@ -8,19 +8,19 @@ export class BllError {
   }
 }
 
-export class NotFoundBllError extends BllError {
+export class NotFoundException extends CustomException {
   constructor(message: string) {
     super({ message, code: 404 });
   }
 }
 
-export class NotAllowedBllError extends BllError {
+export class NotAllowedException extends CustomException {
   constructor(message: string) {
     super({ message, code: 405 });
   }
 }
 
-export const isBllError = (obj: any): obj is BllError => {
+export const isCustomException = (obj: any): obj is CustomException => {
   return (
     typeof obj === "object" &&
     obj !== null &&

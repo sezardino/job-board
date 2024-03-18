@@ -1,5 +1,5 @@
 import { getNextAuthSession } from "@/libs/next-auth";
-import { isBllError } from "@/services/bll/types";
+import { isCustomException } from "@/types";
 import { UserRoles } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, ZodSchema } from "zod";
@@ -103,7 +103,7 @@ export const withApiRouteHandler = (
     try {
       return await handler(req, params);
     } catch (error) {
-      if (isBllError(error)) {
+      if (isCustomException(error)) {
         const { code, message } = error;
         return NextResponse.json({ message }, { status: code });
       }

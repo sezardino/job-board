@@ -1,5 +1,5 @@
 import { DEFAULT_PAGE_LIMIT } from "@/const";
-import { FindManyPrismaEntity } from "@/types";
+import { FindManyPrismaEntity, NotFoundException } from "@/types";
 import { JobOfferStatus, Prisma } from "@prisma/client";
 import { AbstractBllService } from "../../module.abstract";
 import {
@@ -104,9 +104,43 @@ export class JobOffersBllModule extends AbstractBllService {
     });
   }
 
-  one(id: string, userCompanyId?: string) {
-    return this.prismaService.jobOffer.findUnique({
+  async one(id: string) {
+    const jobOffer = await this.prismaService.jobOffer.findUnique({
       where: { id, status: JobOfferStatus.ACTIVE },
+      select: {
+        id: true,
+        name: true,
+        seniority: true,
+        contract: true,
+        deadlineAt: true,
+        publishedAt: true,
+        description: true,
+        operating: true,
+        salary: true,
+        skills: true,
+        status: true,
+        type: true,
+        category: { select: { name: true } },
+        industry: { select: { name: true } },
+        company: {
+          select: {
+            id: true,
+            name: true,
+            slogan: true,
+            logo: { select: { id: true, url: true, name: true } },
+          },
+        },
+      },
+    });
+
+    if (!jobOffer) throw new NotFoundException("Job offer not found");
+
+    return jobOffer;
+  }
+
+  preview(id: string, companyId: string) {
+    return this.prismaService.jobOffer.findUnique({
+      where: { id, companyId },
       select: {
         id: true,
         name: true,
