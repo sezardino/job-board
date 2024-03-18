@@ -1,3 +1,4 @@
+import { getNextAuthSession } from "@/libs/next-auth";
 import { bllService } from "@/services/bll";
 import { CreateJobOfferResponse } from "@/services/bll/modules/job-offers/schema";
 import { NextRequest, NextResponse } from "next/server";

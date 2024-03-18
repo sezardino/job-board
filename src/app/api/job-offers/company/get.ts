@@ -1,7 +1,8 @@
-import { bllService, bllService } from "@/services/bll";
+import { bllService } from "@/services/bll";
 import { CurrentCompanyJobOffersRequest } from "@/services/bll/modules/job-offers/schema";
 import { NextRequest, NextResponse } from "next/server";
 import { formatUrlSearchParams } from "../../utils";
+import { getNextAuthSession } from "@/libs/next-auth";
 
 export const getCurrentCompanyJobOffers = async (req: NextRequest) => {
   const data = formatUrlSearchParams(
