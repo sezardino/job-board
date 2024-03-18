@@ -6,14 +6,7 @@ import { formatUrlSearchParams } from "../../utils";
 export const getAdmins = async (req: NextRequest) => {
   const params = formatUrlSearchParams(req.nextUrl.searchParams);
 
-  try {
-    const res = await bllService.users.admin(params);
+  const res = await bllService.users.admin(params);
 
-    return NextResponse.json(res as AdminUsersResponse, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Cant get admin users", error },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(res as AdminUsersResponse, { status: 200 });
 };

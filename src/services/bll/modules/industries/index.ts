@@ -1,11 +1,12 @@
 import { EntityStatus, Prisma } from "@prisma/client";
+import { AbstractBllService } from "../../module.abstract";
+import { NotAllowedBllError, NotFoundBllError } from "../../types";
 import {
   AdminIndustriesRequest,
   AdminIndustriesResponse,
   CreateIndustryRequest,
   UpdateIndustryRequest,
 } from "./schema";
-import { AbstractBllService } from "../../module.abstract";
 
 export class IndustriesBllModule extends AbstractBllService {
   async checkNameAvailable(name: string): Promise<boolean> {
@@ -31,7 +32,8 @@ export class IndustriesBllModule extends AbstractBllService {
   async update(dto: UpdateIndustryRequest & { id: string }) {
     const { id, status } = dto;
 
-    if (status === EntityStatus.CREATED) return null;
+    if (status === EntityStatus.CREATED)
+      throw new NotAllowedBllError("Invalid status");
 
     return await this.prismaService.industry.update({
       data: { status },
@@ -57,7 +59,8 @@ export class IndustriesBllModule extends AbstractBllService {
       },
     });
 
-    if (industry?._count.categories || industry?._count.offers) return null;
+    if (industry?._count.categories || industry?._count.offers)
+      throw new NotFoundBllError("Category not found");
 
     return await this.prismaService.industry.delete({
       where: { id },

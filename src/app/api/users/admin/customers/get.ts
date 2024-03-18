@@ -6,14 +6,7 @@ import { NextRequest, NextResponse } from "next/server";
 export const getCustomers = async (req: NextRequest) => {
   const params = formatUrlSearchParams(req.nextUrl.searchParams);
 
-  try {
-    const res = await bllService.users.customers(params);
+  const res = await bllService.users.customers(params);
 
-    return NextResponse.json(res as CustomerUsersResponse, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Cant get customers", error },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(res as CustomerUsersResponse, { status: 200 });
 };

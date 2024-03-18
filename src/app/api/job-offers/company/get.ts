@@ -10,18 +10,10 @@ export const getCurrentCompanyJobOffers = async (req: NextRequest) => {
   ) as CurrentCompanyJobOffersRequest;
   const session = await getServerSession();
 
-  try {
-    const res = await bllService.jobOffers.companyOffers(
-      data!,
-      session!.user.companyId!
-    );
+  const res = await bllService.jobOffers.companyOffers(
+    data!,
+    session!.user.companyId!
+  );
 
-    return NextResponse.json(res, { status: 200 });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { message: "Can't get offers", error },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(res, { status: 200 });
 };

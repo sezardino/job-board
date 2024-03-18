@@ -5,21 +5,10 @@ import {
 } from "@/services/bll/modules/categories/schema";
 import { NextResponse } from "next/server";
 
-export const getActiveCategories = async (
-  _: any,
-  data: {
-    params: ActiveCategoriesRequest;
-  }
-) => {
-  try {
-    const res = await bllService.categories.activeList(data.params.industry);
+type Params = { params: ActiveCategoriesRequest };
 
-    return NextResponse.json(res as ActiveCategoriesResponse, { status: 200 });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { message: "Cant get active industries", error },
-      { status: 500 }
-    );
-  }
+export const getActiveCategories = async (_: any, params: Params) => {
+  const res = await bllService.categories.activeList(params.params.industry);
+
+  return NextResponse.json(res as ActiveCategoriesResponse, { status: 200 });
 };

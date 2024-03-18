@@ -1,9 +1,12 @@
 import { checkCompanyNameAvailableRequestSchema } from "@/services/bll/modules/companies/schema";
-import { withValidation } from "../../utils";
+import { withApiRouteHandler, withValidation } from "../../utils";
 import { getCompanyNameAvailability } from "./get";
 
 export const GET = withValidation({
-  handler: getCompanyNameAvailability,
+  handler: withApiRouteHandler(
+    getCompanyNameAvailability,
+    "Cant check company name availability"
+  ),
   schema: checkCompanyNameAvailableRequestSchema,
   input: "search",
 });

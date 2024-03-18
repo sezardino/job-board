@@ -1,8 +1,11 @@
 import { UserRoles } from "@prisma/client";
-import { withValidation } from "../../utils";
+import { withApiRouteHandler, withValidation } from "../../utils";
 import { getMyCompanyBaseData } from "./get";
 
 export const GET = withValidation({
-  handler: getMyCompanyBaseData,
+  handler: withApiRouteHandler(
+    getMyCompanyBaseData,
+    "Cant get company base data"
+  ),
   role: [UserRoles.OWNER, UserRoles.MODERATOR, UserRoles.RECRUITER],
 });

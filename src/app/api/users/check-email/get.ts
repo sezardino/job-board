@@ -11,17 +11,10 @@ export const getEmailAvailable = async (req: NextRequest) => {
     req.nextUrl.searchParams
   ) as CheckEmailAvailableRequest;
 
-  try {
-    const bllResponse = await bllService.users.checkEmailAvailable(params);
+  const bllResponse = await bllService.users.checkEmailAvailable(params);
 
-    return NextResponse.json(
-      { available: !bllResponse } as CheckEmailAvailableResponse,
-      { status: 200 }
-    );
-  } catch (error) {
-    return NextResponse.json(
-      { message: "backend-errors.server" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(
+    { available: !bllResponse } as CheckEmailAvailableResponse,
+    { status: 200 }
+  );
 };

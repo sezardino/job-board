@@ -8,15 +8,7 @@ export const getOffersList = async (req: NextRequest) => {
     req.nextUrl.searchParams
   ) as OffersListRequest;
 
-  try {
-    const res = await bllService.jobOffers.list(params);
+  const res = await bllService.jobOffers.list(params);
 
-    return NextResponse.json(res, { status: 200 });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { message: "Cant get offers list", error },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(res, { status: 200 });
 };

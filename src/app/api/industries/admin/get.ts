@@ -6,14 +6,7 @@ import { formatUrlSearchParams } from "../../utils";
 export const getIndustriesForManage = async (req: NextRequest) => {
   const params = formatUrlSearchParams(req.nextUrl.searchParams);
 
-  try {
-    const res = await bllService.industries.admin(params);
+  const res = await bllService.industries.admin(params);
 
-    return NextResponse.json(res as AdminIndustriesResponse, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Can't get industries" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(res as AdminIndustriesResponse, { status: 200 });
 };

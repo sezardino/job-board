@@ -1,10 +1,10 @@
 import { adminIndustriesRequestSchema } from "@/services/bll/modules/industries/schema";
 import { UserRoles } from "@prisma/client";
-import { withValidation } from "../../utils";
+import { withApiRouteHandler, withValidation } from "../../utils";
 import { getIndustriesForManage } from "./get";
 
 export const GET = withValidation({
-  handler: getIndustriesForManage,
+  handler: withApiRouteHandler(getIndustriesForManage, "Cant get industries"),
   schema: adminIndustriesRequestSchema,
   role: [UserRoles.ADMIN],
   input: "search",

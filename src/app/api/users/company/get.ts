@@ -8,20 +8,7 @@ export const getCompanyUsers = async (req: NextRequest) => {
   const params = formatUrlSearchParams(req.nextUrl.searchParams);
   const session = await getServerSession();
 
-  if (!session?.user.companyId)
-    return NextResponse.json(
-      { message: "backend-errors.server" },
-      { status: 404 }
-    );
+  const res = await bllService.users.company(params, session!.user.companyId!);
 
-  try {
-    const res = await bllService.users.company(params, session.user.companyId);
-
-    return NextResponse.json(res as CompaniesUsersResponse, { status: 200 });
-  } catch (error) {
-    return NextResponse.json(
-      { message: "backend-errors.server", error },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(res as CompaniesUsersResponse, { status: 200 });
 };

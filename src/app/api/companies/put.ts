@@ -8,15 +8,7 @@ export const putEditCompany = async (req: NextRequest) => {
   const data = formatFormData(await req.formData());
   const session = await getNextAuthSession();
 
-  try {
-    const res = await bllService.companies.edit(data, session?.user.companyId!);
+  const res = await bllService.companies.edit(data, session?.user.companyId!);
 
-    return NextResponse.json(res as EditCompanyResponse, { status: 200 });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { message: "Can't edit company data", error },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(res as EditCompanyResponse, { status: 200 });
 };

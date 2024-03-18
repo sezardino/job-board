@@ -3,6 +3,7 @@ import {
   InviteUsersRequest,
   InviteUsersResponse,
 } from "@/services/bll/modules/users/schema";
+import { NotAllowedBllError } from "@/services/bll/types";
 import { UserRoles } from "@prisma/client";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
@@ -19,20 +20,14 @@ export const postInviteUsers = async (req: NextRequest) => {
   );
 
   if (hasOwnerRole && hasAdminRole)
-    return NextResponse.json(
-      { message: "Method not allowed" },
-      { status: 405 }
-    );
+    throw new NotAllowedBllError("Method not allowed");
 
   if (
     session?.user.role === UserRoles.OWNER &&
     (hasAdminRole ||
       data?.users.some((user) => user.role === UserRoles.SUB_ADMIN))
   ) {
-    return NextResponse.json(
-      { message: "Method not allowed" },
-      { status: 405 }
-    );
+    throw new NotAllowedBllError("Method not allowed");
   }
 
   if (
@@ -43,24 +38,13 @@ export const postInviteUsers = async (req: NextRequest) => {
           user.role === UserRoles.MODERATOR || user.role === UserRoles.RECRUITER
       ))
   ) {
-    return NextResponse.json(
-      { message: "Method not allowed" },
-      { status: 405 }
-    );
+    throw new NotAllowedBllError("Method not allowed");
   }
 
-  try {
-    const res = await bllService.users.inviteUsers(
-      data!,
-      session?.user.companyId!
-    );
+  const res = await bllService.users.inviteUsers(
+    data!,
+    session?.user.companyId!
+  );
 
-    return NextResponse.json(res as InviteUsersResponse, { status: 201 });
-  } catch (error) {
-    console.log(error);
-    return NextResponse.json(
-      { message: "backend-errors.server" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json(res as InviteUsersResponse, { status: 201 });
 };

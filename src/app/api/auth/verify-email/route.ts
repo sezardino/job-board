@@ -1,8 +1,8 @@
 import { verifyEmailTokenRequestSchema } from "@/services/bll/modules/auth/schema";
-import { withValidation } from "../../utils";
+import { withApiRouteHandler, withValidation } from "../../utils";
 import { postVerifyEmail } from "./post";
 
 export const POST = withValidation({
-  handler: postVerifyEmail,
+  handler: withApiRouteHandler(postVerifyEmail, "Cant verify email"),
   schema: verifyEmailTokenRequestSchema,
 });

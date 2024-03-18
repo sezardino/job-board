@@ -3,16 +3,9 @@ import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/sche
 import { NextResponse } from "next/server";
 
 export const getActiveIndustries = async () => {
-  try {
-    const res = await bllService.industries.activeIndustries();
+  const res = await bllService.industries.activeIndustries();
 
-    return NextResponse.json({ data: res } as ActiveIndustriesResponse, {
-      status: 200,
-    });
-  } catch (error) {
-    return NextResponse.json(
-      { message: "Can't get active industries" },
-      { status: 500 }
-    );
-  }
+  return NextResponse.json({ data: res } as ActiveIndustriesResponse, {
+    status: 200,
+  });
 };

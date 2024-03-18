@@ -1,4 +1,5 @@
 import { getNextAuthSession } from "@/libs/next-auth";
+import { isBllError } from "@/services/bll/types";
 import { UserRoles } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, ZodSchema } from "zod";
@@ -90,6 +91,24 @@ export const withValidation = <Schema extends ZodSchema>(
         { message: "Invalid request", error },
         { status: 500 }
       );
+    }
+  };
+};
+
+export const withApiRouteHandler = (
+  handler: (req: NextRequest, params: any) => Promise<any>,
+  errorMessage: string
+) => {
+  return async (req: NextRequest, params: any) => {
+    try {
+      return await handler(req, params);
+    } catch (error) {
+      if (isBllError(error)) {
+        const { code, message } = error;
+        return NextResponse.json({ message }, { status: code });
+      }
+
+      return NextResponse.json({ message: errorMessage }, { status: 500 });
     }
   };
 };

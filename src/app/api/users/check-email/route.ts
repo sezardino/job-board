@@ -1,9 +1,12 @@
 import { checkEmailAvailableRequestSchema } from "@/services/bll/modules/users/schema";
-import { withValidation } from "../../utils";
+import { withApiRouteHandler, withValidation } from "../../utils";
 import { getEmailAvailable } from "./get";
 
 export const GET = withValidation({
-  handler: getEmailAvailable,
+  handler: withApiRouteHandler(
+    getEmailAvailable,
+    "Cant check email availability"
+  ),
   schema: checkEmailAvailableRequestSchema,
   input: "search",
 });
