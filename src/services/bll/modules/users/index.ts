@@ -31,13 +31,11 @@ export class UsersBllModule extends AbstractBllService {
     const { limit, page, select, where } = props;
     let pagination: GetPaginationReturnType | null = null;
 
-    if (typeof page === "number" && typeof limit === "number") {
-      const count = await this.prismaService.user.count({
-        where,
-      });
+    const count = await this.prismaService.user.count({
+      where,
+    });
 
-      pagination = this.getPagination({ count, limit, page });
-    }
+    pagination = this.getPagination({ count, limit, page });
 
     const data = await this.prismaService.user.findMany({
       where,
@@ -363,9 +361,7 @@ export class UsersBllModule extends AbstractBllService {
       ];
     }
 
-    return await this.findMany({
-      page,
-      limit,
+    const response = await this.findMany({
       where,
       select: {
         id: true,
@@ -377,6 +373,8 @@ export class UsersBllModule extends AbstractBllService {
         role: true,
       },
     });
+
+    return response;
   }
 
   async customers(dto: CustomerUsersRequest) {

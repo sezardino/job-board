@@ -1,10 +1,7 @@
 import { DEFAULT_PAGE_LIMIT } from "@/const";
 import { FindManyPrismaEntity } from "@/types";
 import { JobOfferStatus, Prisma } from "@prisma/client";
-import {
-  AbstractBllService,
-  GetPaginationReturnType,
-} from "../../module.abstract";
+import { AbstractBllService } from "../../module.abstract";
 import {
   CreateJobOfferRequest,
   CurrentCompanyJobOffersRequest,
@@ -19,25 +16,22 @@ export class JobOffersBllModule extends AbstractBllService {
     >
   ) {
     const { limit, page, select, where } = props;
-    let pagination: GetPaginationReturnType | null = null;
 
-    if (typeof page === "number" && typeof limit === "number") {
-      const count = await this.prismaService.jobOffer.count({
-        where,
-      });
+    const count = await this.prismaService.jobOffer.count({
+      where,
+    });
 
-      pagination = this.getPagination({ count, limit, page });
-    }
+    const { meta, skip, take } = this.getPagination({ count, limit, page });
 
     const data = await this.prismaService.jobOffer.findMany({
       where,
-      skip: pagination?.skip ? pagination.skip : undefined,
-      take: pagination?.take ? pagination.take : undefined,
+      skip,
+      take,
       orderBy: { createdAt: "desc" },
       select,
     });
 
-    return { data, meta: pagination?.meta };
+    return { data, meta };
   }
 
   async companyOffers(data: CurrentCompanyJobOffersRequest, companyId: string) {

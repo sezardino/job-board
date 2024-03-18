@@ -15,7 +15,7 @@ export abstract class AbstractBllService {
 
     return {
       skip: page * limit,
-      take: limit,
+      take: Number(limit),
       meta: {
         totalPages: Math.ceil(count / limit) - 1,
         page,
