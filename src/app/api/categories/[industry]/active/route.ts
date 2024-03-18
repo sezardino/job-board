@@ -1,5 +1,12 @@
-import { serverService } from "@/services/server";
-import { ActiveCategoriesRequest } from "@/services/server/modules/categories/schema";
+import { withApiRouteHandler, withValidation } from "@/app/api/utils";
+import { activeCategoriesRequestSchema } from "@/services/bll/modules/categories/schema";
+import { getActiveCategories } from "./get";
 
-export const GET = (_: any, params: { params: ActiveCategoriesRequest }) =>
-  serverService.categories.controller.active(params);
+export const GET = withValidation({
+  handler: withApiRouteHandler(
+    getActiveCategories,
+    "Cant get active categories"
+  ),
+  schema: activeCategoriesRequestSchema,
+  input: "params",
+});

@@ -3,7 +3,7 @@ import {
   TableWidgetProps,
 } from "@/components/UI/TableWidget/TableWidget";
 import { DEFAULT_DATE_FORMAT } from "@/const";
-import { CurrentCompanyJobOffersResponse } from "@/services/server/modules/job-offers/schema";
+import { CurrentCompanyJobOffersResponse } from "@/services/bll/modules/job-offers/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";

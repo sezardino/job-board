@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { CheckEmailAvailableRequest } from "@/services/server/modules/users/schema";
+import { CheckEmailAvailableRequest } from "@/services/bll/modules/users/schema";
 import { useMutationHelper } from "../../helpers";
 
 export const useCheckEmailAvailableMutation = () =>

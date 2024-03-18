@@ -2,7 +2,7 @@ import { AuthApiModule } from "./modules/auth";
 import { CategoriesApiModule } from "./modules/categories";
 import { CompaniesApiModule } from "./modules/companies";
 import { IndustriesApiModule } from "./modules/industries";
-import { OffersApiModule } from "./modules/offers";
+import { JobOffersApiModule } from "./modules/job-offers";
 import { UsersApiModule } from "./modules/users";
 
 class ApiService {
@@ -10,7 +10,7 @@ class ApiService {
   users: UsersApiModule;
   industries: IndustriesApiModule;
   companies: CompaniesApiModule;
-  offers: OffersApiModule;
+  jobOffers: JobOffersApiModule;
   categories: CategoriesApiModule;
 
   constructor() {
@@ -18,7 +18,7 @@ class ApiService {
     this.users = new UsersApiModule();
     this.industries = new IndustriesApiModule();
     this.companies = new CompaniesApiModule();
-    this.offers = new OffersApiModule();
+    this.jobOffers = new JobOffersApiModule();
     this.categories = new CategoriesApiModule();
   }
 }

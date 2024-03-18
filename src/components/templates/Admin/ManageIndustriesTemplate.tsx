@@ -1,4 +1,4 @@
-import { AdminIndustriesResponse } from "@/services/server/modules/industries/schema";
+import { AdminIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { ActionProp } from "@/types";
 import { EntityStatus } from "@prisma/client";
 import { createColumnHelper } from "@tanstack/react-table";

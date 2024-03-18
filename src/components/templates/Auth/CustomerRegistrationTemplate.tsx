@@ -9,7 +9,7 @@ import {
   CustomerRegistrationResponse,
   RegistrationStatus,
   ResendVerificationEmailResponse,
-} from "@/services/server/modules/auth/schema";
+} from "@/services/bll/modules/auth/schema";
 import { ActionProp } from "@/types";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";

@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { CheckCompanyNameAvailableRequest } from "@/services/server/modules/companies/schema";
+import { CheckCompanyNameAvailableRequest } from "@/services/bll/modules/companies/schema";
 import { useMutationHelper } from "../../helpers";
 
 export const useCheckCompanyNameAvailableMutation = () =>

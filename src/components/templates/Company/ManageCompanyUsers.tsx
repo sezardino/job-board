@@ -21,8 +21,8 @@ import { DEFAULT_PAGE_LIMIT } from "@/const";
 import {
   CancelInviteRequest,
   CancelInviteResponse,
-  CheckEmailsAvailableRequest,
-  CheckEmailsAvailableResponse,
+  CheckEmailAvailableRequest,
+  CheckEmailAvailableResponse,
   CompanyUsersResponse,
   EditCompanyUserRequest,
   EditCompanyUserResponse,
@@ -30,7 +30,7 @@ import {
   InviteUsersResponse,
   ResendInviteRequest,
   ResendInviteResponse,
-} from "@/services/server/modules/users/schema";
+} from "@/services/bll/modules/users/schema";
 import { ActionProp, DataProp } from "@/types";
 import { UserRoles } from "@prisma/client";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -52,8 +52,8 @@ type Props = {
   onStatusChange: (status: UserStatusesSelectOptions) => void;
   status: UserStatusesSelectOptions;
   checkEmailAction: ActionProp<
-    CheckEmailsAvailableRequest,
-    CheckEmailsAvailableResponse
+    CheckEmailAvailableRequest,
+    CheckEmailAvailableResponse
   >;
   inviteUsersAction: ActionProp<InviteUsersRequest, InviteUsersResponse>;
   resendInviteAction: ActionProp<ResendInviteRequest, ResendInviteResponse>;

@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { AdminIndustriesRequest } from "@/services/server/modules/industries/schema";
+import { AdminIndustriesRequest } from "@/services/bll/modules/industries/schema";
 import { useQuery } from "@tanstack/react-query";
 
 export const ADMIN_INDUSTRIES_LIST_QUERY_KEY = "adminIndustriesList";

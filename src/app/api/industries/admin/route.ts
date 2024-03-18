@@ -1,5 +1,11 @@
-import { serverService } from "@/services/server";
-import { NextRequest } from "next/server";
+import { adminIndustriesRequestSchema } from "@/services/bll/modules/industries/schema";
+import { UserRoles } from "@prisma/client";
+import { withApiRouteHandler, withValidation } from "../../utils";
+import { getIndustriesForManage } from "./get";
 
-export const GET = (req: NextRequest) =>
-  serverService.industries.controller.admin(req);
+export const GET = withValidation({
+  handler: withApiRouteHandler(getIndustriesForManage, "Cant get industries"),
+  schema: adminIndustriesRequestSchema,
+  role: [UserRoles.ADMIN],
+  input: "search",
+});

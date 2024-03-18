@@ -1,5 +1,11 @@
-import { serverService } from "@/services/server";
-import { NextRequest } from "next/server";
+import { adminUsersRequestSchema } from "@/services/bll/modules/users/schema";
+import { UserRoles } from "@prisma/client";
+import { withApiRouteHandler, withValidation } from "../../utils";
+import { getAdmins } from "./get";
 
-export const GET = (req: NextRequest) =>
-  serverService.users.controller.admins(req);
+export const GET = withValidation({
+  handler: withApiRouteHandler(getAdmins, "Cant get admins"),
+  schema: adminUsersRequestSchema,
+  role: [UserRoles.ADMIN],
+  input: "search",
+});

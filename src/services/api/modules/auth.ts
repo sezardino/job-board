@@ -4,11 +4,11 @@ import {
   customerRegistrationResponseSchema,
   resendVerificationEmailResponseSchema,
   verifyEmailTokenResponseSchema,
-} from "@/services/server/modules/auth/schema";
+} from "@/services/bll/modules/auth/schema";
 import {
   CompanyRegistrationRequest,
   companyRegistrationResponseSchema,
-} from "@/services/server/modules/auth/schema/company-registration";
+} from "@/services/bll/modules/auth/schema/company-registration";
 import { AbstractApiModule } from "../helpers";
 
 export class AuthApiModule extends AbstractApiModule {

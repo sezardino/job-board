@@ -5,11 +5,11 @@ import {
 } from "@/components/forms/CompanyRegistration/CompanyRegistrationForm";
 import { RegistrationEmailVerificationStep } from "@/components/modules/auth/RegistrationEmailVerificationStep";
 import { PublicPageUrls } from "@/const";
-import { ResendVerificationEmailResponse } from "@/services/server/modules/auth/schema";
+import { ResendVerificationEmailResponse } from "@/services/bll/modules/auth/schema";
 import {
   CompanyRegistrationResponse,
   CompanyRegistrationStatus,
-} from "@/services/server/modules/auth/schema/company-registration";
+} from "@/services/bll/modules/auth/schema/company-registration";
 import { ActionProp } from "@/types";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";

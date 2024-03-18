@@ -1,5 +1,5 @@
 import { IndustryCard } from "@/components/UI/IndustriyCard/IndustryCard";
-import { ActiveIndustriesResponse } from "@/services/server/modules/industries/schema";
+import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";

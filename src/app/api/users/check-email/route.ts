@@ -1,5 +1,12 @@
-import { serverService } from "@/services/server";
-import { NextRequest } from "next/server";
+import { checkEmailAvailableRequestSchema } from "@/services/bll/modules/users/schema";
+import { withApiRouteHandler, withValidation } from "../../utils";
+import { getEmailAvailable } from "./get";
 
-export const GET = (req: NextRequest) =>
-  serverService.users.controller.checkEmailAvailable(req);
+export const GET = withValidation({
+  handler: withApiRouteHandler(
+    getEmailAvailable,
+    "Cant check email availability"
+  ),
+  schema: checkEmailAvailableRequestSchema,
+  input: "search",
+});

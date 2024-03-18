@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { CustomerRegistrationRequest } from "@/services/server/modules/auth/schema";
+import { CustomerRegistrationRequest } from "@/services/bll/modules/auth/schema";
 import { useMutationHelper } from "../../helpers";
 
 export const useCustomerRegistrationMutation = () =>

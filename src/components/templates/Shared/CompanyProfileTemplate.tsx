@@ -26,7 +26,7 @@ import {
 import {
   EditCompanyRequest,
   EditCompanyResponse,
-} from "@/services/server/modules/companies/schema";
+} from "@/services/bll/modules/companies/schema";
 import { ActionProp, FileEntity } from "@/types";
 import parse from "html-react-parser";
 import { useTranslations } from "next-intl";
@@ -39,7 +39,7 @@ export type CompanyProfileTemplateEntity = {
   bio: string | null;
   logo: FileEntity | null;
   gallery: FileEntity[];
-  thumbnail: FileEntity | null;
+  // thumbnail: FileEntity | null;
   offers: OfferCardEntity[];
   _count: {
     offers: number;

@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { CompanyRegistrationRequest } from "@/services/server/modules/auth/schema/company-registration";
+import { CompanyRegistrationRequest } from "@/services/bll/modules/auth/schema/company-registration";
 import { useMutationHelper } from "../../helpers";
 
 export const useCompanyRegistrationMutation = () =>

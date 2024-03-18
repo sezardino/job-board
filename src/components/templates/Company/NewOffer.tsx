@@ -20,9 +20,9 @@ import {
 } from "@/components/forms/OfferSteps/Specification";
 import { OfferPreview } from "@/components/modules/offer/OfferPreview";
 import { CompanyPageUrls } from "@/const";
-import { ActiveCategoriesResponse } from "@/services/server/modules/categories/schema";
-import { ActiveIndustriesResponse } from "@/services/server/modules/industries/schema";
-import { CreateJobOfferResponse } from "@/services/server/modules/job-offers/schema";
+import { ActiveCategoriesResponse } from "@/services/bll/modules/categories/schema";
+import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";
+import { CreateJobOfferResponse } from "@/services/bll/modules/job-offers/schema";
 import { ActionProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
 import { ComponentPropsWithoutRef, FC, useState } from "react";

@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { EditCompanyRequest } from "@/services/server/modules/companies/schema";
+import { EditCompanyRequest } from "@/services/bll/modules/companies/schema";
 import { MY_COMPANY_PROFILE_QUERY_KEY } from "../..";
 import { useMutationHelper } from "../../helpers";
 
