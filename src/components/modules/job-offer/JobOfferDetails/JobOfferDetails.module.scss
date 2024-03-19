@@ -1,0 +1,39 @@
+.element {
+  @apply p-4 grid grid-cols-1 gap-4;
+}
+
+.header {
+  @apply grid grid-cols-1 gap-10;
+}
+
+.base {
+  @apply flex items-start gap-2;
+}
+
+.wrapper {
+  @apply grid grid-cols-1 gap-1;
+}
+
+.link {
+  @apply text-inherit;
+}
+
+.icon {
+  @apply ml-1;
+}
+
+.infoList {
+  @apply list-none grid grid-cols-2;
+}
+
+.infoItem {
+  @apply py-2 border-b pr-2;
+}
+
+.info {
+  @apply inline;
+}
+
+.skills {
+  @apply grid gap-1 grid-cols-[repeat(auto-fill,minmax(200px,1fr))];
+}

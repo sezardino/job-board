@@ -9,7 +9,13 @@ import {
 } from "@prisma/client";
 import { z } from "zod";
 
-export const oneOfferResponseSchema = z.object({
+export const previewJobOfferRequestSchema = z
+  .object({
+    isPreview: z.coerce.boolean().optional(),
+  })
+  .optional();
+
+export const previewJobOfferResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string().nullable(),
@@ -39,4 +45,10 @@ export const oneOfferResponseSchema = z.object({
   deadlineAt: z.date().or(z.string()),
 });
 
-export type OneOfferResponse = z.infer<typeof oneOfferResponseSchema>;
+export type PreviewJobOfferRequest = z.infer<
+  typeof previewJobOfferRequestSchema
+>;
+
+export type PreviewJobOfferResponse = z.infer<
+  typeof previewJobOfferResponseSchema
+>;

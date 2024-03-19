@@ -86,7 +86,7 @@ export const withValidation = <Schema extends ZodSchema>(
           { status: 422 }
         );
       }
-
+      console.log(error);
       return NextResponse.json(
         { message: "Invalid request", error },
         { status: 500 }

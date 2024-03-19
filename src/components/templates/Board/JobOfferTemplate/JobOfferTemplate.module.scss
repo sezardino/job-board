@@ -1,0 +1,15 @@
+.aside {
+  @apply text-center;
+}
+
+.header {
+  @apply grid grid-cols-1 gap-1;
+}
+
+.footer {
+  @apply text-center justify-center;
+}
+
+.icon {
+  @apply inline align-bottom;
+}

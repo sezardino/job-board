@@ -1,11 +1,12 @@
 import {
-  CurrentCompanyJobOffersRequest,
-  currentCompanyJobOffersResponseSchema,
-  OffersListRequest,
-  offersListResponseSchema,
-  oneOfferResponseSchema,
   CreateJobOfferRequest,
+  CurrentCompanyJobOffersRequest,
+  OffersListRequest,
+  PreviewJobOfferRequest,
   createJobOfferResponseSchema,
+  currentCompanyJobOffersResponseSchema,
+  offersListResponseSchema,
+  previewJobOfferResponseSchema,
 } from "@/services/bll/modules/job-offers/schema";
 import { AbstractApiModule } from "../helpers";
 
@@ -26,10 +27,11 @@ export class JobOffersApiModule extends AbstractApiModule {
     });
   }
 
-  one(id: string) {
+  one({ id, ...params }: PreviewJobOfferRequest & { id: string }) {
     return this.fetch({
       endpoint: `job-offers/${id}`,
-      schema: oneOfferResponseSchema,
+      schema: previewJobOfferResponseSchema,
+      config: { params },
     });
   }
 

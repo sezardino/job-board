@@ -1,6 +1,6 @@
 "use client";
 
-import { JobOfferTemplate } from "@/components/templates/Board/JobOfferTemplate/JobOfferTemplate";
+import { ManageJobOfferTemplate } from "@/components/templates/Company/ManageJobOffer/ManageJobOfferTemplate";
 import { usePreviewJobOfferQuery } from "@/hooks/react-query/query/offers";
 
 type Props = {
@@ -16,11 +16,11 @@ const OfferPage = (props: Props) => {
     data: oneOffer,
     isFetching: isOneOfferLoading,
     error,
-  } = usePreviewJobOfferQuery({ id });
+  } = usePreviewJobOfferQuery({ id, isPreview: true });
 
   if (!oneOffer) return null;
 
-  return <JobOfferTemplate offer={oneOffer} />;
+  return <ManageJobOfferTemplate offer={oneOffer} />;
 };
 
 export default OfferPage;

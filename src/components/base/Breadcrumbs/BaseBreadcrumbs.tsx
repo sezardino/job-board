@@ -7,8 +7,10 @@ import {
 } from "@nextui-org/react";
 import Link from "next/link";
 
+export type BreadcrumbItem = { label: string; href?: string };
+
 export type BaseBreadcrumbsProps = BreadcrumbsProps & {
-  items: { label: string; href?: string }[];
+  items: BreadcrumbItem[];
 };
 
 export const BaseBreadcrumbs: FC<BaseBreadcrumbsProps> = (props) => {

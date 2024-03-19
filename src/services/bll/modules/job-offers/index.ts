@@ -6,6 +6,7 @@ import {
   CreateJobOfferRequest,
   CurrentCompanyJobOffersRequest,
   OffersListRequest,
+  PreviewJobOfferRequest,
 } from "./schema";
 
 export class JobOffersBllModule extends AbstractBllService {
@@ -104,9 +105,17 @@ export class JobOffersBllModule extends AbstractBllService {
     });
   }
 
-  async one(id: string) {
+  async preview(
+    dto: PreviewJobOfferRequest & { id: string; companyId?: string }
+  ) {
+    const { id, companyId, isPreview } = dto;
+
     const jobOffer = await this.prismaService.jobOffer.findUnique({
-      where: { id, status: JobOfferStatus.ACTIVE },
+      where: {
+        id,
+        status: isPreview ? undefined : JobOfferStatus.ACTIVE,
+        companyId: isPreview ? companyId : undefined,
+      },
       select: {
         id: true,
         name: true,
@@ -136,36 +145,6 @@ export class JobOffersBllModule extends AbstractBllService {
     if (!jobOffer) throw new NotFoundException("Job offer not found");
 
     return jobOffer;
-  }
-
-  preview(id: string, companyId: string) {
-    return this.prismaService.jobOffer.findUnique({
-      where: { id, companyId },
-      select: {
-        id: true,
-        name: true,
-        seniority: true,
-        contract: true,
-        deadlineAt: true,
-        publishedAt: true,
-        description: true,
-        operating: true,
-        salary: true,
-        skills: true,
-        status: true,
-        type: true,
-        category: { select: { name: true } },
-        industry: { select: { name: true } },
-        company: {
-          select: {
-            id: true,
-            name: true,
-            slogan: true,
-            logo: { select: { id: true, url: true, name: true } },
-          },
-        },
-      },
-    });
   }
 
   create(dto: CreateJobOfferRequest, companyId: string) {

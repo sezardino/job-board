@@ -1,12 +1,20 @@
+import { getNextAuthSession } from "@/libs/next-auth";
 import { bllService } from "@/services/bll";
-import { OneOfferResponse } from "@/services/bll/modules/job-offers/schema";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+import { formatUrlSearchParams } from "../../utils";
 
 export const getJobOffer = async (
-  _: any,
+  req: NextRequest,
   params: { params: { id: string } }
 ) => {
-  const res = await bllService.jobOffers.one(params.params.id);
+  const body = formatUrlSearchParams(req.nextUrl.searchParams);
+  const session = await getNextAuthSession();
 
-  return NextResponse.json(res as OneOfferResponse, { status: 200 });
+  const res = await bllService.jobOffers.preview({
+    id: params.params.id,
+    companyId: session?.user?.companyId,
+    ...body,
+  });
+
+  return NextResponse.json(res, { status: 200 });
 };

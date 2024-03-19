@@ -2,11 +2,13 @@ import {
   TableWidget,
   TableWidgetProps,
 } from "@/components/UI/TableWidget/TableWidget";
-import { DEFAULT_DATE_FORMAT } from "@/const";
+import { Button, Icon } from "@/components/base";
+import { CompanyPageUrls, DEFAULT_DATE_FORMAT } from "@/const";
 import { CurrentCompanyJobOffersResponse } from "@/services/bll/modules/job-offers/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
 type Entity = CurrentCompanyJobOffersResponse["data"][number];
@@ -63,7 +65,20 @@ export const CompanyOffersTable: FC<CompanyOffersTableProps> = (props) => {
       columnHelper.accessor("id", {
         enableSorting: false,
         header: () => null,
-        cell: (row) => null,
+        cell: (row) => (
+          <div>
+            <Button
+              as={Link}
+              href={CompanyPageUrls.offer(row.getValue())}
+              variant="light"
+              color="primary"
+              tooltip="Preview"
+              isIconOnly
+            >
+              <Icon name="HiEye" />
+            </Button>
+          </div>
+        ),
       }),
     ],
     [entityT, t]

@@ -18,7 +18,7 @@ import {
   OfferFormSpecificationStep,
   OfferFormSpecificationStepFormValues,
 } from "@/components/forms/OfferSteps/Specification";
-import { OfferPreview } from "@/components/modules/offer/OfferPreview";
+import { JobOfferPreview } from "@/components/modules/job-offer/JobOfferPreview";
 import { CompanyPageUrls } from "@/const";
 import { ActiveCategoriesResponse } from "@/services/bll/modules/categories/schema";
 import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";
@@ -210,7 +210,7 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
                 values.skills &&
                 values.description && (
                   <>
-                    <OfferPreview
+                    <JobOfferPreview
                       industry={values.details.industry}
                       category={values.details.category}
                       contract={values.specification.contract}

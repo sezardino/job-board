@@ -14,6 +14,7 @@ export const CompanyPageUrls = {
   offers: "/company/offers",
   bank: "/company/bank",
   newOffer: "/company/offers/new",
+  offer: (id: string) => `/company/offers/${id}`,
 };
 
 export const UserPageUrls = {

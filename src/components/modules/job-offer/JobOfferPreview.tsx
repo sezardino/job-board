@@ -14,7 +14,7 @@ import {
 import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";
 
-export interface OfferPreviewProps extends ComponentPropsWithoutRef<"div"> {
+export interface JobOfferPreviewProps extends ComponentPropsWithoutRef<"div"> {
   industry: string;
   category: string;
   name: string;
@@ -27,7 +27,7 @@ export interface OfferPreviewProps extends ComponentPropsWithoutRef<"div"> {
   operating: JobOperatingMode[];
 }
 
-export const OfferPreview: FC<OfferPreviewProps> = (props) => {
+export const JobOfferPreview: FC<JobOfferPreviewProps> = (props) => {
   const {
     salary,
     industry,
