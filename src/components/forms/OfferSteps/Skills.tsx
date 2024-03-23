@@ -21,6 +21,8 @@ type Props = {
   initialValues?: Partial<OfferFormSkillsStepFormValues>;
   onFormSubmit: (values: OfferFormSkillsStepFormValues) => void;
   onBackClick: (dirty: boolean) => void;
+  backCopy?: string;
+  nextCopy?: string;
 };
 
 export type OfferFormSkillsStepProps = ComponentPropsWithoutRef<"form"> & Props;
@@ -28,9 +30,17 @@ export type OfferFormSkillsStepProps = ComponentPropsWithoutRef<"form"> & Props;
 const BASIC_SKILL = { name: "", level: SkillLevel.BASIC };
 
 export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
-  const { initialValues, onFormSubmit, onBackClick, className, ...rest } =
-    props;
-  const t = useTranslations("forms.offer");
+  const {
+    backCopy,
+    nextCopy,
+    initialValues,
+    onFormSubmit,
+    onBackClick,
+    className,
+    ...rest
+  } = props;
+
+  const t = useTranslations("forms.job-offer-skills");
   const entityT = useTranslations("entity");
 
   const validationSchema = useMemo(
@@ -40,13 +50,13 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
           skills: z.array(
             z.object({
               name: z
-                .string({ required_error: t("skills.name.required") })
+                .string({ required_error: t("name.required") })
                 .max(
                   MAX_STRING_LENGTH,
-                  t("skills.name.max-length", { value: MAX_STRING_LENGTH })
+                  t("name.max-length", { value: MAX_STRING_LENGTH })
                 ),
               level: z.nativeEnum(SkillLevel, {
-                required_error: t("skills.level.required"),
+                required_error: t("level.required"),
               }),
             })
           ),
@@ -79,18 +89,21 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
     <FormWrapper
       {...rest}
       formik={formik}
-      submit={{ label: t("next") }}
-      cancel={{ label: t("back"), onClick: () => onBackClick(formik.dirty) }}
+      submit={{ label: nextCopy ? nextCopy : t("next") }}
+      cancel={{
+        label: backCopy ? backCopy : t("back"),
+        onClick: () => onBackClick(formik.dirty),
+      }}
       className={twMerge("", className)}
     >
       <TitleDescription
         titleLevel="h2"
-        title={t("skills.title")}
-        description={t("skills.description")}
+        title={t("title")}
+        description={t("description")}
       />
       {!formik.values.skills.length && (
         <Button color="primary" variant="bordered" onClick={addFirstSkill}>
-          {t("skills.add-first")}
+          {t("add-first")}
         </Button>
       )}
 
@@ -109,15 +122,15 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                   <ControlledInput
                     name={`skills.[${i}].name`}
                     labelPlacement="inside"
-                    label={t("skills.name.label")}
-                    placeholder={t("skills.name.placeholder")}
+                    label={t("name.label")}
+                    placeholder={t("name.placeholder")}
                   />
                   <ControlledSelect
                     name={`skills.[${i}].level`}
                     isMultiple={false}
                     labelPlacement="inside"
-                    label={t("skills.level.label")}
-                    placeholder={t("skills.level.placeholder")}
+                    label={t("level.label")}
+                    placeholder={t("level.placeholder")}
                     options={skillLevelOptions}
                   />
 
@@ -127,7 +140,7 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                     variant="light"
                     className="mt-2"
                     onClick={() => helpers.remove(i)}
-                    aria-label={t("skills.remove")}
+                    aria-label={t("remove")}
                   >
                     <Icon name="HiTrash" size={16} />
                   </Button>
@@ -137,7 +150,7 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                 isIconOnly
                 className="justify-self-center"
                 onClick={() => helpers.push(BASIC_SKILL)}
-                aria-label={t("skills.add")}
+                aria-label={t("add")}
               >
                 <Icon name="HiPlus" size={16} />
               </Button>

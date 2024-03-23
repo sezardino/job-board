@@ -8,6 +8,7 @@ import {
   ModalHeaderProps,
   Modal as NextUIModal,
   ModalProps as NextUIModalProps,
+  extendVariants,
 } from "@nextui-org/react";
 import { type FC } from "react";
 
@@ -21,16 +22,24 @@ export type ModalComponent = FC<ModalProps> & {
   Footer: FC<ModalFooterProps>;
 };
 
+const ExtendedModal = extendVariants(NextUIModal, {
+  defaultVariants: {
+    backdrop: "blur",
+    scrollBehavior: "outside",
+  },
+});
+
 export const Modal: ModalComponent = (props) => {
-  const { title, isOpen, onClose, children, className, ...rest } = props;
+  const { title, children, className, ...rest } = props;
 
   return (
     <NextUIModal
       {...rest}
-      isOpen={isOpen}
-      onClose={onClose}
-      backdrop="blur"
-      scrollBehavior="outside"
+      classNames={{
+        header: "block",
+        body: "block",
+        footer: "block",
+      }}
     >
       <ModalContent>{children}</ModalContent>
     </NextUIModal>

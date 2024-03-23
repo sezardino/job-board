@@ -15,6 +15,7 @@ import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 import NextLink from "next/link";
 
 import { TableWidget } from "@/components/UI/TableWidget/TableWidget";
+import { EditJobOfferWrapper } from "@/components/wrappers/EditJobOfferModalWrapper";
 import styles from "./ManageCompanyJobOffersTemplate.module.scss";
 import { useCompanyOffersTable } from "./use-table";
 
@@ -63,50 +64,61 @@ export const ManageCompanyJobOffersTemplate: FC<
     });
 
   return (
-    <Grid tag="section" gap={4} {...rest}>
-      <Grid tag="header" gap={2}>
-        <TitleDescription
-          title={t("title")}
-          titleLevel="h1"
-          description={t("description")}
-        />
-        <div className={styles.wrapper}>
-          <div className={styles.search}>
-            <SearchForm placeholder={t("search")} onSearch={onSearchChange} />
+    <>
+      <Grid tag="section" gap={4} {...rest}>
+        <Grid tag="header" gap={2}>
+          <TitleDescription
+            title={t("title")}
+            titleLevel="h1"
+            description={t("description")}
+          />
+          <div className={styles.wrapper}>
+            <div className={styles.search}>
+              <SearchForm placeholder={t("search")} onSearch={onSearchChange} />
 
-            <Select
-              options={statusFilterOptions}
-              value={status}
-              isMultiple={false}
-              onSelectChange={onStatusChange}
-              placeholder={t("filters.status")}
-              className={styles.filter}
-            />
-            <Select
-              options={seniorityFilterOptions}
-              value={seniority}
-              isMultiple={false}
-              onSelectChange={onSeniorityChange}
-              placeholder={t("filters.seniority")}
-              className={styles.filter}
-            />
+              <Select
+                options={statusFilterOptions}
+                value={status}
+                isMultiple={false}
+                onSelectChange={onStatusChange}
+                placeholder={t("filters.status")}
+                className={styles.filter}
+              />
+              <Select
+                options={seniorityFilterOptions}
+                value={seniority}
+                isMultiple={false}
+                onSelectChange={onSeniorityChange}
+                placeholder={t("filters.seniority")}
+                className={styles.filter}
+              />
+            </div>
+            <Button
+              as={NextLink}
+              href={CompanyPageUrls.newOffer}
+              color="primary"
+            >
+              {t("create")}
+            </Button>
           </div>
-          <Button as={NextLink} href={CompanyPageUrls.newOffer} color="primary">
-            {t("create")}
-          </Button>
-        </div>
+        </Grid>
+
+        <TableWidget
+          {...offers}
+          columns={columns}
+          data={offers.data?.data || []}
+          total={offers.data?.meta.totalPages || 0}
+          page={page}
+          onPageChange={onPageChange}
+          limit={limit}
+          onLimitChange={onLimitChange}
+        />
       </Grid>
 
-      <TableWidget
-        {...offers}
-        columns={columns}
-        data={offers.data?.data || []}
-        total={offers.data?.meta.totalPages || 0}
-        page={page}
-        onPageChange={onPageChange}
-        limit={limit}
-        onLimitChange={onLimitChange}
+      <EditJobOfferWrapper
+        offerId={jobOfferForEditId || undefined}
+        onClose={() => setJobOfferForEditId(null)}
       />
-    </Grid>
+    </>
   );
 };

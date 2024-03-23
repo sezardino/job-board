@@ -17,7 +17,7 @@ export const BaseStepper: FC<BaseStepperProps> = (props) => {
   {
   }
   return (
-    <div {...rest} className={twMerge("relative", className)}>
+    <div {...rest} className={twMerge("w-full relative", className)}>
       <div
         className={twMerge(
           "absolute left-0 top-2 h-0.5 w-full bg-gray-200",

@@ -17,6 +17,8 @@ type Props = {
   initialValues?: Partial<OfferFormDescriptionStepFormValues>;
   onFormSubmit: (values: OfferFormDescriptionStepFormValues) => void;
   onBackClick: (dirty: boolean) => void;
+  backCopy?: string;
+  nextCopy?: string;
 };
 
 export type OfferFormDescriptionStepProps = ComponentPropsWithoutRef<"form"> &
@@ -28,9 +30,16 @@ const MAX_DESCRIPTION_LENGTH = 10000;
 export const OfferFormDescriptionStep: FC<OfferFormDescriptionStepProps> = (
   props
 ) => {
-  const { initialValues, onFormSubmit, onBackClick, className, ...rest } =
-    props;
-  const t = useTranslations("forms.offer");
+  const {
+    backCopy,
+    nextCopy,
+    initialValues,
+    onFormSubmit,
+    onBackClick,
+    className,
+    ...rest
+  } = props;
+  const t = useTranslations("forms.job-offer-description");
 
   const validationSchema = useMemo(
     () =>
@@ -38,17 +47,17 @@ export const OfferFormDescriptionStep: FC<OfferFormDescriptionStepProps> = (
         z.object({
           description: z
             .string({
-              required_error: t("description.field.required"),
+              required_error: t("field.required"),
             })
             .min(
               MIN_DESCRIPTION_LENGTH,
-              t("description.field.min-length", {
+              t("field.min-length", {
                 value: MIN_DESCRIPTION_LENGTH,
               })
             )
             .max(
               MAX_DESCRIPTION_LENGTH,
-              t("description.field.max-length", {
+              t("field.max-length", {
                 value: MAX_DESCRIPTION_LENGTH,
               })
             ),
@@ -72,18 +81,18 @@ export const OfferFormDescriptionStep: FC<OfferFormDescriptionStepProps> = (
       formik={formik}
       submit={{ label: t("next") }}
       cancel={{ label: t("back"), onClick: () => onBackClick(formik.dirty) }}
-      className={twMerge("", className)}
+      className={twMerge(className)}
     >
       <TitleDescription
         titleLevel="h2"
-        title={t("description.title")}
-        description={t("description.description")}
+        title={t("title")}
+        description={t("description")}
       />
       <ControlledWysiwygEditor
         name="description"
-        label={t("description.field.label")}
-        placeholder={t("description.field.placeholder")}
-        description={t("description.field.description")}
+        label={t("field.label")}
+        placeholder={t("field.placeholder")}
+        description={t("field.description")}
       />
     </FormWrapper>
   );

@@ -6,7 +6,7 @@ import {
 } from "react";
 import { twMerge } from "tailwind-merge";
 
-type GridTags = Extract<
+export type GridTags = Extract<
   ElementType,
   "header" | "div" | "ul" | "ol" | "section" | "form" | "li" | "article"
 >;
