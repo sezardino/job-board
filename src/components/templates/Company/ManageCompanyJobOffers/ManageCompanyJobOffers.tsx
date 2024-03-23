@@ -16,6 +16,8 @@ import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
 import NextLink from "next/link";
 
+import styles from "./ManageCompanyJobOffers.module.css";
+
 type OfferFilters = {
   status: JobOfferStatusFilters;
   seniority: JobOfferSeniorityFilters;
@@ -27,12 +29,12 @@ type Props = {
   offers: DataProp<CurrentCompanyJobOffersResponse>;
 };
 
-export type CompanyOffersTemplateProps = ComponentPropsWithoutRef<"section"> &
+export type ManageCompanyJobOffersProps = ComponentPropsWithoutRef<"section"> &
   Props &
   DataListProp &
   OfferFilters;
 
-export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
+export const ManageCompanyJobOffers: FC<ManageCompanyJobOffersProps> = (
   props
 ) => {
   const {
@@ -123,8 +125,8 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
           titleLevel="h1"
           description={t("description")}
         />
-        <div className="flex gap-3 items-center justify-between">
-          <div className="flex-grow flex flex-wrap gap-3 items-center">
+        <div className={styles.wrapper}>
+          <div className={styles.search}>
             <SearchForm placeholder={t("search")} onSearch={onSearchChange} />
 
             <Select
@@ -133,7 +135,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
               isMultiple={false}
               onSelectChange={onStatusChange}
               placeholder={t("filters.status")}
-              className="max-w-[220px]"
+              className={styles.filter}
             />
             <Select
               options={seniorityFilterOptions}
@@ -141,7 +143,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
               isMultiple={false}
               onSelectChange={onSeniorityChange}
               placeholder={t("filters.seniority")}
-              className="max-w-[220px]"
+              className={styles.filter}
             />
           </div>
           <Button as={NextLink} href={CompanyPageUrls.newOffer} color="primary">
