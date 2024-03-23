@@ -829,16 +829,31 @@
         "status": "Filer by status",
         "seniority": "Filter by seniority"
       },
-      "all": "All"
+      "all": "All",
+      "table": {
+        "no-data": "No offers found",
+        "name": "Name",
+        "industry-category": "Industry/Category",
+        "deadline": "Deadline",
+        "seniority": "Seniority",
+        "status": "Status",
+        "edit": "Edit",
+        "preview": "Preview"
+      }
     },
-    "company-offers-table": {
-      "no-data": "No offers found",
-      "name": "Name",
-      "industry": "Industry",
-      "category": "Category",
-      "deadline": "Deadline",
-      "seniority": "Seniority",
-      "status": "Status"
+    "edit-job-offer-modal": {
+      "title": "Edit job offer",
+      "description": "You can edit job offer here",
+      "cancel": "Cancel",
+      "submit": "Edit job offer"
+    },
+    "edit-job-offer-modal-wrapper": {
+      "confirm": {
+        "title": "Confirm",
+        "description": "Are you sure you want to edit this job offer?",
+        "cancel": "Cancel",
+        "confirm": "Edit job offer"
+      }
     }
   },
   "messages": {

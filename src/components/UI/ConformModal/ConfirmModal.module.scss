@@ -1,0 +1,11 @@
+.element {
+  @apply border-t flex flex-row gap-3 flex-wrap justify-between;
+}
+
+.footer {
+  @apply flex items-center gap-3 flex-wrap justify-between;
+}
+
+.wrapper {
+  @apply flex gap-3;
+}

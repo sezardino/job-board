@@ -5,18 +5,18 @@ import {
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { Button, Grid } from "@/components/base";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
-import { Select, SelectOption } from "@/components/base/Select/Select";
-import { CompanyOffersTable } from "@/components/modules/company/CompanyOffersTable";
+import { Select } from "@/components/base/Select/Select";
 import { CompanyPageUrls } from "@/const";
 import { CurrentCompanyJobOffersResponse } from "@/services/bll/modules/job-offers/schema";
 import { DataListProp, DataProp } from "@/types";
-import { JobOfferStatus, Seniority } from "@prisma/client";
 import { useTranslations } from "next-intl";
-import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
+import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 
 import NextLink from "next/link";
 
+import { TableWidget } from "@/components/UI/TableWidget/TableWidget";
 import styles from "./ManageCompanyJobOffersTemplate.module.scss";
+import { useCompanyOffersTable } from "./use-table";
 
 type OfferFilters = {
   status: JobOfferStatusFilters;
@@ -53,67 +53,14 @@ export const ManageCompanyJobOffersTemplate: FC<
   const t = useTranslations("components.company-offers-template");
   const entityT = useTranslations("entity");
 
-  const statusFilterOptions = useMemo<
-    SelectOption<JobOfferStatusFilters>[]
-  >(() => {
-    return [
-      {
-        id: "all",
-        label: t("all"),
-      },
-      {
-        id: JobOfferStatus.ACTIVE,
-        label: entityT(`job-status.${JobOfferStatus.ACTIVE}`),
-      },
-      {
-        id: JobOfferStatus.DRAFT,
-        label: entityT(`job-status.${JobOfferStatus.DRAFT}`),
-      },
-      {
-        id: JobOfferStatus.INACTIVE,
-        label: entityT(`job-status.${JobOfferStatus.INACTIVE}`),
-      },
-      {
-        id: JobOfferStatus.FINISHED,
-        label: entityT(`job-status.${JobOfferStatus.FINISHED}`),
-      },
-      {
-        id: JobOfferStatus.ARCHIVED,
-        label: entityT(`job-status.${JobOfferStatus.ARCHIVED}`),
-      },
-    ];
-  }, [entityT, t]);
+  const [jobOfferForEditId, setJobOfferForEditId] = useState<string | null>(
+    null
+  );
 
-  const seniorityFilterOptions = useMemo<
-    SelectOption<JobOfferSeniorityFilters>[]
-  >(() => {
-    return [
-      {
-        id: "all",
-        label: t("all"),
-      },
-      {
-        id: Seniority.INTERN,
-        label: entityT(`seniority.${Seniority.INTERN}`),
-      },
-      {
-        id: Seniority.JUNIOR,
-        label: entityT(`seniority.${Seniority.JUNIOR}`),
-      },
-      {
-        id: Seniority.MID,
-        label: entityT(`seniority.${Seniority.MID}`),
-      },
-      {
-        id: Seniority.SENIOR,
-        label: entityT(`seniority.${Seniority.SENIOR}`),
-      },
-      {
-        id: Seniority.EXPERT,
-        label: entityT(`seniority.${Seniority.EXPERT}`),
-      },
-    ];
-  }, [entityT, t]);
+  const { columns, seniorityFilterOptions, statusFilterOptions } =
+    useCompanyOffersTable({
+      onEditJobOffer: setJobOfferForEditId,
+    });
 
   return (
     <Grid tag="section" gap={4} {...rest}>
@@ -149,8 +96,10 @@ export const ManageCompanyJobOffersTemplate: FC<
           </Button>
         </div>
       </Grid>
-      <CompanyOffersTable
+
+      <TableWidget
         {...offers}
+        columns={columns}
         data={offers.data?.data || []}
         total={offers.data?.meta.totalPages || 0}
         page={page}

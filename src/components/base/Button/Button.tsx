@@ -1,18 +1,19 @@
 import {
-  Button as Component,
-  ButtonProps as ComponentProps,
+  Button as NextUIButton,
+  ButtonProps as NextUIButtonProps,
   Tooltip,
 } from "@nextui-org/react";
 import { ForwardRefRenderFunction, forwardRef } from "react";
 
-type OmittedLibProps = Omit<ComponentProps, "variant" | "radius">;
+type OmittedLibProps = Omit<NextUIButtonProps, "variant" | "radius" | "ref">;
 
 type Props = {
   variant?: Extract<
-    ComponentProps["variant"],
+    NextUIButtonProps["variant"],
     "solid" | "shadow" | "bordered" | "light"
   >;
   tooltip?: string;
+  text?: string;
 };
 
 export type ButtonProps = OmittedLibProps & Props;
@@ -21,12 +22,18 @@ const ButtonComponent: ForwardRefRenderFunction<
   HTMLButtonElement,
   ButtonProps
 > = (props, ref) => {
-  const { tooltip, variant = "solid", color, children, ...rest } = props;
+  const { text, tooltip, variant = "solid", color, children, ...rest } = props;
 
   const button = (
-    <Component {...rest} color={color} ref={ref} variant={variant} radius="lg">
-      {children}
-    </Component>
+    <NextUIButton
+      {...rest}
+      color={color}
+      ref={ref}
+      variant={variant}
+      radius="lg"
+    >
+      {text ? text : children}
+    </NextUIButton>
   );
 
   if (tooltip) {

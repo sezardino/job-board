@@ -5,7 +5,8 @@ import {
   UserStatusesSelect,
   UserStatusesSelectOptions,
 } from "@/components/UI/UserStatusesSelect/UserStatusesSelect";
-import { Button, LoadingOverlay, Modal } from "@/components/base";
+import { Button, LoadingOverlay } from "@/components/base";
+import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import {
   EditCompanyUserAcceptedRoles,
@@ -154,46 +155,50 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
         />
       </section>
 
-      <Modal
+      <ModalWithDescription
         isOpen={isInviteModalOpen}
         onClose={() => setIsInviteModalOpen(false)}
         size="xl"
         title={t("invite-user.title")}
         description={t("invite-user.description")}
       >
-        {inviteUsersAction.isLoading ||
-          (checkEmailAction.isLoading && <LoadingOverlay isInWrapper />)}
-        <InviteUsersForm
-          cancel={{
-            label: t("invite-user.cancel"),
-            onClick: () => setIsInviteModalOpen(false),
-          }}
-          label={t("invite-user.label")}
-          submitText={t("invite-user.submit")}
-          onFormSubmit={inviteUsersHandler}
-          onValidateEmailsRequest={checkEmailAction.handler}
-        />
-      </Modal>
+        <ModalWithDescription.Body>
+          {inviteUsersAction.isLoading ||
+            (checkEmailAction.isLoading && <LoadingOverlay isInWrapper />)}
+          <InviteUsersForm
+            cancel={{
+              label: t("invite-user.cancel"),
+              onClick: () => setIsInviteModalOpen(false),
+            }}
+            label={t("invite-user.label")}
+            submitText={t("invite-user.submit")}
+            onFormSubmit={inviteUsersHandler}
+            onValidateEmailsRequest={checkEmailAction.handler}
+          />
+        </ModalWithDescription.Body>
+      </ModalWithDescription>
 
       {userToEdit && (
-        <Modal
+        <ModalWithDescription
           isOpen={!!userToEdit}
           onClose={() => setUserToEdit(null)}
           size="xl"
           title={t("edit-user.title")}
           description={t("edit-user.description")}
         >
-          {editUserAction.isLoading ||
-            (checkEmailAction.isLoading && <LoadingOverlay isInWrapper />)}
-          <EditCompanyUserForm
-            cancelText={t("edit-user.cancel")}
-            role={userToEdit.role}
-            onCancelClick={() => setIsInviteModalOpen(false)}
-            label={t("edit-user.label")}
-            submitText={t("edit-user.confirm")}
-            onFormSubmit={editUserHandler}
-          />
-        </Modal>
+          <ModalWithDescription.Body>
+            {editUserAction.isLoading ||
+              (checkEmailAction.isLoading && <LoadingOverlay isInWrapper />)}
+            <EditCompanyUserForm
+              cancelText={t("edit-user.cancel")}
+              role={userToEdit.role}
+              onCancelClick={() => setIsInviteModalOpen(false)}
+              label={t("edit-user.label")}
+              submitText={t("edit-user.confirm")}
+              onFormSubmit={editUserHandler}
+            />
+          </ModalWithDescription.Body>
+        </ModalWithDescription>
       )}
 
       <ConfirmModal
@@ -201,17 +206,21 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
         onClose={() => setUserToResendInvite(null)}
         title={t("resend-invite.title")}
         description={t("resend-invite.description")}
-        cancel={{
-          text: t("resend-invite.cancel"),
-          onClick: () => setUserToResendInvite(null),
-        }}
-        confirm={{
-          text: t("resend-invite.confirm"),
-          onClick: async () =>
-            userToResendInvite
-              ? resendInviteAction.handler({ id: userToResendInvite })
-              : undefined,
-        }}
+        buttons={[
+          {
+            text: t("resend-invite.cancel"),
+            variant: "bordered",
+            onClick: () => setUserToResendInvite(null),
+          },
+          {
+            text: t("resend-invite.confirm"),
+            color: "primary",
+            onClick: async () =>
+              userToResendInvite
+                ? resendInviteAction.handler({ id: userToResendInvite })
+                : undefined,
+          },
+        ]}
         isLoading={resendInviteAction.isLoading}
       />
 
@@ -220,17 +229,21 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
         onClose={() => setUserToCancelInvite(null)}
         title={t("cancel-invite.title")}
         description={t("cancel-invite.description")}
-        cancel={{
-          text: t("cancel-invite.cancel"),
-          onClick: () => setUserToCancelInvite(null),
-        }}
-        confirm={{
-          text: t("cancel-invite.confirm"),
-          onClick: async () =>
-            userToCancelInvite
-              ? cancelInviteAction.handler({ id: userToCancelInvite })
-              : undefined,
-        }}
+        buttons={[
+          {
+            text: t("cancel-invite.cancel"),
+            variant: "bordered",
+            onClick: () => setUserToCancelInvite(null),
+          },
+          {
+            text: t("cancel-invite.confirm"),
+            color: "danger",
+            onClick: async () =>
+              userToCancelInvite
+                ? cancelInviteAction.handler({ id: userToCancelInvite })
+                : undefined,
+          },
+        ]}
         isLoading={resendInviteAction.isLoading}
       />
     </>

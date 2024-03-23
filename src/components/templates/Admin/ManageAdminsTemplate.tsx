@@ -1,3 +1,4 @@
+import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import { AdminUsersResponse } from "@/services/bll/modules/users/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
@@ -11,7 +12,7 @@ import {
 import { twMerge } from "tailwind-merge";
 import { TableWidget } from "../../UI/TableWidget/TableWidget";
 import { UserInfo } from "../../UI/UserInfo/UserInfo";
-import { Button, Icon, LoadingOverlay, Modal } from "../../base";
+import { Button, Icon, LoadingOverlay } from "../../base";
 import { SearchForm } from "../../base/SearchForm/SearchForm";
 import { AuthForm, AuthFormValues } from "../../forms";
 
@@ -124,25 +125,27 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
         />
       </section>
 
-      <Modal
+      <ModalWithDescription
         isOpen={isInviteAdminModalOpen}
         onClose={() => setIsInviteAdminModalOpen(false)}
         title={t("invite.title")}
         description={t("invite.description")}
       >
-        {isInviteAdminLoading && <LoadingOverlay isInWrapper />}
-        <AuthForm
-          type="new-user"
-          onFormSubmit={inviteAdminHandler}
-          onEmailAvailableRequest={onEmailAvailableRequest}
-          label={t("invite.title")}
-          submitText={t("invite.submit")}
-          cancel={{
-            label: t("invite.cancel"),
-            onClick: () => setIsInviteAdminModalOpen(false),
-          }}
-        />
-      </Modal>
+        <ModalWithDescription.Body>
+          {isInviteAdminLoading && <LoadingOverlay isInWrapper />}
+          <AuthForm
+            type="new-user"
+            onFormSubmit={inviteAdminHandler}
+            onEmailAvailableRequest={onEmailAvailableRequest}
+            label={t("invite.title")}
+            submitText={t("invite.submit")}
+            cancel={{
+              label: t("invite.cancel"),
+              onClick: () => setIsInviteAdminModalOpen(false),
+            }}
+          />
+        </ModalWithDescription.Body>
+      </ModalWithDescription>
     </>
   );
 };

@@ -19,7 +19,6 @@ import {
   OfferFormSpecificationStepFormValues,
 } from "@/components/forms/OfferSteps/Specification";
 import { JobOfferPreview } from "@/components/modules/job-offer/JobOfferPreview";
-import { CompanyPageUrls } from "@/const";
 import { ActiveCategoriesResponse } from "@/services/bll/modules/categories/schema";
 import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { CreateJobOfferResponse } from "@/services/bll/modules/job-offers/schema";
@@ -240,14 +239,18 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
       <ConfirmModal
         title={t("cancel-modal.title")}
         description={t("cancel-modal.description")}
-        cancel={{
-          text: t("cancel-modal.cancel"),
-          onClick: () => setIsCancelModalOpen(false),
-        }}
-        confirm={{
-          text: t("cancel-modal.confirm"),
-          href: CompanyPageUrls.offers,
-        }}
+        buttons={[
+          {
+            text: t("cancel-modal.cancel"),
+            variant: "bordered",
+            onClick: () => setIsCancelModalOpen(false),
+          },
+          {
+            text: t("cancel-modal.confirm"),
+            color: "primary",
+            onClick: () => setIsCancelModalOpen(false),
+          },
+        ]}
         isOpen={isCancelModalOpen}
         onClose={() => setIsCancelModalOpen(false)}
       />
@@ -255,14 +258,18 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
       <ConfirmModal
         title={t("back-modal.title")}
         description={t("back-modal.description")}
-        cancel={{
-          text: t("back-modal.cancel"),
-          onClick: () => setPrevStep(null),
-        }}
-        confirm={{
-          text: t("back-modal.confirm"),
-          onClick: () => toPrevStep(),
-        }}
+        buttons={[
+          {
+            text: t("back-modal.cancel"),
+            variant: "bordered",
+            onClick: () => setPrevStep(null),
+          },
+          {
+            text: t("back-modal.confirm"),
+            color: "primary",
+            onClick: () => toPrevStep(),
+          },
+        ]}
         isOpen={!!prevStep}
         onClose={() => setPrevStep(null)}
       />
@@ -270,14 +277,18 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
       <ConfirmModal
         title={t("confirm-modal.title")}
         description={t("confirm-modal.description")}
-        cancel={{
-          text: t("confirm-modal.cancel"),
-          onClick: () => setIsConfirmModalOpen(false),
-        }}
-        confirm={{
-          text: t("confirm-modal.confirm"),
-          onClick: confirmJobOfferCreation,
-        }}
+        buttons={[
+          {
+            text: t("confirm-modal.cancel"),
+            variant: "bordered",
+            onClick: () => setIsConfirmModalOpen(false),
+          },
+          {
+            text: t("confirm-modal.confirm"),
+            color: "primary",
+            onClick: confirmJobOfferCreation,
+          },
+        ]}
         isOpen={isConfirmModalOpen}
         onClose={() => setIsConfirmModalOpen(false)}
       />

@@ -1,58 +1,42 @@
 import {
-  Modal as Component,
-  ModalProps as ComponentProps,
   ModalBody,
+  ModalBodyProps,
   ModalContent,
   ModalFooter,
+  ModalFooterProps,
   ModalHeader,
+  ModalHeaderProps,
+  Modal as NextUIModal,
+  ModalProps as NextUIModalProps,
 } from "@nextui-org/react";
-import { ReactNode, type FC } from "react";
-import { twMerge } from "tailwind-merge";
-import { Typography } from "..";
+import { type FC } from "react";
 
-export type ModalProps = Omit<ComponentProps, "backdrop"> & {
-  title?: string;
-  description?: string;
+export type ModalProps = Omit<NextUIModalProps, "backdrop"> & {
   onClose: () => void;
-  footer?: ReactNode;
 };
 
-export const Modal: FC<ModalProps> = (props) => {
-  const {
-    title,
-    description,
-    isOpen,
-    onClose,
-    footer,
-    children,
-    className,
-    ...rest
-  } = props;
+export type ModalComponent = FC<ModalProps> & {
+  Header: FC<ModalHeaderProps>;
+  Body: FC<ModalBodyProps>;
+  Footer: FC<ModalFooterProps>;
+};
+
+export const Modal: ModalComponent = (props) => {
+  const { title, isOpen, onClose, children, className, ...rest } = props;
 
   return (
-    <Component
+    <NextUIModal
       {...rest}
       isOpen={isOpen}
       onClose={onClose}
       backdrop="blur"
       scrollBehavior="outside"
     >
-      <ModalContent>
-        {(title || description) && (
-          <ModalHeader className="flex flex-col gap-1 py-5">
-            {title && (
-              <Typography tag="h2" styling="lg">
-                {title}
-              </Typography>
-            )}
-
-            {description && <Typography tag="p">{description}</Typography>}
-          </ModalHeader>
-        )}
-        <ModalBody className={twMerge("py-5", className)}>{children}</ModalBody>
-
-        {footer && <ModalFooter>{footer}</ModalFooter>}
-      </ModalContent>
-    </Component>
+      <ModalContent>{children}</ModalContent>
+    </NextUIModal>
   );
 };
+
+Modal.Header = ModalHeader;
+Modal.Body = ModalBody;
+Modal.Footer = ModalFooter;

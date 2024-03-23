@@ -2,14 +2,9 @@ import {
   OfferCardEntity,
   OffersList,
 } from "@/components/UI/OffersList/OffersList";
-import {
-  Button,
-  Grid,
-  LoadingOverlay,
-  Modal,
-  Typography,
-} from "@/components/base";
+import { Button, Grid, LoadingOverlay, Typography } from "@/components/base";
 import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
+import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import {
   EditCompanyBaseDataForm,
   EditCompanyBaseDataFormValues,
@@ -215,47 +210,51 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
         <>
           {editAction && (
             <>
-              <Modal
+              <ModalWithDescription
                 isOpen={isEditBioModalOpen}
                 onClose={() => setIsEditBioModalOpen(false)}
                 title={t("edit-bio.title")}
                 description={t("edit-bio.description")}
                 size="xl"
               >
-                {editAction.isLoading && <LoadingOverlay isInWrapper />}
-                <EditCompanyBioForm
-                  onFormSubmit={editBioHandler}
-                  initialValues={{ bio: company?.bio || "" }}
-                  cancel={{
-                    label: t("edit-bio.cancel"),
-                    onClick: () => setIsEditBioModalOpen(false),
-                  }}
-                  submitText={t("edit-bio.submit")}
-                />
-              </Modal>
+                <ModalWithDescription.Body>
+                  {editAction.isLoading && <LoadingOverlay isInWrapper />}
+                  <EditCompanyBioForm
+                    onFormSubmit={editBioHandler}
+                    initialValues={{ bio: company?.bio || "" }}
+                    cancel={{
+                      label: t("edit-bio.cancel"),
+                      onClick: () => setIsEditBioModalOpen(false),
+                    }}
+                    submitText={t("edit-bio.submit")}
+                  />
+                </ModalWithDescription.Body>
+              </ModalWithDescription>
 
-              <Modal
+              <ModalWithDescription
                 isOpen={isEditBaseDataModalOpen}
                 onClose={() => setIsEditBaseDataModalOpen(false)}
                 title={t("edit-base-data.title")}
                 description={t("edit-base-data.description")}
                 size="xl"
               >
-                {editAction.isLoading && <LoadingOverlay isInWrapper />}
-                <EditCompanyBaseDataForm
-                  initialValues={{
-                    slogan: company?.slogan || "",
-                    logo: company?.logo?.url || null,
-                    isLogoDeleted: false,
-                  }}
-                  onFormSubmit={editBaseCompanyDataHandler}
-                  cancel={{
-                    label: t("edit-base-data.cancel"),
-                    onClick: () => setIsEditBaseDataModalOpen(false),
-                  }}
-                  submitText={t("edit-base-data.submit")}
-                />
-              </Modal>
+                <ModalWithDescription.Body>
+                  {editAction.isLoading && <LoadingOverlay isInWrapper />}
+                  <EditCompanyBaseDataForm
+                    initialValues={{
+                      slogan: company?.slogan || "",
+                      logo: company?.logo?.url || null,
+                      isLogoDeleted: false,
+                    }}
+                    onFormSubmit={editBaseCompanyDataHandler}
+                    cancel={{
+                      label: t("edit-base-data.cancel"),
+                      onClick: () => setIsEditBaseDataModalOpen(false),
+                    }}
+                    submitText={t("edit-base-data.submit")}
+                  />
+                </ModalWithDescription.Body>
+              </ModalWithDescription>
 
               {/* TODO: add in next version (gallery) */}
               {/* <Modal
