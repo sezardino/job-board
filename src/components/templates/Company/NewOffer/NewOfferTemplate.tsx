@@ -26,7 +26,8 @@ import { CreateJobOfferResponse } from "@/services/bll/modules/job-offers/schema
 import { ActionProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
 import { ComponentPropsWithoutRef, FC, useState } from "react";
-import { twMerge } from "tailwind-merge";
+
+import styles from "./NewOfferTemplate.module.scss";
 
 type Props = {
   industries: DataProp<ActiveIndustriesResponse>;
@@ -135,11 +136,7 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
   return (
     <>
       <section {...rest} className={className}>
-        <Grid
-          {...rest}
-          gap={10}
-          className={twMerge("max-w-xl mx-auto", className)}
-        >
+        <Grid {...rest} gap={10} className={styles.wrapper}>
           <TitleDescription
             titleLevel="h1"
             title={t("title")}
@@ -224,7 +221,7 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
                     />
                   </>
                 )}
-              <div className="flex items-center flex-wrap gap-3 justify-between">
+              <footer className={styles.footer}>
                 <Button variant="bordered" onClick={() => setStep("details")}>
                   {t("to-first-step")}
                 </Button>
@@ -234,7 +231,7 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
                 >
                   {t("confirm")}
                 </Button>
-              </div>
+              </footer>
             </Grid>
           )}
         </Grid>

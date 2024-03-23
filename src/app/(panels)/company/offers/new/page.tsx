@@ -4,7 +4,7 @@ import { LoadingOverlay } from "@/components/base";
 import {
   NewOfferData,
   NewOfferTemplate,
-} from "@/components/templates/Company/NewOffer";
+} from "@/components/templates/Company/NewOffer/NewOfferTemplate";
 import { CompanyPageUrls } from "@/const";
 import { useCreateJobOfferMutation } from "@/hooks/react-query/mutation/offers";
 import { useActiveCategoriesQuery } from "@/hooks/react-query/query/categories/active-categories";

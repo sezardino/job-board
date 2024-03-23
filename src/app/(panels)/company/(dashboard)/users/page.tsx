@@ -1,7 +1,7 @@
 "use client";
 
 import { UserStatusesSelectOptions } from "@/components/UI/UserStatusesSelect/UserStatusesSelect";
-import { ManageCompanyUsers } from "@/components/templates/Company/ManageCompanyUsers";
+import { ManageCompanyUsersTemplate } from "@/components/templates/Company/ManageCompanyUsers/ManageCompanyUsersTemplate";
 import { useCheckEmailAvailableMutation, useDataOnPage } from "@/hooks";
 import { useCancelInviteMutation } from "@/hooks/react-query/mutation/users/cancel-invite";
 import { useEditCompanyUserMutation } from "@/hooks/react-query/mutation/users/edit-company-user";
@@ -40,7 +40,7 @@ const CompanyUsersPage = () => {
     useEditCompanyUserMutation();
 
   return (
-    <ManageCompanyUsers
+    <ManageCompanyUsersTemplate
       onLimitChange={onLimitChange}
       onPageChange={onPageChange}
       onSearchChange={onSearchChange}
