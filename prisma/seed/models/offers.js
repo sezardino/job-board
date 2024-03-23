@@ -45,7 +45,7 @@ const generateMockOffer = ({ companyId, industries }) => {
     type: faker.helpers.arrayElement(jobTypes),
     salary: { from, to },
     publishedAt: faker.date.past(),
-    deadlineAt: faker.date.future(),
+    // deadlineAt: faker.date.future(),
   };
 };
 

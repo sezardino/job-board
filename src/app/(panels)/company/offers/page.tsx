@@ -1,6 +1,6 @@
 "use client";
 
-import { ManageCompanyJobOffers } from "@/components/templates/Company/ManageCompanyJobOffers/ManageCompanyJobOffers";
+import { ManageCompanyJobOffersTemplate } from "@/components/templates/Company/ManageCompanyJobOffers/ManageCompanyJobOffersTemplate";
 import { useDataOnPage } from "@/hooks";
 import { useCurrentCompanyJobOffersQuery } from "@/hooks/react-query/query/offers";
 import { JobOfferStatus, Seniority } from "@prisma/client";
@@ -35,7 +35,7 @@ const CompanyOffersPage = () => {
     });
 
   return (
-    <ManageCompanyJobOffers
+    <ManageCompanyJobOffersTemplate
       offers={{
         data: companyOffers,
         isLoading: isCompanyOffersLoading,

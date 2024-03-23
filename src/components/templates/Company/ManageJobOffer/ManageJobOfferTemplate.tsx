@@ -30,10 +30,10 @@ export const ManageJobOfferTemplate: FC<ManageJobOfferTemplateProps> = (
 
       { label: t("seniority"), value: entityT(`seniority.${offer.seniority}`) },
       { label: t("type"), value: entityT(`job-type.${offer.type}`) },
-      {
-        label: t("deadline"),
-        value: dayjs(offer.deadlineAt).format(DEFAULT_DATE_FORMAT),
-      },
+      // {
+      //   label: t("deadline"),
+      //   value: dayjs(offer.deadlineAt).format(DEFAULT_DATE_FORMAT),
+      // },
     ],
     [offer, entityT, t]
   );

@@ -16,7 +16,7 @@ import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
 import NextLink from "next/link";
 
-import styles from "./ManageCompanyJobOffers.module.css";
+import styles from "./ManageCompanyJobOffersTemplate.module.scss";
 
 type OfferFilters = {
   status: JobOfferStatusFilters;
@@ -29,14 +29,12 @@ type Props = {
   offers: DataProp<CurrentCompanyJobOffersResponse>;
 };
 
-export type ManageCompanyJobOffersProps = ComponentPropsWithoutRef<"section"> &
-  Props &
-  DataListProp &
-  OfferFilters;
+export type ManageCompanyJobOffersTemplateProps =
+  ComponentPropsWithoutRef<"section"> & Props & DataListProp & OfferFilters;
 
-export const ManageCompanyJobOffers: FC<ManageCompanyJobOffersProps> = (
-  props
-) => {
+export const ManageCompanyJobOffersTemplate: FC<
+  ManageCompanyJobOffersTemplateProps
+> = (props) => {
   const {
     limit,
     onLimitChange,

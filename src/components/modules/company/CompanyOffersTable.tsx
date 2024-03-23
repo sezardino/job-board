@@ -3,10 +3,9 @@ import {
   TableWidgetProps,
 } from "@/components/UI/TableWidget/TableWidget";
 import { Button, Icon } from "@/components/base";
-import { CompanyPageUrls, DEFAULT_DATE_FORMAT } from "@/const";
+import { CompanyPageUrls } from "@/const";
 import { CurrentCompanyJobOffersResponse } from "@/services/bll/modules/job-offers/schema";
 import { createColumnHelper } from "@tanstack/react-table";
-import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
@@ -54,14 +53,14 @@ export const CompanyOffersTable: FC<CompanyOffersTableProps> = (props) => {
         header: t("seniority"),
         cell: (row) => entityT(`seniority.${row.getValue()}`),
       }),
-      columnHelper.accessor("deadlineAt", {
-        enableSorting: false,
-        header: t("deadline"),
-        cell: (row) =>
-          row.getValue()
-            ? dayjs(row.getValue()).format(DEFAULT_DATE_FORMAT)
-            : "-",
-      }),
+      // columnHelper.accessor("deadlineAt", {
+      //   enableSorting: false,
+      //   header: t("deadline"),
+      //   cell: (row) =>
+      //     row.getValue()
+      //       ? dayjs(row.getValue()).format(DEFAULT_DATE_FORMAT)
+      //       : "-",
+      // }),
       columnHelper.accessor("id", {
         enableSorting: false,
         header: () => null,
