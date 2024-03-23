@@ -1,6 +1,7 @@
 import { PrismaService } from "@/libs/prisma";
 import { hashService } from "@/services/hash";
 import { emailVerificationTokenService } from "@/services/token";
+import { NotFoundException } from "@/types";
 import { daysToSeconds } from "@/utils/days-to-seconds";
 import { generateSlug } from "@/utils/generate-slug";
 import { Prisma, UserRoles } from "@prisma/client";
@@ -8,7 +9,6 @@ import { FilesBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
 import { CompanyRegistrationRequest } from "../auth/schema/company-registration";
 import { AdminCompaniesRequest, EditCompanyRequest } from "./schema";
-import { NotFoundException } from "@/types";
 
 export class CompaniesBllModule extends AbstractBllService {
   constructor(
@@ -62,7 +62,7 @@ export class CompaniesBllModule extends AbstractBllService {
   }
 
   async edit(dto: EditCompanyRequest, companyId: string) {
-    const { bio, slogan, logo, gallery, galleryDeleted } = dto;
+    const { bio, slogan, logo } = dto;
 
     const data: Prisma.CompanyUpdateInput = {};
 
@@ -78,21 +78,24 @@ export class CompaniesBllModule extends AbstractBllService {
       }
     }
 
-    if (gallery) {
-      const images = await this.filesService.uploadImages(gallery, companyId);
+    // TODO: add in next version (gallery)
+    // if (gallery) {
+    //   const images = await this.filesService.uploadImages(gallery, companyId);
 
-      if (images) {
-        data.gallery = {
-          connect: images.map((image) => ({ id: image.id })),
-        };
-      }
-    }
+    // TODO: add in next version (gallery)
+    //   if (images) {
+    //     data.gallery = {
+    //       connect: images.map((image) => ({ id: image.id })),
+    //     };
+    //   }
+    // }
 
-    if (galleryDeleted) {
-      data.gallery = {
-        deleteMany: galleryDeleted.map((id) => ({ id })),
-      };
-    }
+    // TODO: add in next version (gallery)
+    // if (galleryDeleted) {
+    //   data.gallery = {
+    //     deleteMany: galleryDeleted.map((id) => ({ id })),
+    //   };
+    // }
 
     return await this.prismaService.company.update({
       where: { id: companyId },
@@ -114,7 +117,9 @@ export class CompaniesBllModule extends AbstractBllService {
         bio: true,
         slogan: true,
         logo: { select: { id: true, url: true, name: true } },
-        gallery: { select: { id: true, url: true, name: true } },
+        // TODO: add in next version (gallery)
+        // gallery: { select: { id: true, url: true, name: true } },
+        // TODO: add in next version (thumbnail)
         // thumbnail: { select: { id: true, url: true, name: true } },
         _count: { select: { offers: true } },
         offers: {

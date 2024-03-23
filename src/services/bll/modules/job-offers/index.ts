@@ -59,7 +59,8 @@ export class JobOffersBllModule extends AbstractBllService {
         name: true,
         seniority: true,
         status: true,
-        deadlineAt: true,
+        // TODO: add in next version
+        // deadlineAt: true,
         category: { select: { name: true, id: true } },
         industry: { select: { name: true, id: true } },
       },
@@ -121,7 +122,8 @@ export class JobOffersBllModule extends AbstractBllService {
         name: true,
         seniority: true,
         contract: true,
-        deadlineAt: true,
+        // TODO: add in next version
+        // deadlineAt: true,
         publishedAt: true,
         description: true,
         operating: true,

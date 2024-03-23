@@ -28,17 +28,19 @@ export class CompaniesApiModule extends AbstractApiModule {
 
     if (data.slogan) formData.append("slogan", data.slogan);
 
-    if (data.gallery) {
-      data.gallery.forEach((file: File) => {
-        formData.append("gallery[]", file);
-      });
-    }
+    // TODO: add in next version (gallery)
+    // if (data.gallery) {
+    //   data.gallery.forEach((file: File) => {
+    //     formData.append("gallery[]", file);
+    //   });
+    // }
 
-    if (data.galleryDeleted?.length) {
-      data.galleryDeleted.forEach((id: string) => {
-        formData.append("galleryDeleted[]", id);
-      });
-    }
+    // TODO: add in next version (gallery)
+    // if (data.galleryDeleted?.length) {
+    //   data.galleryDeleted.forEach((id: string) => {
+    //     formData.append("galleryDeleted[]", id);
+    //   });
+    // }
 
     return await this.fetch({
       endpoint: "companies",

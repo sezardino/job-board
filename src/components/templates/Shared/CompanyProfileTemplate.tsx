@@ -1,4 +1,3 @@
-import { ImageGallery } from "@/components/UI/ImageGallery/ImageGallery";
 import {
   OfferCardEntity,
   OffersList,
@@ -20,10 +19,6 @@ import {
   EditCompanyBioFormValues,
 } from "@/components/forms/EditCompanyBio/EditCompanyBioForm";
 import {
-  ImagesForm,
-  ImagesFormValues,
-} from "@/components/forms/Images/ImagesForm";
-import {
   EditCompanyRequest,
   EditCompanyResponse,
 } from "@/services/bll/modules/companies/schema";
@@ -38,7 +33,9 @@ export type CompanyProfileTemplateEntity = {
   slogan: string | null;
   bio: string | null;
   logo: FileEntity | null;
-  gallery: FileEntity[];
+  // TODO: add in next version (gallery)
+  // gallery: FileEntity[];
+  // TODO: add in next version (thumbnail)
   // thumbnail: FileEntity | null;
   offers: OfferCardEntity[];
   _count: {
@@ -72,7 +69,8 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
   const t = useTranslations("components.company-template");
   const [isEditBioModalOpen, setIsEditBioModalOpen] = useState(false);
   const [isEditBaseDataModalOpen, setIsEditBaseDataModalOpen] = useState(false);
-  const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
+  // TODO: add in next version (gallery)
+  // const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
 
   const editBioHandler = async (values: EditCompanyBioFormValues) => {
     if (!withManage || !editAction) return;
@@ -99,18 +97,19 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
     } catch (error) {}
   };
 
-  const editGalleryHandler = async (values: ImagesFormValues) => {
-    if (!withManage || !editAction) return;
+  // TODO: add in next version (gallery)
+  // const editGalleryHandler = async (values: ImagesFormValues) => {
+  //   if (!withManage || !editAction) return;
 
-    try {
-      await editAction.handler({
-        gallery: values.images,
-        galleryDeleted: values.imagesToDelete,
-      });
+  //   try {
+  //     await editAction.handler({
+  //       gallery: values.images,
+  //       galleryDeleted: values.imagesToDelete,
+  //     });
 
-      setIsGalleryModalOpen(false);
-    } catch (error) {}
-  };
+  //     setIsGalleryModalOpen(false);
+  //   } catch (error) {}
+  // };
 
   return (
     <>
@@ -152,7 +151,8 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
           <div className="-order-1 aspect-thumbnail bg-black w-full"></div>
         </Grid>
 
-        {(!!company?.gallery.length || withManage) && (
+        {/* TODO: add in next version (gallery) */}
+        {/* {(!!company?.gallery.length || withManage) && (
           <Grid>
             <Typography tag="h2" weight="medium" styling="lg">
               {t("gallery")}
@@ -170,7 +170,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
               ]}
             />
           </Grid>
-        )}
+        )} */}
 
         <Grid gap={2}>
           <div className="flex justify-between items-center gap-3 flex-wrap">
@@ -257,7 +257,8 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
                 />
               </Modal>
 
-              <Modal
+              {/* TODO: add in next version (gallery) */}
+              {/* <Modal
                 isOpen={isGalleryModalOpen}
                 onClose={() => setIsGalleryModalOpen(false)}
                 title={t("edit-gallery.title")}
@@ -278,7 +279,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
                   }}
                   submit={{ label: t("edit-gallery.submit") }}
                 />
-              </Modal>
+              </Modal> */}
             </>
           )}
         </>
