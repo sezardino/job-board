@@ -18,23 +18,6 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
   const entityT = useTranslations("entity");
   const t = useTranslations("components.job-offer-template");
 
-  const info = useMemo(
-    () => [
-      {
-        label: t("contract"),
-        value: entityT(`job-contract.${offer.contract}`),
-      },
-
-      { label: t("seniority"), value: entityT(`seniority.${offer.seniority}`) },
-      { label: t("type"), value: entityT(`job-type.${offer.type}`) },
-      // {
-      //   label: t("deadline"),
-      //   value: dayjs(offer.deadlineAt).format(DEFAULT_DATE_FORMAT),
-      // },
-    ],
-    [offer, entityT, t]
-  );
-
   const published = useMemo(() => {
     const days = dayjs(offer.publishedAt).diff(dayjs(), "day");
 
@@ -80,10 +63,12 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
         name: offer.company.name,
         logo: { url: offer.company.logo?.url || "" },
       }}
-      info={info}
       offer={{
         name: offer.name,
         description: offer.description || "",
+        contract: offer.contract,
+        seniority: offer.seniority,
+        type: offer.type,
       }}
       skills={offer.skills}
       aside={

@@ -8,27 +8,54 @@ import {
 import { HTMLWrapper } from "@/components/base/HTMLWrapper/HTMLWrapper";
 import { PublicPageUrls } from "@/const";
 import { Card, CardProps } from "@nextui-org/react";
-import { Skill } from "@prisma/client";
-import { FC } from "react";
+import { JobContract, JobType, Seniority, Skill } from "@prisma/client";
+import { FC, useMemo } from "react";
 
+import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";
 import styles from "./JobOfferDetails.module.scss";
 
 export type JovOfferDetailsInfoItem = { label: string; value: string };
 
 type Props = {
-  info: JovOfferDetailsInfoItem[];
   breadcrumbs?: BreadcrumbItem[];
   company: { id: string; name: string; logo: { url: string | null } };
   skills: Skill[];
-  offer: { name: string; description: string };
+  offer: {
+    name: string;
+    description: string;
+    contract: JobContract[];
+    seniority: Seniority;
+    type: JobType;
+  };
 };
 
 export type JobOfferDetailsProps = CardProps & Props;
 
 export const JobOfferDetails: FC<JobOfferDetailsProps> = (props) => {
-  const { info, offer, company, skills, breadcrumbs, className, ...rest } =
-    props;
+  const { offer, company, skills, breadcrumbs, className, ...rest } = props;
+
+  const t = useTranslations("components.job-offer-details");
+  const entityT = useTranslations("entity");
+
+  const info = useMemo(
+    () => [
+      {
+        label: t("contract"),
+        value: offer.contract
+          .map((c) => entityT(`job-contract.${c}`))
+          .join(", "),
+      },
+
+      { label: t("seniority"), value: entityT(`seniority.${offer.seniority}`) },
+      { label: t("type"), value: entityT(`job-type.${offer.type}`) },
+      // {
+      //   label: t("deadline"),
+      //   value: dayjs(offer.deadlineAt).format(DEFAULT_DATE_FORMAT),
+      // },
+    ],
+    [offer, entityT, t]
+  );
 
   return (
     <Card as="section" {...rest} className={twMerge(styles.element, className)}>

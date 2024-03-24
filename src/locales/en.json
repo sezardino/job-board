@@ -883,6 +883,21 @@
         "cancel": "Continue editing",
         "confirm": "Cancel editing"
       }
+    },
+    "job-offer-details": {
+      "contract": "Job Contract",
+      "seniority": "Seniority",
+      "type": "Job Type",
+      "operating": "Operating",
+      "deadline": "Deadline"
+    }
+  },
+  "templates": {
+    "company": {
+      "manage-job-offer": {
+        "manage": "Manage job offer",
+        "edit": "Edit"
+      }
     }
   },
   "messages": {
