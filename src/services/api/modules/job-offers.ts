@@ -1,14 +1,17 @@
 import {
+  ChangeJobOfferStatusRequest,
   CreateJobOfferRequest,
   CurrentCompanyJobOffersRequest,
   OffersListRequest,
   PreviewJobOfferRequest,
+  changeJobOfferStatusResponseSchema,
   createJobOfferResponseSchema,
   currentCompanyJobOffersResponseSchema,
   jobOfferEditionDataResponseSchema,
   offersListResponseSchema,
   previewJobOfferResponseSchema,
 } from "@/services/bll/modules/job-offers/schema";
+import { deleteJobOfferResponseSchema } from "@/services/bll/modules/job-offers/schema/delete";
 import {
   EditJobOfferRequest,
   editJobOfferResponseSchema,
@@ -60,6 +63,22 @@ export class JobOffersApiModule extends AbstractApiModule {
     return this.fetch({
       endpoint: `job-offers/${id}/edition`,
       schema: jobOfferEditionDataResponseSchema,
+    });
+  }
+
+  changeStatus(data: ChangeJobOfferStatusRequest & { id: string }) {
+    return this.fetch({
+      endpoint: `job-offers/${data.id}/status`,
+      config: { method: "PATCH", data },
+      schema: changeJobOfferStatusResponseSchema,
+    });
+  }
+
+  delete(id: string) {
+    return this.fetch({
+      endpoint: `job-offers/${id}`,
+      config: { method: "DELETE" },
+      schema: deleteJobOfferResponseSchema,
     });
   }
 }

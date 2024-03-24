@@ -1,8 +1,13 @@
 import { DEFAULT_PAGE_LIMIT } from "@/const";
-import { FindManyPrismaEntity, NotFoundException } from "@/types";
+import {
+  FindManyPrismaEntity,
+  NotAllowedException,
+  NotFoundException,
+} from "@/types";
 import { JobOfferStatus, Prisma } from "@prisma/client";
 import { AbstractBllService } from "../../module.abstract";
 import {
+  ChangeJobOfferStatusRequest,
   CreateJobOfferRequest,
   CurrentCompanyJobOffersRequest,
   OffersListRequest,
@@ -195,6 +200,62 @@ export class JobOffersBllModule extends AbstractBllService {
       where: { id: offerId, companyId },
       data: { description, skills },
       select: { id: true },
+    });
+  }
+
+  async changeStatus(
+    dto: ChangeJobOfferStatusRequest,
+    offerId: string,
+    companyId: string
+  ) {
+    const { status } = dto;
+    const neededJobOffer = await this.prismaService.jobOffer.findUnique({
+      where: { id: offerId, companyId },
+      select: { id: true, status: true },
+    });
+
+    if (!neededJobOffer) throw new NotFoundException("Job offer not found");
+
+    switch (status) {
+      case JobOfferStatus.ACTIVE:
+        if (neededJobOffer.status !== JobOfferStatus.DRAFT)
+          throw new NotAllowedException("Only draft offers can be published");
+        break;
+      case JobOfferStatus.INACTIVE:
+        if (neededJobOffer.status !== JobOfferStatus.ACTIVE)
+          throw new NotAllowedException("Only active offers can be finished");
+        break;
+      case JobOfferStatus.ARCHIVED:
+        if (neededJobOffer.status !== JobOfferStatus.FINISHED)
+          throw new NotAllowedException("Only finished offers can be archived");
+        break;
+      default:
+        throw new NotAllowedException("Invalid status");
+    }
+
+    return this.prismaService.jobOffer.update({
+      where: { id: offerId, companyId },
+      data: { status },
+    });
+  }
+
+  async delete(offerId: string, companyId: string) {
+    const neededJobOffer = await this.prismaService.jobOffer.findUnique({
+      where: { id: offerId, companyId },
+      select: { id: true, status: true },
+    });
+
+    if (!neededJobOffer) throw new NotFoundException("Job offer not found");
+
+    if (neededJobOffer.status === JobOfferStatus.DRAFT) {
+      return this.prismaService.jobOffer.delete({
+        where: { id: offerId, companyId },
+      });
+    }
+
+    return this.prismaService.jobOffer.update({
+      where: { id: offerId, companyId },
+      data: { status: JobOfferStatus.INACTIVE },
     });
   }
 }
