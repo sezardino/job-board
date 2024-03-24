@@ -1,7 +1,7 @@
 "use client";
 
 import { ManageJobOfferTemplate } from "@/components/templates/Company/ManageJobOffer/ManageJobOfferTemplate";
-import { usePreviewJobOfferQuery } from "@/hooks/react-query/query/offers";
+import { usePreviewJobOfferQuery } from "@/hooks/react-query/query/job-offers";
 
 type Props = {
   params: {

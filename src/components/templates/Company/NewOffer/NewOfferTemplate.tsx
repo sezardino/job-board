@@ -5,19 +5,19 @@ import { BaseStepper } from "@/components/base/Stepper/BaseStepper";
 import {
   OfferFormDescriptionStep,
   OfferFormDescriptionStepFormValues,
-} from "@/components/forms/OfferSteps/Description";
+} from "@/components/forms/JobOfferConfigurationSteps/Description";
 import {
   OfferFormDetailsStep,
   OfferFormDetailsStepFormValues,
-} from "@/components/forms/OfferSteps/Details";
+} from "@/components/forms/JobOfferConfigurationSteps/Details";
 import {
   OfferFormSkillsStep,
   OfferFormSkillsStepFormValues,
-} from "@/components/forms/OfferSteps/Skills";
+} from "@/components/forms/JobOfferConfigurationSteps/Skills";
 import {
   OfferFormSpecificationStep,
   OfferFormSpecificationStepFormValues,
-} from "@/components/forms/OfferSteps/Specification";
+} from "@/components/forms/JobOfferConfigurationSteps/Specification";
 import { JobOfferPreview } from "@/components/modules/job-offer/JobOfferPreview";
 import { ActiveCategoriesResponse } from "@/services/bll/modules/categories/schema";
 import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";

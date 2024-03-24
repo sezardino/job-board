@@ -1,7 +1,7 @@
 "use client";
 
 import { OffersBoardTemplate } from "@/components/templates/Board/OffersBoardTemplate";
-import { useOffersListInfiniteQuery } from "@/hooks/react-query/query/offers/list";
+import { useOffersListInfiniteQuery } from "@/hooks/react-query/query/job-offers/list";
 
 type Props = {
   params: {

@@ -15,7 +15,7 @@ import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 import NextLink from "next/link";
 
 import { TableWidget } from "@/components/UI/TableWidget/TableWidget";
-import { EditJobOfferWrapper } from "@/components/wrappers/EditJobOfferModalWrapper";
+import { EditJobOfferWrapper } from "@/components/wrappers/EditJobOfferWrapper";
 import styles from "./ManageCompanyJobOffersTemplate.module.scss";
 import { useCompanyOffersTable } from "./use-table";
 
@@ -51,7 +51,7 @@ export const ManageCompanyJobOffersTemplate: FC<
     className,
     ...rest
   } = props;
-  const t = useTranslations("components.company-offers-template");
+  const t = useTranslations("components.manage-company-job-offers-template");
   const entityT = useTranslations("entity");
 
   const [jobOfferForEditId, setJobOfferForEditId] = useState<string | null>(
@@ -82,6 +82,7 @@ export const ManageCompanyJobOffersTemplate: FC<
                 isMultiple={false}
                 onSelectChange={onStatusChange}
                 placeholder={t("filters.status")}
+                aria-label={t("filters.status")}
                 className={styles.filter}
               />
               <Select
@@ -90,6 +91,7 @@ export const ManageCompanyJobOffersTemplate: FC<
                 isMultiple={false}
                 onSelectChange={onSeniorityChange}
                 placeholder={t("filters.seniority")}
+                aria-label={t("filters.seniority")}
                 className={styles.filter}
               />
             </div>
@@ -116,7 +118,7 @@ export const ManageCompanyJobOffersTemplate: FC<
       </Grid>
 
       <EditJobOfferWrapper
-        offerId={jobOfferForEditId || undefined}
+        jobOfferId={jobOfferForEditId || undefined}
         onClose={() => setJobOfferForEditId(null)}
       />
     </>

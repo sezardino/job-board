@@ -2,7 +2,7 @@
 
 import { ManageCompanyJobOffersTemplate } from "@/components/templates/Company/ManageCompanyJobOffers/ManageCompanyJobOffersTemplate";
 import { useDataOnPage } from "@/hooks";
-import { useCurrentCompanyJobOffersQuery } from "@/hooks/react-query/query/offers";
+import { useCurrentCompanyJobOffersQuery } from "@/hooks/react-query/query/job-offers";
 import { JobOfferStatus, Seniority } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useState } from "react";

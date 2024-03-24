@@ -1,5 +1,7 @@
+import { useEditJobOfferMutation } from "@/hooks/react-query/mutation/job-offer/edit";
+import { useJobOfferEditionDataQuery } from "@/hooks/react-query/query/job-offers/data-for-edition";
 import { useTranslations } from "next-intl";
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { ConfirmModal } from "../UI/ConformModal/ConfirmModal";
 import { TitleDescription } from "../UI/TitleDescription/TitleDescription";
 import { Grid, Modal } from "../base";
@@ -7,11 +9,11 @@ import { BaseStepper } from "../base/Stepper/BaseStepper";
 import {
   OfferFormDescriptionStep,
   OfferFormDescriptionStepFormValues,
-} from "../forms/OfferSteps/Description";
+} from "../forms/JobOfferConfigurationSteps/Description";
 import {
   OfferFormSkillsStep,
   OfferFormSkillsStepFormValues,
-} from "../forms/OfferSteps/Skills";
+} from "../forms/JobOfferConfigurationSteps/Skills";
 
 const editOfferFormSteps = {
   skills: "skills",
@@ -33,33 +35,94 @@ type SaveStepData =
   | { step: "description"; data: OfferFormDescriptionStepFormValues };
 
 type Props = {
-  offerId?: string;
+  jobOfferId?: string;
   onClose: () => void;
 };
+
+type WrapperModals = "confirm" | "cancel" | "back" | "no-changes";
 
 export type EditJobOfferProps = Props;
 
 export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
-  const { offerId, onClose } = props;
+  const { jobOfferId, onClose } = props;
+  const t = useTranslations("components.edit-job-offer-wrapper");
 
-  const t = useTranslations("components.edit-job-offer-modal-wrapper");
+  const { data: editionData, isFetching: isEditionDataLoading } =
+    useJobOfferEditionDataQuery(jobOfferId);
+  const { mutateAsync: editJobOffer, isPending: isEditJobOfferLoading } =
+    useEditJobOfferMutation();
 
   const [step, setStep] = useState<OfferFormStep>("skills");
   const [values, setValues] = useState<EditJobOfferData>({});
   const [prevStep, setPrevStep] = useState<OfferFormStep | null>(null);
-  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
-  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [openedModal, setOpenedModal] = useState<WrapperModals | null>(null);
+
+  const initialValues = useMemo(
+    () => ({
+      skills: values.skills
+        ? values.skills
+        : { skills: editionData?.skills || [] },
+      description: values.description
+        ? values.description
+        : { description: editionData?.description || "" },
+    }),
+    [editionData, values]
+  );
+
+  const confirmHandler = useCallback(() => {
+    if (!editionData) return false;
+
+    if (!values.skills && !values.description) {
+      setOpenedModal("no-changes");
+      return;
+    }
+
+    const { description, skills } = values;
+
+    const isSkillsChanged =
+      JSON.stringify(skills) !== JSON.stringify({ skills: editionData.skills });
+
+    const isDescriptionChanged =
+      description?.description !== editionData.description;
+
+    if (!isSkillsChanged && !isDescriptionChanged) {
+      setOpenedModal("no-changes");
+      return;
+    }
+
+    setOpenedModal("confirm");
+  }, [editionData, values]);
 
   const saveStepData = (value: SaveStepData) => {
-    switch (value.step) {
-      case "skills":
-        setValues((prev) => ({ ...prev, skills: value.data }));
+    const { step, data } = value;
+
+    switch (step) {
+      case "skills": {
+        const isSkillsChanged =
+          JSON.stringify(values.skills) !==
+          JSON.stringify({
+            skills: editionData?.skills,
+          });
+
+        if (isSkillsChanged) setValues((prev) => ({ ...prev, skills: data }));
+        if (!isSkillsChanged)
+          setValues((prev) => ({ ...prev, skills: undefined }));
         setStep("description");
         break;
-      case "description":
-        setValues((prev) => ({ ...prev, description: value.data }));
-        setIsConfirmModalOpen(true);
+      }
+      case "description": {
+        const isDescriptionChanged =
+          data.description.trim() !== editionData?.description.trim();
+
+        if (isDescriptionChanged)
+          setValues((prev) => ({ ...prev, description: data }));
+
+        if (!isDescriptionChanged)
+          setValues((prev) => ({ ...prev, description: undefined }));
+
+        confirmHandler();
         break;
+      }
     }
   };
 
@@ -80,6 +143,8 @@ export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
   const closeHandler = useCallback(() => {
     setStep("skills");
     onClose();
+    setOpenedModal(null);
+    setValues({});
   }, [onClose]);
 
   const skillsBackButtonHandler = (dirty: boolean) => {
@@ -88,26 +153,40 @@ export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
       closeHandler();
     }
 
-    setIsCancelModalOpen(true);
+    setOpenedModal("cancel");
   };
 
-  const editJobOfferHandler = useCallback(() => {
-    // TODO: add edition logic
+  const editJobOfferHandler = useCallback(async () => {
+    if (!jobOfferId) return;
+    if (!values.skills && !values.description) return;
 
-    setIsConfirmModalOpen(false);
-    closeHandler();
-  }, [closeHandler]);
+    try {
+      await editJobOffer({
+        id: jobOfferId,
+        description: values.description?.description,
+        skills: values.skills?.skills,
+      });
 
-  if (!offerId) return null;
+      closeHandler();
+    } catch (error) {}
+  }, [
+    closeHandler,
+    editJobOffer,
+    jobOfferId,
+    values.description,
+    values.skills,
+  ]);
+
+  if (!jobOfferId) return null;
 
   return (
     <>
-      <Modal isOpen size="5xl" onClose={onClose}>
+      <Modal isOpen size="5xl" placement="top" onClose={closeHandler}>
         <Modal.Header>
           <Grid gap={10}>
             <TitleDescription
-              titleLevel="h1"
-              title={t("edit.title")}
+              titleLevel="h2"
+              title={t("edit.title", { value: editionData?.name || "" })}
               description={t("edit.description")}
               isTextCentered
             />
@@ -123,7 +202,8 @@ export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
         <Modal.Body>
           {step === "skills" && (
             <OfferFormSkillsStep
-              initialValues={values.skills}
+              key={editionData?.id}
+              initialValues={initialValues.skills}
               onFormSubmit={(data) => saveStepData({ step: "skills", data })}
               onBackClick={skillsBackButtonHandler}
               backCopy={t("edit.cancel")}
@@ -133,7 +213,7 @@ export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
 
           {step === "description" && (
             <OfferFormDescriptionStep
-              initialValues={values.description}
+              initialValues={initialValues.description}
               onFormSubmit={(data) =>
                 saveStepData({ step: "description", data })
               }
@@ -154,15 +234,17 @@ export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
         buttons={[
           {
             text: t("confirm.cancel"),
-            onClick: () => setIsConfirmModalOpen(false),
+            variant: "bordered",
+            color: "default",
+            onClick: () => setOpenedModal(null),
           },
           {
             text: t("confirm.confirm"),
             onClick: editJobOfferHandler,
           },
         ]}
-        isOpen={isConfirmModalOpen}
-        onClose={() => setIsConfirmModalOpen(false)}
+        isOpen={openedModal === "confirm"}
+        onClose={() => setOpenedModal(null)}
       />
 
       {/* cancel when min one step was changed */}
@@ -173,7 +255,7 @@ export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
           {
             text: t("cancel.cancel"),
             variant: "bordered",
-            onClick: () => setIsCancelModalOpen(false),
+            onClick: () => setOpenedModal(null),
           },
           {
             text: t("cancel.confirm"),
@@ -181,8 +263,8 @@ export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
             onClick: closeHandler,
           },
         ]}
-        isOpen={isCancelModalOpen}
-        onClose={() => setIsCancelModalOpen(false)}
+        isOpen={openedModal === "cancel"}
+        onClose={() => setOpenedModal(null)}
       />
 
       {/* back, when step is dirty */}
@@ -203,6 +285,26 @@ export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
         ]}
         isOpen={!!prevStep}
         onClose={() => setPrevStep(null)}
+      />
+
+      {/* no changes */}
+      <ConfirmModal
+        title={t("no-changes.title")}
+        description={t("no-changes.description")}
+        buttons={[
+          {
+            text: t("no-changes.cancel"),
+            variant: "bordered",
+            onClick: () => setOpenedModal(null),
+          },
+          {
+            text: t("no-changes.confirm"),
+            color: "danger",
+            onClick: closeHandler,
+          },
+        ]}
+        isOpen={openedModal === "no-changes"}
+        onClose={() => setOpenedModal(null)}
       />
     </>
   );

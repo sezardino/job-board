@@ -112,19 +112,15 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
           name="skills"
           render={(helpers) => (
             <div className="grid grid-cols-1 gap-2">
-              {formik.values.skills.map((_, i) => (
-                <div
-                  key={i}
-                  className={twMerge(
-                    "grid items-start gap-1 grid-cols-[1fr_1fr_auto]"
-                  )}
-                >
+              {formik.values.skills.map((_, i, arr) => (
+                <div key={i} className={twMerge("flex items-start gap-1")}>
                   <ControlledInput
                     name={`skills.[${i}].name`}
                     labelPlacement="inside"
                     label={t("name.label")}
                     placeholder={t("name.placeholder")}
                   />
+
                   <ControlledSelect
                     name={`skills.[${i}].level`}
                     isMultiple={false}
@@ -134,16 +130,39 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                     options={skillLevelOptions}
                   />
 
-                  <Button
-                    isIconOnly
-                    color="danger"
-                    variant="light"
-                    className="mt-2"
-                    onClick={() => helpers.remove(i)}
-                    aria-label={t("remove")}
-                  >
-                    <Icon name="HiTrash" size={16} />
-                  </Button>
+                  <div className="mt-2 flex gap-1 items-center">
+                    <Button
+                      isIconOnly
+                      color="danger"
+                      variant="light"
+                      onClick={() => helpers.remove(i)}
+                      aria-label={t("remove")}
+                    >
+                      <Icon name="HiTrash" size={16} />
+                    </Button>
+                    <Button
+                      isIconOnly
+                      color="default"
+                      size="sm"
+                      variant="flat"
+                      isDisabled={i === 0}
+                      onClick={() => helpers.move(i, i - 1)}
+                      aria-label={t("up")}
+                    >
+                      <Icon name="HiChevronUp" size={16} />
+                    </Button>
+                    <Button
+                      size="sm"
+                      isIconOnly
+                      color="default"
+                      variant="flat"
+                      isDisabled={i === arr.length - 1}
+                      onClick={() => helpers.move(i, i + 1)}
+                      aria-label={t("down")}
+                    >
+                      <Icon name="HiChevronDown" size={16} />
+                    </Button>
+                  </div>
                 </div>
               ))}
               <Button

@@ -8,6 +8,7 @@ import {
   OffersListRequest,
   PreviewJobOfferRequest,
 } from "./schema";
+import { EditJobOfferRequest } from "./schema/edit";
 
 export class JobOffersBllModule extends AbstractBllService {
   protected async findMany(
@@ -149,7 +150,7 @@ export class JobOffersBllModule extends AbstractBllService {
     return jobOffer;
   }
 
-  create(dto: CreateJobOfferRequest, companyId: string) {
+  async create(dto: CreateJobOfferRequest, companyId: string) {
     const { category, industry, ...rest } = dto;
 
     return this.prismaService.jobOffer.create({
@@ -160,6 +161,39 @@ export class JobOffersBllModule extends AbstractBllService {
         // TODO: add location
         ...rest,
       },
+      select: { id: true },
+    });
+  }
+
+  async editionData(offerId: string, companyId: string) {
+    const neededOffer = await this.prismaService.jobOffer.findUnique({
+      where: { id: offerId, companyId },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        skills: { select: { name: true, level: true } },
+      },
+    });
+
+    if (!neededOffer) throw new NotFoundException("Job offer not found");
+
+    return neededOffer;
+  }
+
+  async edit(dto: EditJobOfferRequest, offerId: string, companyId: string) {
+    const { description, skills } = dto;
+
+    const jobOffer = await this.prismaService.jobOffer.findUnique({
+      where: { id: offerId, companyId },
+      select: { id: true },
+    });
+
+    if (!jobOffer) throw new NotFoundException("Job offer not found");
+
+    return this.prismaService.jobOffer.update({
+      where: { id: offerId, companyId },
+      data: { description, skills },
       select: { id: true },
     });
   }

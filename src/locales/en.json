@@ -310,6 +310,8 @@
       "add-first": "Add first skill",
       "add": "Add more",
       "remove": "Remove",
+      "up": "Move item up in order",
+      "down": "Move item down in order",
       "name": {
         "label": "Skill Name",
         "placeholder": "F.E. Empathy",
@@ -824,7 +826,7 @@
       "company": "Company",
       "customer": "Customer"
     },
-    "company-offers-template": {
+    "manage-company-job-offers-template": {
       "title": "Job Offers",
       "description": "From this panel you can manage job offers of your company.",
       "search": "Search job offer",
@@ -845,9 +847,9 @@
         "preview": "Preview"
       }
     },
-    "edit-job-offer-modal-wrapper": {
+    "edit-job-offer-wrapper": {
       "edit": {
-        "title": "Edit job offer",
+        "title": "Edit job offer \"{value}\"",
         "description": "You can edit job offer here",
         "cancel": "Cancel",
         "next": "Next",
@@ -871,6 +873,12 @@
         "description": "Edit job offer with provided data?",
         "cancel": "Cancel",
         "confirm": "Edit"
+      },
+      "no-changes": {
+        "title": "No changes",
+        "description": "You didn't make any changes",
+        "cancel": "Continue editing",
+        "confirm": "Cancel editing"
       }
     }
   },

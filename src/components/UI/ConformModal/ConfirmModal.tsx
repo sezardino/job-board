@@ -46,6 +46,17 @@ export const ConfirmModal: FC<ConfirmModalProps> = (props) => {
                 ))}
               </div>
             )}
+            {!Array.isArray(side) && (
+              <Button
+                {...side}
+                as={side.href ? NextLink : undefined}
+                href={side.href}
+                color="primary"
+                size="md"
+                text={side.text}
+                onClick={side.onClick}
+              />
+            )}
           </Fragment>
         ))}
       </Modal.Footer>

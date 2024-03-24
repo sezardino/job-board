@@ -22,19 +22,19 @@ const columnHelper = createColumnHelper<Entity>();
 export const useCompanyOffersTable = (props: Props) => {
   const { onEditJobOffer } = props;
 
-  const t = useTranslations("components.company-offers-template.table");
+  const t = useTranslations("components.manage-company-job-offers-template");
   const entityT = useTranslations("entity");
 
   const columns = useMemo(
     () => [
       columnHelper.accessor("name", {
         enableSorting: false,
-        header: t("name"),
+        header: t("table.name"),
         cell: (row) => row.getValue(),
       }),
       columnHelper.accessor("industry.name", {
         enableSorting: false,
-        header: t("industry-category"),
+        header: t("table.industry-category"),
         cell: (row) => (
           <Typography tag="p">
             {entityT(`industries.${row.getValue()}`)} {" / "}
@@ -44,17 +44,17 @@ export const useCompanyOffersTable = (props: Props) => {
       }),
       columnHelper.accessor("status", {
         enableSorting: false,
-        header: t("status"),
+        header: t("table.status"),
         cell: (row) => entityT(`job-status.${row.getValue()}`),
       }),
       columnHelper.accessor("seniority", {
         enableSorting: false,
-        header: t("seniority"),
+        header: t("table.seniority"),
         cell: (row) => entityT(`seniority.${row.getValue()}`),
       }),
       // columnHelper.accessor("deadlineAt", {
       //   enableSorting: false,
-      //   header: t("deadline"),
+      //   header: t("table.deadline"),
       //   cell: (row) =>
       //     row.getValue()
       //       ? dayjs(row.getValue()).format(DEFAULT_DATE_FORMAT)
@@ -70,7 +70,7 @@ export const useCompanyOffersTable = (props: Props) => {
               href={CompanyPageUrls.offer(row.getValue())}
               variant="light"
               color="primary"
-              tooltip={t("preview")}
+              tooltip={t("table.preview")}
               isIconOnly
             >
               <Icon name="HiEye" />
@@ -78,7 +78,7 @@ export const useCompanyOffersTable = (props: Props) => {
             <Button
               variant="light"
               color="primary"
-              tooltip={t("edit")}
+              tooltip={t("table.edit")}
               isIconOnly
               onClick={() => onEditJobOffer(row.getValue())}
             >
@@ -88,7 +88,7 @@ export const useCompanyOffersTable = (props: Props) => {
         ),
       }),
     ],
-    [entityT, t]
+    [entityT, onEditJobOffer, t]
   );
 
   const statusFilterOptions = useMemo<
