@@ -843,8 +843,11 @@
         "deadline": "Deadline",
         "seniority": "Seniority",
         "status": "Status",
-        "edit": "Edit",
-        "preview": "Preview"
+        "actions": {
+          "label": "More",
+          "edit": "Edit",
+          "preview": "Preview"
+        }
       }
     },
     "edit-job-offer-wrapper": {

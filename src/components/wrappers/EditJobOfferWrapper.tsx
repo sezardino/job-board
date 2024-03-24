@@ -1,10 +1,11 @@
 import { useEditJobOfferMutation } from "@/hooks/react-query/mutation/job-offer/edit";
 import { useJobOfferEditionDataQuery } from "@/hooks/react-query/query/job-offers/data-for-edition";
+import { Skeleton } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import { FC, useCallback, useMemo, useState } from "react";
 import { ConfirmModal } from "../UI/ConformModal/ConfirmModal";
 import { TitleDescription } from "../UI/TitleDescription/TitleDescription";
-import { Grid, Modal } from "../base";
+import { Grid, LoadingOverlay, Modal } from "../base";
 import { BaseStepper } from "../base/Stepper/BaseStepper";
 import {
   OfferFormDescriptionStep,
@@ -181,50 +182,54 @@ export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
 
   return (
     <>
+      {isEditionDataLoading && <LoadingOverlay />}
+
       <Modal isOpen size="5xl" placement="top" onClose={closeHandler}>
-        <Modal.Header>
-          <Grid gap={10}>
-            <TitleDescription
-              titleLevel="h2"
-              title={t("edit.title", { value: editionData?.name || "" })}
-              description={t("edit.description")}
-              isTextCentered
-            />
-            <BaseStepper
-              count={stepsArray.length}
-              filledCount={filledCount}
-              currentCount={stepsArray.findIndex((i) => i === step)}
-              className="max-w-80 mx-auto"
-            />
-          </Grid>
-        </Modal.Header>
+        <Skeleton isLoaded={!isEditJobOfferLoading}>
+          <Modal.Header>
+            <Grid gap={10}>
+              <TitleDescription
+                titleLevel="h2"
+                title={t("edit.title", { value: editionData?.name || "" })}
+                description={t("edit.description")}
+                isTextCentered
+              />
+              <BaseStepper
+                count={stepsArray.length}
+                filledCount={filledCount}
+                currentCount={stepsArray.findIndex((i) => i === step)}
+                className="max-w-80 mx-auto"
+              />
+            </Grid>
+          </Modal.Header>
 
-        <Modal.Body>
-          {step === "skills" && (
-            <OfferFormSkillsStep
-              key={editionData?.id}
-              initialValues={initialValues.skills}
-              onFormSubmit={(data) => saveStepData({ step: "skills", data })}
-              onBackClick={skillsBackButtonHandler}
-              backCopy={t("edit.cancel")}
-              nextCopy={t("edit.next")}
-            />
-          )}
+          <Modal.Body>
+            {step === "skills" && (
+              <OfferFormSkillsStep
+                key={editionData?.id}
+                initialValues={initialValues.skills}
+                onFormSubmit={(data) => saveStepData({ step: "skills", data })}
+                onBackClick={skillsBackButtonHandler}
+                backCopy={t("edit.cancel")}
+                nextCopy={t("edit.next")}
+              />
+            )}
 
-          {step === "description" && (
-            <OfferFormDescriptionStep
-              initialValues={initialValues.description}
-              onFormSubmit={(data) =>
-                saveStepData({ step: "description", data })
-              }
-              onBackClick={(dirty) =>
-                dirty ? setPrevStep("skills") : setStep("skills")
-              }
-              backCopy={t("edit.back")}
-              nextCopy={t("edit.edit")}
-            />
-          )}
-        </Modal.Body>
+            {step === "description" && (
+              <OfferFormDescriptionStep
+                initialValues={initialValues.description}
+                onFormSubmit={(data) =>
+                  saveStepData({ step: "description", data })
+                }
+                onBackClick={(dirty) =>
+                  dirty ? setPrevStep("skills") : setStep("skills")
+                }
+                backCopy={t("edit.back")}
+                nextCopy={t("edit.edit")}
+              />
+            )}
+          </Modal.Body>
+        </Skeleton>
       </Modal>
 
       {/* confirm before save */}

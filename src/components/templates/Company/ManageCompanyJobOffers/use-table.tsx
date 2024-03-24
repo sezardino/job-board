@@ -4,13 +4,20 @@ import {
 } from "@/app/(panels)/company/offers/page";
 import { Button, Icon, Typography } from "@/components/base";
 import { SelectOption } from "@/components/base/Select/Select";
-import { CompanyPageUrls } from "@/const";
 import { CurrentCompanyJobOffersResponse } from "@/services/bll/modules/job-offers/schema";
+import {
+  Dropdown,
+  DropdownItem,
+  DropdownMenu,
+  DropdownTrigger,
+} from "@nextui-org/react";
 import { JobOfferStatus, Seniority } from "@prisma/client";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import { useMemo } from "react";
+
+import { CompanyPageUrls } from "@/const";
+import Link from "next/link";
 
 type Props = {
   onEditJobOffer: (id: string) => void;
@@ -64,27 +71,29 @@ export const useCompanyOffersTable = (props: Props) => {
         enableSorting: false,
         header: () => null,
         cell: (row) => (
-          <div>
-            <Button
-              as={Link}
-              href={CompanyPageUrls.offer(row.getValue())}
-              variant="light"
-              color="primary"
-              tooltip={t("table.preview")}
-              isIconOnly
-            >
-              <Icon name="HiEye" />
-            </Button>
-            <Button
-              variant="light"
-              color="primary"
-              tooltip={t("table.edit")}
-              isIconOnly
-              onClick={() => onEditJobOffer(row.getValue())}
-            >
-              <Icon name="HiMiniPencil" />
-            </Button>
-          </div>
+          <Dropdown placement="bottom-end">
+            <DropdownTrigger>
+              <Button
+                variant="light"
+                color="default"
+                tooltip={t("table.actions.label")}
+                isIconOnly
+              >
+                <Icon name="HiDotsHorizontal" />
+              </Button>
+            </DropdownTrigger>
+            <DropdownMenu>
+              <DropdownItem
+                as={Link}
+                href={CompanyPageUrls.offer(row.getValue())}
+              >
+                <Typography tag="span">{t("table.actions.preview")}</Typography>
+              </DropdownItem>
+              <DropdownItem onClick={() => onEditJobOffer(row.getValue())}>
+                <Typography tag="span">{t("table.actions.edit")}</Typography>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         ),
       }),
     ],
