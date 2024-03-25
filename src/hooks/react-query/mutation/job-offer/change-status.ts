@@ -18,6 +18,17 @@ export const usePublishJobOfferMutation = () =>
     ],
   });
 
+export const useUnpublishJobOfferMutation = () =>
+  useMutationHelper({
+    mutationFn: (id: string) =>
+      apiService.jobOffers.changeStatus({ id, status: JobOfferStatus.DRAFT }),
+    getQueriesToInvalidate: ({ vars }) => [
+      [CURRENT_COMPANY_JOB_OFFERS_QUERY_KEY],
+      [OFFERS_LIST_QUERY_KEY],
+      [PREVIEW_JOB_OFFER_QUERY_KEY, vars],
+    ],
+  });
+
 export const useFinishJobOfferMutation = () =>
   useMutationHelper({
     mutationFn: (id: string) =>

@@ -5,29 +5,35 @@ import {
 import { Button, Icon, Typography } from "@/components/base";
 import { SelectOption } from "@/components/base/Select/Select";
 import { CurrentCompanyJobOffersResponse } from "@/services/bll/modules/job-offers/schema";
-import {
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/react";
+
 import { JobOfferStatus, Seniority } from "@prisma/client";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
+import {
+  Dropdown,
+  DropdownItemProps,
+} from "@/components/base/Dropdown/Dropdown";
 import { CompanyPageUrls } from "@/const";
+import { DropdownTrigger } from "@nextui-org/react";
 import Link from "next/link";
 
-type Props = {
-  onEditJobOffer: (id: string) => void;
+export type ManageCompanyJobOffersTableAction = {
+  type: "edit" | "delete" | "finish" | "archive" | "publish";
+  id: string;
 };
+
+type Props = {
+  onAction: (action: ManageCompanyJobOffersTableAction) => void;
+};
+
 type Entity = CurrentCompanyJobOffersResponse["data"][number];
 
 const columnHelper = createColumnHelper<Entity>();
 
 export const useCompanyOffersTable = (props: Props) => {
-  const { onEditJobOffer } = props;
+  const { onAction } = props;
 
   const t = useTranslations("components.manage-company-job-offers-template");
   const entityT = useTranslations("entity");
@@ -70,34 +76,89 @@ export const useCompanyOffersTable = (props: Props) => {
       columnHelper.accessor("id", {
         enableSorting: false,
         header: () => null,
-        cell: (row) => (
-          <Dropdown placement="bottom-end">
-            <DropdownTrigger>
-              <Button
-                variant="light"
-                color="default"
-                tooltip={t("table.actions.label")}
-                isIconOnly
-              >
-                <Icon name="HiDotsHorizontal" />
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu>
-              <DropdownItem
-                as={Link}
-                href={CompanyPageUrls.offer(row.getValue())}
-              >
-                <Typography tag="span">{t("table.actions.preview")}</Typography>
-              </DropdownItem>
-              <DropdownItem onClick={() => onEditJobOffer(row.getValue())}>
-                <Typography tag="span">{t("table.actions.edit")}</Typography>
-              </DropdownItem>
-            </DropdownMenu>
-          </Dropdown>
-        ),
+        cell: (row) => {
+          const status = row.row.original.status;
+
+          const items: DropdownItemProps[] = [
+            {
+              key: "preview",
+              as: Link,
+              href: CompanyPageUrls.offer(row.getValue()),
+              text: t("table.actions.preview"),
+            },
+            {
+              key: "edit",
+              text: t("table.actions.edit"),
+              onClick: () => onAction({ type: "edit", id: row.getValue() }),
+            },
+          ];
+
+          if (status === JobOfferStatus.DRAFT) {
+            items.push({
+              key: "publish",
+              text: t("table.actions.publish"),
+              onClick: () => onAction({ type: "publish", id: row.getValue() }),
+            });
+          }
+
+          if (status === JobOfferStatus.ACTIVE) {
+            items.push({
+              key: "finish",
+              text: t("table.actions.finish"),
+              onClick: () => onAction({ type: "finish", id: row.getValue() }),
+            });
+          }
+
+          if (status === JobOfferStatus.FINISHED) {
+            items.push({
+              key: "archive",
+              text: t("table.actions.archive"),
+              onClick: () => onAction({ type: "archive", id: row.getValue() }),
+            });
+          }
+
+          if (status !== JobOfferStatus.INACTIVE) {
+            items.push({
+              key: "delete",
+              text: t("table.actions.delete"),
+              color: "danger",
+              onClick: () => onAction({ type: "delete", id: row.getValue() }),
+            });
+          }
+
+          const disabledKeys = [];
+
+          if (
+            status === JobOfferStatus.INACTIVE ||
+            status === JobOfferStatus.FINISHED ||
+            status === JobOfferStatus.ARCHIVED
+          ) {
+            disabledKeys.push("edit");
+          }
+
+          return (
+            <Dropdown
+              placement="bottom-end"
+              label="Actions dropdown"
+              items={items}
+              disabledKeys={["edit"]}
+            >
+              <DropdownTrigger>
+                <Button
+                  variant="light"
+                  color="default"
+                  tooltip={t("table.actions.label")}
+                  isIconOnly
+                >
+                  <Icon name="HiDotsHorizontal" />
+                </Button>
+              </DropdownTrigger>
+            </Dropdown>
+          );
+        },
       }),
     ],
-    [entityT, onEditJobOffer, t]
+    [entityT, onAction, t]
   );
 
   const statusFilterOptions = useMemo<
@@ -116,6 +177,7 @@ export const useCompanyOffersTable = (props: Props) => {
         id: JobOfferStatus.DRAFT,
         label: entityT(`job-status.${JobOfferStatus.DRAFT}`),
       },
+      // TODO: delete before release
       {
         id: JobOfferStatus.INACTIVE,
         label: entityT(`job-status.${JobOfferStatus.INACTIVE}`),

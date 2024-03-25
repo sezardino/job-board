@@ -191,10 +191,16 @@ export class JobOffersBllModule extends AbstractBllService {
 
     const jobOffer = await this.prismaService.jobOffer.findUnique({
       where: { id: offerId, companyId },
-      select: { id: true },
+      select: { id: true, status: true },
     });
 
     if (!jobOffer) throw new NotFoundException("Job offer not found");
+    if (
+      jobOffer.status === JobOfferStatus.FINISHED ||
+      jobOffer.status === JobOfferStatus.ARCHIVED ||
+      jobOffer.status === JobOfferStatus.INACTIVE
+    )
+      throw new NotAllowedException("Job offer is not editable");
 
     return this.prismaService.jobOffer.update({
       where: { id: offerId, companyId },
@@ -221,17 +227,19 @@ export class JobOffersBllModule extends AbstractBllService {
         if (neededJobOffer.status !== JobOfferStatus.DRAFT)
           throw new NotAllowedException("Only draft offers can be published");
         break;
-      case JobOfferStatus.INACTIVE:
-        if (neededJobOffer.status !== JobOfferStatus.ACTIVE)
-          throw new NotAllowedException("Only active offers can be finished");
-        break;
       case JobOfferStatus.ARCHIVED:
         if (neededJobOffer.status !== JobOfferStatus.FINISHED)
           throw new NotAllowedException("Only finished offers can be archived");
         break;
+      case JobOfferStatus.FINISHED:
+        if (neededJobOffer.status !== JobOfferStatus.ACTIVE)
+          throw new NotAllowedException("Only active offers can be finished");
+        break;
       default:
         throw new NotAllowedException("Invalid status");
     }
+
+    console.log(status);
 
     return this.prismaService.jobOffer.update({
       where: { id: offerId, companyId },

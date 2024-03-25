@@ -10,7 +10,7 @@ export const patchChangeJobOfferStatus = async (
   const data = await req.json();
   const session = await getNextAuthSession();
 
-  const response = await bllService.jobOffers.edit(
+  const response = await bllService.jobOffers.changeStatus(
     data,
     params.params.id,
     session?.user.companyId!
