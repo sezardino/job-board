@@ -1,7 +1,7 @@
 "use client";
 
 import { UserRoleSelect } from "@/components/UI/UserRoleSelect/UserStatusesSelect";
-import { Button } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
 import { UserRoles } from "@prisma/client";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useTranslations } from "next-intl";

@@ -5,6 +5,8 @@ import {
 } from "@nextui-org/react";
 import { twMerge } from "tailwind-merge";
 
+import styles from "./Select.module.scss";
+
 export type SelectOption<T extends string> = {
   label: string;
   id: T;
@@ -87,7 +89,7 @@ export const Select = <T extends string, M extends boolean>(
           key={o.id}
           value={o.id}
           textValue={o.label}
-          className={twMerge(o.disabled && "opacity-40 cursor-default")}
+          className={twMerge(o.disabled && styles.disabled)}
         >
           {o.label}
         </SelectItem>

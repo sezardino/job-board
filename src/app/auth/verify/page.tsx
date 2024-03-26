@@ -1,6 +1,6 @@
 "use client";
 
-import { LoadingOverlay } from "@/components/base";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { VerifyEmailTemplate } from "@/components/templates/Auth/VerifyEmailTemplate";
 import { PublicPageUrls } from "@/const";
 import { useResendVerificationEmailMutation } from "@/hooks/react-query/mutation/auth/resend-verification-email";

@@ -1,5 +1,7 @@
 import { type FC } from "react";
-import { Grid, Modal, ModalComponent, ModalProps, Typography } from "..";
+import { Grid } from "../Grid/Grid";
+import { Modal, ModalComponent, ModalProps } from "../Modal/Modal";
+import { Typography } from "../Typography/Typography";
 
 export type ModalWithDescriptionProps = ModalProps & {
   title: string;

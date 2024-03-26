@@ -1,4 +1,3 @@
-import { Button, Icon, Typography } from "@/components/base";
 import { JobOfferTemplateWrapper } from "@/components/modules/job-offer/JobOfferTemplateWrapper/JobOfferTemplateWrapper";
 import { DEFAULT_DATE_FORMAT, PublicPageUrls } from "@/const";
 import { PreviewJobOfferResponse } from "@/services/bll/modules/job-offers/schema";
@@ -7,6 +6,9 @@ import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
+import { Button } from "@/components/base/Button/Button";
+import { Icon } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 import styles from "./JobOfferTemplate.module.scss";
 
 export type JobOfferTemplateProps = ComponentPropsWithoutRef<"div"> & {

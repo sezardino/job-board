@@ -3,7 +3,6 @@ import {
   JobOfferStatusFilters,
 } from "@/app/(panels)/company/offers/page";
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
-import { Button, Grid } from "@/components/base";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import { Select } from "@/components/base/Select/Select";
 import { CompanyPageUrls } from "@/const";
@@ -28,6 +27,8 @@ import {
   ConfirmModalProps,
 } from "@/components/UI/ConformModal/ConfirmModal";
 import { TableWidget } from "@/components/UI/TableWidget/TableWidget";
+import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
 import { EditJobOfferWrapper } from "@/components/wrappers/EditJobOfferWrapper";
 import { DeleteJobOfferResponse } from "@/services/bll/modules/job-offers/schema/delete";
 import styles from "./ManageCompanyJobOffersTemplate.module.scss";

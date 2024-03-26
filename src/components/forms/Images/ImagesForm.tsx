@@ -1,7 +1,7 @@
 import { ChangeEvent, ComponentPropsWithoutRef, useMemo, type FC } from "react";
 
 import { ImageCard } from "@/components/UI/ImageCard/ImageCard";
-import { Button, Grid, Icon, Typography } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
 import { useFormField } from "@/hooks/use-form-field";
 import { FileEntity } from "@/types";
 import { megabytesToBytes } from "@/utils";
@@ -11,6 +11,9 @@ import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper, FormWrapperProps } from "../FormWrapper/FormWrapper";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Icon } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 
 const MAX_IMAGE_SIZE_MB = 10;
 const MAX_IMAGE_SIZE_BYTES = megabytesToBytes(MAX_IMAGE_SIZE_MB);

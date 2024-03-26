@@ -1,7 +1,9 @@
-import { Badge, Icon, Typography } from "@/components/base";
 import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
+import { Icon } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 import { FileEntity } from "@/types";
 import {
+  Badge,
   Card,
   CardBody,
   CardFooter,

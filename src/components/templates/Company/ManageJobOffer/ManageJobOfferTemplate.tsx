@@ -2,7 +2,9 @@ import { PreviewJobOfferResponse } from "@/services/bll/modules/job-offers/schem
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 
-import { Button, Icon, Typography } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
+import { Icon } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 import { JobOfferTemplateWrapper } from "@/components/modules/job-offer/JobOfferTemplateWrapper/JobOfferTemplateWrapper";
 import { EditJobOfferWrapper } from "@/components/wrappers/EditJobOfferWrapper";
 import { useTranslations } from "next-intl";

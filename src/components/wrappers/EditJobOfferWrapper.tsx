@@ -4,8 +4,11 @@ import { useTranslations } from "next-intl";
 import { FC, useCallback, useMemo, useState } from "react";
 import { ConfirmModal } from "../UI/ConformModal/ConfirmModal";
 import { TitleDescription } from "../UI/TitleDescription/TitleDescription";
-import { Grid, LoadingOverlay, Modal } from "../base";
-import { BaseStepper } from "../base/Stepper/BaseStepper";
+
+import { Grid } from "../base/Grid/Grid";
+import { LoadingOverlay } from "../base/LoadingOverlay/LoadingOverlay";
+import { Modal } from "../base/Modal/Modal";
+import { Stepper } from "../base/Stepper/Stepper";
 import {
   OfferFormDescriptionStep,
   OfferFormDescriptionStepFormValues,
@@ -201,7 +204,7 @@ export const EditJobOfferWrapper: FC<EditJobOfferProps> = (props) => {
               description={t("edit.description")}
               isTextCentered
             />
-            <BaseStepper
+            <Stepper
               count={stepsArray.length}
               filledCount={filledCount}
               currentCount={stepsArray.findIndex((i) => i === step)}

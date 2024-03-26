@@ -1,6 +1,6 @@
 "use client";
 
-import { Grid } from "@/components/base";
+import { Grid } from "@/components/base/Grid/Grid";
 import { ControlledInput } from "@/components/controlled";
 import { MIN_PASSWORD_LENGTH } from "@/const";
 import { useStringVerification } from "@/hooks/use-string-verification";

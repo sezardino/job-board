@@ -2,9 +2,12 @@ import {
   OfferCardEntity,
   OffersList,
 } from "@/components/UI/OffersList/OffersList";
-import { Button, Grid, LoadingOverlay, Typography } from "@/components/base";
 import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
+import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
+import { Typography } from "@/components/base/Typography/Typography";
 import {
   EditCompanyBaseDataForm,
   EditCompanyBaseDataFormValues,

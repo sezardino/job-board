@@ -1,4 +1,5 @@
-import { Icon, IconNames, Typography } from "@/components/base";
+import { Icon, IconNames } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 import { ToastOptions, toast } from "react-toastify";
 import { twMerge } from "tailwind-merge";
 

@@ -1,11 +1,9 @@
+import { Grid, GridProps, GridTags } from "@/components/base/Grid/Grid";
 import {
-  Grid,
-  GridProps,
-  GridTags,
   Typography,
   TypographyStyling,
   TypographyTag,
-} from "@/components/base";
+} from "@/components/base/Typography/Typography";
 import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 

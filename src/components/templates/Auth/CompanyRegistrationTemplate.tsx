@@ -1,4 +1,5 @@
-import { Grid, Link, Typography } from "@/components/base";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Typography } from "@/components/base/Typography/Typography";
 import {
   CompanyRegistrationForm,
   CompanyRegistrationFormValues,
@@ -11,8 +12,9 @@ import {
   CompanyRegistrationStatus,
 } from "@/services/bll/modules/auth/schema/company-registration";
 import { ActionProp } from "@/types";
+import { Link } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
-import NextLink from "next/link";
+import { default as NextLink } from "next/link";
 import {
   useCallback,
   useRef,
@@ -90,7 +92,7 @@ export const CompanyRegistrationTemplate: FC<
           />
           <Typography tag="p" styling="sm" className="text-center">
             {t("login.description")}{" "}
-            <Link as={NextLink} to={PublicPageUrls.login} color="primary">
+            <Link as={NextLink} href={PublicPageUrls.login} color="primary">
               {t("login.link")}
             </Link>
           </Typography>

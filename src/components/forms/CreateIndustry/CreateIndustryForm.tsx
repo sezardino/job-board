@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
 import { ControlledInput } from "@/components/controlled";
 import { SLUG_REGEXP } from "@/const/regexp";
 import { Form, FormikProvider, useFormik } from "formik";

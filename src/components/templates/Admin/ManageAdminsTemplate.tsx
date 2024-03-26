@@ -1,3 +1,6 @@
+import { Button } from "@/components/base/Button/Button";
+import { Icon } from "@/components/base/Icon/Icon";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import { AdminUsersResponse } from "@/services/bll/modules/users/schema";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -12,7 +15,6 @@ import {
 import { twMerge } from "tailwind-merge";
 import { TableWidget } from "../../UI/TableWidget/TableWidget";
 import { UserInfo } from "../../UI/UserInfo/UserInfo";
-import { Button, Icon, LoadingOverlay } from "../../base";
 import { SearchForm } from "../../base/SearchForm/SearchForm";
 import { AuthForm, AuthFormValues } from "../../forms";
 

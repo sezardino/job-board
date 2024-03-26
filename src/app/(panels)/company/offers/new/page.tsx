@@ -1,6 +1,6 @@
 "use client";
 
-import { LoadingOverlay } from "@/components/base";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import {
   NewOfferData,
   NewOfferTemplate,

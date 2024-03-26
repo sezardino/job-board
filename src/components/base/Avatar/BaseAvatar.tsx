@@ -1,6 +1,6 @@
 import { Avatar, AvatarProps } from "@nextui-org/react";
 import { type FC } from "react";
-import { Icon } from "..";
+import { Icon } from "../Icon/Icon";
 
 export type BaseAvatarSize = "sm" | "md" | "lg";
 

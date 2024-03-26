@@ -10,7 +10,9 @@ import {
   forwardRef,
   useState,
 } from "react";
-import { Icon } from "..";
+
+import styles from "./Input.module.scss";
+import { Icon } from "../Icon/Icon";
 
 type OmittedProps = Omit<
   ComponentProps,
@@ -45,14 +47,11 @@ const InputComponent: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   const endContentJSX =
     type === "password" ? (
       <button
-        className="focus:outline-none focus-within:text-primary-500"
+        className={styles.button}
         type="button"
         onClick={toggleVisibility}
       >
-        <Icon
-          name={isVisible ? "HiEyeOff" : "HiEye"}
-          className="text-2xl text-default-400 pointer-events-none"
-        />
+        <Icon name={isVisible ? "HiEyeOff" : "HiEye"} className={styles.icon} />
       </button>
     ) : (
       endContent

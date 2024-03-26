@@ -1,4 +1,5 @@
-import { Icon, IconNames, Typography } from "@/components/base";
+import { Icon, IconNames } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 import { PublicPageUrls } from "@/const";
 import { Card, CardBody } from "@nextui-org/react";
 import { useTranslations } from "next-intl";

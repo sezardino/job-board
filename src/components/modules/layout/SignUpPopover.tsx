@@ -1,6 +1,10 @@
-import { Button, Grid, Icon, Link, Typography } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Icon } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 import { PublicPageUrls } from "@/const";
 import {
+  Link,
   Popover,
   PopoverContent,
   PopoverProps,

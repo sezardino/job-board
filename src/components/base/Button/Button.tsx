@@ -5,13 +5,9 @@ import {
 } from "@nextui-org/react";
 import { ForwardRefRenderFunction, forwardRef } from "react";
 
-type OmittedLibProps = Omit<NextUIButtonProps, "variant" | "radius" | "ref">;
+type OmittedLibProps = Omit<NextUIButtonProps, "ref">;
 
 type Props = {
-  variant?: Extract<
-    NextUIButtonProps["variant"],
-    "solid" | "shadow" | "bordered" | "light"
-  >;
   tooltip?: string;
   text?: string;
 };

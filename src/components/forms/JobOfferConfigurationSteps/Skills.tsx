@@ -1,10 +1,10 @@
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
-import { Icon } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
+import { Icon } from "@/components/base/Icon/Icon";
 import { ControlledInput, ControlledSelect } from "@/components/controlled";
 import { MAX_STRING_LENGTH } from "@/const";
-import { Button } from "@nextui-org/react";
 import { Skill, SkillLevel } from "@prisma/client";
 import { FieldArray, useFormik } from "formik";
 import { useTranslations } from "next-intl";

@@ -1,5 +1,8 @@
-import { Button, Grid, Icon, Typography } from "@/components/base";
 import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
+import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Icon } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 import { useFormField } from "@/hooks/use-form-field";
 import { ChangeEvent, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";

@@ -8,8 +8,8 @@ import {
 import { ForwardRefRenderFunction, ReactNode, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Typography } from "..";
 import styles from "./Dropdown.module.scss";
+import { Typography } from "../Typography/Typography";
 
 export type DropdownItemProps = Omit<NextUIDropdownItemProps, "children"> & {
   key: string;

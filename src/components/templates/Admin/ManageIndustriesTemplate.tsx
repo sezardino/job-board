@@ -1,3 +1,6 @@
+import { Button } from "@/components/base/Button/Button";
+import { Icon } from "@/components/base/Icon/Icon";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import { AdminIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { ActionProp } from "@/types";
@@ -15,7 +18,6 @@ import { twMerge } from "tailwind-merge";
 import { ConfirmModal } from "../../UI/ConformModal/ConfirmModal";
 import { TableWidget } from "../../UI/TableWidget/TableWidget";
 import { TitleDescription } from "../../UI/TitleDescription/TitleDescription";
-import { Button, Icon, LoadingOverlay } from "../../base";
 import { SearchForm } from "../../base/SearchForm/SearchForm";
 import {
   CreateIndustryForm,

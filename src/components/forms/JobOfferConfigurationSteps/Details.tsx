@@ -6,13 +6,13 @@ import {
 } from "react";
 
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
-import { Icon } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
+import { Icon } from "@/components/base/Icon/Icon";
 import { ControlledInput, ControlledSelect } from "@/components/controlled";
 import { MAX_STRING_LENGTH } from "@/const";
 import { ActiveCategoriesResponse } from "@/services/bll/modules/categories/schema";
 import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { DataProp } from "@/types";
-import { Button } from "@nextui-org/react";
 import { Salary } from "@prisma/client";
 import { useFormik } from "formik";
 import { useTranslations } from "next-intl";

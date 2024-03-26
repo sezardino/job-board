@@ -5,7 +5,8 @@ import {
   UserStatusesSelect,
   UserStatusesSelectOptions,
 } from "@/components/UI/UserStatusesSelect/UserStatusesSelect";
-import { Button, LoadingOverlay } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import {

@@ -4,6 +4,8 @@ import * as hi2Icons from "react-icons/hi2";
 import * as tbIcons from "react-icons/tb";
 import { twMerge } from "tailwind-merge";
 
+import styles from "./Icon.module.scss";
+
 export type HiIconNames = keyof typeof hiIcons;
 export type Hi2IconNames = keyof typeof hi2Icons;
 export type TbIconNames = keyof typeof tbIcons;
@@ -25,21 +27,15 @@ export const Icon: FC<IconProps> = (props) => {
   const { rotate, name, size = 24, className, ...rest } = props;
   const IconJSX = icons[name];
 
-  const rotateStyles: Record<IconRotate, string> = {
-    "45": "rotate-45",
-    "90": "rotate-90",
-    "135": "rotate-135",
-    "180": "rotate-180",
-    "225": "-rotate-135",
-    "270": "-rotate-90",
-    "315": "-rotate-45",
-  };
-
   return (
     <IconJSX
       {...rest}
       size={size}
-      className={twMerge("rotate", rotate && rotateStyles[rotate], className)}
+      className={twMerge(
+        styles.element,
+        rotate && styles[`rotate-${rotate}`],
+        className
+      )}
     />
   );
 };

@@ -1,4 +1,6 @@
-import { Button, Grid, Link, Typography } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Typography } from "@/components/base/Typography/Typography";
 import {
   CustomerRegistrationForm,
   CustomerRegistrationFormValues,
@@ -11,8 +13,9 @@ import {
   ResendVerificationEmailResponse,
 } from "@/services/bll/modules/auth/schema";
 import { ActionProp } from "@/types";
+import { Link } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
-import NextLink from "next/link";
+import { default as NextLink } from "next/link";
 import {
   useCallback,
   useRef,
@@ -83,7 +86,7 @@ export const CustomerRegistrationTemplate: FC<
           />
           <Typography tag="p" styling="sm" className="text-center">
             {t("form.text")}{" "}
-            <Link as={NextLink} to={PublicPageUrls.login} color="primary">
+            <Link as={NextLink} href={PublicPageUrls.login} color="primary">
               {t("form.link")}
             </Link>
           </Typography>

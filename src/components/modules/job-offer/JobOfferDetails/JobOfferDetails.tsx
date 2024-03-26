@@ -1,5 +1,4 @@
 import { SkillCard } from "@/components/UI/SkillCard/SkillCard";
-import { Icon, Link, Typography } from "@/components/base";
 import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
 import {
   BaseBreadcrumbs,
@@ -7,10 +6,12 @@ import {
 } from "@/components/base/Breadcrumbs/BaseBreadcrumbs";
 import { HTMLWrapper } from "@/components/base/HTMLWrapper/HTMLWrapper";
 import { PublicPageUrls } from "@/const";
-import { Card, CardProps } from "@nextui-org/react";
+import { Card, CardProps, Link } from "@nextui-org/react";
 import { JobContract, JobType, Seniority, Skill } from "@prisma/client";
 import { FC, useMemo } from "react";
 
+import { Icon } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";
 import styles from "./JobOfferDetails.module.scss";

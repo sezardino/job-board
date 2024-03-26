@@ -1,0 +1,31 @@
+.element {
+  &.rotate {
+    &-45 {
+      @apply rotate-45;
+    }
+
+    &-90 {
+      @apply rotate-90;
+    }
+
+    &-135 {
+      @apply rotate-135;
+    }
+
+    &-180 {
+      @apply rotate-180;
+    }
+
+    &-225 {
+      @apply -rotate-135;
+    }
+
+    &-270 {
+      @apply -rotate-90;
+    }
+
+    &-315 {
+      @apply -rotate-45;
+    }
+  }
+}

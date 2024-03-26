@@ -1,6 +1,6 @@
 "use client";
 
-import { Icon, IconNames } from "@/components/base";
+import { Icon, IconNames } from "@/components/base/Icon/Icon";
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 

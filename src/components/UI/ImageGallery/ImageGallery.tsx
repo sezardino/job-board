@@ -1,5 +1,6 @@
-import { Icon, IconNames, Typography } from "@/components/base";
+import { Icon, IconNames } from "@/components/base/Icon/Icon";
 import { LightBox } from "@/components/base/Lightbox/Lightbox";
+import { Typography } from "@/components/base/Typography/Typography";
 import { FileEntity } from "@/types";
 import {
   PropsWithChildren,

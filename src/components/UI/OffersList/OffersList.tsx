@@ -1,4 +1,5 @@
-import { Grid, Typography } from "@/components/base";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Typography } from "@/components/base/Typography/Typography";
 import { FileEntity } from "@/types";
 import { Card, CardBody } from "@nextui-org/react";
 import { Seniority } from "@prisma/client";

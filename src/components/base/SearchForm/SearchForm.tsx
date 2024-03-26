@@ -9,7 +9,7 @@ import {
 import { useDebouncedValue, useWatchEffect } from "@/hooks";
 
 import { Icon } from "@/components/base/Icon/Icon";
-import { Input } from "..";
+import { Input } from "../Input/Input";
 
 export interface SearchFormProps
   extends Omit<ComponentPropsWithoutRef<"form">, "onSubmit"> {

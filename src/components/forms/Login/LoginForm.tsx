@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
 import { ControlledInput } from "@/components/controlled";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useTranslations } from "next-intl";

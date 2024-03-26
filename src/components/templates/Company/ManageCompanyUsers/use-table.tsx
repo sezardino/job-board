@@ -1,5 +1,6 @@
 import { UserInfo } from "@/components/UI/UserInfo/UserInfo";
-import { Button, Icon } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
+import { Icon } from "@/components/base/Icon/Icon";
 import { EditCompanyUserAcceptedRoles } from "@/components/forms/EditCompanyUser/EditCompanyUser";
 import { CompanyUsersResponse } from "@/services/bll/modules/users/schema";
 import { UserRoles } from "@prisma/client";

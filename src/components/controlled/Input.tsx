@@ -1,6 +1,6 @@
 import { useField } from "formik";
 import { FocusEvent, type FC } from "react";
-import { Input, InputProps } from "../base";
+import { Input, InputProps } from "../base/Input/Input";
 
 export type ControlledInputProps = InputProps & {
   name: string;

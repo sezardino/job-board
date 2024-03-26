@@ -2,7 +2,6 @@ import {
   JobOfferSeniorityFilters,
   JobOfferStatusFilters,
 } from "@/app/(panels)/company/offers/page";
-import { Button, Icon, Typography } from "@/components/base";
 import { SelectOption } from "@/components/base/Select/Select";
 import { CurrentCompanyJobOffersResponse } from "@/services/bll/modules/job-offers/schema";
 
@@ -11,6 +10,7 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo } from "react";
 
+import { Button } from "@/components/base/Button/Button";
 import {
   Dropdown,
   DropdownItemProps,
@@ -18,6 +18,8 @@ import {
 import { CompanyPageUrls } from "@/const";
 import { DropdownTrigger } from "@nextui-org/react";
 import Link from "next/link";
+import { Icon } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 
 export type ManageCompanyJobOffersTableAction = {
   type: "edit" | "delete" | "finish" | "archive" | "publish";

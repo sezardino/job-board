@@ -33,7 +33,7 @@ export const Modal: ModalComponent = (props) => {
   const { title, children, className, ...rest } = props;
 
   return (
-    <NextUIModal
+    <ExtendedModal
       {...rest}
       classNames={{
         header: "block",
@@ -42,7 +42,7 @@ export const Modal: ModalComponent = (props) => {
       }}
     >
       <ModalContent>{children}</ModalContent>
-    </NextUIModal>
+    </ExtendedModal>
   );
 };
 

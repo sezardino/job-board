@@ -1,11 +1,13 @@
-import { Link, Typography } from "@/components/base";
+import { Typography } from "@/components/base/Typography/Typography";
 import {
   WindowNavigation,
   WindowNavigationLink,
 } from "@/components/base/WindowNavigation/WindowNavigation";
 import { CompanyPageUrls } from "@/const";
 import { useMyCompanyContext } from "@/context";
+import { Link } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
+import NextLink from "next/link";
 import { PropsWithChildren, useMemo, type FC } from "react";
 
 export const CompanyDashboardLayout: FC<PropsWithChildren> = ({ children }) => {
@@ -34,7 +36,7 @@ export const CompanyDashboardLayout: FC<PropsWithChildren> = ({ children }) => {
               </Typography>
             )}
           </div>
-          <Link to={CompanyPageUrls.profile} size="sm">
+          <Link as={NextLink} href={CompanyPageUrls.profile} size="sm">
             {t("profile")}
           </Link>
         </div>

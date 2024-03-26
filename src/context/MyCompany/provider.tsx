@@ -1,4 +1,4 @@
-import { LoadingOverlay } from "@/components/base";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { useMyCompanyBaseDataQuery } from "@/hooks";
 import { FC, PropsWithChildren, useMemo } from "react";
 import { MyCompanyContext } from ".";

@@ -1,7 +1,9 @@
-import { Button, ButtonProps, LoadingOverlay, Modal } from "@/components/base";
 import NextLink from "next/link";
 import { Fragment, type FC } from "react";
 
+import { Button, ButtonProps } from "@/components/base/Button/Button";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
+import { Modal } from "@/components/base/Modal/Modal";
 import {
   ModalWithDescription,
   ModalWithDescriptionProps,

@@ -1,14 +1,14 @@
 import { ComponentPropsWithoutRef, FC } from "react";
 import { twMerge } from "tailwind-merge";
 
-export type BaseStepperProps = ComponentPropsWithoutRef<"div"> & {
+export type StepperProps = ComponentPropsWithoutRef<"div"> & {
   count: number;
   filledCount: number;
   currentCount: number;
   onStepClick?: (index: number) => void;
 };
 
-export const BaseStepper: FC<BaseStepperProps> = (props) => {
+export const Stepper: FC<StepperProps> = (props) => {
   const { count, currentCount, filledCount, onStepClick, className, ...rest } =
     props;
 

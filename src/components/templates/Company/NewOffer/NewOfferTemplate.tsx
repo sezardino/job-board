@@ -1,7 +1,5 @@
 import { ConfirmModal } from "@/components/UI/ConformModal/ConfirmModal";
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
-import { Button, Grid } from "@/components/base";
-import { BaseStepper } from "@/components/base/Stepper/BaseStepper";
 import {
   OfferFormDescriptionStep,
   OfferFormDescriptionStepFormValues,
@@ -26,6 +24,9 @@ import { ActionProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
 import { ComponentPropsWithoutRef, FC, useState } from "react";
 
+import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Stepper } from "@/components/base/Stepper/Stepper";
 import styles from "./NewOfferTemplate.module.scss";
 
 type Props = {
@@ -141,7 +142,7 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
             title={t("title")}
             description={t("desc")}
           />
-          <BaseStepper
+          <Stepper
             count={stepsArray.length}
             filledCount={filledCount}
             currentCount={stepsArray.findIndex((i) => i === step)}
