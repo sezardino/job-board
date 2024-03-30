@@ -31,7 +31,7 @@ const generateIndustries = async () => {
 
 const generateCompanies = async () => {
   const ownersData = generateMockUsers({
-    count: faker.number.int({ min: 5, max: 20 }),
+    count: faker.number.int({ min: 20, max: 100 }),
     roles: [UserRoles.OWNER],
   });
 
@@ -67,7 +67,7 @@ const generateCompanies = async () => {
   await Promise.all([
     ...companies.map(async (company) => {
       const offers = generateMockOffers({
-        count: faker.number.int({ min: 5, max: 20 }),
+        count: faker.number.int({ min: 20, max: 100 }),
         companyId: company.id,
         industries: industries,
       });

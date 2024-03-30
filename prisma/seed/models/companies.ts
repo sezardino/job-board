@@ -21,7 +21,7 @@ export const generateMockCompany = () => {
     slug: generateSlug(name),
     status: faker.helpers.arrayElement(statuses),
     members: generateMockUsers({
-      count: faker.number.int({ min: 5, max: 20 }),
+      count: faker.number.int({ min: 20, max: 100 }),
       roles: [UserRoles.MODERATOR, UserRoles.RECRUITER],
     }),
   };
