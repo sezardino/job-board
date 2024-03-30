@@ -76,65 +76,63 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
         className
       )}
     >
-      <div className="container">
-        <Navbar
-          position="static"
-          isBlurred={false}
-          className="bg-transparent backdrop-blur-none backdrop-saturate-0"
-          onMenuOpenChange={setIsMenuOpen}
-        >
-          <NavbarContent>
-            <NavbarMenuToggle
-              aria-label={isMenuOpen ? t("close-menu") : t("open-menu")}
-              className="sm:hidden"
+      <Navbar
+        position="static"
+        isBlurred={false}
+        className="bg-transparent backdrop-blur-none backdrop-saturate-0"
+        onMenuOpenChange={setIsMenuOpen}
+      >
+        <NavbarContent>
+          <NavbarMenuToggle
+            aria-label={isMenuOpen ? t("close-menu") : t("open-menu")}
+            className="sm:hidden"
+          />
+          <NavbarBrand>
+            <p className="font-bold text-inherit">{BRAND_NAME}</p>
+          </NavbarBrand>
+        </NavbarContent>
+
+        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+          {menuItems.map((item) => (
+            <NavbarItem key={item.href}>
+              <Link
+                as={NextLink}
+                className="w-full"
+                color="foreground"
+                href={item.href}
+              >
+                {item.label}
+              </Link>
+            </NavbarItem>
+          ))}
+        </NavbarContent>
+        <NavbarContent justify="end">
+          {!user && unauthorizedMenuItems}
+          {user && (
+            <AvatarDropdown
+              user={user}
+              title={t("user-menu-title")}
+              items={avatarLinks}
             />
-            <NavbarBrand>
-              <p className="font-bold text-inherit">{BRAND_NAME}</p>
-            </NavbarBrand>
-          </NavbarContent>
+          )}
+        </NavbarContent>
+        <NavbarMenu className="list-none">
+          {menuItems.map((item) => (
+            <NavbarMenuItem key={item.href}>
+              <Link
+                as={NextLink}
+                className="w-full"
+                color="foreground"
+                href={item.href}
+              >
+                {item.label}
+              </Link>
+            </NavbarMenuItem>
+          ))}
+        </NavbarMenu>
+      </Navbar>
 
-          <NavbarContent className="hidden sm:flex gap-4" justify="center">
-            {menuItems.map((item) => (
-              <NavbarItem key={item.href}>
-                <Link
-                  as={NextLink}
-                  className="w-full"
-                  color="foreground"
-                  href={item.href}
-                >
-                  {item.label}
-                </Link>
-              </NavbarItem>
-            ))}
-          </NavbarContent>
-          <NavbarContent justify="end">
-            {!user && unauthorizedMenuItems}
-            {user && (
-              <AvatarDropdown
-                user={user}
-                title={t("user-menu-title")}
-                items={avatarLinks}
-              />
-            )}
-          </NavbarContent>
-          <NavbarMenu className="list-none">
-            {menuItems.map((item) => (
-              <NavbarMenuItem key={item.href}>
-                <Link
-                  as={NextLink}
-                  className="w-full"
-                  color="foreground"
-                  href={item.href}
-                >
-                  {item.label}
-                </Link>
-              </NavbarMenuItem>
-            ))}
-          </NavbarMenu>
-        </Navbar>
-
-        {children}
-      </div>
+      {children && <div className="container">{children}</div>}
     </div>
   );
 };
