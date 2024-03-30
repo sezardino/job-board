@@ -40,7 +40,7 @@ const GridComponent: ForwardRefRenderFunction<
       className={twMerge(
         styles.element,
         styles[`cols-${col}`],
-        styles[`gap-${gap}`],
+        styles[`col-gap-${gap}`],
         className
       )}
     >
