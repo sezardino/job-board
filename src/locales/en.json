@@ -709,6 +709,14 @@
         "description": "Your email has been already verified",
         "trigger": "Login"
       }
+    },
+    "landing": {
+      "job-offers-board": {
+        "no-data": {
+          "title": "No job offers found",
+          "description": "There are no job offers according to your search criteria"
+        }
+      }
     }
   },
   "login-page": {

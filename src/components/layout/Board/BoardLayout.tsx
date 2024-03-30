@@ -6,6 +6,9 @@ import { useActiveCategoriesQuery } from "@/hooks/react-query/query/categories/a
 import { User } from "next-auth";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 
+import styles from "./BoardLayout.module.scss";
+
+import { Skeleton } from "@nextui-org/react";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
@@ -28,13 +31,22 @@ export const BoardLayoutWrapper: FC<BoardLayoutProps> = (props) => {
     ...rest
   } = props;
 
-  const { data: activeCategories, isFetching: isActiveCategoriesLoading } =
-    useActiveCategoriesQuery(industry);
+  const {
+    data: activeCategories,
+    isInitialLoading: isActiveCategoriesLoading,
+  } = useActiveCategoriesQuery(industry);
 
   return (
-    <div {...rest} className={twMerge("grid grid-cols-1 gap-4", className)}>
+    <div {...rest} className={twMerge(styles.element, className)}>
       <LandingNavbar user={user} onSignOutClick={onSignOutClick}>
-        <ul className="py-2 flex flex-wrap items-center gap-1 list-none">
+        <ul className={styles.list}>
+          {isActiveCategoriesLoading &&
+            new Array(10)
+              .fill(null)
+              .map((_, index) => (
+                <Skeleton key={index} className={styles.skeleton} />
+              ))}
+
           {activeCategories?.data.map((category) => (
             <li key={category.id}>
               <CategoryCard

@@ -22,7 +22,7 @@ const IndustryPage = (props: Props) => {
 
   return (
     <OffersBoardTemplate
-      offersList={offersList}
+      offers={{ data: offersList, isLoading: isOffersListLoading }}
       onTriggerFetchNextPage={fetchNextPage}
       hasNextPage={hasNextPage}
     />

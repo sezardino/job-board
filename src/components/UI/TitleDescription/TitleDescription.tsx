@@ -12,6 +12,7 @@ type Props = {
   titleLevel: TypographyTag;
   titleStyling?: TypographyStyling;
   description?: string;
+  descriptionStyling?: TypographyStyling;
   isTextCentered?: boolean;
 };
 
@@ -21,6 +22,7 @@ export const TitleDescription: FC<TitleDescriptionProps> = (props) => {
   const {
     title,
     titleStyling = "lg",
+    descriptionStyling = "sm",
     titleLevel,
     description,
     isTextCentered,
@@ -38,7 +40,7 @@ export const TitleDescription: FC<TitleDescriptionProps> = (props) => {
         {title}
       </Typography>
       {description && (
-        <Typography tag="p" styling="sm">
+        <Typography tag="p" styling={descriptionStyling}>
           {description}
         </Typography>
       )}
