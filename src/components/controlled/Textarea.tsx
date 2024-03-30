@@ -1,6 +1,6 @@
 import { useField } from "formik";
 import { type FC } from "react";
-import { BaseTextarea, BaseTextareaProps } from "../base";
+import { BaseTextareaProps, BaseTextarea } from "../base/Textarea/Textarea";
 
 type Props = {
   name: string;

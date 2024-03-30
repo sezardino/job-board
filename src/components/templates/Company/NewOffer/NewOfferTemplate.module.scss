@@ -1,0 +1,7 @@
+.wrapper {
+  @apply max-w-xl mx-auto;
+}
+
+.footer {
+  @apply flex items-center flex-wrap gap-3 justify-between;
+}

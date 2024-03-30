@@ -1,5 +1,6 @@
-import { Icon, IconNames } from "@/components/base";
-import { Button, Tooltip } from "@nextui-org/react";
+import { Button } from "@/components/base/Button/Button";
+import { Icon, IconNames } from "@/components/base/Icon/Icon";
+import { Tooltip } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { type ComponentPropsWithoutRef, type FC } from "react";
@@ -81,7 +82,6 @@ export const CategoryCard: FC<CategoryCardProps> = (props) => {
         as={Link}
         href={prefix ? prefix + "/" + name : name}
         color={isActive ? "primary" : undefined}
-        radius="full"
       >
         <Icon name={iconName} size={24} />
       </Button>

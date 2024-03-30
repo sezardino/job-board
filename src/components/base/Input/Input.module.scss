@@ -1,0 +1,7 @@
+.button {
+  @apply focus:outline-none focus-within:text-primary-500;
+}
+
+.icon {
+  @apply text-2xl text-default-400 pointer-events-none;
+}

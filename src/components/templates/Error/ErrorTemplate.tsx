@@ -1,4 +1,6 @@
-import { Button, Grid, Typography } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Typography } from "@/components/base/Typography/Typography";
 import Link from "next/link";
 import { type FC } from "react";
 

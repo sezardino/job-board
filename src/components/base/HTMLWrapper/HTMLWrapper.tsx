@@ -2,7 +2,7 @@ import parse from "html-react-parser";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 
 import { twMerge } from "tailwind-merge";
-import styles from "./HTMLWrapper.module.css";
+import styles from "./HTMLWrapper.module.scss";
 
 export type HTMLWrapperProps = ComponentPropsWithoutRef<"div"> & {
   body: string;

@@ -1,4 +1,4 @@
-import { Typography } from "@/components/base";
+import { Typography } from "@/components/base/Typography/Typography";
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { SkillLevel } from "@prisma/client";
 import { useTranslations } from "next-intl";

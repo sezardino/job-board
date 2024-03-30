@@ -169,12 +169,16 @@ model Company {
   name     String     @unique
   slug     String     @unique
 
-  // needed for profile
-  gallery Image[] @relation(name: "gallery")
+  // TODO: add in next version (gallery)
+  // gallery Image[] @relation(name: "gallery")
+
+  // TODO: add in next version (thumbnail)
   // thumbnail   Image?  @relation(name: "thumbnail", fields: [thumbnailId], references: [id])
   // thumbnailId String? @unique @map("thumbnail_id") @db.ObjectId
-  slogan  String? @map("slogan")
-  bio     String?
+
+  // needed for profile
+  slogan String? @map("slogan")
+  bio    String?
 
   members User[]     @relation(name: "member")
   offers  JobOffer[]
@@ -194,7 +198,8 @@ model JobOffer {
   operating JobOperatingMode[]
   seniority Seniority
   skills    Skill[]
-  location  Location[]
+  // TODO: add in next version (location)
+  // location  Location[]
 
   description String @default("")
 
@@ -208,7 +213,8 @@ model JobOffer {
   categoryId String   @map("category_id") @db.ObjectId
 
   publishedAt DateTime? @map("published_at")
-  deadlineAt  DateTime? @map("deadline_at")
+  // TODO: add in next version (deadline)
+  // deadlineAt  DateTime? @map("deadline_at")
 
   createdAt DateTime @default(now()) @map("created_at")
 }
@@ -216,11 +222,13 @@ model JobOffer {
 model Image {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
+  // TODO: add in next version
   // thumbnail   Company? @relation(name: "thumbnail")
   // thumbnailId String?  @unique @map("thumbnail_id") @db.ObjectId
 
-  gallery   Company? @relation(name: "gallery", fields: [galleryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
-  galleryId String?  @map("gallery_id") @db.ObjectId
+  // TODO: add in next version
+  // gallery   Company? @relation(name: "gallery", fields: [galleryId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  // galleryId String?  @map("gallery_id") @db.ObjectId
 
   company   Company? @relation(fields: [userId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   companyId String?  @unique @db.ObjectId

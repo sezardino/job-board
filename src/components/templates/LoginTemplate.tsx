@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
-import { Typography } from "../base";
+import { Typography } from "../base/Typography/Typography";
 import { AuthFormProps } from "../forms";
 import { LoginForm } from "../forms/Login/LoginForm";
 import { SignUpPopover } from "../modules/layout/SignUpPopover";

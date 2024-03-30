@@ -283,36 +283,6 @@
           "required": "Seniority is required"
         }
       },
-      "skills": {
-        "title": "Skills",
-        "description": "Please select skills required for this job offer",
-        "add-first": "Add first skill",
-        "add": "Add more",
-        "remove": "Remove",
-        "name": {
-          "label": "Skill Name",
-          "placeholder": "F.E. Empathy",
-          "max-length": "Name should be less than {value} characters",
-          "required": "Name is required"
-        },
-        "level": {
-          "label": "Skill level",
-          "placeholder": "Basic",
-          "required": "Skill Level is required"
-        }
-      },
-      "description": {
-        "title": "Description",
-        "description": "Please enter description of the job offer",
-        "field": {
-          "label": "Description",
-          "placeholder": "Description",
-          "required": "Description is required",
-          "min-length": "Description should be more than {value} characters",
-          "max-length": "Description should be less than {value} characters",
-          "description": "This description will be visible to the users"
-        }
-      },
       "back-modal": {
         "title": "Go back",
         "description": "Are you sure you want to go back? All unsaved data will be lost",
@@ -330,6 +300,42 @@
         "description": "Create new job offer with provided data?",
         "cancel": "Cancel",
         "confirm": "Create"
+      }
+    },
+    "job-offer-skills": {
+      "title": "Skills",
+      "description": "Please select skills required for this job offer",
+      "back": "Back",
+      "next": "Next",
+      "add-first": "Add first skill",
+      "add": "Add more",
+      "remove": "Remove",
+      "up": "Move item up in order",
+      "down": "Move item down in order",
+      "name": {
+        "label": "Skill Name",
+        "placeholder": "F.E. Empathy",
+        "max-length": "Name should be less than {value} characters",
+        "required": "Name is required"
+      },
+      "level": {
+        "label": "Skill level",
+        "placeholder": "Basic",
+        "required": "Skill Level is required"
+      }
+    },
+    "job-offer-description": {
+      "title": "Description",
+      "description": "Please enter description of the job offer",
+      "back": "Back",
+      "next": "Next",
+      "field": {
+        "label": "Description",
+        "placeholder": "Description",
+        "required": "Description is required",
+        "min-length": "Description should be more than {value} characters",
+        "max-length": "Description should be less than {value} characters",
+        "description": "This description will be visible to the users"
       }
     }
   },
@@ -820,7 +826,7 @@
       "company": "Company",
       "customer": "Customer"
     },
-    "company-offers-template": {
+    "manage-company-job-offers-template": {
       "title": "Job Offers",
       "description": "From this panel you can manage job offers of your company.",
       "search": "Search job offer",
@@ -829,16 +835,100 @@
         "status": "Filer by status",
         "seniority": "Filter by seniority"
       },
-      "all": "All"
+      "all": "All",
+      "table": {
+        "no-data": "No offers found",
+        "name": "Name",
+        "industry-category": "Industry/Category",
+        "deadline": "Deadline",
+        "seniority": "Seniority",
+        "status": "Status",
+        "actions": {
+          "label": "More",
+          "edit": "Edit",
+          "preview": "Preview",
+          "publish": "Publish",
+          "unpublish": "Unpublish",
+          "archive": "Archive",
+          "finish": "Finish",
+          "delete": "Delete"
+        }
+      },
+      "modals": {
+        "delete": {
+          "title": "Delete job offer",
+          "description": "Are you sure you want to delete this job offer?",
+          "cancel": "Cancel",
+          "confirm": "Delete"
+        },
+        "archive": {
+          "title": "Archive job offer",
+          "description": "Are you sure you want to archive this job offer?",
+          "cancel": "Cancel",
+          "confirm": "Archive"
+        },
+        "finish": {
+          "title": "Finish job offer",
+          "description": "Are you sure you want to finish this job offer? You can't edit job offer after finishing",
+          "cancel": "Cancel",
+          "confirm": "Finish"
+        },
+        "publish": {
+          "title": "Publish job offer",
+          "description": "Are you sure you want to publish this job offer? You can't unpublish it after publishing",
+          "cancel": "Cancel",
+          "confirm": "Publish"
+        }
+      }
     },
-    "company-offers-table": {
-      "no-data": "No offers found",
-      "name": "Name",
-      "industry": "Industry",
-      "category": "Category",
-      "deadline": "Deadline",
+    "edit-job-offer-wrapper": {
+      "edit": {
+        "title": "Edit job offer \"{value}\"",
+        "description": "You can edit job offer here",
+        "cancel": "Cancel",
+        "next": "Next",
+        "edit": "Edit job offer",
+        "back": "Back"
+      },
+      "back": {
+        "title": "Go back",
+        "description": "Are you sure you want to go back? All unsaved data will be lost",
+        "cancel": "Cancel",
+        "confirm": "Go back"
+      },
+      "cancel": {
+        "title": "Cancel",
+        "description": "Are you sure you want to cancel? All unsaved data will be lost",
+        "cancel": "Cancel",
+        "confirm": "Confirm"
+      },
+      "confirm": {
+        "title": "Confirm",
+        "description": "Edit job offer with provided data?",
+        "cancel": "Cancel",
+        "confirm": "Edit"
+      },
+      "no-changes": {
+        "title": "No changes",
+        "description": "You didn't make any changes",
+        "cancel": "Continue editing",
+        "confirm": "Cancel editing"
+      }
+    },
+    "job-offer-details": {
+      "contract": "Job Contract",
       "seniority": "Seniority",
-      "status": "Status"
+      "type": "Job Type",
+      "operating": "Operating",
+      "deadline": "Deadline"
+    }
+  },
+  "templates": {
+    "company": {
+      "manage-job-offer": {
+        "manage": "Manage job offer",
+        "edit": "Edit"
+      }
     }
   },
   "messages": {

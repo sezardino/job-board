@@ -1,7 +1,8 @@
-import { Grid, Typography } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Typography } from "@/components/base/Typography/Typography";
 import useTimer from "@/hooks/use-timer";
 import { ActionProp } from "@/types";
-import { Button } from "@nextui-org/react";
 import { useCallback, type ComponentPropsWithoutRef, type FC } from "react";
 
 type Props = {

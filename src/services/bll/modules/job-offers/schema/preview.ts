@@ -42,7 +42,7 @@ export const previewJobOfferResponseSchema = z.object({
   industry: z.object({ name: z.string() }),
   category: z.object({ name: z.string() }),
   publishedAt: z.date().or(z.string()),
-  deadlineAt: z.date().or(z.string()),
+  // deadlineAt: z.date().or(z.string()),
 });
 
 export type PreviewJobOfferRequest = z.infer<

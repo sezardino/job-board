@@ -1,9 +1,10 @@
+import { Grid, GridProps, GridTags } from "@/components/base/Grid/Grid";
 import {
   Typography,
   TypographyStyling,
   TypographyTag,
-} from "@/components/base";
-import { type ComponentPropsWithoutRef, type FC } from "react";
+} from "@/components/base/Typography/Typography";
+import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
@@ -11,9 +12,10 @@ type Props = {
   titleLevel: TypographyTag;
   titleStyling?: TypographyStyling;
   description?: string;
+  isTextCentered?: boolean;
 };
 
-export type TitleDescriptionProps = ComponentPropsWithoutRef<"div"> & Props;
+export type TitleDescriptionProps = GridProps<GridTags> & Props;
 
 export const TitleDescription: FC<TitleDescriptionProps> = (props) => {
   const {
@@ -21,12 +23,17 @@ export const TitleDescription: FC<TitleDescriptionProps> = (props) => {
     titleStyling = "lg",
     titleLevel,
     description,
+    isTextCentered,
     className,
     ...rest
   } = props;
 
   return (
-    <div {...rest} className={twMerge("grid grid-cols-1 gap-1", className)}>
+    <Grid
+      {...rest}
+      gap={1}
+      className={twMerge(isTextCentered && "text-center", className)}
+    >
       <Typography tag={titleLevel} weight="medium" styling={titleStyling}>
         {title}
       </Typography>
@@ -35,6 +42,6 @@ export const TitleDescription: FC<TitleDescriptionProps> = (props) => {
           {description}
         </Typography>
       )}
-    </div>
+    </Grid>
   );
 };

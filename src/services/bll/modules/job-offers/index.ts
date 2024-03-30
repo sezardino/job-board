@@ -1,13 +1,19 @@
 import { DEFAULT_PAGE_LIMIT } from "@/const";
-import { FindManyPrismaEntity, NotFoundException } from "@/types";
+import {
+  FindManyPrismaEntity,
+  NotAllowedException,
+  NotFoundException,
+} from "@/types";
 import { JobOfferStatus, Prisma } from "@prisma/client";
 import { AbstractBllService } from "../../module.abstract";
 import {
+  ChangeJobOfferStatusRequest,
   CreateJobOfferRequest,
   CurrentCompanyJobOffersRequest,
   OffersListRequest,
   PreviewJobOfferRequest,
 } from "./schema";
+import { EditJobOfferRequest } from "./schema/edit";
 
 export class JobOffersBllModule extends AbstractBllService {
   protected async findMany(
@@ -59,7 +65,8 @@ export class JobOffersBllModule extends AbstractBllService {
         name: true,
         seniority: true,
         status: true,
-        deadlineAt: true,
+        // TODO: add in next version
+        // deadlineAt: true,
         category: { select: { name: true, id: true } },
         industry: { select: { name: true, id: true } },
       },
@@ -121,7 +128,8 @@ export class JobOffersBllModule extends AbstractBllService {
         name: true,
         seniority: true,
         contract: true,
-        deadlineAt: true,
+        // TODO: add in next version
+        // deadlineAt: true,
         publishedAt: true,
         description: true,
         operating: true,
@@ -147,7 +155,7 @@ export class JobOffersBllModule extends AbstractBllService {
     return jobOffer;
   }
 
-  create(dto: CreateJobOfferRequest, companyId: string) {
+  async create(dto: CreateJobOfferRequest, companyId: string) {
     const { category, industry, ...rest } = dto;
 
     return this.prismaService.jobOffer.create({
@@ -159,6 +167,103 @@ export class JobOffersBllModule extends AbstractBllService {
         ...rest,
       },
       select: { id: true },
+    });
+  }
+
+  async editionData(offerId: string, companyId: string) {
+    const neededOffer = await this.prismaService.jobOffer.findUnique({
+      where: { id: offerId, companyId },
+      select: {
+        id: true,
+        name: true,
+        description: true,
+        skills: { select: { name: true, level: true } },
+      },
+    });
+
+    if (!neededOffer) throw new NotFoundException("Job offer not found");
+
+    return neededOffer;
+  }
+
+  async edit(dto: EditJobOfferRequest, offerId: string, companyId: string) {
+    const { description, skills } = dto;
+
+    const jobOffer = await this.prismaService.jobOffer.findUnique({
+      where: { id: offerId, companyId },
+      select: { id: true, status: true },
+    });
+
+    if (!jobOffer) throw new NotFoundException("Job offer not found");
+    if (
+      jobOffer.status === JobOfferStatus.FINISHED ||
+      jobOffer.status === JobOfferStatus.ARCHIVED ||
+      jobOffer.status === JobOfferStatus.INACTIVE
+    )
+      throw new NotAllowedException("Job offer is not editable");
+
+    return this.prismaService.jobOffer.update({
+      where: { id: offerId, companyId },
+      data: { description, skills },
+      select: { id: true },
+    });
+  }
+
+  async changeStatus(
+    dto: ChangeJobOfferStatusRequest,
+    offerId: string,
+    companyId: string
+  ) {
+    const { status } = dto;
+    const neededJobOffer = await this.prismaService.jobOffer.findUnique({
+      where: { id: offerId, companyId },
+      select: { id: true, status: true },
+    });
+
+    if (!neededJobOffer) throw new NotFoundException("Job offer not found");
+
+    switch (status) {
+      case JobOfferStatus.ACTIVE:
+        if (neededJobOffer.status !== JobOfferStatus.DRAFT)
+          throw new NotAllowedException("Only draft offers can be published");
+        break;
+      case JobOfferStatus.ARCHIVED:
+        if (neededJobOffer.status !== JobOfferStatus.FINISHED)
+          throw new NotAllowedException("Only finished offers can be archived");
+        break;
+      case JobOfferStatus.FINISHED:
+        if (neededJobOffer.status !== JobOfferStatus.ACTIVE)
+          throw new NotAllowedException("Only active offers can be finished");
+        break;
+      default:
+        throw new NotAllowedException("Invalid status");
+    }
+
+    console.log(status);
+
+    return this.prismaService.jobOffer.update({
+      where: { id: offerId, companyId },
+      data: { status },
+    });
+  }
+
+  async delete(offerId: string, companyId: string) {
+    const neededJobOffer = await this.prismaService.jobOffer.findUnique({
+      where: { id: offerId, companyId },
+      select: { id: true, status: true },
+    });
+
+    if (!neededJobOffer) throw new NotFoundException("Job offer not found");
+
+    if (neededJobOffer.status === JobOfferStatus.DRAFT) {
+      return this.prismaService.jobOffer.delete({
+        where: { id: offerId, companyId },
+      });
+    }
+
+    return this.prismaService.jobOffer.update({
+      where: { id: offerId, companyId },
+      data: { status: JobOfferStatus.INACTIVE },
     });
   }
 }

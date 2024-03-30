@@ -1,0 +1,41 @@
+.element {
+  @apply top-0 left-0 right-0 bottom-0 z-50 fixed;
+}
+
+.inWrapper {
+  @apply absolute;
+}
+
+.wrapper {
+  @apply z-20 absolute top-0 bottom-0 right-0 left-0 flex justify-center items-center backdrop-blur-md backdrop-saturate-150 bg-overlay/30;
+}
+
+.skeleton {
+  @apply rounded-lg;
+}
+
+.inner {
+  @apply bg-default-300;
+}
+
+.height {
+  &-sm {
+    @apply h-10;
+  }
+
+  &-md {
+    @apply h-24;
+  }
+
+  &-lg {
+    @apply h-44;
+  }
+
+  &-xl {
+    @apply h-64;
+  }
+
+  &-2xl {
+    @apply h-[600px];
+  }
+}

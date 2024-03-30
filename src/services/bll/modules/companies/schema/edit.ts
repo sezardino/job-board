@@ -4,8 +4,9 @@ export const editCompanyRequestSchema = z.object({
   bio: z.string().optional(),
   slogan: z.string().optional(),
   logo: z.any().optional(),
-  gallery: z.any().optional(),
-  galleryDeleted: z.array(z.string()).optional(),
+  // TODO: add in next version (gallery)
+  // gallery: z.any().optional(),
+  // galleryDeleted: z.array(z.string()).optional(),
 });
 
 export const editCompanyResponseSchema = z.object({

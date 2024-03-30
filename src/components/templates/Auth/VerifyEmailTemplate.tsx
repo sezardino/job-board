@@ -1,4 +1,3 @@
-import { Button, Grid, Typography } from "@/components/base";
 import {
   ResendVerificationEmailResponse,
   VerifyEmailTokenStatus,
@@ -7,6 +6,9 @@ import { useTranslations } from "next-intl";
 import { useCallback, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Typography } from "@/components/base/Typography/Typography";
 import { PublicPageUrls } from "@/const";
 import useTimer from "@/hooks/use-timer";
 import { ActionProp } from "@/types";

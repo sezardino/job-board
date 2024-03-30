@@ -1,8 +1,8 @@
-import { Typography } from "@/components/base";
 import {
   BaseAvatar,
   BaseAvatarSize,
 } from "@/components/base/Avatar/BaseAvatar";
+import { Typography } from "@/components/base/Typography/Typography";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 

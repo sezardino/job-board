@@ -14,7 +14,7 @@ type Props = {
 
 type PickedJobOfferDetailsProps = Pick<
   JobOfferDetailsProps,
-  "company" | "info" | "skills" | "offer" | "breadcrumbs"
+  "company" | "skills" | "offer" | "breadcrumbs"
 >;
 
 export type JobOfferTemplateWrapperProps = ComponentPropsWithoutRef<"div"> &
@@ -25,7 +25,6 @@ export const JobOfferTemplateWrapper: FC<JobOfferTemplateWrapperProps> = (
   props
 ) => {
   const {
-    info,
     company,
     offer,
     breadcrumbs,
@@ -41,7 +40,6 @@ export const JobOfferTemplateWrapper: FC<JobOfferTemplateWrapperProps> = (
       <JobOfferDetails
         breadcrumbs={breadcrumbs}
         company={company}
-        info={info}
         offer={offer}
         skills={skills}
       />

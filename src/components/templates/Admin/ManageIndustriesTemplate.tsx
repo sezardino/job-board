@@ -1,3 +1,7 @@
+import { Button } from "@/components/base/Button/Button";
+import { Icon } from "@/components/base/Icon/Icon";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
+import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import { AdminIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { ActionProp } from "@/types";
 import { EntityStatus } from "@prisma/client";
@@ -14,7 +18,6 @@ import { twMerge } from "tailwind-merge";
 import { ConfirmModal } from "../../UI/ConformModal/ConfirmModal";
 import { TableWidget } from "../../UI/TableWidget/TableWidget";
 import { TitleDescription } from "../../UI/TitleDescription/TitleDescription";
-import { Button, Icon, LoadingOverlay, Modal } from "../../base";
 import { SearchForm } from "../../base/SearchForm/SearchForm";
 import {
   CreateIndustryForm,
@@ -191,34 +194,38 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         />
       </section>
 
-      <Modal
+      <ModalWithDescription
         isOpen={isCreateIndustryModalOpen}
         onClose={() => setIsCreateIndustryModalOpen(false)}
         title={t("create.title")}
         description={t("create.description")}
       >
-        {isCreateIndustryLoading && <LoadingOverlay isInWrapper />}
-        <CreateIndustryForm
-          onFormSubmit={createIndustryHandler}
-          onNameAvailableRequest={onNameAvailableRequest}
-          onCancelClick={() => setIsCreateIndustryModalOpen(false)}
-        />
-      </Modal>
+        <ModalWithDescription.Body>
+          {isCreateIndustryLoading && <LoadingOverlay isInWrapper />}
+          <CreateIndustryForm
+            onFormSubmit={createIndustryHandler}
+            onNameAvailableRequest={onNameAvailableRequest}
+            onCancelClick={() => setIsCreateIndustryModalOpen(false)}
+          />
+        </ModalWithDescription.Body>
+      </ModalWithDescription>
 
       {!!toUpdateIndustry && (
-        <Modal
+        <ModalWithDescription
           isOpen
           onClose={() => setToUpdateIndustry(null)}
           title={t("update.title")}
           description={t("update.description")}
         >
-          {update.isLoading && <LoadingOverlay isInWrapper />}
-          <UpdateIndustryForm
-            onFormSubmit={updateIndustryHandler}
-            initialStatus={toUpdateIndustry.status}
-            onCancelClick={() => setToUpdateIndustry(null)}
-          />
-        </Modal>
+          <ModalWithDescription.Body>
+            {update.isLoading && <LoadingOverlay isInWrapper />}
+            <UpdateIndustryForm
+              onFormSubmit={updateIndustryHandler}
+              initialStatus={toUpdateIndustry.status}
+              onCancelClick={() => setToUpdateIndustry(null)}
+            />
+          </ModalWithDescription.Body>
+        </ModalWithDescription>
       )}
 
       <ConfirmModal
@@ -227,15 +234,19 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         isLoading={isDeleteIndustryLoading}
         title={t("delete.title")}
         description={t("delete.description")}
-        cancel={{
-          text: t("delete.cancel"),
-          onClick: () => setToDeleteId(null),
-        }}
-        confirm={{
-          text: t("delete.confirm"),
-          onClick: async () =>
-            toDeleteId ? onDeleteIndustry(toDeleteId) : undefined,
-        }}
+        buttons={[
+          {
+            text: t("delete.cancel"),
+            variant: "bordered",
+            onClick: () => setToDeleteId(null),
+          },
+          {
+            text: t("delete.confirm"),
+            color: "danger",
+            onClick: async () =>
+              toDeleteId ? onDeleteIndustry(toDeleteId) : undefined,
+          },
+        ]}
       />
     </>
   );

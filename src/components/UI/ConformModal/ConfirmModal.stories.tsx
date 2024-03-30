@@ -18,14 +18,16 @@ export const ConfirmModal: Story = {
       onClose={handler}
       title="title"
       description="description"
-      cancel={{
-        text: "cancel",
-        onClick: handler,
-      }}
-      confirm={{
-        text: "confirm",
-        onClick: handler,
-      }}
+      buttons={[
+        {
+          text: "cancel",
+          onClick: handler,
+        },
+        {
+          text: "confirm",
+          onClick: handler,
+        },
+      ]}
     />
   ),
 };

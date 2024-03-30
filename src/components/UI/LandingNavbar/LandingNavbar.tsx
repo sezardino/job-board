@@ -1,10 +1,10 @@
 "use client";
 
-import { Link } from "@/components/base";
 import { SignUpPopover } from "@/components/modules/layout/SignUpPopover";
 import { BRAND_NAME, PublicPageUrls } from "@/const";
 import { getDashboardPath } from "@/utils";
 import {
+  Link,
   Navbar,
   NavbarBrand,
   NavbarContent,
@@ -56,7 +56,7 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
   const unauthorizedMenuItems = (
     <>
       <NavbarItem>
-        <Link as={NextLink} to={PublicPageUrls.login} color="foreground">
+        <Link as={NextLink} href={PublicPageUrls.login} color="foreground">
           {t("login")}
         </Link>
       </NavbarItem>

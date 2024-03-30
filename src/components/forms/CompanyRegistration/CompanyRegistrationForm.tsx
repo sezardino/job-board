@@ -1,6 +1,7 @@
 "use client";
 
-import { Grid, Typography } from "@/components/base";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Typography } from "@/components/base/Typography/Typography";
 import { ControlledInput } from "@/components/controlled";
 import { MIN_PASSWORD_LENGTH } from "@/const";
 import { useFormikHelper } from "@/hooks/use-formik-helper";

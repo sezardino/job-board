@@ -1,6 +1,6 @@
 "use client";
 
-import { LoadingOverlay } from "@/components/base";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { CompanyProfileTemplate } from "@/components/templates/Shared/CompanyProfileTemplate";
 import { CompanyPageUrls } from "@/const";
 import { useMyCompanyProfileQuery } from "@/hooks";

@@ -1,6 +1,6 @@
 "use client";
 
-import { LoadingOverlay } from "@/components/base";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { HomeTemplate } from "@/components/templates/Board/HomeTemplate";
 import { useActiveIndustriesQuery } from "@/hooks/react-query/query/industries/active-industries";
 

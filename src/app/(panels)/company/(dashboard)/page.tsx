@@ -1,11 +1,9 @@
 "use client";
 
+import { CompanyDashboardTemplate } from "@/components/templates/Company/CompanyDashboard/CompanyDashboardTemplate";
+
 const CompanyHomePage = () => {
-  return (
-    <>
-      <h1>Statistics</h1>
-    </>
-  );
+  return <CompanyDashboardTemplate />;
 };
 
 export default CompanyHomePage;

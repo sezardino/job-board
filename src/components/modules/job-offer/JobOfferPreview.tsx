@@ -2,8 +2,9 @@ import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
 import { SkillCard } from "@/components/UI/SkillCard/SkillCard";
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
-import { Grid, Typography } from "@/components/base";
+import { Grid } from "@/components/base/Grid/Grid";
 import { HTMLWrapper } from "@/components/base/HTMLWrapper/HTMLWrapper";
+import { Typography } from "@/components/base/Typography/Typography";
 import {
   JobContract,
   JobOperatingMode,

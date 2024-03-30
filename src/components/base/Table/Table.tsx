@@ -14,8 +14,8 @@ import { type ComponentPropsWithoutRef } from "react";
 
 import { Skeleton } from "@nextui-org/react";
 import { twMerge } from "tailwind-merge";
-import { Typography } from "..";
 import { Icon, IconNames } from "../Icon/Icon";
+import { Typography } from "../Typography/Typography";
 
 const sortingIcons: Record<SortDirection | "not-sorted", IconNames> = {
   asc: "HiSortAscending",

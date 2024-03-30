@@ -7,9 +7,11 @@ export const companyProfileResponseSchema = z.object({
   name: z.string(),
   bio: z.string().nullable(),
   slogan: z.string().nullable(),
-  thumbnail: fileSchema.nullable(),
   logo: fileSchema.nullable(),
-  gallery: z.array(fileSchema),
+  // TODO: add in next version (gallery)
+  // gallery: z.array(fileSchema),
+  // TODO: add in next version (thumbnail)
+  // thumbnail: fileSchema.nullable(),
   offers: z.array(
     z.object({
       id: z.string(),

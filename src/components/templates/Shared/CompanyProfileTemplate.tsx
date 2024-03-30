@@ -1,16 +1,13 @@
-import { ImageGallery } from "@/components/UI/ImageGallery/ImageGallery";
 import {
   OfferCardEntity,
   OffersList,
 } from "@/components/UI/OffersList/OffersList";
-import {
-  Button,
-  Grid,
-  LoadingOverlay,
-  Modal,
-  Typography,
-} from "@/components/base";
 import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
+import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
+import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
+import { Typography } from "@/components/base/Typography/Typography";
 import {
   EditCompanyBaseDataForm,
   EditCompanyBaseDataFormValues,
@@ -19,10 +16,6 @@ import {
   EditCompanyBioForm,
   EditCompanyBioFormValues,
 } from "@/components/forms/EditCompanyBio/EditCompanyBioForm";
-import {
-  ImagesForm,
-  ImagesFormValues,
-} from "@/components/forms/Images/ImagesForm";
 import {
   EditCompanyRequest,
   EditCompanyResponse,
@@ -38,7 +31,9 @@ export type CompanyProfileTemplateEntity = {
   slogan: string | null;
   bio: string | null;
   logo: FileEntity | null;
-  gallery: FileEntity[];
+  // TODO: add in next version (gallery)
+  // gallery: FileEntity[];
+  // TODO: add in next version (thumbnail)
   // thumbnail: FileEntity | null;
   offers: OfferCardEntity[];
   _count: {
@@ -72,7 +67,8 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
   const t = useTranslations("components.company-template");
   const [isEditBioModalOpen, setIsEditBioModalOpen] = useState(false);
   const [isEditBaseDataModalOpen, setIsEditBaseDataModalOpen] = useState(false);
-  const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
+  // TODO: add in next version (gallery)
+  // const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
 
   const editBioHandler = async (values: EditCompanyBioFormValues) => {
     if (!withManage || !editAction) return;
@@ -99,18 +95,19 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
     } catch (error) {}
   };
 
-  const editGalleryHandler = async (values: ImagesFormValues) => {
-    if (!withManage || !editAction) return;
+  // TODO: add in next version (gallery)
+  // const editGalleryHandler = async (values: ImagesFormValues) => {
+  //   if (!withManage || !editAction) return;
 
-    try {
-      await editAction.handler({
-        gallery: values.images,
-        galleryDeleted: values.imagesToDelete,
-      });
+  //   try {
+  //     await editAction.handler({
+  //       gallery: values.images,
+  //       galleryDeleted: values.imagesToDelete,
+  //     });
 
-      setIsGalleryModalOpen(false);
-    } catch (error) {}
-  };
+  //     setIsGalleryModalOpen(false);
+  //   } catch (error) {}
+  // };
 
   return (
     <>
@@ -152,7 +149,8 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
           <div className="-order-1 aspect-thumbnail bg-black w-full"></div>
         </Grid>
 
-        {(!!company?.gallery.length || withManage) && (
+        {/* TODO: add in next version (gallery) */}
+        {/* {(!!company?.gallery.length || withManage) && (
           <Grid>
             <Typography tag="h2" weight="medium" styling="lg">
               {t("gallery")}
@@ -170,7 +168,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
               ]}
             />
           </Grid>
-        )}
+        )} */}
 
         <Grid gap={2}>
           <div className="flex justify-between items-center gap-3 flex-wrap">
@@ -215,49 +213,54 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
         <>
           {editAction && (
             <>
-              <Modal
+              <ModalWithDescription
                 isOpen={isEditBioModalOpen}
                 onClose={() => setIsEditBioModalOpen(false)}
                 title={t("edit-bio.title")}
                 description={t("edit-bio.description")}
                 size="xl"
               >
-                {editAction.isLoading && <LoadingOverlay isInWrapper />}
-                <EditCompanyBioForm
-                  onFormSubmit={editBioHandler}
-                  initialValues={{ bio: company?.bio || "" }}
-                  cancel={{
-                    label: t("edit-bio.cancel"),
-                    onClick: () => setIsEditBioModalOpen(false),
-                  }}
-                  submitText={t("edit-bio.submit")}
-                />
-              </Modal>
+                <ModalWithDescription.Body>
+                  {editAction.isLoading && <LoadingOverlay isInWrapper />}
+                  <EditCompanyBioForm
+                    onFormSubmit={editBioHandler}
+                    initialValues={{ bio: company?.bio || "" }}
+                    cancel={{
+                      label: t("edit-bio.cancel"),
+                      onClick: () => setIsEditBioModalOpen(false),
+                    }}
+                    submitText={t("edit-bio.submit")}
+                  />
+                </ModalWithDescription.Body>
+              </ModalWithDescription>
 
-              <Modal
+              <ModalWithDescription
                 isOpen={isEditBaseDataModalOpen}
                 onClose={() => setIsEditBaseDataModalOpen(false)}
                 title={t("edit-base-data.title")}
                 description={t("edit-base-data.description")}
                 size="xl"
               >
-                {editAction.isLoading && <LoadingOverlay isInWrapper />}
-                <EditCompanyBaseDataForm
-                  initialValues={{
-                    slogan: company?.slogan || "",
-                    logo: company?.logo?.url || null,
-                    isLogoDeleted: false,
-                  }}
-                  onFormSubmit={editBaseCompanyDataHandler}
-                  cancel={{
-                    label: t("edit-base-data.cancel"),
-                    onClick: () => setIsEditBaseDataModalOpen(false),
-                  }}
-                  submitText={t("edit-base-data.submit")}
-                />
-              </Modal>
+                <ModalWithDescription.Body>
+                  {editAction.isLoading && <LoadingOverlay isInWrapper />}
+                  <EditCompanyBaseDataForm
+                    initialValues={{
+                      slogan: company?.slogan || "",
+                      logo: company?.logo?.url || null,
+                      isLogoDeleted: false,
+                    }}
+                    onFormSubmit={editBaseCompanyDataHandler}
+                    cancel={{
+                      label: t("edit-base-data.cancel"),
+                      onClick: () => setIsEditBaseDataModalOpen(false),
+                    }}
+                    submitText={t("edit-base-data.submit")}
+                  />
+                </ModalWithDescription.Body>
+              </ModalWithDescription>
 
-              <Modal
+              {/* TODO: add in next version (gallery) */}
+              {/* <Modal
                 isOpen={isGalleryModalOpen}
                 onClose={() => setIsGalleryModalOpen(false)}
                 title={t("edit-gallery.title")}
@@ -278,7 +281,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
                   }}
                   submit={{ label: t("edit-gallery.submit") }}
                 />
-              </Modal>
+              </Modal> */}
             </>
           )}
         </>

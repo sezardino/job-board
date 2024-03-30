@@ -1,8 +1,14 @@
 "use client";
 
-import { CompanyOffersTemplate } from "@/components/templates/Company/CompanyOffers";
+import { ManageCompanyJobOffersTemplate } from "@/components/templates/Company/ManageCompanyJobOffers/ManageCompanyJobOffersTemplate";
 import { useDataOnPage } from "@/hooks";
-import { useCurrentCompanyJobOffersQuery } from "@/hooks/react-query/query/offers";
+import {
+  useArchiveJobOfferMutation,
+  useFinishJobOfferMutation,
+  usePublishJobOfferMutation,
+} from "@/hooks/react-query/mutation/job-offer/change-status";
+import { useDeleteJobOfferMutation } from "@/hooks/react-query/mutation/job-offer/delete";
+import { useCurrentCompanyJobOffersQuery } from "@/hooks/react-query/query/job-offers";
 import { JobOfferStatus, Seniority } from "@prisma/client";
 import { useSession } from "next-auth/react";
 import { useState } from "react";
@@ -34,8 +40,17 @@ const CompanyOffersPage = () => {
       seniority: seniority === "all" ? undefined : seniority,
     });
 
+  const { mutateAsync: deleteJobOffer, isPending: isDeleteJobOfferLoading } =
+    useDeleteJobOfferMutation();
+  const { mutateAsync: finishJobOffer, isPending: isFinishJobOfferLoading } =
+    useFinishJobOfferMutation();
+  const { mutateAsync: archiveJobOffer, isPending: isArchiveJobOfferLoading } =
+    useArchiveJobOfferMutation();
+  const { mutateAsync: publishJobOffer, isPending: isPublishJobOfferLoading } =
+    usePublishJobOfferMutation();
+
   return (
-    <CompanyOffersTemplate
+    <ManageCompanyJobOffersTemplate
       offers={{
         data: companyOffers,
         isLoading: isCompanyOffersLoading,
@@ -46,10 +61,30 @@ const CompanyOffersPage = () => {
       onSearchChange={onSearchChange}
       page={page}
       search={search}
-      status={status}
-      seniority="all"
-      onStatusChange={(value) => changeHandler(value, setStatus)}
-      onSeniorityChange={(value) => changeHandler(value, setSeniority)}
+      statusFilter={{
+        value: status,
+        onChange: (value) => changeHandler(value, setStatus),
+      }}
+      seniorityFilter={{
+        value: seniority,
+        onChange: (value) => changeHandler(value, setSeniority),
+      }}
+      deleteAction={{
+        handler: deleteJobOffer,
+        isLoading: isDeleteJobOfferLoading,
+      }}
+      finishAction={{
+        handler: finishJobOffer,
+        isLoading: isFinishJobOfferLoading,
+      }}
+      archiveAction={{
+        handler: archiveJobOffer,
+        isLoading: isArchiveJobOfferLoading,
+      }}
+      publishAction={{
+        handler: publishJobOffer,
+        isLoading: isPublishJobOfferLoading,
+      }}
     />
   );
 };

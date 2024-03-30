@@ -1,7 +1,8 @@
 "use client";
 
-import { Button } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
 import { ControlledSelect } from "@/components/controlled";
+
 import { EntityStatus } from "@prisma/client";
 import { Form, FormikProvider, useFormik } from "formik";
 import { useTranslations } from "next-intl";

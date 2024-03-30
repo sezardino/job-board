@@ -1,4 +1,4 @@
-import { Button } from "@/components/base";
+import { Button } from "@/components/base/Button/Button";
 import { Form, FormikContextType, FormikProvider } from "formik";
 import { FC, type ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";

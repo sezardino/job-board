@@ -1,6 +1,7 @@
-import { Button, Pagination } from "@/components/base";
+import { Pagination } from "@/components/base/Pagination/Pagination";
 import { Table, TableProps } from "@/components/base/Table/Table";
 import {
+  Button,
   Dropdown,
   DropdownItem,
   DropdownMenu,

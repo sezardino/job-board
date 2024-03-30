@@ -1,4 +1,3 @@
-import { Grid, Typography } from "@/components/base";
 import { useFormField } from "@/hooks/use-form-field";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
@@ -6,6 +5,8 @@ import { type ComponentPropsWithoutRef, type FC } from "react";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper } from "../FormWrapper/FormWrapper";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Typography } from "@/components/base/Typography/Typography";
 
 const WysiwygEditor = dynamic(
   () => import("@/components/UI/WysiwygEditor/WysiwygEditor"),

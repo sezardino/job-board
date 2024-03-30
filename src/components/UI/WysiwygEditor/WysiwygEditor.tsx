@@ -25,7 +25,7 @@ import "froala-editor/js/plugins/colors.min.js";
 import "froala-editor/js/plugins/align.min.js";
 import "froala-editor/js/plugins/paragraph_format.min.js";
 
-import { Typography } from "@/components/base";
+import { Typography } from "@/components/base/Typography/Typography";
 import FroalaEditorComponent, { MyComponentProps } from "react-froala-wysiwyg";
 import { twMerge } from "tailwind-merge";
 
