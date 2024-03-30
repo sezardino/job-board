@@ -1,32 +1,36 @@
-const {
+import {
   EntityStatus,
-  JobOfferStatus,
-  Seniority,
-  UserStatus,
-  UserRoles,
-  JobOperatingMode,
   JobContract,
+  JobOfferStatus,
+  JobOperatingMode,
   JobType,
+  Seniority,
   SkillLevel,
-} = require("@prisma/client");
+  UserRoles,
+  UserStatus,
+} from "@prisma/client";
 
-const statuses = Object.values(EntityStatus);
+export const statuses = Object.values(EntityStatus) as EntityStatus[];
 
-const userStatuses = Object.values(UserStatus);
+export const userStatuses = Object.values(UserStatus) as UserStatus[];
 
-const jobOperatingModes = Object.values(JobOperatingMode);
-const jobContracts = Object.values(JobContract);
-const jobOfferStatuses = Object.values(JobOfferStatus);
-const jobTypes = Object.values(JobType);
+export const jobOperatingModes = Object.values(
+  JobOperatingMode
+) as JobOperatingMode[];
+export const jobContracts = Object.values(JobContract) as JobContract[];
+export const jobOfferStatuses = Object.values(
+  JobOfferStatus
+) as JobOfferStatus[];
+export const jobTypes = Object.values(JobType) as JobType[];
 
-const seniorities = Object.values(Seniority);
-const skillLevels = Object.values(SkillLevel);
+export const seniorities = Object.values(Seniority) as Seniority[];
+export const skillLevels = Object.values(SkillLevel) as SkillLevel[];
 
 // password: "password",
-const mockPassword =
+export const mockPassword =
   "$argon2id$v=19$m=65536,t=3,p=4$10ShtgkPnvHRc3Xe6DXXOw$D7Ycbyy58LU5ff5i0wGcOjaTjn3GzLEeSCYvQhIucZA";
 
-const jobDescriptionHTML = `
+export const jobDescriptionHTML = `
   <h1>Job Title: Web Developer</h1>
 
   <h2>About Us</h2>
@@ -78,7 +82,7 @@ const jobDescriptionHTML = `
   <p>Application deadline: January 31, 2024</p>
   `;
 
-const jobSkills = [
+export const jobSkills = [
   "HTML5",
   "CSS3",
   "JavaScript",
@@ -189,7 +193,7 @@ const jobSkills = [
   "Serverless Architecture",
 ];
 
-const mockCompanyOwner = {
+export const mockCompanyOwner = {
   name: "Company Owner",
   email: "company@mail.com",
   password: mockPassword,
@@ -197,19 +201,4 @@ const mockCompanyOwner = {
   role: UserRoles.OWNER,
   isAcceptInvite: true,
   status: UserStatus.ACTIVE,
-};
-
-module.exports = {
-  mockCompanyOwner,
-  statuses,
-  jobOfferStatuses,
-  seniorities,
-  mockPassword,
-  userStatuses,
-  jobDescriptionHTML,
-  jobSkills,
-  jobOperatingModes,
-  jobContracts,
-  jobTypes,
-  skillLevels,
 };

@@ -1,4 +1,4 @@
-const categories = {
+export const industriesAndCategories = {
   "information-technology": [
     "software-developer",
     "qa-engineer",
@@ -60,6 +60,8 @@ const categories = {
     "bartender",
     "baker",
   ],
-};
+} as const;
 
-module.exports = { categories };
+export const industries = Object.keys(industriesAndCategories) as Array<
+  keyof typeof industriesAndCategories
+>;

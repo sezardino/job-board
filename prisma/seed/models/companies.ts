@@ -1,11 +1,9 @@
-const { UserRoles, Seniority, JobOfferStatus } = require("@prisma/client");
-const { faker } = require("@faker-js/faker");
+import { faker } from "@faker-js/faker";
+import { Prisma, UserRoles } from "@prisma/client";
+import { jobOfferStatuses, jobTypes, seniorities, statuses } from "./const";
+import { generateMockUsers } from "./users";
 
-const { statuses, seniorities, jobOfferStatuses } = require("./const");
-
-const { generateMockUsers } = require("./users");
-
-function generateSlug(name) {
+const generateSlug = (name: string) => {
   const slug = name
     .toLowerCase()
     .replace(/[\s+&@#\/\\,;?!$%\^*:()'"\[\]]+/g, "-");
@@ -13,14 +11,13 @@ function generateSlug(name) {
   const cleanedSlug = slug.replace(/-+/g, "-");
 
   return cleanedSlug;
-}
+};
 
-const generateMockCompany = () => {
+export const generateMockCompany = () => {
   const name = faker.company.name();
 
   return {
     name,
-    email: faker.internet.email(),
     slug: generateSlug(name),
     status: faker.helpers.arrayElement(statuses),
     members: generateMockUsers({
@@ -30,18 +27,14 @@ const generateMockCompany = () => {
   };
 };
 
-const generateMainMockCompany = (categoryIds, industryIds) => {
+export const generateMainMockCompany = (
+  categoryIds: string[],
+  industryIds: string[]
+): Prisma.CompanyCreateInput => {
   return {
     name: "Main mock company",
     slug: "main-mock-company",
     status: "ACTIVE",
-    owner: {
-      create: {
-        email: "company@mail.com",
-        password:
-          "$argon2id$v=19$m=65536,t=3,p=4$aoeCUKn+4UX1pkX7ESxk4g$rz+1GkqG7owCPtWSGMfg0GauPs4zhNhVmKAkhAVriQw",
-      },
-    },
     offers: {
       createMany: {
         data: new Array(faker.number.int({ min: 5, max: 20 }))
@@ -54,30 +47,33 @@ const generateMainMockCompany = (categoryIds, industryIds) => {
               from: faker.number.float({ min: 1000, max: 10000 }),
               to: faker.number.float({ min: 10000, max: 100000 }),
             },
+            type: faker.helpers.arrayElement(jobTypes),
             status: faker.helpers.arrayElement(jobOfferStatuses),
-            level: faker.helpers.arrayElement(seniorities),
+            seniority: faker.helpers.arrayElement(seniorities),
           })),
       },
     },
     members: {
       createMany: {
-        data: new Array(faker.number.int({ min: 5, max: 100 }))
-          .fill(null)
-          .map(() => ({
-            email: faker.internet.email(),
+        data: [
+          {
+            email: "company@mail.com",
             password:
               "$argon2id$v=19$m=65536,t=3,p=4$aoeCUKn+4UX1pkX7ESxk4g$rz+1GkqG7owCPtWSGMfg0GauPs4zhNhVmKAkhAVriQw",
-            role: faker.helpers.arrayElement([
-              UserRoles.MODERATOR,
-              UserRoles.RECRUITER,
-            ]),
-          })),
+          },
+          ...new Array(faker.number.int({ min: 5, max: 100 }))
+            .fill(null)
+            .map(() => ({
+              email: faker.internet.email(),
+              password:
+                "$argon2id$v=19$m=65536,t=3,p=4$aoeCUKn+4UX1pkX7ESxk4g$rz+1GkqG7owCPtWSGMfg0GauPs4zhNhVmKAkhAVriQw",
+              role: faker.helpers.arrayElement([
+                UserRoles.MODERATOR,
+                UserRoles.RECRUITER,
+              ]),
+            })),
+        ],
       },
     },
   };
-};
-
-module.exports = {
-  generateMockCompany,
-  generateMainMockCompany,
 };

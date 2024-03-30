@@ -1,22 +1,29 @@
-const { Seniority, JobOfferStatus } = require("@prisma/client");
-const { faker } = require("@faker-js/faker");
-
-const { rangeArray } = require("./helpers");
-const {
+import { faker } from "@faker-js/faker";
+import { Prisma } from "@prisma/client";
+import {
+  jobContracts,
+  jobDescriptionHTML,
+  jobOfferStatuses,
+  jobOperatingModes,
+  jobSkills,
+  jobTypes,
   seniorities,
   skillLevels,
-  jobOfferStatuses,
-  jobDescriptionHTML,
-  jobSkills,
-  jobContracts,
-  jobOperatingModes,
-  jobTypes,
-} = require("./const");
+} from "./const";
+import { rangeArray } from "./helpers";
 
-const generateMockOffer = ({ companyId, industries }) => {
+type Args = {
+  count?: number;
+  companyId: string;
+  industries: { id: string; categories: { id: string }[] }[];
+};
+
+const generateMockOffer = (args: Args): Prisma.JobOfferCreateManyInput => {
+  const { companyId, industries } = args;
+
   const industryId = faker.helpers.arrayElement(industries).id;
   const categoryId = faker.helpers.arrayElement(
-    industries.find((i) => i.id === industryId).categories
+    industries.find((i) => i.id === industryId)!.categories
   ).id;
 
   const from = faker.number.float({ min: 1000, max: 10000 });
@@ -37,10 +44,10 @@ const generateMockOffer = ({ companyId, industries }) => {
     categoryId,
     companyId,
     skills,
-    contract: faker.helpers.arrayElement(jobContracts),
-    operating: faker.helpers.arrayElement(jobOperatingModes),
+    contract: faker.helpers.arrayElements(jobContracts),
+    operating: faker.helpers.arrayElements(jobOperatingModes),
     description: jobDescriptionHTML,
-    level: faker.helpers.arrayElement(seniorities),
+    seniority: faker.helpers.arrayElement(seniorities),
     status: faker.helpers.arrayElement(jobOfferStatuses),
     type: faker.helpers.arrayElement(jobTypes),
     salary: { from, to },
@@ -49,12 +56,8 @@ const generateMockOffer = ({ companyId, industries }) => {
   };
 };
 
-function generateMockOffers(args) {
+export const generateMockOffers = (args: Args) => {
   const { count = 10, ...rest } = args;
 
   return rangeArray(count).map(() => generateMockOffer(rest));
-}
-
-module.exports = {
-  generateMockOffers,
 };

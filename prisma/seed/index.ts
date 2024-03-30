@@ -1,46 +1,37 @@
-const { PrismaClient, UserRoles, UserStatus } = require("@prisma/client");
-
-const { faker } = require("@faker-js/faker");
-
-const { generateMockUsers } = require("./models/users");
-const { industries } = require("./models/industries");
-const { categories } = require("./models/categories");
-const { generateMockCompany } = require("./models/companies");
-const { generateMockOffers } = require("./models/offers");
-const { mockCompanyOwner } = require("./models/const");
-
-const { statuses } = require("./models/const");
+import { faker } from "@faker-js/faker";
+import { PrismaClient, UserRoles, UserStatus } from "@prisma/client";
+import { generateMockCompany } from "./models/companies";
+import { mockCompanyOwner } from "./models/const";
+import { industries, industriesAndCategories } from "./models/industries";
+import { generateMockOffers } from "./models/offers";
+import { generateMockUsers } from "./models/users";
 
 const prisma = new PrismaClient();
 
 const generateIndustries = async () => {
-  await prisma.industry.createMany({
-    data: Object.values(industries).map((name) => ({
-      name,
-      status: "ACTIVE",
-    })),
-  });
-
-  const industriesDB = await prisma.industry.findMany({
-    select: { id: true, name: true },
-  });
-
-  await Promise.all([
-    ...industriesDB.map(async (industry) => {
-      await prisma.category.createMany({
-        data: categories[industry.name].map((name) => ({
+  await prisma.$transaction(
+    industries.map((name) =>
+      prisma.industry.create({
+        data: {
           name,
           status: "ACTIVE",
-          industryId: industry.id,
-        })),
-      });
-    }),
-  ]);
+          categories: {
+            createMany: {
+              data: industriesAndCategories[name].map((name) => ({
+                name,
+                status: "ACTIVE",
+              })),
+            },
+          },
+        },
+      })
+    )
+  );
 };
 
 const generateCompanies = async () => {
   const ownersData = generateMockUsers({
-    count: faker.number.int({ min: 20, max: 100 }),
+    count: faker.number.int({ min: 5, max: 20 }),
     roles: [UserRoles.OWNER],
   });
 
@@ -60,7 +51,6 @@ const generateCompanies = async () => {
       await prisma.company.create({
         data: {
           ...rest,
-          owner: { connect: { id: owner.id } },
           members: { connect: { id: owner.id }, createMany: { data: members } },
         },
       });
@@ -77,7 +67,7 @@ const generateCompanies = async () => {
   await Promise.all([
     ...companies.map(async (company) => {
       const offers = generateMockOffers({
-        count: faker.number.int({ min: 20, max: 200 }),
+        count: faker.number.int({ min: 5, max: 20 }),
         companyId: company.id,
         industries: industries,
       });
@@ -101,8 +91,7 @@ const generateUsers = async () => {
   });
 
   const customers = generateMockUsers({
-    count: 0,
-    // count: faker.number.int({ min: 20, max: 100 }),
+    count: faker.number.int({ min: 5, max: 20 }),
     status: [UserStatus.ACTIVE, UserStatus.BLOCKED, UserStatus.INACTIVE],
   });
 
@@ -116,10 +105,17 @@ const generateUsers = async () => {
 };
 
 (async () => {
+  if (!prisma) return;
+
   try {
-    // await generateUsers();
+    console.log("Seeding database...");
+    console.log("Generating industries...");
     await generateIndustries();
-    // await generateCompanies();
+    console.log("Generating users...");
+    await generateUsers();
+    console.log("Generating companies...");
+    await generateCompanies();
+    console.log("Database seeded successfully!");
   } catch (error) {
     console.error(error);
     process.exit(1);
