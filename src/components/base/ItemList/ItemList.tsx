@@ -2,13 +2,15 @@ import { ReactNode, type ComponentPropsWithoutRef } from "react";
 import { twMerge } from "tailwind-merge";
 import { Badge, BadgeVariant } from "../Badge/Badge";
 
-import styles from "./ItemList.module.scss";
+import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/react";
 import { Typography } from "../Typography/Typography";
+import styles from "./ItemList.module.scss";
 
 type Props<T> = {
   items: T[];
   maxLength?: number;
   renderItem: (item: T) => ReactNode;
+  renderRestItem?: (item: T) => ReactNode;
   withCommas?: boolean;
   badgeVariant?: BadgeVariant;
 };
@@ -20,6 +22,7 @@ export const ItemList = <T,>(props: ItemListProps<T>) => {
     items,
     maxLength = 6,
     renderItem,
+    renderRestItem = renderItem,
     withCommas = false,
     badgeVariant,
     className,
@@ -31,6 +34,8 @@ export const ItemList = <T,>(props: ItemListProps<T>) => {
 
   const hiddenCount =
     maxLength && items.length > maxLength ? items.length - (maxLength || 0) : 0;
+
+  const restItems = items.slice(maxLength);
 
   return (
     <ul {...rest} className={twMerge(styles.element, className)}>
@@ -46,9 +51,20 @@ export const ItemList = <T,>(props: ItemListProps<T>) => {
       ))}
       {!!hiddenCount && (
         <li>
-          <Badge variant={badgeVariant} size="sm">
-            +{hiddenCount}
-          </Badge>
+          <Popover>
+            <PopoverTrigger>
+              <Badge variant={badgeVariant} size="sm">
+                +{hiddenCount}
+              </Badge>
+            </PopoverTrigger>
+            <PopoverContent>
+              <ul className={styles.list}>
+                {restItems.map((item, index) => (
+                  <li key={index}>{renderRestItem(item)}</li>
+                ))}
+              </ul>
+            </PopoverContent>
+          </Popover>
         </li>
       )}
     </ul>

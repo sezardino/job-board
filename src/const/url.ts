@@ -32,7 +32,7 @@ export const PublicPageUrls = {
   registerUser: "/auth/registration",
   registerCompany: "/auth/registration/company",
   jobOffers: "/job-offers",
-  jobOffersByIndustry: (id: string) => `/job-offers/industry/${id}`,
+  jobOffersByIndustry: (industry: string) => `/job-offers/${industry}`,
   jobOffersByCategory: (industry: string, category: string) =>
     `/job-offers/${industry}/${category}`,
   offer: (id: string) => `/offers/${id}`,

@@ -2,8 +2,12 @@
   @apply grid grid-cols-1 gap-4;
 }
 
+.wrapper {
+  @apply py-2 grid grid-cols-1 gap-4;
+}
+
 .list {
-  @apply py-2 flex flex-wrap items-center gap-1 list-none;
+  @apply flex flex-wrap items-center gap-1 list-none;
 }
 
 .skeleton {

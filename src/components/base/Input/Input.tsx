@@ -11,8 +11,8 @@ import {
   useState,
 } from "react";
 
-import styles from "./Input.module.scss";
 import { Icon } from "../Icon/Icon";
+import styles from "./Input.module.scss";
 
 type OmittedProps = Omit<
   ComponentProps,
@@ -68,7 +68,7 @@ const InputComponent: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
       variant="bordered"
       labelPlacement={labelPlacement}
       placeholder={rest.placeholder || " "}
-      radius="sm"
+      radius="md"
       endContent={endContentJSX}
     />
   );

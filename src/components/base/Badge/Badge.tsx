@@ -2,7 +2,7 @@ import {
   Chip as Component,
   ChipProps as ComponentProps,
 } from "@nextui-org/react";
-import { type FC } from "react";
+import { ForwardRefRenderFunction, forwardRef } from "react";
 
 export type BadgeVariant = Extract<
   // @ts-ignore
@@ -20,12 +20,17 @@ type Props = {
 
 export type BadgeProps = OmittedLibProps & Props;
 
-export const Badge: FC<BadgeProps> = (props) => {
+const BadgeComponent: ForwardRefRenderFunction<HTMLDivElement, BadgeProps> = (
+  props,
+  ref
+) => {
   const { children, ...rest } = props;
 
   return (
-    <Component {...rest} radius="lg">
+    <Component ref={ref} {...rest} radius="lg">
       {children}
     </Component>
   );
 };
+
+export const Badge = forwardRef(BadgeComponent);

@@ -8,5 +8,5 @@ export const useActiveCategoriesQuery = (industryId?: string) =>
     queryKey: [ACTIVE_CATEGORIES_QUERY_KEY, industryId],
     queryFn: () => apiService.categories.activeCategories(industryId!),
     enabled: !!industryId,
-    staleTime: Infinity,
+    // staleTime: Infinity,
   });
