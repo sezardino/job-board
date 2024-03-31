@@ -43,7 +43,7 @@ export const IndustryCard: FC<IndustryCardProps> = (props) => {
     >
       <CardBody
         as={Link}
-        href={PublicPageUrls.industry(name)}
+        href={PublicPageUrls.jobOffersByIndustry(name)}
         className="grid grid-cols-1 gap-1 content-center justify-items-center"
       >
         <Icon name={iconName} size={32} />

@@ -42,12 +42,15 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
     () => [
       { href: PublicPageUrls.home, label: t("home") },
       {
-        href: PublicPageUrls.industry(offer.industry.name),
+        href: PublicPageUrls.jobOffersByIndustry(offer.industry.name),
         label: entityT(`industries.${offer.industry.name}`),
       },
 
       {
-        href: PublicPageUrls.category(offer.industry.name, offer.category.name),
+        href: PublicPageUrls.jobOffersByCategory(
+          offer.industry.name,
+          offer.category.name
+        ),
         label: entityT(`categories.${offer.category.name}`),
       },
 
