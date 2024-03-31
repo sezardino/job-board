@@ -1,11 +1,22 @@
+import { salaryValidationSchema } from "@/const/zod";
 import { paginatedRequestSchema, paginatedResponseSchema } from "@/types";
-import { Seniority } from "@prisma/client";
+import {
+  JobContract,
+  JobOperatingMode,
+  JobType,
+  Seniority,
+} from "@prisma/client";
 import { z } from "zod";
 
 export const offersListRequestSchema = z
   .object({
-    industry: z.string(),
+    seniority: z.array(z.nativeEnum(Seniority)).optional(),
+    operating: z.array(z.nativeEnum(JobOperatingMode)).optional(),
+    salary: salaryValidationSchema.optional(),
+    industry: z.string().optional(),
     category: z.string().optional(),
+    type: z.array(z.nativeEnum(JobType)).optional(),
+    contract: z.array(z.nativeEnum(JobContract)).optional(),
   })
   .merge(paginatedRequestSchema);
 

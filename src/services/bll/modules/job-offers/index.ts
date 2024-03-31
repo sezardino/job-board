@@ -75,6 +75,11 @@ export class JobOffersBllModule extends AbstractBllService {
 
   async list(data: OffersListRequest) {
     const {
+      contract,
+      operating,
+      salary,
+      seniority,
+      type,
       search,
       industry,
       category,
@@ -84,11 +89,24 @@ export class JobOffersBllModule extends AbstractBllService {
 
     const where: Prisma.JobOfferWhereInput = {
       status: JobOfferStatus.ACTIVE,
-      industry: { name: industry },
     };
 
     if (search) where.name = { contains: search, mode: "insensitive" };
+    if (search)
+      where.OR = [
+        ...(where.OR || []),
+        // { name: { contains: search, mode: "insensitive" } },
+        {
+          skills: { some: { name: { contains: search, mode: "insensitive" } } },
+        },
+      ];
+    if (industry) where.industry = { name: industry };
     if (category) where.category = { name: category };
+    if (seniority) where.seniority = { in: seniority };
+    if (type) where.type = { in: type };
+    if (contract) where.contract = { hasSome: contract };
+    if (operating) where.operating = { hasSome: operating };
+    if (salary) where.salary = { from: salary.from, to: salary.to };
 
     return this.findMany({
       limit,

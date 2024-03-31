@@ -1,6 +1,6 @@
 "use client";
 
-import { OffersBoardTemplate } from "@/components/templates/Board/OffersBoardTemplate";
+import { JobOffersTemplate } from "@/components/templates/Board/JobOffers/JobOffersTemplate";
 import { useOffersListInfiniteQuery } from "@/hooks/react-query/query/job-offers/list";
 
 type Props = {
@@ -21,7 +21,7 @@ const IndustryPage = (props: Props) => {
   } = useOffersListInfiniteQuery({ industry, category });
 
   return (
-    <OffersBoardTemplate
+    <JobOffersTemplate
       offers={{ data: offersList, isLoading: isOffersListLoading }}
       onTriggerFetchNextPage={fetchNextPage}
       hasNextPage={hasNextPage}

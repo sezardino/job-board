@@ -7,22 +7,24 @@ import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
+import styles from "./JobOffersTemplate.module.scss";
+
 type Props = {
   offers: DataProp<OffersListResponse>;
   onTriggerFetchNextPage: () => void;
   hasNextPage: boolean;
 };
 
-export type OffersBoardTemplateProps = ComponentPropsWithoutRef<"div"> & Props;
+export type JobOffersTemplateProps = ComponentPropsWithoutRef<"div"> & Props;
 
-export const OffersBoardTemplate: FC<OffersBoardTemplateProps> = (props) => {
+export const JobOffersTemplate: FC<JobOffersTemplateProps> = (props) => {
   const { offers, hasNextPage, onTriggerFetchNextPage, className, ...rest } =
     props;
 
   const t = useTranslations("page.landing.job-offers-board");
 
   return (
-    <section {...rest} className={twMerge("pb-4", className)}>
+    <div {...rest} className={twMerge(styles.element, className)}>
       {!offers.isLoading && offers.data?.meta.count === 0 && (
         <NoDataCard
           title={t("no-data.title")}
@@ -40,6 +42,6 @@ export const OffersBoardTemplate: FC<OffersBoardTemplateProps> = (props) => {
             : undefined
         }
       />
-    </section>
+    </div>
   );
 };
