@@ -18,7 +18,7 @@ type Args = {
   industries: { id: string; categories: { id: string }[] }[];
 };
 
-const generateMockOffer = (args: Args): Prisma.JobOfferCreateManyInput => {
+const generateMockOffer = (args: Args): Prisma.JobOfferCreateInput => {
   const { companyId, industries } = args;
 
   const industryId = faker.helpers.arrayElement(industries).id;
@@ -40,9 +40,9 @@ const generateMockOffer = (args: Args): Prisma.JobOfferCreateManyInput => {
 
   return {
     name: faker.company.catchPhraseNoun(),
-    industryId,
-    categoryId,
-    companyId,
+    industry: { connect: { id: industryId } },
+    category: { connect: { id: categoryId } },
+    company: { connect: { id: companyId } },
     skills,
     contract: faker.helpers.arrayElements(jobContracts),
     operating: faker.helpers.arrayElements(jobOperatingModes),

@@ -1,7 +1,6 @@
 import { faker } from "@faker-js/faker";
 import { Prisma, UserRoles } from "@prisma/client";
 import { jobOfferStatuses, jobTypes, seniorities, statuses } from "./const";
-import { generateMockUsers } from "./users";
 
 const generateSlug = (name: string) => {
   const slug = name
@@ -20,10 +19,6 @@ export const generateMockCompany = () => {
     name,
     slug: generateSlug(name),
     status: faker.helpers.arrayElement(statuses),
-    members: generateMockUsers({
-      count: faker.number.int({ min: 20, max: 100 }),
-      roles: [UserRoles.MODERATOR, UserRoles.RECRUITER],
-    }),
   };
 };
 
