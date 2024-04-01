@@ -4,11 +4,13 @@ import { PreviewJobOfferResponse } from "@/services/bll/modules/job-offers/schem
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
+import { useMemo, useRef, type ComponentPropsWithoutRef, type FC } from "react";
 
 import { Button } from "@/components/base/Button/Button";
 import { Icon } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
+import { JobApplicationForm } from "@/components/forms/JobApplication/JobApplicationForm";
+import { undefined } from "zod";
 import styles from "./JobOfferTemplate.module.scss";
 
 export type JobOfferTemplateProps = ComponentPropsWithoutRef<"div"> & {
@@ -18,7 +20,8 @@ export type JobOfferTemplateProps = ComponentPropsWithoutRef<"div"> & {
 export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
   const { offer, className, ...rest } = props;
   const entityT = useTranslations("entity");
-  const t = useTranslations("components.job-offer-template");
+  const t = useTranslations("page.landing.job-offer");
+  const formSectionRef = useRef<HTMLDivElement>(null);
 
   const published = useMemo(() => {
     const days = dayjs(offer.publishedAt).diff(dayjs(), "day");
@@ -37,6 +40,14 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
 
     return dayjs(offer.publishedAt).format(DEFAULT_DATE_FORMAT);
   }, [offer.publishedAt, t]);
+
+  const translatedOperating = useMemo(() => {
+    const arr = offer.operating.map((operating) =>
+      entityT(`operating.${operating}`)
+    );
+
+    return arr.join(", ");
+  }, [entityT, offer.operating]);
 
   const breadcrumbs = useMemo(
     () => [
@@ -84,13 +95,17 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
             </Typography>
 
             <Typography tag="p" styling="sm" weight="thin">
-              {t("operating")} -{" "}
-              <b>{entityT(`operating.${offer.operating}`)}</b>
+              {t("operating")} - <b>{translatedOperating}</b>
             </Typography>
           </CardHeader>
 
           <CardBody>
-            <Button color="primary">{t("apply")}</Button>
+            <Button
+              color="primary"
+              onClick={() => formSectionRef.current?.scrollIntoView()}
+            >
+              {t("apply")}
+            </Button>
           </CardBody>
 
           <CardFooter className={styles.footer}>
@@ -102,6 +117,27 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
           </CardFooter>
         </Card>
       }
-    />
+    >
+      <Card ref={formSectionRef} as="section" className={styles.description}>
+        <CardHeader>
+          <Typography tag="h2" styling="lg">
+            {t("form")}
+          </Typography>
+        </CardHeader>
+        <CardBody>
+          <JobApplicationForm onFormSubmit={() => undefined} />
+        </CardBody>
+      </Card>
+
+      {/* TODO: check if exist */}
+      <Card>
+        <CardHeader>
+          <Typography tag="h2" styling="lg">
+            {t("similar")}
+          </Typography>
+        </CardHeader>
+        <CardBody>similar job offers here</CardBody>
+      </Card>
+    </JobOfferTemplateWrapper>
   );
 };

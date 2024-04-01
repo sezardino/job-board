@@ -32,6 +32,7 @@ export const JobOfferTemplateWrapper: FC<JobOfferTemplateWrapperProps> = (
     aside,
     footer,
     className,
+    children,
     ...rest
   } = props;
 
@@ -46,7 +47,7 @@ export const JobOfferTemplateWrapper: FC<JobOfferTemplateWrapperProps> = (
 
       <section className={styles.aside}>{aside}</section>
 
-      <section className={styles.footer}>{footer}</section>
+      {children && <div className={styles.main}>{children}</div>}
     </div>
   );
 };

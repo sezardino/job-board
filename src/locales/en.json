@@ -716,6 +716,19 @@
           "title": "No job offers found",
           "description": "There are no job offers according to your search criteria"
         }
+      },
+      "job-offer": {
+        "home": "Home",
+        "operating": "Operating",
+        "apply": "Apply now",
+        "form": "Apply for this job offer",
+        "similar": "Similar job offers",
+        "publication": {
+          "label": "Published ",
+          "today": "Today",
+          "yesterday": "Yesterday",
+          "days-ago": "{value} days ago"
+        }
       }
     }
   },
@@ -781,21 +794,6 @@
         "cancel": "Cancel",
         "submit": "Edit Gallery",
         "trigger": "Edit Gallery"
-      }
-    },
-    "job-offer-template": {
-      "contract": "Job Contract",
-      "seniority": "Seniority",
-      "type": "Job Type",
-      "home": "Home",
-      "operating": "Operating",
-      "apply": "Apply now",
-      "deadline": "Deadline",
-      "publication": {
-        "label": "Published ",
-        "today": "Today",
-        "yesterday": "Yesterday",
-        "days-ago": "{value} days ago"
       }
     },
     "offer-preview": {
@@ -928,7 +926,12 @@
       "seniority": "Seniority",
       "type": "Job Type",
       "operating": "Operating",
-      "deadline": "Deadline"
+      "deadline": "Deadline",
+      "skills": { "title": "Skills", "no-data": "No skills was provided" },
+      "description": {
+        "title": "Job offer description",
+        "description": "Description of the job offer"
+      }
     }
   },
   "templates": {
