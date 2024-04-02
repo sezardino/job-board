@@ -257,8 +257,6 @@ export class JobOffersBllModule extends AbstractBllService {
         throw new NotAllowedException("Invalid status");
     }
 
-    console.log(status);
-
     return this.prismaService.jobOffer.update({
       where: { id: offerId, companyId },
       data: { status },

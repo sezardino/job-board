@@ -9,6 +9,7 @@ export class JobApplicationsApiModule extends AbstractApiModule {
     const formData = new FormData();
 
     for (const key in data) {
+      // @ts-ignore
       formData.append(key, data[key]);
     }
 

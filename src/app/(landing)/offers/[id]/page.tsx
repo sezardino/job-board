@@ -27,9 +27,10 @@ const OfferPage = (props: Props) => {
   } = useApplyForJobOfferMutation();
 
   const applyForJobOfferHandler = useCallback(
-    async (values: JobApplicationFormValues) => {
+    async ({ file, ...values }: JobApplicationFormValues) => {
       return applyForJobOffer({
         jobOfferId: id,
+        curriculumVitae: file,
         ...values,
       });
     },

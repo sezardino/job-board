@@ -1,5 +1,5 @@
 import { PrismaService } from "@/libs/prisma";
-import { NotFoundException } from "@/types";
+import { CustomException, NotFoundException } from "@/types";
 import { FilesBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
 import { ApplyForJobOfferRequest } from "./schema";
@@ -34,12 +34,19 @@ export class JobApplicationsBllModule extends AbstractBllService {
       typeof curriculumVitae === "string" ? curriculumVitae : null;
 
     if (!curriculumVitaeId) {
-      const file = await this.filesService.uploadCV(
-        curriculumVitae,
-        jobOffer.companyId
-      );
+      try {
+        const file = await this.filesService.uploadCV(
+          curriculumVitae,
+          jobOffer.companyId
+        );
 
-      curriculumVitaeId = file.id;
+        curriculumVitaeId = file.id;
+      } catch (error) {
+        throw new CustomException({
+          message: "Error when try to upload CV",
+          code: 500,
+        });
+      }
     }
 
     const jobApplication = await this.prismaService.jobApplication.create({
