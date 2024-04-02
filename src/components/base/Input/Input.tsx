@@ -13,6 +13,7 @@ import {
 
 import { Icon } from "../Icon/Icon";
 import styles from "./Input.module.scss";
+import { Typography } from "../Typography/Typography";
 
 type OmittedProps = Omit<
   ComponentProps,
@@ -22,6 +23,7 @@ type OmittedProps = Omit<
 type Props = {
   onBlur?: (evt: FocusEvent<HTMLInputElement, Element>) => void;
   error?: string;
+  label?: string;
 };
 
 export type InputProps = OmittedProps & Props;
@@ -31,6 +33,8 @@ const InputComponent: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
   ref
 ) => {
   const {
+    label,
+    size = "lg",
     labelPlacement = "outside",
     error,
     endContent,
@@ -66,10 +70,12 @@ const InputComponent: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
       errorMessage={error}
       type={currentType}
       variant="bordered"
+      size={size}
       labelPlacement={labelPlacement}
       placeholder={rest.placeholder || " "}
       radius="md"
       endContent={endContentJSX}
+      label={label ? <Typography tag="span">{label}</Typography> : undefined}
     />
   );
 };

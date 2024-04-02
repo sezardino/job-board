@@ -74,10 +74,18 @@ enum JobOfferStatus {
 }
 
 enum JobAplicationStatus {
-  PENDING
+  PROCESSED
   OPENED
   REJECTED
+}
+
+enum JobAplicationRecruitmentStatus {
   PROCESSED
+  SCREENING
+  INTERVIEW
+  PRE_OFFER
+  OFFER
+  REJECTED
 }
 
 enum Seniority {
@@ -230,10 +238,18 @@ model JobOffer {
   createdAt DateTime @default(now()) @map("created_at")
 }
 
+type JobApplicationNote {
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+}
+
 model JobApplication {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  status JobAplicationStatus @default(PENDING)
+  status            JobAplicationStatus            @default(PROCESSED)
+  recruitmentStatus JobAplicationRecruitmentStatus @default(PROCESSED) @map("rectuitment_status")
+
+  notes JobApplicationNote[]
 
   name              String
   email             String
@@ -242,8 +258,8 @@ model JobApplication {
   futureRecruitment Boolean @map("future_recturation")
   dataProcessing    Boolean @map("data_processing")
 
-  offer   JobOffer @relation(fields: [offerId], references: [id])
-  offerId String   @map("offer_id") @db.ObjectId
+  jobOffer   JobOffer @relation(fields: [jobOfferId], references: [id])
+  jobOfferId String   @map("job_offer_id") @db.ObjectId
 
   user   User?   @relation(fields: [userId], references: [id])
   userId String? @map("user_id") @db.ObjectId

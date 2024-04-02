@@ -18,7 +18,7 @@ export const generateJobApplication = ({
   phone: faker.phone.number(),
   message: faker.lorem.paragraph(),
   name: faker.person.fullName(),
-  offerId,
+  jobOfferId: offerId,
   curriculumVitaeId: cvId,
 });
 
