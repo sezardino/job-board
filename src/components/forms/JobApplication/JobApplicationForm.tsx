@@ -75,11 +75,10 @@ export const JobApplicationForm: FC<JobApplicationFormProps> = (props) => {
           futureRecruitment: z.boolean(),
           file: z
             .any()
-            .refine((file) => {
-              console.log(file);
-
-              return file ? file instanceof File : undefined;
-            }, t("file.required"))
+            .refine(
+              (file) => (file ? file instanceof File : undefined),
+              t("file.required")
+            )
             .refine(
               (file) =>
                 file instanceof File
