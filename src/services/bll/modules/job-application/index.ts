@@ -4,7 +4,7 @@ import { FilesBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
 import { ApplyForJobOfferRequest } from "./schema";
 
-export class JobApplicationBllModule extends AbstractBllService {
+export class JobApplicationsBllModule extends AbstractBllService {
   constructor(
     prismaService: PrismaService,
     private readonly filesService: FilesBllModule
@@ -20,7 +20,6 @@ export class JobApplicationBllModule extends AbstractBllService {
       email,
       message,
       name,
-      phone,
       futureRecruitment,
     } = dto;
 
@@ -48,7 +47,6 @@ export class JobApplicationBllModule extends AbstractBllService {
         dataProcessing,
         email,
         name,
-        phone,
         message,
         futureRecruitment,
         curriculumVitae: { connect: { id: curriculumVitaeId } },

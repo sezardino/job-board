@@ -1,7 +1,10 @@
 "use client";
 
+import { JobApplicationFormValues } from "@/components/forms/JobApplication/JobApplicationForm";
 import { JobOfferTemplate } from "@/components/templates/Board/JobOfferTemplate/JobOfferTemplate";
+import { useApplyForJobOfferMutation } from "@/hooks";
 import { usePreviewJobOfferQuery } from "@/hooks/react-query/query/job-offers";
+import { useCallback } from "react";
 
 type Props = {
   params: {
@@ -18,9 +21,32 @@ const OfferPage = (props: Props) => {
     error,
   } = usePreviewJobOfferQuery({ id });
 
+  const {
+    mutateAsync: applyForJobOffer,
+    isPending: isApplyForJobOfferLoading,
+  } = useApplyForJobOfferMutation();
+
+  const applyForJobOfferHandler = useCallback(
+    async (values: JobApplicationFormValues) => {
+      return applyForJobOffer({
+        jobOfferId: id,
+        ...values,
+      });
+    },
+    [applyForJobOffer, id]
+  );
+
   if (!oneOffer) return null;
 
-  return <JobOfferTemplate offer={oneOffer} />;
+  return (
+    <JobOfferTemplate
+      offer={oneOffer}
+      applyForJobOffer={{
+        handler: applyForJobOfferHandler,
+        isLoading: isApplyForJobOfferLoading,
+      }}
+    />
+  );
 };
 
 export default OfferPage;

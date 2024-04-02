@@ -253,7 +253,6 @@ model JobApplication {
 
   name              String
   email             String
-  phone             String
   message           String
   futureRecruitment Boolean @map("future_recturation")
   dataProcessing    Boolean @map("data_processing")

@@ -1,4 +1,4 @@
-import { useEditJobOfferMutation } from "@/hooks/react-query/mutation/job-offer/edit";
+import { useEditJobOfferMutation } from "@/hooks/react-query/mutation/job-offers/edit";
 import { useJobOfferEditionDataQuery } from "@/hooks/react-query/query/job-offers/data-for-edition";
 import { useTranslations } from "next-intl";
 import { FC, useCallback, useMemo, useState } from "react";

@@ -15,7 +15,6 @@ export const generateJobApplication = ({
   dataProcessing: true,
   futureRecruitment: faker.datatype.boolean(),
   email: faker.internet.email(),
-  phone: faker.phone.number(),
   message: faker.lorem.paragraph(),
   name: faker.person.fullName(),
   jobOfferId: offerId,

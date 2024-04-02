@@ -4,21 +4,31 @@ import { PreviewJobOfferResponse } from "@/services/bll/modules/job-offers/schem
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { useMemo, useRef, type ComponentPropsWithoutRef, type FC } from "react";
+import {
+  useCallback,
+  useMemo,
+  useRef,
+  type ComponentPropsWithoutRef,
+  type FC,
+} from "react";
 
 import { Button } from "@/components/base/Button/Button";
 import { Icon } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
-import { JobApplicationForm } from "@/components/forms/JobApplication/JobApplicationForm";
-import { undefined } from "zod";
+import {
+  JobApplicationForm,
+  JobApplicationFormValues,
+} from "@/components/forms/JobApplication/JobApplicationForm";
+import { ActionProp } from "@/types";
 import styles from "./JobOfferTemplate.module.scss";
 
 export type JobOfferTemplateProps = ComponentPropsWithoutRef<"div"> & {
   offer: PreviewJobOfferResponse;
+  applyForJobOffer: ActionProp<JobApplicationFormValues, any>;
 };
 
 export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
-  const { offer, className, ...rest } = props;
+  const { offer, applyForJobOffer, className, ...rest } = props;
   const entityT = useTranslations("entity");
   const t = useTranslations("page.landing.job-offer");
   const formSectionRef = useRef<HTMLDivElement>(null);
@@ -68,6 +78,16 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
       { label: offer.company.name },
     ],
     [entityT, offer.category.name, offer.company.name, offer.industry.name, t]
+  );
+
+  const applyHandler = useCallback(
+    async (values: JobApplicationFormValues) => {
+      try {
+        applyForJobOffer.handler(values);
+        // TODO: show success message
+      } catch (error) {}
+    },
+    [applyForJobOffer]
   );
 
   return (
@@ -125,7 +145,7 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
           </Typography>
         </CardHeader>
         <CardBody>
-          <JobApplicationForm onFormSubmit={() => undefined} />
+          <JobApplicationForm onFormSubmit={applyHandler} />
         </CardBody>
       </Card>
 
