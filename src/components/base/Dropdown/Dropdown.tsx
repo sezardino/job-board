@@ -43,6 +43,7 @@ const DropdownComponent: DropdownComponent = (props, ref) => {
           <DropdownItem
             {...item}
             as={href ? "a" : to ? NextLink : "button"}
+            href={href || to}
             target={href ? "_blank" : undefined}
             rel={href ? "noopener noreferrer" : undefined}
             key={item.key}

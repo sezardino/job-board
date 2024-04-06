@@ -662,6 +662,11 @@
           "cancel": "Cancel",
           "confirm": "Create"
         }
+      },
+      "manage-job-offer": {
+        "manage": "Manage job offer",
+        "edit": "Edit",
+        "applications": "See applications"
       }
     },
     "customer-registration": {
@@ -972,14 +977,6 @@
       "description": {
         "title": "Job offer description",
         "description": "Description of the job offer"
-      }
-    }
-  },
-  "templates": {
-    "company": {
-      "manage-job-offer": {
-        "manage": "Manage job offer",
-        "edit": "Edit"
       }
     }
   },

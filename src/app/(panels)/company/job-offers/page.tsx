@@ -12,7 +12,7 @@ import { useCurrentCompanyJobOffersQuery } from "@/hooks/react-query/query/job-o
 import { JobOfferStatus, Seniority } from "@prisma/client";
 import { useState } from "react";
 
-export type JobOfferStatusFilters = JobOfferStatus | "all";
+export type JobOfferStatusFilters = Exclude<JobOfferStatus, "INACTIVE">;
 export type JobOfferSeniorityFilters = Seniority | "all";
 
 const CompanyOffersPage = () => {
@@ -26,7 +26,9 @@ const CompanyOffersPage = () => {
     changeHandler,
   } = useDataOnPage();
 
-  const [status, setStatus] = useState<JobOfferStatusFilters>("all");
+  const [status, setStatus] = useState<JobOfferStatusFilters>(
+    JobOfferStatus.ACTIVE
+  );
   const [seniority, setSeniority] = useState<JobOfferSeniorityFilters>("all");
 
   const { data: companyOffers, isFetching: isCompanyOffersLoading } =
@@ -34,7 +36,7 @@ const CompanyOffersPage = () => {
       limit,
       page,
       search,
-      status: status === "all" ? undefined : status,
+      status: status,
       seniority: seniority === "all" ? undefined : seniority,
     });
 

@@ -12,11 +12,7 @@ type Props = {
 const OfferPage = (props: Props) => {
   const { id } = props.params;
 
-  const {
-    data: oneOffer,
-    isFetching: isOneOfferLoading,
-    error,
-  } = usePreviewJobOfferQuery({ id, isPreview: true });
+  const { data: oneOffer } = usePreviewJobOfferQuery({ id, isPreview: true });
 
   if (!oneOffer) return null;
 

@@ -216,6 +216,7 @@ export const ManageCompanyJobOffersTemplate: FC<
               <Select
                 options={statusFilterOptions}
                 value={statusFilter.value}
+                defaultSelectedKeys={[statusFilter.value]}
                 isMultiple={false}
                 onSelectChange={statusFilter.onChange}
                 placeholder={t("filters.status")}
@@ -225,6 +226,7 @@ export const ManageCompanyJobOffersTemplate: FC<
               <Select
                 options={seniorityFilterOptions}
                 value={seniorityFilter.value}
+                defaultSelectedKeys={[seniorityFilter.value]}
                 isMultiple={false}
                 onSelectChange={seniorityFilter.onChange}
                 placeholder={t("filters.seniority")}

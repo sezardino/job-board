@@ -7,7 +7,12 @@ import { Icon } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
 import { JobOfferTemplateWrapper } from "@/components/modules/job-offer/JobOfferTemplateWrapper/JobOfferTemplateWrapper";
 import { EditJobOfferWrapper } from "@/components/wrappers/EditJobOfferWrapper";
+import { CompanyPageUrls } from "@/const";
 import { useTranslations } from "next-intl";
+
+import NextLink from "next/link";
+
+import styles from "./ManageJobOfferTemplate.module.scss";
 
 export type ManageJobOfferTemplateProps = ComponentPropsWithoutRef<"div"> & {
   offer: PreviewJobOfferResponse;
@@ -17,7 +22,7 @@ export const ManageJobOfferTemplate: FC<ManageJobOfferTemplateProps> = (
   props
 ) => {
   const { offer } = props;
-  const t = useTranslations("templates.company.manage-job-offer");
+  const t = useTranslations("page.company.manage-job-offer");
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
@@ -43,10 +48,21 @@ export const ManageJobOfferTemplate: FC<ManageJobOfferTemplateProps> = (
               {t("manage")}
             </CardHeader>
 
-            <CardBody>
-              <Button onClick={() => setIsEditModalOpen(true)}>
-                <Icon name="HiPencilAlt" />
+            <CardBody className={styles.actions}>
+              <Button
+                color="secondary"
+                onClick={() => setIsEditModalOpen(true)}
+                endContent={<Icon name="HiPencilAlt" />}
+              >
                 {t("edit")}
+              </Button>
+              <Button
+                as={NextLink}
+                color="primary"
+                href={CompanyPageUrls.jobOfferApplications(offer.id)}
+                endContent={<Icon name="HiEye" />}
+              >
+                {t("applications")}
               </Button>
             </CardBody>
           </Card>

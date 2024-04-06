@@ -85,7 +85,7 @@ export const useCompanyOffersTable = (props: Props) => {
             {
               key: "preview",
               as: Link,
-              href: CompanyPageUrls.jobOffer(row.getValue()),
+              to: CompanyPageUrls.jobOffer(row.getValue()),
               text: t("table.actions.preview"),
             },
             {
@@ -173,10 +173,6 @@ export const useCompanyOffersTable = (props: Props) => {
   >(() => {
     return [
       {
-        id: "all",
-        label: t("all"),
-      },
-      {
         id: JobOfferStatus.ACTIVE,
         label: entityT(`job-status.${JobOfferStatus.ACTIVE}`),
       },
@@ -184,11 +180,7 @@ export const useCompanyOffersTable = (props: Props) => {
         id: JobOfferStatus.DRAFT,
         label: entityT(`job-status.${JobOfferStatus.DRAFT}`),
       },
-      // TODO: delete before release
-      {
-        id: JobOfferStatus.INACTIVE,
-        label: entityT(`job-status.${JobOfferStatus.INACTIVE}`),
-      },
+
       {
         id: JobOfferStatus.FINISHED,
         label: entityT(`job-status.${JobOfferStatus.FINISHED}`),
@@ -198,7 +190,7 @@ export const useCompanyOffersTable = (props: Props) => {
         label: entityT(`job-status.${JobOfferStatus.ARCHIVED}`),
       },
     ];
-  }, [entityT, t]);
+  }, [entityT]);
 
   const seniorityFilterOptions = useMemo<
     SelectOption<JobOfferSeniorityFilters>[]
