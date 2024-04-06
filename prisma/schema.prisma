@@ -73,19 +73,15 @@ enum JobOfferStatus {
   DRAFT
 }
 
-enum JobAplicationStatus {
-  PROCESSED
-  OPENED
-  REJECTED
-}
-
-enum JobAplicationRecruitmentStatus {
-  PROCESSED
+enum JobApplicationStatus {
+  NEW
+  PRE_SCREENING
   SCREENING
   INTERVIEW
   PRE_OFFER
   OFFER
   REJECTED
+  CANCELED
 }
 
 enum Seniority {
@@ -117,6 +113,11 @@ type Location {
   zipCode  String
 }
 
+type JobApplicationNote {
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+}
+
 model User {
   id     String     @id @default(auto()) @map("_id") @db.ObjectId
   role   UserRoles  @default(CUSTOMER)
@@ -141,6 +142,8 @@ model User {
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
 }
 
 model Industry {
@@ -154,6 +157,8 @@ model Industry {
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("industries")
 }
 
 model Category {
@@ -167,6 +172,8 @@ model Category {
 
   createdAt DateTime   @default(now()) @map("created_at")
   offers    JobOffer[]
+
+  @@map("categories")
 }
 
 model Company {
@@ -197,6 +204,8 @@ model Company {
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("companies")
 }
 
 model JobOffer {
@@ -233,18 +242,17 @@ model JobOffer {
   applications JobApplication[]
 
   createdAt DateTime @default(now()) @map("created_at")
-}
 
-type JobApplicationNote {
-  content   String
-  createdAt DateTime @default(now()) @map("created_at")
+  @@map("job_offers")
 }
 
 model JobApplication {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  status            JobAplicationStatus            @default(PROCESSED)
-  recruitmentStatus JobAplicationRecruitmentStatus @default(PROCESSED) @map("rectuitment_status")
+  status JobApplicationStatus @default(NEW) @map("status")
+
+  rejectedReasong String?   @map("rejected_reason")
+  rejectedAt      DateTime? @map("rejected_at")
 
   notes JobApplicationNote[]
 
@@ -265,6 +273,9 @@ model JobApplication {
   curriculumVitaeId String          @map("cv_id") @db.ObjectId
 
   createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("job_applications")
 }
 
 model Image {
@@ -288,6 +299,8 @@ model Image {
   userId String? @unique @db.ObjectId
 
   createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("images")
 }
 
 model CurriculumVitae {
@@ -301,4 +314,6 @@ model CurriculumVitae {
   applications JobApplication[]
 
   createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("cvs")
 }
