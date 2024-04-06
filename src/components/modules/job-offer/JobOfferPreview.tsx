@@ -58,7 +58,9 @@ export const JobOfferPreview: FC<JobOfferPreviewProps> = (props) => {
       },
       {
         label: t("details.contract"),
-        value: contract.map((c) => entityT(`job-contract.${c}`)).join(", "),
+        value: contract
+          .map((c) => entityT(`job-offer.contract.${c}`))
+          .join(", "),
       },
       {
         label: t("details.salary.label"),
@@ -70,10 +72,12 @@ export const JobOfferPreview: FC<JobOfferPreviewProps> = (props) => {
         label: t("details.seniority"),
         value: entityT(`seniority.${seniority}`),
       },
-      { label: t("details.type"), value: entityT(`job-type.${type}`) },
+      { label: t("details.type"), value: entityT(`job-offer.type.${type}`) },
       {
         label: t("details.operating"),
-        value: operating.map((o) => entityT(`operating.${o}`)).join(", "),
+        value: operating
+          .map((o) => entityT(`job-offer.operating.${o}`))
+          .join(", "),
       },
     ],
     [

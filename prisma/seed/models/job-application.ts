@@ -1,9 +1,5 @@
 import { faker } from "@faker-js/faker";
-import {
-  JobAplicationRecruitmentStatus,
-  JobAplicationStatus,
-  Prisma,
-} from "@prisma/client";
+import { JobApplicationStatus, Prisma } from "@prisma/client";
 import { rangeArray } from "./helpers";
 
 type Args = {
@@ -16,14 +12,9 @@ export const generateJobApplication = ({
   offerId,
   cvId,
 }: Args): Prisma.JobApplicationCreateManyInput => {
-  const recruitmentStatus = faker.helpers.arrayElement(
-    Object.values(JobAplicationRecruitmentStatus)
+  const status = faker.helpers.arrayElement(
+    Object.values(JobApplicationStatus)
   );
-
-  const status =
-    recruitmentStatus === "REJECTED"
-      ? JobAplicationStatus.REJECTED
-      : JobAplicationStatus.PROCESSED;
 
   return {
     dataProcessing: true,
@@ -32,7 +23,6 @@ export const generateJobApplication = ({
     message: faker.lorem.paragraph(),
     name: faker.person.fullName(),
     status,
-    recruitmentStatus,
     jobOfferId: offerId,
     curriculumVitaeId: cvId,
   };

@@ -44,12 +44,15 @@ export const JobOfferDetails: FC<JobOfferDetailsProps> = (props) => {
       {
         label: t("contract"),
         value: offer.contract
-          .map((c) => entityT(`job-contract.${c}`))
+          .map((c) => entityT(`job-offer.contract.${c}`))
           .join(", "),
       },
 
-      { label: t("seniority"), value: entityT(`seniority.${offer.seniority}`) },
-      { label: t("type"), value: entityT(`job-type.${offer.type}`) },
+      {
+        label: t("seniority"),
+        value: entityT(`job-offer.seniority.${offer.seniority}`),
+      },
+      { label: t("type"), value: entityT(`job-offer.type.${offer.type}`) },
       // {
       //   label: t("deadline"),
       //   value: dayjs(offer.deadlineAt).format(DEFAULT_DATE_FORMAT),

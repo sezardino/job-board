@@ -60,7 +60,7 @@ export const useCompanyOffersTable = (props: Props) => {
       columnHelper.accessor("status", {
         enableSorting: false,
         header: t("table.status"),
-        cell: (row) => entityT(`job-status.${row.getValue()}`),
+        cell: (row) => entityT(`job-offer.status.${row.getValue()}`),
       }),
       columnHelper.accessor("seniority", {
         enableSorting: false,
@@ -179,20 +179,20 @@ export const useCompanyOffersTable = (props: Props) => {
     return [
       {
         id: JobOfferStatus.ACTIVE,
-        label: entityT(`job-status.${JobOfferStatus.ACTIVE}`),
+        label: entityT(`job-offer.status.${JobOfferStatus.ACTIVE}`),
       },
       {
         id: JobOfferStatus.DRAFT,
-        label: entityT(`job-status.${JobOfferStatus.DRAFT}`),
+        label: entityT(`job-offer.status.${JobOfferStatus.DRAFT}`),
       },
 
       {
         id: JobOfferStatus.FINISHED,
-        label: entityT(`job-status.${JobOfferStatus.FINISHED}`),
+        label: entityT(`job-offer.status.${JobOfferStatus.FINISHED}`),
       },
       {
         id: JobOfferStatus.ARCHIVED,
-        label: entityT(`job-status.${JobOfferStatus.ARCHIVED}`),
+        label: entityT(`job-offer.status.${JobOfferStatus.ARCHIVED}`),
       },
     ];
   }, [entityT]);

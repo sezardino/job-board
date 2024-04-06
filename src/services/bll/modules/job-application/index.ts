@@ -1,5 +1,6 @@
 import { PrismaService } from "@/libs/prisma";
 import { CustomException, NotFoundException } from "@/types";
+import { JobApplicationStatus } from "@prisma/client";
 import { FilesBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
 import { ApplyForJobOfferRequest } from "./schema";
@@ -68,15 +69,19 @@ export class JobApplicationsBllModule extends AbstractBllService {
   }
 
   async list(dto: JobOfferApplicationsRequest) {
-    const { offerId } = dto;
+    const { offerId, status = JobApplicationStatus.NEW } = dto;
 
     const applications = await this.prismaService.jobApplication.findMany({
-      where: { jobOfferId: offerId },
+      where: {
+        jobOfferId: offerId,
+        status,
+      },
       select: {
         id: true,
         name: true,
         email: true,
-        recruitmentStatus: true,
+        status: true,
+        createdAt: true,
       },
       orderBy: { createdAt: "desc" },
     });

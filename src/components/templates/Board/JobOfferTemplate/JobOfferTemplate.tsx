@@ -61,7 +61,7 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
 
   const translatedOperating = useMemo(() => {
     const arr = offer.operating.map((operating) =>
-      entityT(`operating.${operating}`)
+      entityT(`job-offer.operating.${operating}`)
     );
 
     return arr.join(", ");

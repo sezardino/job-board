@@ -78,7 +78,7 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
     () =>
       Object.values(SkillLevel).map((value) => ({
         id: value,
-        label: entityT(`skill-level.${value}`),
+        label: entityT(`job-offer.skill-level.${value}`),
       })),
     [entityT]
   );

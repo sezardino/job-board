@@ -1,5 +1,6 @@
 "use client";
 
+import { JobOfferApplicationsTemplate } from "@/components/templates/Company/JobOfferApplications/JobOfferApplicationsTemplate";
 import { useJobOfferApplicationsQuery } from "@/hooks";
 
 type Props = {
@@ -17,10 +18,12 @@ const JobOfferApplications = (props: Props) => {
   } = useJobOfferApplicationsQuery({ offerId: id });
 
   return (
-    <div>
-      <h1>Applications</h1>
-      {JSON.stringify({ jobOfferApplications })}
-    </div>
+    <JobOfferApplicationsTemplate
+      applications={{
+        data: jobOfferApplications,
+        isLoading: isJobOfferApplicationsLoading,
+      }}
+    />
   );
 };
 

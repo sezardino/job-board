@@ -75,7 +75,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
   const jobTypeOptions = useMemo(
     () =>
       Object.values(JobType).map((value) => ({
-        label: entityT(`job-type.${value}`),
+        label: entityT(`job-offer.type.${value}`),
         id: value,
       })),
     [entityT]
@@ -84,7 +84,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
   const contractOptions = useMemo(
     () =>
       Object.values(JobContract).map((value) => ({
-        label: entityT(`job-contract.${value}`),
+        label: entityT(`job-offer.contract.${value}`),
         id: value,
       })),
     [entityT]
@@ -93,7 +93,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
   const operatingOptions = useMemo(
     () =>
       Object.values(JobOperatingMode).map((value) => ({
-        label: entityT(`operating.${value}`),
+        label: entityT(`job-offer.operating.${value}`),
         id: value,
       })),
     [entityT]

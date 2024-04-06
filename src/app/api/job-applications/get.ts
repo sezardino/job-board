@@ -8,7 +8,7 @@ export const getJobOfferApplications = async (req: NextRequest) => {
     req.nextUrl.searchParams
   ) as JobOfferApplicationsRequest;
 
-  const res = await bllService.jobApplications.list(params);
+  const data = await bllService.jobApplications.list(params);
 
-  return NextResponse.json(res, { status: 200 });
+  return NextResponse.json({ data }, { status: 200 });
 };

@@ -381,13 +381,49 @@
       "INACTIVE": "Inactive",
       "CREATED": "Created"
     },
-    "job-status": {
-      "ARCHIVED": "Archived",
-      "FINISHED": "Finished",
-      "ACTIVE": "Active",
-      "INACTIVE": "Inactive",
-      "DRAFT": "Draft"
+    "job-offer": {
+      "status": {
+        "ARCHIVED": "Archived",
+        "FINISHED": "Finished",
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive",
+        "DRAFT": "Draft"
+      },
+      "seniority": {
+        "INTERN": "Intern",
+        "JUNIOR": "Junior",
+        "MID": "Mid",
+        "SENIOR": "Senior",
+        "EXPERT": "Expert"
+      },
+      "operating": {
+        "REMOTE": "Remote",
+        "OFFICE": "Office",
+        "HYBRID": "Hybrid",
+        "OTHER": "Other"
+      },
+      "skill-level": {
+        "NICE_TO_HAVE": "Nice to have",
+        "BASIC": "Basic",
+        "MEDIUM": "Medium",
+        "ADVANCED": "Advanced",
+        "EXPERT": "Expert"
+      },
+      "type": {
+        "FULL_TIME": "Full time",
+        "PART_TIME": "Part time",
+        "PRACTICE_INTERNSHIP": "Practice internship",
+        "FREELANCE": "Freelance"
+      },
+      "contract": {
+        "B2B": "B2B",
+        "PERMANENT": "Permanent",
+        "MANDATE_CONTRACT": "Mandate contract",
+        "SPECIFIC_TASK_CONTRACT": "Specific task contract",
+        "INTERNSHIP": "Internship"
+      }
     },
+    "job-application": {},
     "user": {
       "role": {
         "ADMIN": "Admin",
@@ -403,39 +439,6 @@
         "BLOCKED": "Blocked",
         "INACTIVE": "Inactive"
       }
-    },
-    "seniority": {
-      "INTERN": "Intern",
-      "JUNIOR": "Junior",
-      "MID": "Mid",
-      "SENIOR": "Senior",
-      "EXPERT": "Expert"
-    },
-    "operating": {
-      "REMOTE": "Remote",
-      "OFFICE": "Office",
-      "HYBRID": "Hybrid",
-      "OTHER": "Other"
-    },
-    "skill-level": {
-      "NICE_TO_HAVE": "Nice to have",
-      "BASIC": "Basic",
-      "MEDIUM": "Medium",
-      "ADVANCED": "Advanced",
-      "EXPERT": "Expert"
-    },
-    "job-type": {
-      "FULL_TIME": "Full time",
-      "PART_TIME": "Part time",
-      "PRACTICE_INTERNSHIP": "Practice internship",
-      "FREELANCE": "Freelance"
-    },
-    "job-contract": {
-      "B2B": "B2B",
-      "PERMANENT": "Permanent",
-      "MANDATE_CONTRACT": "Mandate contract",
-      "SPECIFIC_TASK_CONTRACT": "Specific task contract",
-      "INTERNSHIP": "Internship"
     },
     "industries": {
       "information-technology": "Information Technology",
