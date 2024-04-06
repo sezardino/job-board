@@ -7,14 +7,32 @@ import {
   ModalHeader,
   ModalHeaderProps,
   Modal as NextUIModal,
-  ModalProps as NextUIModalProps,
+  VariantProps,
   extendVariants,
 } from "@nextui-org/react";
 import { type FC } from "react";
 
-export type ModalProps = Omit<NextUIModalProps, "backdrop"> & {
+const ExtendedModal = extendVariants(NextUIModal, {
+  variants: {
+    isDrawer: {
+      true: {
+        base: [
+          "mt-0 mb-0 ml-0 mr-0 sm:mt-0 sm:mb-0 sm:ml-0 sm:mr-0 rounded-none ",
+          "fixed",
+          "top-0 bottom-0 right-0",
+        ],
+      },
+    },
+  },
+});
+
+type Props = {
   onClose: () => void;
+  className?: string;
 };
+
+type ExtendedModalProps = VariantProps<typeof ExtendedModal>;
+export type ModalProps = Omit<ExtendedModalProps, "backdrop"> & Props;
 
 export type ModalComponent = FC<ModalProps> & {
   Header: FC<ModalHeaderProps>;
@@ -22,19 +40,14 @@ export type ModalComponent = FC<ModalProps> & {
   Footer: FC<ModalFooterProps>;
 };
 
-const ExtendedModal = extendVariants(NextUIModal, {
-  defaultVariants: {
-    backdrop: "blur",
-    scrollBehavior: "outside",
-  },
-});
-
 export const Modal: ModalComponent = (props) => {
   const { title, children, className, ...rest } = props;
 
   return (
     <ExtendedModal
       {...rest}
+      backdrop="blur"
+      scrollBehavior="outside"
       classNames={{
         header: "block",
         body: "block",

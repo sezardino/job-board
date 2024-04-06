@@ -1,3 +1,7 @@
 .element {
-  @apply flex items-center gap-1;
+  @apply flex items-center gap-1 list-none;
+}
+
+.list {
+  @apply list-none grid grid-cols-1 gap-1;
 }

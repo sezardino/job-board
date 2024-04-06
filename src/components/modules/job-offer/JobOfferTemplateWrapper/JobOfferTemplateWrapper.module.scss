@@ -3,5 +3,9 @@
 }
 
 .aside {
-  @apply z-10 fixed bottom-0 left-0 right-0 md:sticky md:top-20;
+  @apply z-10 fixed bottom-0 left-0 right-0 md:sticky md:top-28;
+}
+
+.main {
+  @apply grid grid-cols-1 gap-4;
 }

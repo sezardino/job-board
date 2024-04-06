@@ -1,7 +1,7 @@
 import { Grid } from "@/components/base/Grid/Grid";
 import { Typography } from "@/components/base/Typography/Typography";
 import { FileEntity } from "@/types";
-import { Card, CardBody } from "@nextui-org/react";
+import { Card, CardBody, Skeleton } from "@nextui-org/react";
 import { Seniority } from "@prisma/client";
 import Link from "next/link";
 import { type ComponentPropsWithoutRef, type FC } from "react";
@@ -26,6 +26,7 @@ export type OfferCardEntity = {
 
 type Props = {
   offers: OfferCardEntity[];
+  isLoading?: boolean;
   linkPrefix: string;
   endContent?: { label: string; to?: string; onClick?: () => void }[];
 };
@@ -33,7 +34,8 @@ type Props = {
 export type OffersListProps = ComponentPropsWithoutRef<"ul"> & Props;
 
 export const OffersList: FC<OffersListProps> = (props) => {
-  const { offers, endContent, linkPrefix, className, ...rest } = props;
+  const { isLoading, offers, endContent, linkPrefix, className, ...rest } =
+    props;
 
   return (
     <Grid
@@ -56,7 +58,16 @@ export const OffersList: FC<OffersListProps> = (props) => {
           />
         </li>
       ))}
-      {endContent &&
+
+      {isLoading &&
+        new Array(5)
+          .fill(0)
+          .map((_, i) => (
+            <Skeleton key={i} as="li" className="h-28 rounded-md" />
+          ))}
+
+      {!isLoading &&
+        endContent &&
         endContent.map((c, i) => (
           <li key={i}>
             <Card

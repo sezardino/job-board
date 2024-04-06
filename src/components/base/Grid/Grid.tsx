@@ -10,7 +10,15 @@ import styles from "./Grid.module.scss";
 
 export type GridTags = Extract<
   ElementType,
-  "header" | "div" | "ul" | "ol" | "section" | "form" | "li" | "article"
+  | "header"
+  | "div"
+  | "ul"
+  | "ol"
+  | "section"
+  | "form"
+  | "li"
+  | "article"
+  | "label"
 >;
 
 export type GridProps<Tag extends GridTags> = ComponentPropsWithoutRef<Tag> & {

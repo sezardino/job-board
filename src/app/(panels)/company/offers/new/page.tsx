@@ -6,7 +6,7 @@ import {
   NewOfferTemplate,
 } from "@/components/templates/Company/NewOffer/NewOfferTemplate";
 import { CompanyPageUrls } from "@/const";
-import { useCreateJobOfferMutation } from "@/hooks/react-query/mutation/job-offer";
+import { useCreateJobOfferMutation } from "@/hooks/react-query/mutation/job-offers";
 import { useActiveCategoriesQuery } from "@/hooks/react-query/query/categories/active-categories";
 import { useActiveIndustriesQuery } from "@/hooks/react-query/query/industries/active-industries";
 import { useRouter } from "next/navigation";

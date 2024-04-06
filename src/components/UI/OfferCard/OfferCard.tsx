@@ -1,9 +1,9 @@
 import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
+import { Badge } from "@/components/base/Badge/Badge";
 import { Icon } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
 import { FileEntity } from "@/types";
 import {
-  Badge,
   Card,
   CardBody,
   CardFooter,
@@ -75,7 +75,7 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
             <Typography tag="p" styling="xs" className="text-teal-400">
               {salary.from} - {salary.to}
             </Typography>
-            <Badge size="sm">
+            <Badge color="primary" size="sm">
               <Typography tag="span" styling="xs">
                 {dateOfPublicationString}
               </Typography>

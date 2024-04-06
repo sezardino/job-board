@@ -6,8 +6,8 @@ import {
   useArchiveJobOfferMutation,
   useFinishJobOfferMutation,
   usePublishJobOfferMutation,
-} from "@/hooks/react-query/mutation/job-offer/change-status";
-import { useDeleteJobOfferMutation } from "@/hooks/react-query/mutation/job-offer/delete";
+} from "@/hooks/react-query/mutation/job-offers/change-status";
+import { useDeleteJobOfferMutation } from "@/hooks/react-query/mutation/job-offers/delete";
 import { useCurrentCompanyJobOffersQuery } from "@/hooks/react-query/query/job-offers";
 import { JobOfferStatus, Seniority } from "@prisma/client";
 import { useSession } from "next-auth/react";

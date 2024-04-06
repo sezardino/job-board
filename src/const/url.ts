@@ -31,8 +31,10 @@ export const PublicPageUrls = {
   verify: (token: string) => `/auth/verify?token=${token}`,
   registerUser: "/auth/registration",
   registerCompany: "/auth/registration/company",
-  industry: (id: string) => `/industry/${id}`,
-  category: (industry: string, category: string) => `/${industry}/${category}`,
+  jobOffers: "/job-offers",
+  jobOffersByIndustry: (industry: string) => `/job-offers/${industry}`,
+  jobOffersByCategory: (industry: string, category: string) =>
+    `/job-offers/${industry}/${category}`,
   offer: (id: string) => `/offers/${id}`,
   company: (id: string) => `/companies/${id}`,
 } as const;

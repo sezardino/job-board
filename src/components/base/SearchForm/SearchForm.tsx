@@ -17,6 +17,7 @@ export interface SearchFormProps
   onSearch: (value: string) => void;
   initialValue?: string;
   iconPosition?: "left" | "right";
+  type?: "live" | "submit";
 }
 
 const MIN_SEARCH_LENGTH = 3;
@@ -26,6 +27,7 @@ export const SearchForm: FC<SearchFormProps> = (props) => {
     iconPosition = "left",
     onSearch,
     placeholder,
+    type = "live",
     className,
     initialValue = "",
     ...rest
@@ -35,19 +37,31 @@ export const SearchForm: FC<SearchFormProps> = (props) => {
 
   const isSubmitted = useRef(false);
   const submitResetTimer = useRef<NodeJS.Timeout | null>(null);
+  const prevSubmittedValue = useRef<string>("");
 
   const submitHandler = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    if (isSubmitted.current) return;
-    if (value.length < MIN_SEARCH_LENGTH) return onSearch("");
-    if (value === debouncedValue) return;
+    if (type === "live") {
+      if (isSubmitted.current) return;
+      if (value.length < MIN_SEARCH_LENGTH) return onSearch("");
+      if (value === debouncedValue) return;
+
+      onSearch(value);
+      isSubmitted.current = true;
+    }
+
+    if (type === "submit") {
+      if (value === prevSubmittedValue.current) return;
+      onSearch(value);
+      prevSubmittedValue.current = value;
+    }
 
     onSearch(value);
-    isSubmitted.current = true;
   };
 
   useWatchEffect(() => {
+    if (type !== "live") return;
     if (isSubmitted.current) return;
     if (value.length < MIN_SEARCH_LENGTH) return onSearch("");
 
@@ -56,6 +70,7 @@ export const SearchForm: FC<SearchFormProps> = (props) => {
   }, [debouncedValue]);
 
   useWatchEffect(() => {
+    if (type !== "live") return;
     if (submitResetTimer.current) clearTimeout(submitResetTimer.current);
 
     submitResetTimer.current = setTimeout(() => {
@@ -67,7 +82,7 @@ export const SearchForm: FC<SearchFormProps> = (props) => {
     <form {...rest} className={className} onSubmit={submitHandler}>
       <Input
         placeholder={placeholder}
-        endContent={<Icon name="HiSearch" color="gray" />}
+        startContent={<Icon name="HiSearch" color="gray" />}
         value={value}
         onChange={(evt) => setValue(evt.currentTarget.value)}
       />

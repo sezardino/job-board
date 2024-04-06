@@ -6,9 +6,9 @@ import {
 } from "@/components/base/Breadcrumbs/BaseBreadcrumbs";
 import { HTMLWrapper } from "@/components/base/HTMLWrapper/HTMLWrapper";
 import { PublicPageUrls } from "@/const";
-import { Card, CardProps, Link } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Link } from "@nextui-org/react";
 import { JobContract, JobType, Seniority, Skill } from "@prisma/client";
-import { FC, useMemo } from "react";
+import { ComponentPropsWithoutRef, FC, useMemo } from "react";
 
 import { Icon } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
@@ -31,7 +31,7 @@ type Props = {
   };
 };
 
-export type JobOfferDetailsProps = CardProps & Props;
+export type JobOfferDetailsProps = ComponentPropsWithoutRef<"div"> & Props;
 
 export const JobOfferDetails: FC<JobOfferDetailsProps> = (props) => {
   const { offer, company, skills, breadcrumbs, className, ...rest } = props;
@@ -59,57 +59,87 @@ export const JobOfferDetails: FC<JobOfferDetailsProps> = (props) => {
   );
 
   return (
-    <Card as="section" {...rest} className={twMerge(styles.element, className)}>
-      <header className={styles.header}>
-        {!!breadcrumbs?.length && <BaseBreadcrumbs items={breadcrumbs} />}
+    <div {...rest} className={twMerge(styles.element, className)}>
+      {!!breadcrumbs?.length && <BaseBreadcrumbs items={breadcrumbs} />}
 
-        <div className={styles.base}>
-          <BaseAvatar
-            type="image"
-            size="lg"
-            src={company.logo.url || undefined}
-            alt={company.name}
-          />
+      <Card as="section">
+        <CardHeader>
+          <div className={styles.base}>
+            <BaseAvatar
+              type="image"
+              size="lg"
+              src={company.logo.url || undefined}
+              alt={company.name}
+            />
 
-          <div className={styles.wrapper}>
-            <Typography tag="h1" styling="xl" weight="bold">
-              {offer.name}
-            </Typography>
-            <Link href={PublicPageUrls.company(company.id)}>
-              <Typography tag="p" styling="sm" className={styles.link}>
-                {company.name}
+            <div className={styles.wrapper}>
+              <Typography tag="h1" styling="xl" weight="bold">
+                {offer.name}
               </Typography>
-              <Icon name="HiArrowRight" size={14} className={styles.icon} />
-            </Link>
+              <Link href={PublicPageUrls.company(company.id)}>
+                <Typography tag="p" styling="sm" className={styles.link}>
+                  {company.name}
+                </Typography>
+                <Icon name="HiArrowRight" size={14} className={styles.icon} />
+              </Link>
+            </div>
           </div>
-        </div>
+        </CardHeader>
 
-        <ul className={styles.infoList}>
-          {info.map((item) => (
-            <li key={item.label} className={styles.infoItem}>
-              <Typography tag="p" styling="sm" className={styles.info}>
-                {item.label} - <b>{item.value}</b>
-              </Typography>
-            </li>
-          ))}
-        </ul>
-
-        {!!skills.length && (
-          <ul className={styles.skills}>
-            {skills.map((skill, index) => (
-              <SkillCard
-                as="li"
-                key={`${skill.name}-${skill.level}-${index}`}
-                name={skill.name}
-                level={skill.level}
-              />
+        <CardBody>
+          <ul className={styles.infoList}>
+            {info.map((item) => (
+              <li key={item.label}>
+                <Typography tag="p" styling="sm">
+                  {item.label} - <b>{item.value}</b>
+                </Typography>
+              </li>
             ))}
           </ul>
-        )}
-      </header>
+        </CardBody>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <Typography tag="h2" styling="lg">
+            {t("skills.title")}
+          </Typography>
+        </CardHeader>
+        <CardBody>
+          {!skills.length && (
+            <Typography tag="p">{t("skills.no-data")}</Typography>
+          )}
+
+          {!!skills.length && (
+            <ul className={styles.skills}>
+              {skills.map((skill, index) => (
+                <SkillCard
+                  as="li"
+                  key={`${skill.name}-${skill.level}-${index}`}
+                  name={skill.name}
+                  level={skill.level}
+                />
+              ))}
+            </ul>
+          )}
+        </CardBody>
+      </Card>
 
       {/* Job Description */}
-      {offer.description && <HTMLWrapper body={offer.description} />}
-    </Card>
+      <Card>
+        <CardHeader>
+          <Typography tag="h2" styling="lg">
+            {t("description.title")}
+          </Typography>
+        </CardHeader>
+        <CardBody>
+          {!offer.description && (
+            <Typography tag="p">{t("description.no-data")}</Typography>
+          )}
+
+          {offer.description && <HTMLWrapper body={offer.description} />}
+        </CardBody>
+      </Card>
+    </div>
   );
 };

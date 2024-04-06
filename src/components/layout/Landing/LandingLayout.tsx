@@ -19,7 +19,6 @@ export const LandingLayout: FC<LandingLayoutProps> = (props) => {
   return (
     <div className={twMerge("min-h-screen antialiased bg-gray-50")}>
       <LandingNavbar user={user} onSignOutClick={onSignOutClick} />
-
       <main className={twMerge("container h-auto")}>{children}</main>
     </div>
   );

@@ -1,4 +1,5 @@
 import { MAX_STRING_LENGTH } from "@/const";
+import { salaryValidationSchema } from "@/const/zod";
 import {
   JobContract,
   JobOperatingMode,
@@ -12,24 +13,7 @@ export const createJobOfferRequestSchema = z.object({
   name: z.string({ required_error: "name is required" }).max(MAX_STRING_LENGTH),
   industry: z.string({ required_error: "industry is required" }),
   category: z.string({ required_error: "category is required" }),
-  salary: z
-    .object({
-      from: z
-        .number({
-          required_error: "salary from is required",
-        })
-        .positive("salary should be positive"),
-      to: z
-        .number({
-          required_error: "salary to is required",
-        })
-        .positive("salary should be positive"),
-    })
-    .nullable()
-    .refine((value) => (value ? value.from <= value.to : true), {
-      path: ["to"],
-      message: "salary to should be greater than salary from",
-    }),
+  salary: salaryValidationSchema,
   type: z.nativeEnum(JobType, {
     required_error: "job type is required",
   }),

@@ -337,6 +337,42 @@
         "max-length": "Description should be less than {value} characters",
         "description": "This description will be visible to the users"
       }
+    },
+    "job-application": {
+      "submit": "Submit",
+      "name": {
+        "label": "First and last name",
+        "placeholder": "Enter your first and last name",
+        "required": "First and last name is required",
+        "max-length": "First and last name should be less than {value} characters"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email",
+        "required": "Email is required",
+        "invalid": "Email is invalid",
+        "max-length": "Email should be less than {value} characters"
+      },
+      "message": {
+        "label": "Introduce yourself",
+        "placeholder": "Type something nice...",
+        "max-length": "Message should be less than {value} characters"
+      },
+      "file": {
+        "label": "Attach your CV",
+        "placeholder": "Choose file",
+        "required": "CV is required",
+        "max-size": "Max file size is {value} MB",
+        "formats": "Allowed formats: {value}",
+        "pdf": "PDF"
+      },
+      "data-processing": {
+        "label": "I agree to processing of my personal data",
+        "required": "You must agree to data processing"
+      },
+      "future-recruitment": {
+        "label": "I agree to use my data in future recruitment processes"
+      }
     }
   },
   "entity": {
@@ -709,6 +745,31 @@
         "description": "Your email has been already verified",
         "trigger": "Login"
       }
+    },
+    "landing": {
+      "job-offers-board": {
+        "no-data": {
+          "title": "No job offers found",
+          "description": "There are no job offers according to your search criteria"
+        }
+      },
+      "job-offer": {
+        "home": "Home",
+        "operating": "Operating",
+        "apply": "Apply now",
+        "form": "Apply for this job offer",
+        "similar": "Similar job offers",
+        "publication": {
+          "label": "Published ",
+          "today": "Today",
+          "yesterday": "Yesterday",
+          "days-ago": "{value} days ago"
+        },
+        "success": {
+          "title": "Application sent",
+          "description": "Your application has been sent successfully"
+        }
+      }
     }
   },
   "login-page": {
@@ -773,21 +834,6 @@
         "cancel": "Cancel",
         "submit": "Edit Gallery",
         "trigger": "Edit Gallery"
-      }
-    },
-    "job-offer-template": {
-      "contract": "Job Contract",
-      "seniority": "Seniority",
-      "type": "Job Type",
-      "home": "Home",
-      "operating": "Operating",
-      "apply": "Apply now",
-      "deadline": "Deadline",
-      "publication": {
-        "label": "Published ",
-        "today": "Today",
-        "yesterday": "Yesterday",
-        "days-ago": "{value} days ago"
       }
     },
     "offer-preview": {
@@ -920,7 +966,12 @@
       "seniority": "Seniority",
       "type": "Job Type",
       "operating": "Operating",
-      "deadline": "Deadline"
+      "deadline": "Deadline",
+      "skills": { "title": "Skills", "no-data": "No skills was provided" },
+      "description": {
+        "title": "Job offer description",
+        "description": "Description of the job offer"
+      }
     }
   },
   "templates": {

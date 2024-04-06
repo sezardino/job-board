@@ -4,21 +4,36 @@ import { PreviewJobOfferResponse } from "@/services/bll/modules/job-offers/schem
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
+import {
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentPropsWithoutRef,
+  type FC,
+} from "react";
 
 import { Button } from "@/components/base/Button/Button";
 import { Icon } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
+import {
+  JobApplicationForm,
+  JobApplicationFormValues,
+} from "@/components/forms/JobApplication/JobApplicationForm";
+import { ActionProp } from "@/types";
 import styles from "./JobOfferTemplate.module.scss";
 
 export type JobOfferTemplateProps = ComponentPropsWithoutRef<"div"> & {
   offer: PreviewJobOfferResponse;
+  applyForJobOffer: ActionProp<JobApplicationFormValues, any>;
 };
 
 export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
-  const { offer, className, ...rest } = props;
+  const { offer, applyForJobOffer, className, ...rest } = props;
   const entityT = useTranslations("entity");
-  const t = useTranslations("components.job-offer-template");
+  const t = useTranslations("page.landing.job-offer");
+  const [isSuccessShowed, setIsSuccessShowed] = useState(false);
+  const formSectionRef = useRef<HTMLDivElement>(null);
 
   const published = useMemo(() => {
     const days = dayjs(offer.publishedAt).diff(dayjs(), "day");
@@ -38,22 +53,43 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
     return dayjs(offer.publishedAt).format(DEFAULT_DATE_FORMAT);
   }, [offer.publishedAt, t]);
 
+  const translatedOperating = useMemo(() => {
+    const arr = offer.operating.map((operating) =>
+      entityT(`operating.${operating}`)
+    );
+
+    return arr.join(", ");
+  }, [entityT, offer.operating]);
+
   const breadcrumbs = useMemo(
     () => [
       { href: PublicPageUrls.home, label: t("home") },
       {
-        href: PublicPageUrls.industry(offer.industry.name),
+        href: PublicPageUrls.jobOffersByIndustry(offer.industry.name),
         label: entityT(`industries.${offer.industry.name}`),
       },
 
       {
-        href: PublicPageUrls.category(offer.industry.name, offer.category.name),
+        href: PublicPageUrls.jobOffersByCategory(
+          offer.industry.name,
+          offer.category.name
+        ),
         label: entityT(`categories.${offer.category.name}`),
       },
 
       { label: offer.company.name },
     ],
     [entityT, offer.category.name, offer.company.name, offer.industry.name, t]
+  );
+
+  const applyHandler = useCallback(
+    async (values: JobApplicationFormValues) => {
+      try {
+        applyForJobOffer.handler(values);
+        setIsSuccessShowed(true);
+      } catch (error) {}
+    },
+    [applyForJobOffer]
   );
 
   return (
@@ -81,13 +117,19 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
             </Typography>
 
             <Typography tag="p" styling="sm" weight="thin">
-              {t("operating")} -{" "}
-              <b>{entityT(`operating.${offer.operating}`)}</b>
+              {t("operating")} - <b>{translatedOperating}</b>
             </Typography>
           </CardHeader>
 
           <CardBody>
-            <Button color="primary">{t("apply")}</Button>
+            <Button
+              color="primary"
+              onClick={() =>
+                formSectionRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              {t("apply")}
+            </Button>
           </CardBody>
 
           <CardFooter className={styles.footer}>
@@ -99,6 +141,40 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
           </CardFooter>
         </Card>
       }
-    />
+    >
+      <div ref={formSectionRef} className={styles.form}>
+        <Card as="section">
+          <CardHeader>
+            <Typography tag="h2" styling="lg">
+              {t("form")}
+            </Typography>
+          </CardHeader>
+          <CardBody>
+            <JobApplicationForm onFormSubmit={applyHandler} />
+          </CardBody>
+        </Card>
+        {isSuccessShowed && (
+          <div className={styles.success}>
+            <Icon name="HiCheck" size={40} className={styles.successIcon} />
+            <Typography tag="h2" styling="md">
+              {t("success.title")}
+            </Typography>
+            <Typography tag="p" styling="sm" color="default-500">
+              {t("success.description")}
+            </Typography>
+          </div>
+        )}
+      </div>
+
+      {/* TODO: check if exist */}
+      <Card>
+        <CardHeader>
+          <Typography tag="h2" styling="lg">
+            {t("similar")}
+          </Typography>
+        </CardHeader>
+        <CardBody>similar job offers here</CardBody>
+      </Card>
+    </JobOfferTemplateWrapper>
   );
 };
