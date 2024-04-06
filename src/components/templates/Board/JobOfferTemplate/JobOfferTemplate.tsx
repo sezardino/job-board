@@ -1,6 +1,9 @@
 import { JobOfferTemplateWrapper } from "@/components/modules/job-offer/JobOfferTemplateWrapper/JobOfferTemplateWrapper";
 import { DEFAULT_DATE_FORMAT, PublicPageUrls } from "@/const";
-import { PreviewJobOfferResponse } from "@/services/bll/modules/job-offers/schema";
+import {
+  CommonJobOffersResponse,
+  PreviewJobOfferResponse,
+} from "@/services/bll/modules/job-offers/schema";
 import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
@@ -13,6 +16,7 @@ import {
   type FC,
 } from "react";
 
+import { OffersList } from "@/components/UI/OffersList/OffersList";
 import { Button } from "@/components/base/Button/Button";
 import { Icon } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
@@ -20,16 +24,18 @@ import {
   JobApplicationForm,
   JobApplicationFormValues,
 } from "@/components/forms/JobApplication/JobApplicationForm";
-import { ActionProp } from "@/types";
+import { ActionProp, InfiniteDataProp } from "@/types";
 import styles from "./JobOfferTemplate.module.scss";
 
 export type JobOfferTemplateProps = ComponentPropsWithoutRef<"div"> & {
   offer: PreviewJobOfferResponse;
+  commonJobOffers: InfiniteDataProp<CommonJobOffersResponse>;
   applyForJobOffer: ActionProp<JobApplicationFormValues, any>;
 };
 
 export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
-  const { offer, applyForJobOffer, className, ...rest } = props;
+  const { offer, applyForJobOffer, commonJobOffers, className, ...rest } =
+    props;
   const entityT = useTranslations("entity");
   const t = useTranslations("page.landing.job-offer");
   const [isSuccessShowed, setIsSuccessShowed] = useState(false);
@@ -169,14 +175,25 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
       </div>
 
       {/* TODO: check if exist */}
-      <Card>
-        <CardHeader>
-          <Typography tag="h2" styling="lg">
-            {t("similar")}
-          </Typography>
-        </CardHeader>
-        <CardBody>similar job offers here</CardBody>
-      </Card>
+      {commonJobOffers.data && commonJobOffers.data.meta.count > 0 && (
+        <Card>
+          <CardHeader>
+            <Typography tag="h2" styling="lg">
+              {t("similar")}
+            </Typography>
+          </CardHeader>
+          <CardBody>
+            <OffersList
+              offers={commonJobOffers.data.data}
+              linkPrefix={PublicPageUrls.offer("")}
+              isFetching={commonJobOffers.isFetching}
+              isFetchingNextPage={commonJobOffers.isFetchingNextPage}
+              fetchNextPage={commonJobOffers.fetchNextPage}
+              hasNextPage={!!commonJobOffers.hasNextPage}
+            />
+          </CardBody>
+        </Card>
+      )}
     </JobOfferTemplateWrapper>
   );
 };

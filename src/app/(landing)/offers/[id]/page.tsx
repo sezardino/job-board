@@ -4,6 +4,7 @@ import { JobApplicationFormValues } from "@/components/forms/JobApplication/JobA
 import { JobOfferTemplate } from "@/components/templates/Board/JobOfferTemplate/JobOfferTemplate";
 import { useApplyForJobOfferMutation } from "@/hooks";
 import { usePreviewJobOfferQuery } from "@/hooks/react-query/query/job-offers";
+import { useCommonJobOffersInfiniteQuery } from "@/hooks/react-query/query/job-offers/common-job-offers";
 import { useCallback } from "react";
 
 type Props = {
@@ -20,6 +21,8 @@ const OfferPage = (props: Props) => {
     isFetching: isOneOfferLoading,
     error,
   } = usePreviewJobOfferQuery({ id });
+
+  const commonJobOffersQuery = useCommonJobOffersInfiniteQuery({ id });
 
   const {
     mutateAsync: applyForJobOffer,
@@ -42,6 +45,7 @@ const OfferPage = (props: Props) => {
   return (
     <JobOfferTemplate
       offer={oneOffer}
+      commonJobOffers={commonJobOffersQuery}
       applyForJobOffer={{
         handler: applyForJobOfferHandler,
         isLoading: isApplyForJobOfferLoading,

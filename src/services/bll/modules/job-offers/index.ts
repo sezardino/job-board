@@ -8,6 +8,7 @@ import { JobOfferStatus, Prisma } from "@prisma/client";
 import { AbstractBllService } from "../../module.abstract";
 import {
   ChangeJobOfferStatusRequest,
+  CommonJobOffersRequest,
   CreateJobOfferRequest,
   CurrentCompanyJobOffersRequest,
   OffersListRequest,
@@ -284,6 +285,46 @@ export class JobOffersBllModule extends AbstractBllService {
     return this.prismaService.jobOffer.update({
       where: { id: offerId, companyId },
       data: { status: JobOfferStatus.INACTIVE },
+    });
+  }
+
+  async commonJobOffers(dto: CommonJobOffersRequest, offerId: string) {
+    const { page } = dto;
+
+    const example = await this.prismaService.jobOffer.findUnique({
+      where: { id: offerId },
+    });
+
+    if (!example) throw new NotFoundException("Job offer not found");
+
+    const { industryId, categoryId, skills, seniority } = example;
+
+    return this.findMany({
+      limit: 5,
+      page,
+      where: {
+        status: JobOfferStatus.ACTIVE,
+        industryId: { equals: industryId },
+        categoryId: { equals: categoryId },
+        skills: { some: { name: { in: skills.map((skill) => skill.name) } } },
+        seniority: { equals: seniority },
+      },
+      select: {
+        id: true,
+        name: true,
+        seniority: true,
+        salaryFrom: true,
+        salaryTo: true,
+        createdAt: true,
+        skills: { select: { name: true } },
+        company: {
+          select: {
+            id: true,
+            name: true,
+            logo: { select: { id: true, url: true, name: true } },
+          },
+        },
+      },
     });
   }
 }

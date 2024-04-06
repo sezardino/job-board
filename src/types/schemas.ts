@@ -8,10 +8,10 @@ export const paginatedRequestSchema = z.object({
 
 export const paginatedResponseSchema = z.object({
   meta: z.object({
-    count: z.number(),
-    limit: z.number(),
-    page: z.number(),
-    totalPages: z.number(),
+    count: z.coerce.number(),
+    limit: z.coerce.number(),
+    page: z.coerce.number(),
+    totalPages: z.coerce.number(),
   }),
 });
 

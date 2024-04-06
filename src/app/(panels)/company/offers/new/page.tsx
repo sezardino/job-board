@@ -27,16 +27,21 @@ const NewOfferPage = () => {
     useCreateJobOfferMutation();
 
   const handleCreateOfferRequest = useCallback(
-    (values: Required<NewOfferData>) =>
+    (values: Required<NewOfferData>) => {
+      const { description, details, skills, specification } = values;
+      const { salary, ...restDetails } = details;
+
       createJobOffer(
         {
-          ...values.description,
-          ...values.details,
-          ...values.skills,
-          ...values.specification,
+          ...description,
+          ...restDetails,
+          ...skills,
+          ...specification,
+          salary: salary ? { from: salary[0], to: salary[1] } : null,
         },
         { onSuccess: () => router.push(CompanyPageUrls.offers) }
-      ),
+      );
+    },
     [createJobOffer, router]
   );
 

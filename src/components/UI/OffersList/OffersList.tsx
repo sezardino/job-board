@@ -1,12 +1,13 @@
 import { Grid } from "@/components/base/Grid/Grid";
-import { Typography } from "@/components/base/Typography/Typography";
 import { FileEntity } from "@/types";
-import { Card, CardBody, Skeleton } from "@nextui-org/react";
+import { Skeleton } from "@nextui-org/react";
 import { Seniority } from "@prisma/client";
-import Link from "next/link";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 import { OfferCard } from "../OfferCard/OfferCard";
+
+import { useIntersectionObserver } from "@/hooks/use-intersection-observer";
+import styles from "./OffersList.module.scss";
 
 export type OfferCardEntity = {
   id: string;
@@ -24,16 +25,30 @@ export type OfferCardEntity = {
 
 type Props = {
   offers: OfferCardEntity[];
-  isLoading?: boolean;
+  hasNextPage?: boolean;
+  fetchNextPage?: () => void;
+  isFetching?: boolean;
+  isFetchingNextPage?: boolean;
   linkPrefix: string;
-  endContent?: { label: string; to?: string; onClick?: () => void }[];
 };
 
 export type OffersListProps = ComponentPropsWithoutRef<"ul"> & Props;
 
 export const OffersList: FC<OffersListProps> = (props) => {
-  const { isLoading, offers, endContent, linkPrefix, className, ...rest } =
-    props;
+  const {
+    isFetching,
+    isFetchingNextPage,
+    fetchNextPage,
+    hasNextPage,
+    offers,
+    linkPrefix,
+    className,
+    ...rest
+  } = props;
+
+  const observerRef = useIntersectionObserver<HTMLLIElement>({
+    onIntersecting: fetchNextPage || (() => {}),
+  });
 
   return (
     <Grid
@@ -61,30 +76,20 @@ export const OffersList: FC<OffersListProps> = (props) => {
         </li>
       ))}
 
-      {isLoading &&
+      {isFetching &&
         new Array(5)
           .fill(0)
           .map((_, i) => (
             <Skeleton key={i} as="li" className="h-28 rounded-md" />
           ))}
 
-      {!isLoading &&
-        endContent &&
-        endContent.map((c, i) => (
-          <li key={i}>
-            <Card
-              {...c}
-              as={c.to ? Link : "div"}
-              isPressable={!!c.to || !!c.onClick}
-            >
-              <CardBody className="text-center py-5">
-                <Typography tag="h4" className="text-primary">
-                  {c.label}
-                </Typography>
-              </CardBody>
-            </Card>
-          </li>
-        ))}
+      <li
+        ref={observerRef}
+        className={twMerge(
+          styles.observer,
+          (!hasNextPage || isFetchingNextPage) && "hidden"
+        )}
+      />
     </Grid>
   );
 };

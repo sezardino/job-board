@@ -8,6 +8,14 @@ export type DataProp<T> = {
   isLoading: boolean;
 };
 
+export type InfiniteDataProp<T> = {
+  data?: T;
+  isFetching: boolean;
+  hasNextPage: boolean;
+  isFetchingNextPage: boolean;
+  fetchNextPage: () => void;
+};
+
 export type DataListProp = {
   limit: number;
   page: number;

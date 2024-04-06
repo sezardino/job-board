@@ -1,10 +1,12 @@
 import {
   ChangeJobOfferStatusRequest,
+  CommonJobOffersRequest,
   CreateJobOfferRequest,
   CurrentCompanyJobOffersRequest,
   OffersListRequest,
   PreviewJobOfferRequest,
   changeJobOfferStatusResponseSchema,
+  commonJobOffersResponseSchema,
   createJobOfferResponseSchema,
   currentCompanyJobOffersResponseSchema,
   jobOfferEditionDataResponseSchema,
@@ -39,6 +41,14 @@ export class JobOffersApiModule extends AbstractApiModule {
     return this.fetch({
       endpoint: `job-offers/${id}`,
       schema: previewJobOfferResponseSchema,
+      config: { params },
+    });
+  }
+
+  commonJobOffers({ id, ...params }: CommonJobOffersRequest & { id: string }) {
+    return this.fetch({
+      endpoint: `job-offers/${id}/common`,
+      schema: commonJobOffersResponseSchema,
       config: { params },
     });
   }

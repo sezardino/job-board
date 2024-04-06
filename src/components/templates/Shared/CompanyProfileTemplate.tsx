@@ -200,11 +200,6 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
           <OffersList
             offers={company?.offers || []}
             linkPrefix={offerLinkPrefix}
-            endContent={
-              company && company.offers.length < company._count.offers
-                ? [{ label: t("offers.more"), to: offerLinkPrefix }]
-                : undefined
-            }
           />
         </Grid>
       </Grid>
