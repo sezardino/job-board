@@ -70,6 +70,11 @@ export class JobOffersBllModule extends AbstractBllService {
         // deadlineAt: true,
         category: { select: { name: true, id: true } },
         industry: { select: { name: true, id: true } },
+        _count: {
+          select: {
+            applications: true,
+          },
+        },
       },
     });
   }

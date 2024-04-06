@@ -20,6 +20,9 @@ export const currentCompanyJobOffersResponseSchema = z
         seniority: z.nativeEnum(Seniority),
         status: z.nativeEnum(JobOfferStatus),
         // deadlineAt: z.date().or(z.string()).nullable(),
+        _count: z.object({
+          applications: z.number(),
+        }),
       })
     ),
   })

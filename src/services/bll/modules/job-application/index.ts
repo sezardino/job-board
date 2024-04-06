@@ -3,6 +3,7 @@ import { CustomException, NotFoundException } from "@/types";
 import { FilesBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
 import { ApplyForJobOfferRequest } from "./schema";
+import { JobOfferApplicationsRequest } from "./schema/list";
 
 export class JobApplicationsBllModule extends AbstractBllService {
   constructor(
@@ -64,5 +65,22 @@ export class JobApplicationsBllModule extends AbstractBllService {
     });
 
     return !!jobApplication;
+  }
+
+  async list(dto: JobOfferApplicationsRequest) {
+    const { offerId } = dto;
+
+    const applications = await this.prismaService.jobApplication.findMany({
+      where: { jobOfferId: offerId },
+      select: {
+        id: true,
+        name: true,
+        email: true,
+        recruitmentStatus: true,
+      },
+      orderBy: { createdAt: "desc" },
+    });
+
+    return applications;
   }
 }

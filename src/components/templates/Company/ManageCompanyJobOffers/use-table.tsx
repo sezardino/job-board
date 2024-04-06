@@ -75,6 +75,11 @@ export const useCompanyOffersTable = (props: Props) => {
       //       ? dayjs(row.getValue()).format(DEFAULT_DATE_FORMAT)
       //       : "-",
       // }),
+      columnHelper.accessor("_count.applications", {
+        enableSorting: false,
+        header: t("table.applications-count"),
+        cell: (row) => row.getValue(),
+      }),
       columnHelper.accessor("id", {
         enableSorting: false,
         header: () => null,

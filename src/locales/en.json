@@ -892,6 +892,7 @@
         "name": "Name",
         "industry-category": "Industry/Category",
         "deadline": "Deadline",
+        "applications-count": "Applications count",
         "seniority": "Seniority",
         "status": "Status",
         "actions": {

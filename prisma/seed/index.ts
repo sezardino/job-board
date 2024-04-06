@@ -166,6 +166,76 @@ const generateJobOffers = async () => {
   console.log(`Generated job offers: ${jobOffersCount}`);
 };
 
+const generateDevData = async () => {
+  const owner = await prisma.user.create({
+    data: mockCompanyOwner,
+    select: { id: true },
+  });
+
+  const company = await prisma.company.create({
+    data: {
+      ...generateMockCompany(),
+      members: { connect: { id: owner.id } },
+    },
+  });
+
+  const industries = await prisma.industry.findMany({
+    select: { id: true, categories: { select: { id: true } } },
+  });
+
+  const jobOffers = generateMockOffers({
+    count: faker.number.int({ min: 1, max: 2 }),
+    companyId: company.id,
+    industries: industries,
+  });
+
+  await Promise.all(
+    jobOffers.flat().map(
+      async (data) =>
+        await prisma.jobOffer.create({
+          data,
+        })
+    )
+  );
+
+  const jobOffersCount = await prisma.jobOffer.count();
+
+  console.log(`Generated job offers: ${jobOffersCount}`);
+
+  const offers = await prisma.jobOffer.findMany({
+    where: { companyId: company.id },
+    select: { id: true },
+  });
+
+  const testCV = await prisma.curriculumVitae.create({
+    data: generateCurriculumVitae(),
+    select: { id: true },
+  });
+
+  if (!testCV) {
+    console.log("Test CV not found");
+    return;
+  }
+
+  await Promise.all(
+    offers.map(async (offer) => {
+      const jobApplication = generateMockJobApplications({
+        offerId: offer.id,
+        cvId: testCV.id,
+        count: faker.number.int({ min: 100, max: 1000 }),
+      });
+
+      await prisma.jobApplication.createMany({
+        data: jobApplication,
+      });
+    })
+  );
+
+  const jobApplicationsCount = await prisma.jobApplication.count();
+
+  console.log(`Generated job applications: ${jobApplicationsCount}`);
+};
+
 const generateJobApplications = async () => {
   const offers = await prisma.jobOffer.findMany({
     select: { id: true },
@@ -186,7 +256,7 @@ const generateJobApplications = async () => {
       const jobApplication = generateMockJobApplications({
         offerId: offer.id,
         cvId: testCV.id,
-        count: faker.number.int({ min: 50, max: 100 }),
+        count: faker.number.int({ min: 100, max: 1000 }),
       });
 
       await prisma.jobApplication.createMany({
@@ -207,6 +277,12 @@ const generateJobApplications = async () => {
     console.log("Seeding database...");
     console.log("Generating industries...");
     await generateIndustries();
+
+    if (true) {
+      await generateDevData();
+      return;
+    }
+
     console.log("Generating users...");
     await generateUsers();
     console.log("Generating companies...");
