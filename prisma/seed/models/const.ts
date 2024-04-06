@@ -28,7 +28,7 @@ export const skillLevels = Object.values(SkillLevel) as SkillLevel[];
 
 // password: "password",
 export const mockPassword =
-  "$argon2id$v=19$m=65536,t=3,p=4$10ShtgkPnvHRc3Xe6DXXOw$D7Ycbyy58LU5ff5i0wGcOjaTjn3GzLEeSCYvQhIucZA";
+  "$argon2id$v=19$m=65536,t=3,p=4$ksL++i4JghttGKcJWzi34Q$2i5qDdlA6ClSJPhZL8HY02zguWuL6GuvvyNFCt7dbFU";
 
 export const jobDescriptionHTML = `
   <h1>Job Title: Web Developer</h1>
@@ -200,5 +200,6 @@ export const mockCompanyOwner = {
   emailToken: "123",
   role: UserRoles.OWNER,
   isAcceptInvite: true,
+  emailVerified: true,
   status: UserStatus.ACTIVE,
 };

@@ -1,7 +1,7 @@
 import {
   JobOfferSeniorityFilters,
   JobOfferStatusFilters,
-} from "@/app/(panels)/company/offers/page";
+} from "@/app/(panels)/company/job-offers/page";
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import { Select } from "@/components/base/Select/Select";

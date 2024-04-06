@@ -11,10 +11,11 @@ export const CompanyPageUrls = {
   home: "/company",
   profile: "/company/profile",
   users: "/company/users",
-  offers: "/company/offers",
+  jobOffers: "/company/job-offers",
   bank: "/company/bank",
-  newOffer: "/company/offers/new",
-  offer: (id: string) => `/company/offers/${id}`,
+  newOffer: "/company/job-offers/new",
+  jobOffer: (id: string) => `/company/offers/${id}`,
+  jobOfferApplications: (id: string) => `/company/offers/${id}/applications`,
 };
 
 export const UserPageUrls = {

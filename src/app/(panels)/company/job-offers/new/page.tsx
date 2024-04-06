@@ -35,7 +35,7 @@ const NewOfferPage = () => {
           ...values.skills,
           ...values.specification,
         },
-        { onSuccess: () => router.push(CompanyPageUrls.offers) }
+        { onSuccess: () => router.push(CompanyPageUrls.jobOffers) }
       ),
     [createJobOffer, router]
   );

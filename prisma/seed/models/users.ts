@@ -21,6 +21,7 @@ export const generateMockUser = (
     email,
     emailToken,
     isAcceptInvite: true,
+    emailVerified: true,
     name: faker.person.fullName(),
     password: mockPassword,
     role: faker.helpers.arrayElement(roles),

@@ -10,14 +10,12 @@ import {
 import { useDeleteJobOfferMutation } from "@/hooks/react-query/mutation/job-offers/delete";
 import { useCurrentCompanyJobOffersQuery } from "@/hooks/react-query/query/job-offers";
 import { JobOfferStatus, Seniority } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import { useState } from "react";
 
 export type JobOfferStatusFilters = JobOfferStatus | "all";
 export type JobOfferSeniorityFilters = Seniority | "all";
 
 const CompanyOffersPage = () => {
-  const { data } = useSession();
   const {
     limit,
     page,

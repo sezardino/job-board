@@ -3,11 +3,11 @@
 import { AdminPageUrls, CompanyPageUrls } from "@/const/url";
 import { PropsWithChildren, useMemo } from "react";
 
+import { AppSidebarItem } from "@/components/UI/AppSidebar/AppSidebar";
 import { PanelLayout } from "@/components/layout/PanelLayout/PanelLayout";
 import { MyCompanyProvider } from "@/context";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { AppSidebarItem } from "@/components/UI/AppSidebar/AppSidebar";
 
 const AdminPanelLayout = (props: PropsWithChildren) => {
   const { children } = props;
@@ -25,7 +25,7 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
         {
           label: t("company.offers"),
           icon: "HiOutlineBriefcase",
-          to: CompanyPageUrls.offers,
+          to: CompanyPageUrls.jobOffers,
         },
       ],
     ],

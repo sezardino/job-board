@@ -1,7 +1,7 @@
 import {
   JobOfferSeniorityFilters,
   JobOfferStatusFilters,
-} from "@/app/(panels)/company/offers/page";
+} from "@/app/(panels)/company/job-offers/page";
 import { SelectOption } from "@/components/base/Select/Select";
 import { CurrentCompanyJobOffersResponse } from "@/services/bll/modules/job-offers/schema";
 
@@ -15,11 +15,11 @@ import {
   Dropdown,
   DropdownItemProps,
 } from "@/components/base/Dropdown/Dropdown";
+import { Icon } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 import { CompanyPageUrls } from "@/const";
 import { DropdownTrigger } from "@nextui-org/react";
 import Link from "next/link";
-import { Icon } from "@/components/base/Icon/Icon";
-import { Typography } from "@/components/base/Typography/Typography";
 
 export type ManageCompanyJobOffersTableAction = {
   type: "edit" | "delete" | "finish" | "archive" | "publish";
@@ -85,13 +85,18 @@ export const useCompanyOffersTable = (props: Props) => {
             {
               key: "preview",
               as: Link,
-              href: CompanyPageUrls.offer(row.getValue()),
+              href: CompanyPageUrls.jobOffer(row.getValue()),
               text: t("table.actions.preview"),
             },
             {
               key: "edit",
               text: t("table.actions.edit"),
               onClick: () => onAction({ type: "edit", id: row.getValue() }),
+            },
+            {
+              key: "applications",
+              text: t("table.actions.applications"),
+              to: CompanyPageUrls.jobOfferApplications(row.getValue()),
             },
           ];
 
