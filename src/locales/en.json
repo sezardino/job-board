@@ -764,6 +764,10 @@
           "today": "Today",
           "yesterday": "Yesterday",
           "days-ago": "{value} days ago"
+        },
+        "success": {
+          "title": "Application sent",
+          "description": "Your application has been sent successfully"
         }
       }
     }

@@ -8,6 +8,7 @@ import {
   useCallback,
   useMemo,
   useRef,
+  useState,
   type ComponentPropsWithoutRef,
   type FC,
 } from "react";
@@ -31,6 +32,7 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
   const { offer, applyForJobOffer, className, ...rest } = props;
   const entityT = useTranslations("entity");
   const t = useTranslations("page.landing.job-offer");
+  const [isSuccessShowed, setIsSuccessShowed] = useState(false);
   const formSectionRef = useRef<HTMLDivElement>(null);
 
   const published = useMemo(() => {
@@ -84,7 +86,7 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
     async (values: JobApplicationFormValues) => {
       try {
         applyForJobOffer.handler(values);
-        // TODO: show success message
+        setIsSuccessShowed(true);
       } catch (error) {}
     },
     [applyForJobOffer]
@@ -122,7 +124,9 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
           <CardBody>
             <Button
               color="primary"
-              onClick={() => formSectionRef.current?.scrollIntoView()}
+              onClick={() =>
+                formSectionRef.current?.scrollIntoView({ behavior: "smooth" })
+              }
             >
               {t("apply")}
             </Button>
@@ -138,16 +142,29 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
         </Card>
       }
     >
-      <Card ref={formSectionRef} as="section" className={styles.description}>
-        <CardHeader>
-          <Typography tag="h2" styling="lg">
-            {t("form")}
-          </Typography>
-        </CardHeader>
-        <CardBody>
-          <JobApplicationForm onFormSubmit={applyHandler} />
-        </CardBody>
-      </Card>
+      <div ref={formSectionRef} className={styles.form}>
+        <Card as="section">
+          <CardHeader>
+            <Typography tag="h2" styling="lg">
+              {t("form")}
+            </Typography>
+          </CardHeader>
+          <CardBody>
+            <JobApplicationForm onFormSubmit={applyHandler} />
+          </CardBody>
+        </Card>
+        {isSuccessShowed && (
+          <div className={styles.success}>
+            <Icon name="HiCheck" size={40} className={styles.successIcon} />
+            <Typography tag="h2" styling="md">
+              {t("success.title")}
+            </Typography>
+            <Typography tag="p" styling="sm" color="default-500">
+              {t("success.description")}
+            </Typography>
+          </div>
+        )}
+      </div>
 
       {/* TODO: check if exist */}
       <Card>
