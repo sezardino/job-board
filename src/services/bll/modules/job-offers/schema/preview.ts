@@ -24,12 +24,8 @@ export const previewJobOfferResponseSchema = z.object({
   contract: z.array(z.nativeEnum(JobContract)),
   operating: z.array(z.nativeEnum(JobOperatingMode)),
   seniority: z.nativeEnum(Seniority),
-  salary: z
-    .object({
-      from: z.number(),
-      to: z.number(),
-    })
-    .nullable(),
+  salaryFrom: z.number().nullable(),
+  salaryTo: z.number().nullable(),
   skills: z.array(
     z.object({ name: z.string(), level: z.nativeEnum(SkillLevel) })
   ),

@@ -17,10 +17,8 @@ export type OfferCardEntity = {
     name: string;
     logo: FileEntity | null;
   };
-  salary: {
-    from: number;
-    to: number;
-  };
+  salaryFrom: number | null;
+  salaryTo: number | null;
   skills: { name: string }[];
 };
 
@@ -52,7 +50,11 @@ export const OffersList: FC<OffersListProps> = (props) => {
             name={offer.name}
             companyName={offer.company.name}
             companyLogo={offer.company.logo}
-            salary={offer.salary}
+            salary={
+              offer.salaryFrom && offer.salaryTo
+                ? { from: offer.salaryFrom, to: offer.salaryTo }
+                : null
+            }
             skills={offer.skills}
             createdAt={offer.createdAt as string}
           />

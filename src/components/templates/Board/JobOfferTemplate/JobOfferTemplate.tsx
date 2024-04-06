@@ -112,9 +112,11 @@ export const JobOfferTemplate: FC<JobOfferTemplateProps> = (props) => {
       aside={
         <Card as="section" className={styles.aside}>
           <CardHeader className={styles.header}>
-            <Typography tag="p" styling="lg" weight="bold">
-              {offer.salary?.from}-{offer.salary?.to}
-            </Typography>
+            {!!offer.salaryFrom && !!offer.salaryTo && (
+              <Typography tag="p" styling="lg" weight="bold">
+                {offer.salaryFrom}-{offer.salaryTo}
+              </Typography>
+            )}
 
             <Typography tag="p" styling="sm" weight="thin">
               {t("operating")} - <b>{translatedOperating}</b>

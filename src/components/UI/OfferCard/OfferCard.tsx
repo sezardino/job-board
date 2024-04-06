@@ -3,6 +3,7 @@ import { Badge } from "@/components/base/Badge/Badge";
 import { Icon } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
 import { FileEntity } from "@/types";
+import { Salary } from "@/types/common";
 import {
   Card,
   CardBody,
@@ -10,7 +11,6 @@ import {
   CardHeader,
   CardProps,
 } from "@nextui-org/react";
-import { Salary } from "@prisma/client";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -24,7 +24,7 @@ type Props = {
   companyLogo: FileEntity | null;
   companyName: string;
   skills: { name: string }[];
-  salary: Salary;
+  salary: Salary | null;
   linkPrefix: string;
   createdAt: string;
 };
@@ -72,9 +72,11 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
           </Typography>
 
           <div className="flex items-center gap-1">
-            <Typography tag="p" styling="xs" className="text-teal-400">
-              {salary.from} - {salary.to}
-            </Typography>
+            {salary && (
+              <Typography tag="p" styling="xs" className="text-teal-400">
+                {salary.from} - {salary.to}
+              </Typography>
+            )}
             <Badge color="primary" size="sm">
               <Typography tag="span" styling="xs">
                 {dateOfPublicationString}

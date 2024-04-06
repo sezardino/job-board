@@ -22,10 +22,8 @@ export const companyProfileResponseSchema = z.object({
         name: z.string(),
         logo: fileSchema.nullable(),
       }),
-      salary: z.object({
-        from: z.number(),
-        to: z.number(),
-      }),
+      salaryFrom: z.number().nullable(),
+      salaryTo: z.number().nullable(),
       skills: z.array(z.object({ name: z.string() })),
       createdAt: z.date().or(z.string()),
     })

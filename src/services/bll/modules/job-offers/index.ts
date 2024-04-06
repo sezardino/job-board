@@ -95,7 +95,6 @@ export class JobOffersBllModule extends AbstractBllService {
     if (search)
       where.OR = [
         ...(where.OR || []),
-        // { name: { contains: search, mode: "insensitive" } },
         {
           skills: { some: { name: { contains: search, mode: "insensitive" } } },
         },
@@ -106,7 +105,10 @@ export class JobOffersBllModule extends AbstractBllService {
     if (type) where.type = { in: type };
     if (contract) where.contract = { hasSome: contract };
     if (operating) where.operating = { hasSome: operating };
-    if (salary) where.salary = { from: salary.from, to: salary.to };
+    if (salary) {
+      where.salaryFrom = { gt: salary.from, lt: salary.to };
+      where.salaryTo = { gt: salary.from, lt: salary.to };
+    }
 
     return this.findMany({
       limit,
@@ -116,7 +118,8 @@ export class JobOffersBllModule extends AbstractBllService {
         id: true,
         name: true,
         seniority: true,
-        salary: true,
+        salaryFrom: true,
+        salaryTo: true,
         createdAt: true,
         skills: { select: { name: true } },
         company: {
@@ -151,7 +154,8 @@ export class JobOffersBllModule extends AbstractBllService {
         publishedAt: true,
         description: true,
         operating: true,
-        salary: true,
+        salaryFrom: true,
+        salaryTo: true,
         skills: true,
         status: true,
         type: true,
