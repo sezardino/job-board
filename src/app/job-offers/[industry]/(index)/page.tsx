@@ -12,20 +12,9 @@ type Props = {
 const IndustryPage = (props: Props) => {
   const { industry } = props.params;
 
-  const {
-    data: offersList,
-    isFetching: isOffersListLoading,
-    fetchNextPage,
-    hasNextPage,
-  } = useOffersListInfiniteQuery({ industry });
+  const jobOffersQuery = useOffersListInfiniteQuery({ industry });
 
-  return (
-    <JobOffersTemplate
-      offers={{ data: offersList ?? [], isLoading: isOffersListLoading }}
-      onTriggerFetchNextPage={fetchNextPage}
-      hasNextPage={hasNextPage}
-    />
-  );
+  return <JobOffersTemplate offers={jobOffersQuery} />;
 };
 
 export default IndustryPage;

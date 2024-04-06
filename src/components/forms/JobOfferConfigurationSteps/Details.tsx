@@ -13,7 +13,7 @@ import { MAX_STRING_LENGTH } from "@/const";
 import { ActiveCategoriesResponse } from "@/services/bll/modules/categories/schema";
 import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { DataProp } from "@/types";
-import { Salary } from "@prisma/client";
+import { Salary } from "@/types/common";
 import { useFormik } from "formik";
 import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";

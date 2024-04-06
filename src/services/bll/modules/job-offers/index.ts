@@ -8,6 +8,7 @@ import { JobOfferStatus, Prisma } from "@prisma/client";
 import { AbstractBllService } from "../../module.abstract";
 import {
   ChangeJobOfferStatusRequest,
+  CommonJobOffersRequest,
   CreateJobOfferRequest,
   CurrentCompanyJobOffersRequest,
   OffersListRequest,
@@ -95,7 +96,6 @@ export class JobOffersBllModule extends AbstractBllService {
     if (search)
       where.OR = [
         ...(where.OR || []),
-        // { name: { contains: search, mode: "insensitive" } },
         {
           skills: { some: { name: { contains: search, mode: "insensitive" } } },
         },
@@ -106,7 +106,10 @@ export class JobOffersBllModule extends AbstractBllService {
     if (type) where.type = { in: type };
     if (contract) where.contract = { hasSome: contract };
     if (operating) where.operating = { hasSome: operating };
-    if (salary) where.salary = { from: salary.from, to: salary.to };
+    if (salary) {
+      where.salaryFrom = { gt: salary.from, lt: salary.to };
+      where.salaryTo = { gt: salary.from, lt: salary.to };
+    }
 
     return this.findMany({
       limit,
@@ -116,7 +119,8 @@ export class JobOffersBllModule extends AbstractBllService {
         id: true,
         name: true,
         seniority: true,
-        salary: true,
+        salaryFrom: true,
+        salaryTo: true,
         createdAt: true,
         skills: { select: { name: true } },
         company: {
@@ -151,7 +155,8 @@ export class JobOffersBllModule extends AbstractBllService {
         publishedAt: true,
         description: true,
         operating: true,
-        salary: true,
+        salaryFrom: true,
+        salaryTo: true,
         skills: true,
         status: true,
         type: true,
@@ -280,6 +285,46 @@ export class JobOffersBllModule extends AbstractBllService {
     return this.prismaService.jobOffer.update({
       where: { id: offerId, companyId },
       data: { status: JobOfferStatus.INACTIVE },
+    });
+  }
+
+  async commonJobOffers(dto: CommonJobOffersRequest, offerId: string) {
+    const { page } = dto;
+
+    const example = await this.prismaService.jobOffer.findUnique({
+      where: { id: offerId },
+    });
+
+    if (!example) throw new NotFoundException("Job offer not found");
+
+    const { industryId, categoryId, skills, seniority } = example;
+
+    return this.findMany({
+      limit: 5,
+      page,
+      where: {
+        status: JobOfferStatus.ACTIVE,
+        industryId: { equals: industryId },
+        categoryId: { equals: categoryId },
+        skills: { some: { name: { in: skills.map((skill) => skill.name) } } },
+        seniority: { equals: seniority },
+      },
+      select: {
+        id: true,
+        name: true,
+        seniority: true,
+        salaryFrom: true,
+        salaryTo: true,
+        createdAt: true,
+        skills: { select: { name: true } },
+        company: {
+          select: {
+            id: true,
+            name: true,
+            logo: { select: { id: true, url: true, name: true } },
+          },
+        },
+      },
     });
   }
 }

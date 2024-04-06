@@ -128,7 +128,8 @@ export class CompaniesBllModule extends AbstractBllService {
             id: true,
             name: true,
             seniority: true,
-            salary: true,
+            salaryFrom: true,
+            salaryTo: true,
             createdAt: true,
             skills: { select: { name: true } },
             company: {

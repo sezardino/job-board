@@ -50,7 +50,8 @@ const generateMockOffer = (args: Args): Prisma.JobOfferCreateInput => {
     seniority: faker.helpers.arrayElement(seniorities),
     status: faker.helpers.arrayElement(jobOfferStatuses),
     type: faker.helpers.arrayElement(jobTypes),
-    salary: { from, to },
+    salaryFrom: from,
+    salaryTo: to,
     publishedAt: faker.date.past(),
     // deadlineAt: faker.date.future(),
   };

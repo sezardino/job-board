@@ -109,11 +109,6 @@ type Skill {
   level SkillLevel
 }
 
-type Salary {
-  from Int
-  to   Int
-}
-
 type Location {
   country  String
   city     String
@@ -207,9 +202,11 @@ model Company {
 model JobOffer {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
+  salaryFrom Int? @map("salary_from")
+  salaryTo   Int? @map("salary_to")
+
   name      String
   status    JobOfferStatus     @default(DRAFT)
-  salary    Salary?
   type      JobType
   contract  JobContract[]
   operating JobOperatingMode[]
