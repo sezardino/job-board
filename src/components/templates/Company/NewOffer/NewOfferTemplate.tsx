@@ -16,7 +16,7 @@ import {
   OfferFormSpecificationStep,
   OfferFormSpecificationStepFormValues,
 } from "@/components/forms/OfferConfigurationSteps/Specification";
-import { OfferPreview } from "@/components/modules/offer/OfferPreview";
+import { OfferPreview } from "@/components/modules/offer/OfferPreview/OfferPreview";
 import { ActiveCategoriesResponse } from "@/services/bll/modules/categories/schema";
 import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { CreateOfferResponse } from "@/services/bll/modules/offers/schema";

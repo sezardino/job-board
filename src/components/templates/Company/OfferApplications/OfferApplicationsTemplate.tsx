@@ -1,4 +1,8 @@
 import { Badge } from "@/components/base/Badge/Badge";
+import {
+  BaseBreadcrumbs,
+  BreadcrumbItem,
+} from "@/components/base/Breadcrumbs/BaseBreadcrumbs";
 import { Button } from "@/components/base/Button/Button";
 import { Grid } from "@/components/base/Grid/Grid";
 import { Icon } from "@/components/base/Icon/Icon";
@@ -9,9 +13,13 @@ import {
   ApplicationStatusForm,
   ApplicationStatusFormValues,
 } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
+import { OfferBasicData } from "@/components/modules/offer/OfferBasicData/OfferBasicData";
+import { SkillsList } from "@/components/modules/offer/SkillsList/SkillsList";
+import { CompanyPageUrls } from "@/const";
 import { ChangeApplicationStatusRequest } from "@/services/bll/modules/application/schema";
 import { OfferApplicationsResponse } from "@/services/bll/modules/application/schema/list";
 import { OfferApplicationsStatisticsResponse } from "@/services/bll/modules/application/schema/offer-statistics";
+import { OfferBasicDataResponse } from "@/services/bll/modules/offers/schema";
 import { ActionProp, QueryProps } from "@/types";
 import {
   Accordion,
@@ -23,7 +31,7 @@ import {
 import { ApplicationStatus } from "@prisma/client";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import styles from "./OfferApplicationsTemplate.module.scss";
 
@@ -34,6 +42,9 @@ export type OfferApplicationsTemplateProps = {
   changeApplicationStatus: ActionProp<
     ChangeApplicationStatusRequest & { applicationId: string }
   >;
+  basicData: QueryProps<OfferBasicDataResponse>;
+  companyName: string;
+  offerId: string;
   [ApplicationStatus.NEW]: QueryProps<OfferApplicationsResponse>;
   [ApplicationStatus.PRE_SCREENING]: QueryProps<OfferApplicationsResponse>;
   [ApplicationStatus.SCREENING]: QueryProps<OfferApplicationsResponse>;
@@ -56,11 +67,14 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
     statistics,
     onStatusChange,
     onSearchChange,
+    basicData,
     changeApplicationStatus,
+    companyName,
+    offerId,
     ...applications
   } = props;
   const t = useTranslations("page.company.offer-applications");
-  const entityT = useTranslations("entity");
+  const entityT = useTranslations("entity.applications");
 
   const [applicationToEditStatus, setApplicationToEditStatus] = useState<
     string | null
@@ -82,14 +96,54 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
     [applicationToEditStatus, changeApplicationStatus]
   );
 
+  const breadcrumbs = useMemo<BreadcrumbItem[]>(
+    () => [
+      { label: companyName, href: CompanyPageUrls.home },
+      { label: t("offers"), href: CompanyPageUrls.offers },
+      {
+        label: basicData.data?.name || "",
+        href: CompanyPageUrls.offer(offerId),
+      },
+      { label: t("applications") },
+    ],
+    [basicData.data?.name, companyName, offerId, t]
+  );
+
   return (
     <>
       <Grid gap={4} className={twMerge(styles.element)}>
+        <BaseBreadcrumbs items={breadcrumbs} />
         <header>
           <Typography tag="h1" styling="xl">
-            {t("title", { value: "add basic information" })}
+            {t("title", { value: basicData.data?.name })}
           </Typography>
           <Typography tag="p">{t("description")}</Typography>
+
+          <Accordion variant="bordered">
+            <AccordionItem
+              textValue="Basic"
+              isDisabled={basicData.isFetching}
+              title="Basic information"
+            >
+              {!!basicData.data && (
+                <>
+                  <OfferBasicData
+                    operating={basicData.data?.operating}
+                    contract={basicData.data?.contract}
+                    seniority={basicData.data?.seniority}
+                    type={basicData.data?.type}
+                  />
+                  <SkillsList
+                    title={t("skills.title")}
+                    description={t("skills.description")}
+                    noData={t("skills.no-data")}
+                    isLoading={basicData.isFetching}
+                    skills={basicData.data?.skills}
+                  />
+                </>
+              )}
+            </AccordionItem>
+          </Accordion>
         </header>
 
         <SearchForm
@@ -111,10 +165,11 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
             <AccordionItem
               as="li"
               key={status}
+              textValue={entityT(`status.${status}`)}
               title={
                 <div className="flex ga-1 items-center justify-between">
                   <Typography tag="h2" weight="bold">
-                    {entityT(`job-application.status.${status}`)}
+                    {entityT(`status.${status}`)}
                   </Typography>
                   <Badge color="warning" variant="shadow" size="sm">
                     <Typography tag="span" styling="xs">

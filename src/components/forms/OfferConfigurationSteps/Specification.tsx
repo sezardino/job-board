@@ -37,7 +37,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
   const { initialValues, onFormSubmit, onBackClick, className, ...rest } =
     props;
   const t = useTranslations("forms.offer");
-  const entityT = useTranslations("entity");
+  const entityT = useTranslations("entity.offers");
 
   const validationSchema = useMemo(
     () =>
@@ -75,7 +75,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
   const jobTypeOptions = useMemo(
     () =>
       Object.values(JobType).map((value) => ({
-        label: entityT(`job-offer.type.${value}`),
+        label: entityT(`type.${value}`),
         id: value,
       })),
     [entityT]
@@ -84,7 +84,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
   const contractOptions = useMemo(
     () =>
       Object.values(JobContract).map((value) => ({
-        label: entityT(`job-offer.contract.${value}`),
+        label: entityT(`contract.${value}`),
         id: value,
       })),
     [entityT]
@@ -93,7 +93,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
   const operatingOptions = useMemo(
     () =>
       Object.values(JobOperatingMode).map((value) => ({
-        label: entityT(`job-offer.operating.${value}`),
+        label: entityT(`operating.${value}`),
         id: value,
       })),
     [entityT]

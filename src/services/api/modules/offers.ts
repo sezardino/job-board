@@ -9,6 +9,7 @@ import {
   commonOffersResponseSchema,
   createOfferResponseSchema,
   currentCompanyOffersResponseSchema,
+  offerBasicDataResponseSchema,
   offerEditionDataResponseSchema,
   offersListResponseSchema,
   previewOfferResponseSchema,
@@ -42,6 +43,13 @@ export class OffersApiModule extends AbstractApiModule {
       endpoint: `offers/${id}`,
       schema: previewOfferResponseSchema,
       config: { params },
+    });
+  }
+
+  basicData(id: string) {
+    return this.fetch({
+      endpoint: `offers/${id}/basic`,
+      schema: offerBasicDataResponseSchema,
     });
   }
 

@@ -7,13 +7,20 @@ import {
 import { HTMLWrapper } from "@/components/base/HTMLWrapper/HTMLWrapper";
 import { PublicPageUrls } from "@/const";
 import { Card, CardBody, CardHeader, Link } from "@nextui-org/react";
-import { JobContract, JobType, Seniority, Skill } from "@prisma/client";
-import { ComponentPropsWithoutRef, FC, useMemo } from "react";
+import {
+  JobContract,
+  JobOperatingMode,
+  JobType,
+  Seniority,
+  Skill,
+} from "@prisma/client";
+import { ComponentPropsWithoutRef, FC } from "react";
 
 import { Icon } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
 import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";
+import { OfferBasicData } from "../OfferBasicData/OfferBasicData";
 import styles from "./OfferDetails.module.scss";
 
 export type JovOfferDetailsInfoItem = { label: string; value: string };
@@ -26,6 +33,7 @@ type Props = {
     name: string;
     description: string;
     contract: JobContract[];
+    operating: JobOperatingMode[];
     seniority: Seniority;
     type: JobType;
   };
@@ -37,29 +45,7 @@ export const OfferDetails: FC<OfferDetailsProps> = (props) => {
   const { offer, company, skills, breadcrumbs, className, ...rest } = props;
 
   const t = useTranslations("components.job-offer-details");
-  const entityT = useTranslations("entity");
-
-  const info = useMemo(
-    () => [
-      {
-        label: t("contract"),
-        value: offer.contract
-          .map((c) => entityT(`job-offer.contract.${c}`))
-          .join(", "),
-      },
-
-      {
-        label: t("seniority"),
-        value: entityT(`job-offer.seniority.${offer.seniority}`),
-      },
-      { label: t("type"), value: entityT(`job-offer.type.${offer.type}`) },
-      // {
-      //   label: t("deadline"),
-      //   value: dayjs(offer.deadlineAt).format(DEFAULT_DATE_FORMAT),
-      // },
-    ],
-    [offer, entityT, t]
-  );
+  const entityT = useTranslations("entity.offers");
 
   return (
     <div {...rest} className={twMerge(styles.element, className)}>
@@ -89,16 +75,13 @@ export const OfferDetails: FC<OfferDetailsProps> = (props) => {
           </div>
         </CardHeader>
 
-        <CardBody>
-          <ul className={styles.infoList}>
-            {info.map((item) => (
-              <li key={item.label}>
-                <Typography tag="p" styling="sm">
-                  {item.label} - <b>{item.value}</b>
-                </Typography>
-              </li>
-            ))}
-          </ul>
+        <CardBody className={styles.basic}>
+          <OfferBasicData
+            contract={offer.contract}
+            operating={offer.operating}
+            seniority={offer.seniority}
+            type={offer.type}
+          />
         </CardBody>
       </Card>
 

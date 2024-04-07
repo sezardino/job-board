@@ -10,6 +10,10 @@
   @apply flex items-start gap-2;
 }
 
+.basic {
+  @apply border-t py-4;
+}
+
 .wrapper {
   @apply grid grid-cols-1 gap-1;
 }

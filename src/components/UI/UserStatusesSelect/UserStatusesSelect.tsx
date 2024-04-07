@@ -24,7 +24,7 @@ export type UserStatusesSelectProps = OmittedSelectProps & Props;
 
 export const UserStatusesSelect: FC<UserStatusesSelectProps> = (props) => {
   const { withAll = false, disabledBlocked = false, ...rest } = props;
-  const statusT = useTranslations("entity.user.status");
+  const statusT = useTranslations("entity.users.status");
 
   const options = useMemo<SelectOption<UserStatusesSelectOptions>[]>(() => {
     const options: SelectOption<UserStatusesSelectOptions>[] = [

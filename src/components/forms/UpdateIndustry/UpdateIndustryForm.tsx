@@ -25,7 +25,7 @@ export const UpdateIndustryForm: FC<UpdateIndustryFormProps> = (props) => {
   const { initialStatus, onFormSubmit, onCancelClick, className, ...rest } =
     props;
   const t = useTranslations("forms.update-industry");
-  const statusT = useTranslations("entity.status");
+  const statusT = useTranslations("entity.common.status");
 
   const formik = useFormik<UpdateIndustryFormValues>({
     initialValues: {
@@ -35,7 +35,7 @@ export const UpdateIndustryForm: FC<UpdateIndustryFormProps> = (props) => {
     validationSchema: toFormikValidationSchema(
       z.object({
         status: z.nativeEnum(EntityStatus, {
-          required_error: t("status.required"),
+          required_error: t("common.status.required"),
         }),
       })
     ),

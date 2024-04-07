@@ -390,12 +390,14 @@
     }
   },
   "entity": {
-    "status": {
-      "ACTIVE": "Active",
-      "INACTIVE": "Inactive",
-      "CREATED": "Created"
+    "common": {
+      "status": {
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive",
+        "CREATED": "Created"
+      }
     },
-    "job-offer": {
+    "offers": {
       "status": {
         "ARCHIVED": "Archived",
         "FINISHED": "Finished",
@@ -437,7 +439,7 @@
         "INTERNSHIP": "Internship"
       }
     },
-    "job-application": {
+    "applications": {
       "status": {
         "NEW": "New",
         "PRE_SCREENING": "Pre screening",
@@ -449,7 +451,7 @@
         "CANCELED": "Canceled"
       }
     },
-    "user": {
+    "users": {
       "role": {
         "ADMIN": "Admin",
         "SUB_ADMIN": "Sub Admin",
@@ -691,10 +693,11 @@
           "confirm": "Create"
         }
       },
-      "manage-job-offer": {
+      "manage-offer": {
         "manage": "Manage job offer",
         "edit": "Edit",
-        "applications": "See applications"
+        "applications": "See applications",
+        "offers": "Offers"
       },
       "offer-applications": {
         "title": "Applications for offer: \"{value}\"",
@@ -702,6 +705,13 @@
         "search": "Search",
         "applied-at": "Applied at: {value}",
         "notes-count": "Notes: {value}",
+        "offers": "Offers",
+        "applications": "Applications",
+        "skills": {
+          "title": "Skills",
+          "description": "Skills required for this job offer",
+          "no-data": "No skills was provided"
+        },
         "modals": {
           "change-status": {
             "title": "Change application status",
@@ -1012,16 +1022,18 @@
       }
     },
     "job-offer-details": {
-      "contract": "Job Contract",
-      "seniority": "Seniority",
-      "type": "Job Type",
-      "operating": "Operating",
       "deadline": "Deadline",
       "skills": { "title": "Skills", "no-data": "No skills was provided" },
       "description": {
         "title": "Job offer description",
         "description": "Description of the job offer"
       }
+    },
+    "offer-basic-data": {
+      "type": "Job Type",
+      "contract": "Job Contract",
+      "operating": "Operating",
+      "seniority": "Seniority"
     }
   },
   "messages": {

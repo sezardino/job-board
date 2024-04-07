@@ -11,10 +11,10 @@ import {
   CommonOffersRequest,
   CreateOfferRequest,
   CurrentCompanyOffersRequest,
+  EditOfferRequest,
   OffersListRequest,
   PreviewOfferRequest,
 } from "./schema";
-import { EditOfferRequest } from "./schema/edit";
 
 export class OffersBllModule extends AbstractBllService {
   private async findMany(
@@ -37,6 +37,17 @@ export class OffersBllModule extends AbstractBllService {
     });
 
     return { data, meta };
+  }
+
+  async validateExist(offerId: string, companyId: string) {
+    const offer = await this.prismaService.offer.findUnique({
+      where: { id: offerId, companyId },
+      select: { id: true, status: true },
+    });
+
+    if (!offer) throw new NotFoundException("Offer not found");
+
+    return offer;
   }
 
   async companyOffers(data: CurrentCompanyOffersRequest, companyId: string) {
@@ -178,6 +189,31 @@ export class OffersBllModule extends AbstractBllService {
     return offer;
   }
 
+  async basicData(offerId: string, companyId: string) {
+    const neededOffer = await this.prismaService.offer.findUnique({
+      where: { id: offerId, companyId },
+      select: {
+        id: true,
+        name: true,
+        seniority: true,
+        salaryFrom: true,
+        salaryTo: true,
+        contract: true,
+        operating: true,
+        skills: true,
+        status: true,
+        type: true,
+        category: { select: { name: true, id: true } },
+        industry: { select: { name: true, id: true } },
+        _count: { select: { applications: true } },
+      },
+    });
+
+    if (!neededOffer) throw new NotFoundException("Offer not found");
+
+    return neededOffer;
+  }
+
   async create(dto: CreateOfferRequest, companyId: string) {
     const { category, industry, ...rest } = dto;
 
@@ -212,12 +248,8 @@ export class OffersBllModule extends AbstractBllService {
   async edit(dto: EditOfferRequest, offerId: string, companyId: string) {
     const { description, skills } = dto;
 
-    const offer = await this.prismaService.offer.findUnique({
-      where: { id: offerId, companyId },
-      select: { id: true, status: true },
-    });
+    const offer = await this.validateExist(offerId, companyId);
 
-    if (!offer) throw new NotFoundException("Offer not found");
     if (
       offer.status === OfferStatus.FINISHED ||
       offer.status === OfferStatus.ARCHIVED ||
@@ -233,17 +265,10 @@ export class OffersBllModule extends AbstractBllService {
   }
 
   async changeStatus(
-    dto: ChangeOfferStatusRequest,
-    offerId: string,
-    companyId: string
+    dto: ChangeOfferStatusRequest & { offerId: string; companyId: string }
   ) {
-    const { status } = dto;
-    const neededOffer = await this.prismaService.offer.findUnique({
-      where: { id: offerId, companyId },
-      select: { id: true, status: true },
-    });
-
-    if (!neededOffer) throw new NotFoundException("Offer not found");
+    const { offerId, companyId, status } = dto;
+    const neededOffer = await this.validateExist(offerId, companyId);
 
     switch (status) {
       case OfferStatus.ACTIVE:
@@ -269,12 +294,7 @@ export class OffersBllModule extends AbstractBllService {
   }
 
   async delete(offerId: string, companyId: string) {
-    const neededOffer = await this.prismaService.offer.findUnique({
-      where: { id: offerId, companyId },
-      select: { id: true, status: true },
-    });
-
-    if (!neededOffer) throw new NotFoundException("Offer not found");
+    const neededOffer = await this.validateExist(offerId, companyId);
 
     if (neededOffer.status === OfferStatus.DRAFT) {
       return this.prismaService.offer.delete({
@@ -293,6 +313,12 @@ export class OffersBllModule extends AbstractBllService {
 
     const example = await this.prismaService.offer.findUnique({
       where: { id: offerId },
+      select: {
+        industryId: true,
+        categoryId: true,
+        skills: true,
+        seniority: true,
+      },
     });
 
     if (!example) throw new NotFoundException("Offer not found");

@@ -3,9 +3,11 @@
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ApplicationStatusFormValues } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
 import { OfferApplicationsTemplate } from "@/components/templates/Company/OfferApplications/OfferApplicationsTemplate";
+import { useMyCompanyContext } from "@/context";
 import { useOfferApplicationsQuery } from "@/hooks";
 import { useChangeApplicationStatusMutation } from "@/hooks/react-query/mutation/applications/change-status";
 import { useOfferApplicationsStatisticsQuery } from "@/hooks/react-query/query/applications/statistics";
+import { useOfferBasicDataQuery } from "@/hooks/react-query/query/offers/basic-data";
 import { ApplicationStatus } from "@prisma/client";
 import { useCallback, useState } from "react";
 
@@ -26,10 +28,14 @@ export type OfferApplicationsTypes =
 
 const OfferApplications = (props: Props) => {
   const { id } = props.params;
+  const { name } = useMyCompanyContext();
+
   const [search, setSearch] = useState("");
   const [activeStatus, setActiveStatus] = useState<ApplicationStatus | null>(
     null
   );
+
+  const offerBasicDataQuery = useOfferBasicDataQuery(id);
 
   const newApplicationsQuery = useOfferApplicationsQuery(
     {
@@ -119,6 +125,9 @@ const OfferApplications = (props: Props) => {
       {isLoading && <LoadingOverlay />}
 
       <OfferApplicationsTemplate
+        companyName={name}
+        offerId={id}
+        basicData={offerBasicDataQuery}
         onSearchChange={setSearch}
         activeStatus={activeStatus}
         onStatusChange={setActiveStatus}

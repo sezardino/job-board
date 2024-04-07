@@ -27,7 +27,7 @@ export const useCompanyUsersTable = (props: Props) => {
   } = props;
 
   const t = useTranslations("page.company.users");
-  const userT = useTranslations("entity.user");
+  const userT = useTranslations("entity.users");
 
   const columns = useMemo(
     () => [

@@ -60,12 +60,12 @@ export const useCompanyOffersTable = (props: Props) => {
       columnHelper.accessor("status", {
         enableSorting: false,
         header: t("table.status"),
-        cell: (row) => entityT(`job-offer.status.${row.getValue()}`),
+        cell: (row) => entityT(`offers.status.${row.getValue()}`),
       }),
       columnHelper.accessor("seniority", {
         enableSorting: false,
         header: t("table.seniority"),
-        cell: (row) => entityT(`seniority.${row.getValue()}`),
+        cell: (row) => entityT(`offers.seniority.${row.getValue()}`),
       }),
       // columnHelper.accessor("deadlineAt", {
       //   enableSorting: false,
@@ -179,20 +179,20 @@ export const useCompanyOffersTable = (props: Props) => {
     return [
       {
         id: OfferStatus.ACTIVE,
-        label: entityT(`job-offer.status.${OfferStatus.ACTIVE}`),
+        label: entityT(`offers.status.${OfferStatus.ACTIVE}`),
       },
       {
         id: OfferStatus.DRAFT,
-        label: entityT(`job-offer.status.${OfferStatus.DRAFT}`),
+        label: entityT(`offers.status.${OfferStatus.DRAFT}`),
       },
 
       {
         id: OfferStatus.FINISHED,
-        label: entityT(`job-offer.status.${OfferStatus.FINISHED}`),
+        label: entityT(`offers.status.${OfferStatus.FINISHED}`),
       },
       {
         id: OfferStatus.ARCHIVED,
-        label: entityT(`job-offer.status.${OfferStatus.ARCHIVED}`),
+        label: entityT(`offers.status.${OfferStatus.ARCHIVED}`),
       },
     ];
   }, [entityT]);

@@ -1,6 +1,5 @@
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
-import { SkillCard } from "@/components/UI/SkillCard/SkillCard";
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { Grid } from "@/components/base/Grid/Grid";
 import { HTMLWrapper } from "@/components/base/HTMLWrapper/HTMLWrapper";
@@ -14,6 +13,8 @@ import {
 } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import { twMerge } from "tailwind-merge";
+
+import { SkillsList } from "../SkillsList/SkillsList";
 
 export interface OfferPreviewProps extends ComponentPropsWithoutRef<"div"> {
   industry: string;
@@ -58,9 +59,7 @@ export const OfferPreview: FC<OfferPreviewProps> = (props) => {
       },
       {
         label: t("details.contract"),
-        value: contract
-          .map((c) => entityT(`job-offer.contract.${c}`))
-          .join(", "),
+        value: contract.map((c) => entityT(`offers.contract.${c}`)).join(", "),
       },
       {
         label: t("details.salary.label"),
@@ -72,11 +71,11 @@ export const OfferPreview: FC<OfferPreviewProps> = (props) => {
         label: t("details.seniority"),
         value: entityT(`seniority.${seniority}`),
       },
-      { label: t("details.type"), value: entityT(`job-offer.type.${type}`) },
+      { label: t("details.type"), value: entityT(`offers.type.${type}`) },
       {
         label: t("details.operating"),
         value: operating
-          .map((o) => entityT(`job-offer.operating.${o}`))
+          .map((o) => entityT(`offers.operating.${o}`))
           .join(", "),
       },
     ],
@@ -116,30 +115,12 @@ export const OfferPreview: FC<OfferPreviewProps> = (props) => {
         </ul>
       </Grid>
 
-      <Grid gap={5}>
-        <TitleDescription
-          titleLevel="h3"
-          title={t("skills.title")}
-          description={t("skills.description")}
-        />
-
-        {!skills.length && (
-          <Typography tag="p">{t("skills.no-data")}</Typography>
-        )}
-
-        {!!skills.length && (
-          <ul className="grid gap-1 grid-cols-[repeat(auto-fill,minmax(200px,1fr))]">
-            {skills.map((skill, index) => (
-              <SkillCard
-                as="li"
-                key={`${skill.name}-${skill.level}-${index}`}
-                name={skill.name}
-                level={skill.level}
-              />
-            ))}
-          </ul>
-        )}
-      </Grid>
+      <SkillsList
+        title={t("skills.title")}
+        description={t("skills.description")}
+        noData={t("skills.no-data")}
+        skills={skills}
+      />
 
       <Grid gap={5}>
         <TitleDescription

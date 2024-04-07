@@ -112,6 +112,7 @@ export const OfferTemplate: FC<OfferTemplateProps> = (props) => {
         contract: offer.contract,
         seniority: offer.seniority,
         type: offer.type,
+        operating: offer.operating,
       }}
       skills={offer.skills}
       aside={

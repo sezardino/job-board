@@ -20,7 +20,7 @@ const LevelIndex: Record<SkillLevel, number> = {
 
 export const SkillCard: FC<SkillCardProps> = (props) => {
   const { name, level, className, ...rest } = props;
-  const levelT = useTranslations("entity.skill-level");
+  const levelT = useTranslations("entity.offers.skill-level");
 
   return (
     <Card
@@ -28,7 +28,7 @@ export const SkillCard: FC<SkillCardProps> = (props) => {
       className={twMerge("shadow-none grid grid-cols-1 gap-1", className)}
     >
       <CardHeader className="pb-0">
-        <Typography tag="h4" styling="md">
+        <Typography tag="h4" styling="sm">
           {name}
         </Typography>
       </CardHeader>

@@ -1,6 +1,5 @@
 import { IndustryCard } from "@/components/UI/IndustriyCard/IndustryCard";
 import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";
-import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
@@ -12,7 +11,6 @@ export type HomeTemplateProps = ComponentPropsWithoutRef<"div"> & Props;
 
 export const HomeTemplate: FC<HomeTemplateProps> = (props) => {
   const { industries, className, ...rest } = props;
-  const industriesT = useTranslations("entity.industries");
 
   return (
     <section {...rest} className={twMerge(className)}>
