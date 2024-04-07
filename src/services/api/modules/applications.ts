@@ -22,7 +22,7 @@ export class ApplicationsApiModule extends AbstractApiModule {
     }
 
     return this.fetch({
-      endpoint: "job-applications",
+      endpoint: "applications",
       config: { method: "POST", data: formData },
       schema: applyForOfferResponseSchema,
     });
@@ -30,7 +30,7 @@ export class ApplicationsApiModule extends AbstractApiModule {
 
   list(params: OfferApplicationsRequest) {
     return this.fetch({
-      endpoint: `job-applications`,
+      endpoint: `applications`,
       config: { method: "GET", params },
       schema: offerApplicationsResponseSchema,
     });
@@ -38,7 +38,7 @@ export class ApplicationsApiModule extends AbstractApiModule {
 
   offerStatistics(params: OfferApplicationsStatisticsRequest) {
     return this.fetch({
-      endpoint: `job-applications/statistics`,
+      endpoint: `applications/statistics`,
       config: { method: "GET", params },
       schema: offerApplicationsStatisticsResponseSchema,
     });

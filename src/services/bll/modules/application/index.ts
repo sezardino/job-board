@@ -57,12 +57,12 @@ export class ApplicationsBllModule extends AbstractBllService {
       futureRecruitment,
     } = dto;
 
-    const jobOffer = await this.prismaService.offer.findUnique({
+    const offer = await this.prismaService.offer.findUnique({
       where: { id: offerId },
       select: { id: true, companyId: true },
     });
 
-    if (!jobOffer) throw new NotFoundException("Offer not found");
+    if (!offer) throw new NotFoundException("Offer not found");
 
     let curriculumVitaeId =
       typeof curriculumVitae === "string" ? curriculumVitae : null;
@@ -71,7 +71,7 @@ export class ApplicationsBllModule extends AbstractBllService {
       try {
         const file = await this.filesService.uploadCV(
           curriculumVitae,
-          jobOffer.companyId
+          offer.companyId
         );
 
         curriculumVitaeId = file.id;
@@ -83,7 +83,7 @@ export class ApplicationsBllModule extends AbstractBllService {
       }
     }
 
-    const jobApplication = await this.prismaService.application.create({
+    const application = await this.prismaService.application.create({
       data: {
         dataProcessing,
         email,
@@ -97,7 +97,7 @@ export class ApplicationsBllModule extends AbstractBllService {
       select: { id: true },
     });
 
-    return !!jobApplication;
+    return !!application;
   }
 
   async list(dto: OfferApplicationsRequest & { companyId: string }) {

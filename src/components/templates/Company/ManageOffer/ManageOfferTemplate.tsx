@@ -68,7 +68,7 @@ export const ManageOfferTemplate: FC<ManageOfferTemplateProps> = (props) => {
       />
 
       <EditOfferWrapper
-        jobOfferId={isEditModalOpen ? offer.id : undefined}
+        offerId={isEditModalOpen ? offer.id : undefined}
         onClose={() => setIsEditModalOpen(false)}
       />
     </>

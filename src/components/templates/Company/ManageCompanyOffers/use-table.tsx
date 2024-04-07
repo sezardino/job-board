@@ -1,7 +1,7 @@
 import {
   OfferSeniorityFilters,
   OfferStatusFilters,
-} from "@/app/(panels)/company/job-offers/page";
+} from "@/app/(panels)/company/offers/page";
 import { SelectOption } from "@/components/base/Select/Select";
 import { CurrentCompanyOffersResponse } from "@/services/bll/modules/offers/schema";
 

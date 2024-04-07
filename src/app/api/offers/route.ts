@@ -8,7 +8,7 @@ import { getOffersList } from "./get";
 import { postCreateOffer } from "./post";
 
 export const GET = withValidation({
-  handler: withApiRouteHandler(getOffersList, "Cant get job offers"),
+  handler: withApiRouteHandler(getOffersList, "Cant get offers"),
   schema: offersListRequestSchema,
   input: "search",
 });

@@ -38,7 +38,7 @@ type SaveStepData =
   | { step: "description"; data: OfferFormDescriptionStepFormValues };
 
 type Props = {
-  jobOfferId?: string;
+  offerId?: string;
   onClose: () => void;
 };
 
@@ -47,11 +47,11 @@ type WrapperModals = "confirm" | "cancel" | "back" | "no-changes";
 export type EditOfferWrapperProps = Props;
 
 export const EditOfferWrapper: FC<EditOfferWrapperProps> = (props) => {
-  const { jobOfferId, onClose } = props;
+  const { offerId, onClose } = props;
   const t = useTranslations("components.edit-job-offer-wrapper");
 
   const { data: editionData, isFetching: isEditionDataLoading } =
-    useOfferEditionDataQuery(jobOfferId);
+    useOfferEditionDataQuery(offerId);
   const { mutateAsync: editOffer, isPending: isEditOfferLoading } =
     useEditOfferMutation();
 
@@ -166,26 +166,26 @@ export const EditOfferWrapper: FC<EditOfferWrapperProps> = (props) => {
   };
 
   const editOfferHandler = useCallback(async () => {
-    if (!jobOfferId) return;
+    if (!offerId) return;
     if (!values.skills && !values.description) return;
 
     try {
       await editOffer({
-        id: jobOfferId,
+        id: offerId,
         description: values.description?.description,
         skills: values.skills?.skills,
       });
 
       closeHandler();
     } catch (error) {}
-  }, [closeHandler, editOffer, jobOfferId, values.description, values.skills]);
+  }, [closeHandler, editOffer, offerId, values.description, values.skills]);
 
   return (
     <>
       {isEditionDataLoading && <LoadingOverlay />}
 
       <Modal
-        isOpen={!!jobOfferId}
+        isOpen={!!offerId}
         size="5xl"
         placement="top"
         onClose={closeHandler}

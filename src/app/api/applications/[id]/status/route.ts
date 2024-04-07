@@ -6,7 +6,7 @@ import { patchEditApplicationStatus } from "./patch";
 export const PATCH = withValidation({
   handler: withApiRouteHandler(
     patchEditApplicationStatus,
-    "Cant edit job application status"
+    "Cant edit application status"
   ),
   schema: changeApplicationStatusRequestSchema,
   role: [

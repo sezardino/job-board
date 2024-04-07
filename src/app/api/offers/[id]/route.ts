@@ -7,18 +7,18 @@ import { getOffer } from "./get";
 import { patchEditOffer } from "./patch";
 
 export const GET = withValidation({
-  handler: withApiRouteHandler(getOffer, "Cant get job offer"),
+  handler: withApiRouteHandler(getOffer, "Cant get offer"),
   schema: previewOfferRequestSchema,
   input: "search",
 });
 
 export const PATCH = withValidation({
-  handler: withApiRouteHandler(patchEditOffer, "Cant edit job offer"),
+  handler: withApiRouteHandler(patchEditOffer, "Cant edit offer"),
   role: [UserRoles.OWNER, UserRoles.MODERATOR],
   schema: editOfferRequestSchema,
 });
 
 export const DELETE = withValidation({
-  handler: withApiRouteHandler(deleteOffer, "Cant delete job offer"),
+  handler: withApiRouteHandler(deleteOffer, "Cant delete offer"),
   role: [UserRoles.OWNER, UserRoles.MODERATOR],
 });

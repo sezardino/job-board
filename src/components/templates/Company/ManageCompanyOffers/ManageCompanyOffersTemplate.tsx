@@ -1,7 +1,7 @@
 import {
   OfferSeniorityFilters,
   OfferStatusFilters,
-} from "@/app/(panels)/company/job-offers/page";
+} from "@/app/(panels)/company/offers/page";
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import { Select } from "@/components/base/Select/Select";
@@ -257,7 +257,7 @@ export const ManageCompanyOffersTemplate: FC<
       </Grid>
 
       <EditOfferWrapper
-        jobOfferId={
+        offerId={
           selectedTableAction?.type === "edit"
             ? selectedTableAction.id
             : undefined

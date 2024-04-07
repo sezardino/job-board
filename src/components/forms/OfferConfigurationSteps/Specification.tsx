@@ -116,7 +116,6 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
       cancel={{ label: t("back"), onClick: () => onBackClick(formik.dirty) }}
       className={twMerge("", className)}
     >
-      {JSON.stringify(formik.values)}
       <TitleDescription
         titleLevel="h2"
         title={t("specification.title")}

@@ -12,9 +12,9 @@ type Props = {
 const IndustryPage = (props: Props) => {
   const { industry } = props.params;
 
-  const jobOffersQuery = useOffersListInfiniteQuery({ industry });
+  const offersQuery = useOffersListInfiniteQuery({ industry });
 
-  return <OffersTemplate offers={jobOffersQuery} />;
+  return <OffersTemplate offers={offersQuery} />;
 };
 
 export default IndustryPage;

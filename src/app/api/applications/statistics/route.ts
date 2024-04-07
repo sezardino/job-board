@@ -6,7 +6,7 @@ import { getOfferApplicationsStatistics } from "./get";
 export const GET = withValidation({
   handler: withApiRouteHandler(
     getOfferApplicationsStatistics,
-    "cant get job offer applications statistics"
+    "cant get offer applications statistics"
   ),
   schema: offerApplicationsStatisticsRequestSchema,
   input: "search",
