@@ -36,6 +36,6 @@ export const PublicPageUrls = {
   offersByIndustry: (industry: string) => `/offers/${industry}`,
   offersByCategory: (industry: string, category: string) =>
     `/offers/${industry}/${category}`,
-  offer: (id: string) => `/offers/${id}`,
+  offer: (id: string) => `/offer/${id}`,
   company: (id: string) => `/companies/${id}`,
 } as const;
