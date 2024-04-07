@@ -3,23 +3,23 @@ import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescript
 import {
   OfferFormDescriptionStep,
   OfferFormDescriptionStepFormValues,
-} from "@/components/forms/JobOfferConfigurationSteps/Description";
+} from "@/components/forms/OfferConfigurationSteps/Description";
 import {
   OfferFormDetailsStep,
   OfferFormDetailsStepFormValues,
-} from "@/components/forms/JobOfferConfigurationSteps/Details";
+} from "@/components/forms/OfferConfigurationSteps/Details";
 import {
   OfferFormSkillsStep,
   OfferFormSkillsStepFormValues,
-} from "@/components/forms/JobOfferConfigurationSteps/Skills";
+} from "@/components/forms/OfferConfigurationSteps/Skills";
 import {
   OfferFormSpecificationStep,
   OfferFormSpecificationStepFormValues,
-} from "@/components/forms/JobOfferConfigurationSteps/Specification";
-import { JobOfferPreview } from "@/components/modules/job-offer/JobOfferPreview";
+} from "@/components/forms/OfferConfigurationSteps/Specification";
+import { OfferPreview } from "@/components/modules/offer/OfferPreview";
 import { ActiveCategoriesResponse } from "@/services/bll/modules/categories/schema";
 import { ActiveIndustriesResponse } from "@/services/bll/modules/industries/schema";
-import { CreateJobOfferResponse } from "@/services/bll/modules/job-offers/schema";
+import { CreateOfferResponse } from "@/services/bll/modules/offers/schema";
 import { ActionProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
 import { ComponentPropsWithoutRef, FC, useState } from "react";
@@ -33,10 +33,7 @@ type Props = {
   industries: DataProp<ActiveIndustriesResponse>;
   categories: DataProp<ActiveCategoriesResponse>;
   onSelectIndustry: (value: string) => void;
-  onCreateOfferRequest: ActionProp<
-    Required<NewOfferData>,
-    CreateJobOfferResponse
-  >;
+  onCreateOfferRequest: ActionProp<Required<NewOfferData>, CreateOfferResponse>;
 };
 
 const offerFormSteps = {
@@ -116,7 +113,7 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
     }
   };
 
-  const confirmJobOfferCreation = async () => {
+  const confirmOfferCreation = async () => {
     if (
       !values.details &&
       !values.specification &&
@@ -207,7 +204,7 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
                 values.skills &&
                 values.description && (
                   <>
-                    <JobOfferPreview
+                    <OfferPreview
                       industry={values.details.industry}
                       category={values.details.category}
                       contract={values.specification.contract}
@@ -287,7 +284,7 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
           {
             text: t("confirm-modal.confirm"),
             color: "primary",
-            onClick: confirmJobOfferCreation,
+            onClick: confirmOfferCreation,
           },
         ]}
         isOpen={isConfirmModalOpen}

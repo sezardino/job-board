@@ -19,7 +19,7 @@ const CompanyProfilePage = () => {
     <>
       {isLoading && <LoadingOverlay />}
       <CompanyProfileTemplate
-        offerLinkPrefix={CompanyPageUrls.jobOffers}
+        offerLinkPrefix={CompanyPageUrls.offers}
         isLoading={isMyCompanyLoading}
         withManage
         company={myCompany}

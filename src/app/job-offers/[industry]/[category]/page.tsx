@@ -1,7 +1,7 @@
 "use client";
 
-import { JobOffersTemplate } from "@/components/templates/Board/JobOffers/JobOffersTemplate";
-import { useOffersListInfiniteQuery } from "@/hooks/react-query/query/job-offers/list";
+import { OffersTemplate } from "@/components/templates/Board/Offers/OffersTemplate";
+import { useOffersListInfiniteQuery } from "@/hooks/react-query/query/offers/list";
 
 type Props = {
   params: {
@@ -13,9 +13,9 @@ type Props = {
 const IndustryPage = (props: Props) => {
   const { industry, category } = props.params;
 
-  const jobOffersQuery = useOffersListInfiniteQuery({ industry, category });
+  const offersQuery = useOffersListInfiniteQuery({ industry, category });
 
-  return <JobOffersTemplate offers={jobOffersQuery} />;
+  return <OffersTemplate offers={offersQuery} />;
 };
 
 export default IndustryPage;

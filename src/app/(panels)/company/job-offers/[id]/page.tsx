@@ -1,7 +1,7 @@
 "use client";
 
-import { ManageJobOfferTemplate } from "@/components/templates/Company/ManageJobOffer/ManageJobOfferTemplate";
-import { usePreviewJobOfferQuery } from "@/hooks/react-query/query/job-offers";
+import { ManageOfferTemplate } from "@/components/templates/Company/ManageOffer/ManageOfferTemplate";
+import { usePreviewOfferQuery } from "@/hooks/react-query/query/offers";
 
 type Props = {
   params: {
@@ -12,11 +12,11 @@ type Props = {
 const OfferPage = (props: Props) => {
   const { id } = props.params;
 
-  const { data: oneOffer } = usePreviewJobOfferQuery({ id, isPreview: true });
+  const { data: oneOffer } = usePreviewOfferQuery({ id, isPreview: true });
 
   if (!oneOffer) return null;
 
-  return <ManageJobOfferTemplate offer={oneOffer} />;
+  return <ManageOfferTemplate offer={oneOffer} />;
 };
 
 export default OfferPage;

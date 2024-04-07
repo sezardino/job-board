@@ -11,12 +11,11 @@ export const CompanyPageUrls = {
   home: "/company",
   profile: "/company/profile",
   users: "/company/users",
-  jobOffers: "/company/job-offers",
+  offers: "/company/offers",
   bank: "/company/bank",
-  newOffer: "/company/job-offers/new",
-  jobOffer: (id: string) => `/company/job-offers/${id}`,
-  jobOfferApplications: (id: string) =>
-    `/company/job-offers/${id}/applications`,
+  newOffer: "/company/offers/new",
+  offer: (id: string) => `/company/offers/${id}`,
+  applications: (id: string) => `/company/offers/${id}/applications`,
 };
 
 export const UserPageUrls = {
@@ -33,10 +32,10 @@ export const PublicPageUrls = {
   verify: (token: string) => `/auth/verify?token=${token}`,
   registerUser: "/auth/registration",
   registerCompany: "/auth/registration/company",
-  jobOffers: "/job-offers",
-  jobOffersByIndustry: (industry: string) => `/job-offers/${industry}`,
-  jobOffersByCategory: (industry: string, category: string) =>
-    `/job-offers/${industry}/${category}`,
+  offers: "/offers",
+  offersByIndustry: (industry: string) => `/offers/${industry}`,
+  offersByCategory: (industry: string, category: string) =>
+    `/offers/${industry}/${category}`,
   offer: (id: string) => `/offers/${id}`,
   company: (id: string) => `/companies/${id}`,
 } as const;

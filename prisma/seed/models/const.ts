@@ -1,9 +1,9 @@
 import {
   EntityStatus,
   JobContract,
-  JobOfferStatus,
   JobOperatingMode,
   JobType,
+  OfferStatus,
   Seniority,
   SkillLevel,
   UserRoles,
@@ -18,9 +18,7 @@ export const jobOperatingModes = Object.values(
   JobOperatingMode
 ) as JobOperatingMode[];
 export const jobContracts = Object.values(JobContract) as JobContract[];
-export const jobOfferStatuses = Object.values(
-  JobOfferStatus
-) as JobOfferStatus[];
+export const jobOfferStatuses = Object.values(OfferStatus) as OfferStatus[];
 export const jobTypes = Object.values(JobType) as JobType[];
 
 export const seniorities = Object.values(Seniority) as Seniority[];

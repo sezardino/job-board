@@ -25,7 +25,7 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
         {
           label: t("company.offers"),
           icon: "HiOutlineBriefcase",
-          to: CompanyPageUrls.jobOffers,
+          to: CompanyPageUrls.offers,
         },
       ],
     ],

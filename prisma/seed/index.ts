@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker";
 import { PrismaClient, UserRoles, UserStatus } from "@prisma/client";
+import { generateMockApplications } from "./models/application";
 import { generateMockCompany } from "./models/companies";
 import { mockCompanyOwner } from "./models/const";
 import { generateCurriculumVitae } from "./models/curriculum-vitae";
 import { industries, industriesAndCategories } from "./models/industries";
-import { generateMockJobApplications } from "./models/job-application";
 import { generateMockOffers } from "./models/offers";
 import { generateMockUsers } from "./models/users";
 
@@ -136,7 +136,7 @@ const generateCompanyMembers = async () => {
   console.log(`Generated company members: ${companyMembersCount}`);
 };
 
-const generateJobOffers = async () => {
+const generateOffers = async () => {
   const companies = await prisma.company.findMany({
     select: { id: true },
   });
@@ -144,7 +144,7 @@ const generateJobOffers = async () => {
     select: { id: true, categories: { select: { id: true } } },
   });
 
-  const jobOffers = companies.map((company) =>
+  const offers = companies.map((company) =>
     generateMockOffers({
       count: faker.number.int({ min: 1, max: 10 }),
       companyId: company.id,
@@ -153,17 +153,17 @@ const generateJobOffers = async () => {
   );
 
   await Promise.all(
-    jobOffers.flat().map(
+    offers.flat().map(
       async (data) =>
-        await prisma.jobOffer.create({
+        await prisma.offer.create({
           data,
         })
     )
   );
 
-  const jobOffersCount = await prisma.jobOffer.count();
+  const offersCount = await prisma.offer.count();
 
-  console.log(`Generated job offers: ${jobOffersCount}`);
+  console.log(`Generated offers: ${offersCount}`);
 };
 
 const generateDevData = async () => {
@@ -183,26 +183,26 @@ const generateDevData = async () => {
     select: { id: true, categories: { select: { id: true } } },
   });
 
-  const jobOffers = generateMockOffers({
+  const mockOffers = generateMockOffers({
     count: faker.number.int({ min: 1, max: 2 }),
     companyId: company.id,
     industries: industries,
   });
 
   await Promise.all(
-    jobOffers.flat().map(
+    mockOffers.flat().map(
       async (data) =>
-        await prisma.jobOffer.create({
+        await prisma.offer.create({
           data,
         })
     )
   );
 
-  const jobOffersCount = await prisma.jobOffer.count();
+  const offersCount = await prisma.offer.count();
 
-  console.log(`Generated job offers: ${jobOffersCount}`);
+  console.log(`Generated offers: ${offersCount}`);
 
-  const offers = await prisma.jobOffer.findMany({
+  const offers = await prisma.offer.findMany({
     where: { companyId: company.id },
     select: { id: true },
   });
@@ -219,25 +219,25 @@ const generateDevData = async () => {
 
   await Promise.all(
     offers.map(async (offer) => {
-      const jobApplication = generateMockJobApplications({
+      const application = generateMockApplications({
         offerId: offer.id,
         cvId: testCV.id,
         count: faker.number.int({ min: 100, max: 1000 }),
       });
 
-      await prisma.jobApplication.createMany({
-        data: jobApplication,
+      await prisma.application.createMany({
+        data: application,
       });
     })
   );
 
-  const jobApplicationsCount = await prisma.jobApplication.count();
+  const applicationsCount = await prisma.application.count();
 
-  console.log(`Generated job applications: ${jobApplicationsCount}`);
+  console.log(`Generated applications: ${applicationsCount}`);
 };
 
-const generateJobApplications = async () => {
-  const offers = await prisma.jobOffer.findMany({
+const generateApplications = async () => {
+  const offers = await prisma.offer.findMany({
     select: { id: true },
   });
 
@@ -253,21 +253,21 @@ const generateJobApplications = async () => {
 
   await Promise.all(
     offers.map(async (offer) => {
-      const jobApplication = generateMockJobApplications({
+      const application = generateMockApplications({
         offerId: offer.id,
         cvId: testCV.id,
         count: faker.number.int({ min: 100, max: 1000 }),
       });
 
-      await prisma.jobApplication.createMany({
-        data: jobApplication,
+      await prisma.application.createMany({
+        data: application,
       });
     })
   );
 
-  const jobApplicationsCount = await prisma.jobApplication.count();
+  const ApplicationsCount = await prisma.application.count();
 
-  console.log(`Generated job applications: ${jobApplicationsCount}`);
+  console.log(`Generated applications: ${ApplicationsCount}`);
 };
 
 (async () => {
@@ -289,10 +289,10 @@ const generateJobApplications = async () => {
     await generateCompanies();
     console.log("Generating company members...");
     await generateCompanyMembers();
-    console.log("Generating job offers...");
-    await generateJobOffers();
-    console.log("Generating job applications...");
-    await generateJobApplications();
+    console.log("Generating offers...");
+    await generateOffers();
+    console.log("Generating applications...");
+    await generateApplications();
     console.log("Database seeded successfully!");
   } catch (error) {
     console.error(error);

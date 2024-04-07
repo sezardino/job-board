@@ -18,7 +18,7 @@ type Args = {
   industries: { id: string; categories: { id: string }[] }[];
 };
 
-const generateMockOffer = (args: Args): Prisma.JobOfferCreateInput => {
+const generateMockOffer = (args: Args): Prisma.OfferCreateInput => {
   const { companyId, industries } = args;
 
   const industryId = faker.helpers.arrayElement(industries).id;

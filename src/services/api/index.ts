@@ -1,9 +1,9 @@
+import { ApplicationsApiModule } from "./modules/applications";
 import { AuthApiModule } from "./modules/auth";
 import { CategoriesApiModule } from "./modules/categories";
 import { CompaniesApiModule } from "./modules/companies";
 import { IndustriesApiModule } from "./modules/industries";
-import { JobApplicationsApiModule } from "./modules/job-applications";
-import { JobOffersApiModule } from "./modules/job-offers";
+import { OffersApiModule } from "./modules/offers";
 import { UsersApiModule } from "./modules/users";
 
 class ApiService {
@@ -11,18 +11,18 @@ class ApiService {
   users: UsersApiModule;
   industries: IndustriesApiModule;
   companies: CompaniesApiModule;
-  jobOffers: JobOffersApiModule;
+  offers: OffersApiModule;
   categories: CategoriesApiModule;
-  jobApplications: JobApplicationsApiModule;
+  applications: ApplicationsApiModule;
 
   constructor() {
     this.auth = new AuthApiModule();
     this.users = new UsersApiModule();
     this.industries = new IndustriesApiModule();
     this.companies = new CompaniesApiModule();
-    this.jobOffers = new JobOffersApiModule();
+    this.offers = new OffersApiModule();
     this.categories = new CategoriesApiModule();
-    this.jobApplications = new JobApplicationsApiModule();
+    this.applications = new ApplicationsApiModule();
   }
 }
 

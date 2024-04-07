@@ -1,10 +1,10 @@
 "use client";
 
-import { JobApplicationFormValues } from "@/components/forms/JobApplication/JobApplicationForm";
-import { JobOfferTemplate } from "@/components/templates/Board/JobOfferTemplate/JobOfferTemplate";
-import { useApplyForJobOfferMutation } from "@/hooks";
-import { usePreviewJobOfferQuery } from "@/hooks/react-query/query/job-offers";
-import { useCommonJobOffersInfiniteQuery } from "@/hooks/react-query/query/job-offers/common-job-offers";
+import { ApplicationFormValues } from "@/components/forms/Application/ApplicationForm";
+import { OfferTemplate } from "@/components/templates/Board/OfferTemplate/OfferTemplate";
+import { useApplyForOfferMutation } from "@/hooks";
+import { usePreviewOfferQuery } from "@/hooks/react-query/query/offers";
+import { useCommonOffersInfiniteQuery } from "@/hooks/react-query/query/offers/common-offers";
 import { useCallback } from "react";
 
 type Props = {
@@ -20,35 +20,33 @@ const OfferPage = (props: Props) => {
     data: oneOffer,
     isFetching: isOneOfferLoading,
     error,
-  } = usePreviewJobOfferQuery({ id });
+  } = usePreviewOfferQuery({ id });
 
-  const commonJobOffersQuery = useCommonJobOffersInfiniteQuery({ id });
+  const commonOffersQuery = useCommonOffersInfiniteQuery({ id });
 
-  const {
-    mutateAsync: applyForJobOffer,
-    isPending: isApplyForJobOfferLoading,
-  } = useApplyForJobOfferMutation();
+  const { mutateAsync: applyForOffer, isPending: isApplyForOfferLoading } =
+    useApplyForOfferMutation();
 
-  const applyForJobOfferHandler = useCallback(
-    async ({ file, ...values }: JobApplicationFormValues) => {
-      return applyForJobOffer({
-        jobOfferId: id,
+  const applyForOfferHandler = useCallback(
+    async ({ file, ...values }: ApplicationFormValues) => {
+      return applyForOffer({
+        offerId: id,
         curriculumVitae: file,
         ...values,
       });
     },
-    [applyForJobOffer, id]
+    [applyForOffer, id]
   );
 
   if (!oneOffer) return null;
 
   return (
-    <JobOfferTemplate
+    <OfferTemplate
       offer={oneOffer}
-      commonJobOffers={commonJobOffersQuery}
-      applyForJobOffer={{
-        handler: applyForJobOfferHandler,
-        isLoading: isApplyForJobOfferLoading,
+      commonOffers={commonOffersQuery}
+      applyForOffer={{
+        handler: applyForOfferHandler,
+        isLoading: isApplyForOfferLoading,
       }}
     />
   );

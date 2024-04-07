@@ -1,9 +1,9 @@
 "use client";
 
-import { JobOfferApplicationsTemplate } from "@/components/templates/Company/JobOfferApplications/JobOfferApplicationsTemplate";
-import { useJobOfferApplicationsQuery } from "@/hooks";
-import { useJobOfferApplicationsStatisticsQuery } from "@/hooks/react-query/query/job-applications/statistics";
-import { JobApplicationStatus } from "@prisma/client";
+import { OfferApplicationsTemplate } from "@/components/templates/Company/OfferApplications/OfferApplicationsTemplate";
+import { useOfferApplicationsQuery } from "@/hooks";
+import { useOfferApplicationsStatisticsQuery } from "@/hooks/react-query/query/applications/statistics";
+import { ApplicationStatus } from "@prisma/client";
 import { useState } from "react";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
   };
 };
 
-export type JobOfferApplicationsTypes =
+export type OfferApplicationsTypes =
   | "new"
   | "preScreening"
   | "screening"
@@ -21,78 +21,78 @@ export type JobOfferApplicationsTypes =
   | "rejected"
   | "canceled";
 
-const JobOfferApplications = (props: Props) => {
+const OfferApplications = (props: Props) => {
   const { id } = props.params;
   const [search, setSearch] = useState("");
-  const [activeStatus, setActiveStatus] = useState<JobApplicationStatus | null>(
+  const [activeStatus, setActiveStatus] = useState<ApplicationStatus | null>(
     null
   );
 
-  const newApplicationsQuery = useJobOfferApplicationsQuery(
+  const newApplicationsQuery = useOfferApplicationsQuery(
     {
       offerId: id,
       search,
-      status: JobApplicationStatus.NEW,
+      status: ApplicationStatus.NEW,
     },
-    activeStatus === JobApplicationStatus.NEW
+    activeStatus === ApplicationStatus.NEW
   );
 
-  const interviewApplicationsQuery = useJobOfferApplicationsQuery(
+  const interviewApplicationsQuery = useOfferApplicationsQuery(
     {
       offerId: id,
       search,
-      status: JobApplicationStatus.INTERVIEW,
+      status: ApplicationStatus.INTERVIEW,
     },
-    activeStatus === JobApplicationStatus.INTERVIEW
+    activeStatus === ApplicationStatus.INTERVIEW
   );
-  const offerApplicationsQuery = useJobOfferApplicationsQuery(
+  const offerApplicationsQuery = useOfferApplicationsQuery(
     {
       offerId: id,
       search,
-      status: JobApplicationStatus.OFFER,
+      status: ApplicationStatus.OFFER,
     },
-    activeStatus === JobApplicationStatus.OFFER
+    activeStatus === ApplicationStatus.OFFER
   );
-  const preOfferApplicationsQuery = useJobOfferApplicationsQuery(
+  const preOfferApplicationsQuery = useOfferApplicationsQuery(
     {
       offerId: id,
       search,
-      status: JobApplicationStatus.PRE_OFFER,
+      status: ApplicationStatus.PRE_OFFER,
     },
-    activeStatus === JobApplicationStatus.PRE_OFFER
+    activeStatus === ApplicationStatus.PRE_OFFER
   );
-  const preScreeningApplicationsQuery = useJobOfferApplicationsQuery(
+  const preScreeningApplicationsQuery = useOfferApplicationsQuery(
     {
       offerId: id,
       search,
-      status: JobApplicationStatus.PRE_SCREENING,
+      status: ApplicationStatus.PRE_SCREENING,
     },
-    activeStatus === JobApplicationStatus.PRE_SCREENING
+    activeStatus === ApplicationStatus.PRE_SCREENING
   );
-  const screeningApplicationsQuery = useJobOfferApplicationsQuery(
+  const screeningApplicationsQuery = useOfferApplicationsQuery(
     {
       offerId: id,
       search,
-      status: JobApplicationStatus.SCREENING,
+      status: ApplicationStatus.SCREENING,
     },
-    activeStatus === JobApplicationStatus.SCREENING
+    activeStatus === ApplicationStatus.SCREENING
   );
-  const rejectedApplicationsQuery = useJobOfferApplicationsQuery(
+  const rejectedApplicationsQuery = useOfferApplicationsQuery(
     {
       offerId: id,
       search,
-      status: JobApplicationStatus.REJECTED,
+      status: ApplicationStatus.REJECTED,
     },
-    activeStatus === JobApplicationStatus.REJECTED
+    activeStatus === ApplicationStatus.REJECTED
   );
 
-  const statisticsQuery = useJobOfferApplicationsStatisticsQuery({
+  const statisticsQuery = useOfferApplicationsStatisticsQuery({
     offerId: id,
     search,
   });
 
   return (
-    <JobOfferApplicationsTemplate
+    <OfferApplicationsTemplate
       onSearchChange={setSearch}
       activeStatus={activeStatus}
       onStatusChange={setActiveStatus}
@@ -108,4 +108,4 @@ const JobOfferApplications = (props: Props) => {
   );
 };
 
-export default JobOfferApplications;
+export default OfferApplications;
