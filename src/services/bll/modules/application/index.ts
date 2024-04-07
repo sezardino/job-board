@@ -8,7 +8,6 @@ import { ApplicationStatus } from "@prisma/client";
 import { AbstractBllService } from "../../module.abstract";
 import { FilesBllModule } from "../files";
 import {
-  AddApplicationNoteRequest,
   ApplyForOfferRequest,
   ChangeApplicationStatusRequest,
   ChangeRejectedApplicationReasonRequest,
@@ -34,7 +33,7 @@ export class ApplicationsBllModule extends AbstractBllService {
     super(prismaService);
   }
 
-  private async validateExists(applicationId: string, companyId: string) {
+  async validateExists(applicationId: string, companyId: string) {
     const neededApplication = await this.prismaService.application.findUnique({
       where: { id: applicationId, offer: { companyId } },
       select: { id: true, status: true },
@@ -232,28 +231,5 @@ export class ApplicationsBllModule extends AbstractBllService {
     });
 
     return !!application;
-  }
-
-  async addNote(
-    dto: AddApplicationNoteRequest & {
-      companyId: string;
-      applicationId: string;
-      authorId: string;
-    }
-  ) {
-    const { companyId, applicationId, content, authorId } = dto;
-
-    await this.validateExists(applicationId, companyId);
-
-    const newNote = await this.prismaService.applicationNote.create({
-      data: {
-        content,
-        application: { connect: { id: applicationId } },
-        author: { connect: { id: authorId } },
-      },
-      select: { id: true },
-    });
-
-    return !!newNote;
   }
 }

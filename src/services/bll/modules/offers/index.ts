@@ -17,7 +17,7 @@ import {
 import { EditOfferRequest } from "./schema/edit";
 
 export class OffersBllModule extends AbstractBllService {
-  protected async findMany(
+  private async findMany(
     props: FindManyPrismaEntity<Prisma.OfferWhereInput, Prisma.OfferSelect>
   ) {
     const { limit, page, select, where } = props;

@@ -134,7 +134,7 @@ model User {
 
   applications Application[]
 
-  notes ApplicationNote[]
+  notes Note[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
@@ -242,7 +242,7 @@ model Offer {
   @@map("offers")
 }
 
-model ApplicationNote {
+model Note {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   content   String
@@ -254,7 +254,7 @@ model ApplicationNote {
   author   User   @relation(fields: [authorId], references: [id])
   authorId String @map("author_id") @db.ObjectId
 
-  @@map("application_notes")
+  @@map("notes")
 }
 
 model Application {
@@ -265,7 +265,7 @@ model Application {
   rejectedReason String?   @map("rejected_reason")
   rejectedAt     DateTime? @map("rejected_at")
 
-  notes ApplicationNote[]
+  notes Note[]
 
   name              String
   email             String
