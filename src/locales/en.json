@@ -373,6 +373,20 @@
       "future-recruitment": {
         "label": "I agree to use my data in future recruitment processes"
       }
+    },
+    "application-status": {
+      "status": {
+        "label": "Status",
+        "placeholder": "Status",
+        "required": "Status is required"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Message",
+        "required": "Message is required",
+        "max-length": "Message should be less than {value} characters",
+        "disabled": "You can't write a message for this status"
+      }
     }
   },
   "entity": {
@@ -681,6 +695,21 @@
         "manage": "Manage job offer",
         "edit": "Edit",
         "applications": "See applications"
+      },
+      "offer-applications": {
+        "title": "Applications for offer: \"{value}\"",
+        "description": "From this panel you can manage applications for this job offer",
+        "search": "Search",
+        "applied-at": "Applied at: {value}",
+        "notes-count": "Notes: {value}",
+        "modals": {
+          "change-status": {
+            "title": "Change application status",
+            "description": "Change the status of the application",
+            "cancel": "Cancel",
+            "confirm": "Change status"
+          }
+        }
       }
     },
     "customer-registration": {
@@ -999,6 +1028,14 @@
     "login": {
       "success": "Login successful",
       "error": "Login failed"
+    }
+  },
+  "toasts": {
+    "applications": {
+      "change-status": {
+        "success": "Application status changed successfully",
+        "error": "Application status change failed"
+      }
     }
   }
 }

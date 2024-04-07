@@ -1,5 +1,6 @@
 import {
   ApplyForOfferRequest,
+  ChangeApplicationStatusRequest,
   applyForOfferResponseSchema,
 } from "@/services/bll/modules/application/schema";
 import {
@@ -40,6 +41,17 @@ export class ApplicationsApiModule extends AbstractApiModule {
     return this.fetch({
       endpoint: `applications/statistics`,
       config: { method: "GET", params },
+      schema: offerApplicationsStatisticsResponseSchema,
+    });
+  }
+
+  changeStatus({
+    applicationId,
+    ...data
+  }: ChangeApplicationStatusRequest & { applicationId: string }) {
+    return this.fetch({
+      endpoint: `applications/${applicationId}`,
+      config: { method: "PATCH", data },
       schema: offerApplicationsStatisticsResponseSchema,
     });
   }

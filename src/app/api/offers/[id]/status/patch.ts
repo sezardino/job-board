@@ -1,6 +1,5 @@
 import { getNextAuthSession } from "@/libs/next-auth";
 import { bllService } from "@/services/bll";
-import { ResendInviteResponse } from "@/services/bll/modules/users/schema";
 import { NextRequest, NextResponse } from "next/server";
 
 export const patchChangeOfferStatus = async (
@@ -10,13 +9,11 @@ export const patchChangeOfferStatus = async (
   const data = await req.json();
   const session = await getNextAuthSession();
 
-  const response = await bllService.offers.changeStatus(
-    data,
-    params.params.id,
-    session?.user.companyId!
-  );
-
-  return NextResponse.json({ success: !!response.id } as ResendInviteResponse, {
-    status: 200,
+  const success = await bllService.applications.changeStatus({
+    ...data,
+    applicationId: params.params.id,
+    companyId: session?.user.companyId!,
   });
+
+  return NextResponse.json({ success }, { status: 200 });
 };

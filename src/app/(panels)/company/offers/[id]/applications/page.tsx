@@ -1,10 +1,13 @@
 "use client";
 
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
+import { ApplicationStatusFormValues } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
 import { OfferApplicationsTemplate } from "@/components/templates/Company/OfferApplications/OfferApplicationsTemplate";
 import { useOfferApplicationsQuery } from "@/hooks";
+import { useChangeApplicationStatusMutation } from "@/hooks/react-query/mutation/applications/change-status";
 import { useOfferApplicationsStatisticsQuery } from "@/hooks/react-query/query/applications/statistics";
 import { ApplicationStatus } from "@prisma/client";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type Props = {
   params: {
@@ -91,20 +94,48 @@ const OfferApplications = (props: Props) => {
     search,
   });
 
+  const {
+    mutateAsync: changeApplicationStatus,
+    isPending: isChangeApplicationStatusLoading,
+  } = useChangeApplicationStatusMutation();
+
+  const changeApplicationStatusHandler = useCallback(
+    async (values: ApplicationStatusFormValues & { applicationId: string }) => {
+      if (!activeStatus) return;
+
+      return changeApplicationStatus({
+        ...values,
+        offerId: id,
+        oldStatus: activeStatus,
+      });
+    },
+    [activeStatus, changeApplicationStatus, id]
+  );
+
+  const isLoading = isChangeApplicationStatusLoading;
+
   return (
-    <OfferApplicationsTemplate
-      onSearchChange={setSearch}
-      activeStatus={activeStatus}
-      onStatusChange={setActiveStatus}
-      INTERVIEW={interviewApplicationsQuery}
-      NEW={newApplicationsQuery}
-      PRE_SCREENING={preScreeningApplicationsQuery}
-      REJECTED={rejectedApplicationsQuery}
-      SCREENING={screeningApplicationsQuery}
-      PRE_OFFER={preOfferApplicationsQuery}
-      OFFER={offerApplicationsQuery}
-      statistics={statisticsQuery}
-    />
+    <>
+      {isLoading && <LoadingOverlay />}
+
+      <OfferApplicationsTemplate
+        onSearchChange={setSearch}
+        activeStatus={activeStatus}
+        onStatusChange={setActiveStatus}
+        INTERVIEW={interviewApplicationsQuery}
+        NEW={newApplicationsQuery}
+        PRE_SCREENING={preScreeningApplicationsQuery}
+        REJECTED={rejectedApplicationsQuery}
+        SCREENING={screeningApplicationsQuery}
+        PRE_OFFER={preOfferApplicationsQuery}
+        OFFER={offerApplicationsQuery}
+        statistics={statisticsQuery}
+        changeApplicationStatus={{
+          handler: changeApplicationStatusHandler,
+          isLoading: isChangeApplicationStatusLoading,
+        }}
+      />
+    </>
   );
 };
 

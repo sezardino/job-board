@@ -1,3 +1,4 @@
+import parse from "html-react-parser";
 import {
   ForwardRefRenderFunction,
   forwardRef,
@@ -88,7 +89,7 @@ const TypographyComponent: ForwardRefRenderFunction<
         className
       )}
     >
-      {children}
+      {typeof children === "string" ? parse(children) : children}
     </Tag>
   );
 };
