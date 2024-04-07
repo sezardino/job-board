@@ -113,11 +113,6 @@ type Location {
   zipCode  String
 }
 
-type JobApplicationNote {
-  content   String
-  createdAt DateTime @default(now()) @map("created_at")
-}
-
 model User {
   id     String     @id @default(auto()) @map("_id") @db.ObjectId
   role   UserRoles  @default(CUSTOMER)
@@ -244,6 +239,18 @@ model JobOffer {
   createdAt DateTime @default(now()) @map("created_at")
 
   @@map("job_offers")
+}
+
+model JobApplicationNote {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
+
+  application   JobApplication @relation(fields: [applicationId], references: [id])
+  applicationId String         @map("application_id") @db.ObjectId
+
+  @@map("job_application_notes")
 }
 
 model JobApplication {

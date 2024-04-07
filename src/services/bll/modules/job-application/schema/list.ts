@@ -3,7 +3,8 @@ import { z } from "zod";
 
 export const jobOfferApplicationsRequestSchema = z.object({
   offerId: z.string({ required_error: "id is required" }),
-  status: z.nativeEnum(JobApplicationStatus).optional(),
+  status: z.nativeEnum(JobApplicationStatus),
+  search: z.string().optional(),
 });
 
 export const jobOfferApplicationsResponseSchema = z.object({
@@ -12,8 +13,10 @@ export const jobOfferApplicationsResponseSchema = z.object({
       id: z.string(),
       name: z.string(),
       email: z.string().email(),
-      status: z.nativeEnum(JobApplicationStatus),
       createdAt: z.string(),
+      _count: z.object({
+        notes: z.number(),
+      }),
     })
   ),
 });

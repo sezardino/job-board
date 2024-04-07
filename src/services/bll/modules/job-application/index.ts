@@ -4,7 +4,19 @@ import { JobApplicationStatus } from "@prisma/client";
 import { FilesBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
 import { ApplyForJobOfferRequest } from "./schema";
+import { JobOfferApplicationsStatisticsRequest } from "./schema/job-offer-statistics";
 import { JobOfferApplicationsRequest } from "./schema/list";
+
+const getDefaultCountObject = (): Record<JobApplicationStatus, number> => ({
+  NEW: 0,
+  PRE_SCREENING: 0,
+  SCREENING: 0,
+  INTERVIEW: 0,
+  PRE_OFFER: 0,
+  OFFER: 0,
+  REJECTED: 0,
+  CANCELED: 0,
+});
 
 export class JobApplicationsBllModule extends AbstractBllService {
   constructor(
@@ -69,23 +81,56 @@ export class JobApplicationsBllModule extends AbstractBllService {
   }
 
   async list(dto: JobOfferApplicationsRequest) {
-    const { offerId, status = JobApplicationStatus.NEW } = dto;
+    const { offerId, status, search } = dto;
 
     const applications = await this.prismaService.jobApplication.findMany({
       where: {
         jobOfferId: offerId,
         status,
+        OR: search
+          ? [
+              { name: { contains: search, mode: "insensitive" } },
+              { email: { contains: search, mode: "insensitive" } },
+            ]
+          : undefined,
       },
       select: {
         id: true,
         name: true,
         email: true,
-        status: true,
         createdAt: true,
+        dataProcessing: true,
+        futureRecruitment: true,
+        _count: { select: { notes: true } },
       },
       orderBy: { createdAt: "desc" },
     });
 
     return applications;
+  }
+
+  async offerStatistics(dto: JobOfferApplicationsStatisticsRequest) {
+    const { offerId, search } = dto;
+
+    const counts = await this.prismaService.jobApplication.groupBy({
+      by: ["status"],
+      where: {
+        jobOfferId: offerId,
+        OR: search
+          ? [
+              { name: { contains: search, mode: "insensitive" } },
+              { email: { contains: search, mode: "insensitive" } },
+            ]
+          : undefined,
+      },
+      _count: true,
+    });
+
+    const statistics = counts.reduce((acc, item) => {
+      acc[item.status] = item._count;
+      return acc;
+    }, getDefaultCountObject());
+
+    return statistics;
   }
 }

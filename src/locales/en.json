@@ -423,7 +423,18 @@
         "INTERNSHIP": "Internship"
       }
     },
-    "job-application": {},
+    "job-application": {
+      "status": {
+        "NEW": "New",
+        "PRE_SCREENING": "Pre screening",
+        "SCREENING": "Screening",
+        "INTERVIEW": "Interview",
+        "PRE_OFFER": "Pre offer",
+        "OFFER": "Offer",
+        "REJECTED": "Rejected",
+        "CANCELED": "Canceled"
+      }
+    },
     "user": {
       "role": {
         "ADMIN": "Admin",

@@ -3,6 +3,10 @@ import {
   applyForJobOfferResponseSchema,
 } from "@/services/bll/modules/job-application/schema";
 import {
+  JobOfferApplicationsStatisticsRequest,
+  jobOfferApplicationsStatisticsResponseSchema,
+} from "@/services/bll/modules/job-application/schema/job-offer-statistics";
+import {
   JobOfferApplicationsRequest,
   jobOfferApplicationsResponseSchema,
 } from "@/services/bll/modules/job-application/schema/list";
@@ -29,6 +33,14 @@ export class JobApplicationsApiModule extends AbstractApiModule {
       endpoint: `job-applications`,
       config: { method: "GET", params },
       schema: jobOfferApplicationsResponseSchema,
+    });
+  }
+
+  offerStatistics(params: JobOfferApplicationsStatisticsRequest) {
+    return this.fetch({
+      endpoint: `job-applications/statistics`,
+      config: { method: "GET", params },
+      schema: jobOfferApplicationsStatisticsResponseSchema,
     });
   }
 }
