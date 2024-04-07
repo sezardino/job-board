@@ -18,12 +18,13 @@ export class NotesBllModule extends AbstractBllService {
       authorId: string;
     }
   ) {
-    const { companyId, applicationId, content, authorId } = dto;
+    const { name, companyId, applicationId, content, authorId } = dto;
 
     await this.applicationsService.validateExists(applicationId, companyId);
 
     const newNote = await this.prismaService.note.create({
       data: {
+        name,
         content,
         application: { connect: { id: applicationId } },
         author: { connect: { id: authorId } },

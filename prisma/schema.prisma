@@ -245,6 +245,7 @@ model Offer {
 model Note {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
+  name      String
   content   String
   createdAt DateTime @default(now()) @map("created_at")
 

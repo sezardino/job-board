@@ -16,6 +16,7 @@ export const oneApplicationResponseSchema = z.object({
   notes: z.array(
     z.object({
       id: z.string(),
+      name: z.string(),
       content: z.string(),
       createdAt: z.string(),
       author: z.object({

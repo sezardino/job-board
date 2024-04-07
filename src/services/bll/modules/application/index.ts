@@ -146,6 +146,7 @@ export class ApplicationsBllModule extends AbstractBllService {
         notes: {
           select: {
             id: true,
+            name: true,
             content: true,
             createdAt: true,
             author: {
