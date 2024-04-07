@@ -27,6 +27,8 @@ import {
   Card,
   CardFooter,
   CardHeader,
+  Tab,
+  Tabs,
 } from "@nextui-org/react";
 import { ApplicationStatus } from "@prisma/client";
 import dayjs from "dayjs";
@@ -113,11 +115,13 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
     <>
       <Grid gap={4} className={twMerge(styles.element)}>
         <BaseBreadcrumbs items={breadcrumbs} />
-        <header>
-          <Typography tag="h1" styling="xl">
-            {t("title", { value: basicData.data?.name })}
-          </Typography>
-          <Typography tag="p">{t("description")}</Typography>
+        <Grid tag="header" gap={4}>
+          <div>
+            <Typography tag="h1" styling="xl">
+              {t("title", { value: basicData.data?.name })}
+            </Typography>
+            <Typography tag="p">{t("description")}</Typography>
+          </div>
 
           <Accordion variant="bordered">
             <AccordionItem
@@ -144,7 +148,7 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
               )}
             </AccordionItem>
           </Accordion>
-        </header>
+        </Grid>
 
         <SearchForm
           placeholder={t("search")}
@@ -152,22 +156,17 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
           onSearch={onSearchChange}
         />
 
-        <Accordion
-          as="ul"
-          selectedKeys={activeStatus ? [activeStatus] : []}
-          onSelectionChange={(keys) =>
-            onStatusChange(Array.from(keys)[0] as ApplicationStatus)
-          }
-          variant="light"
-          className="list-none"
+        <Tabs
+          variant="underlined"
+          selectedKey={activeStatus}
+          onSelectionChange={(key) => onStatusChange(key as ApplicationStatus)}
         >
           {boardStatuses.map((status) => (
-            <AccordionItem
-              as="li"
+            <Tab
               key={status}
-              textValue={entityT(`status.${status}`)}
+              value={status}
               title={
-                <div className="flex ga-1 items-center justify-between">
+                <div className="flex gap-1 items-center">
                   <Typography tag="h2" weight="bold">
                     {entityT(`status.${status}`)}
                   </Typography>
@@ -178,6 +177,7 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
                   </Badge>
                 </div>
               }
+              textValue={entityT(`status.${status}`)}
             >
               <ul className="list-none grid grid-cols-1 gap-2">
                 {applications[status].data?.data.map((a) => (
@@ -230,9 +230,9 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
                   </Card>
                 ))}
               </ul>
-            </AccordionItem>
+            </Tab>
           ))}
-        </Accordion>
+        </Tabs>
       </Grid>
 
       <Modal
