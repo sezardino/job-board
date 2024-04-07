@@ -29,7 +29,6 @@ export type JobOfferApplicationsTemplateProps = {
   [JobApplicationStatus.PRE_OFFER]: QueryProps<JobOfferApplicationsResponse>;
   [JobApplicationStatus.OFFER]: QueryProps<JobOfferApplicationsResponse>;
   [JobApplicationStatus.REJECTED]: QueryProps<JobOfferApplicationsResponse>;
-  [JobApplicationStatus.CANCELED]: QueryProps<JobOfferApplicationsResponse>;
   statistics: QueryProps<JobOfferApplicationsStatisticsResponse>;
 };
 

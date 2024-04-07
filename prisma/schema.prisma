@@ -81,7 +81,6 @@ enum JobApplicationStatus {
   PRE_OFFER
   OFFER
   REJECTED
-  CANCELED
 }
 
 enum Seniority {
@@ -258,8 +257,8 @@ model JobApplication {
 
   status JobApplicationStatus @default(NEW) @map("status")
 
-  rejectedReasong String?   @map("rejected_reason")
-  rejectedAt      DateTime? @map("rejected_at")
+  rejectedReason String?   @map("rejected_reason")
+  rejectedAt     DateTime? @map("rejected_at")
 
   notes JobApplicationNote[]
 

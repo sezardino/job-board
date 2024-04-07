@@ -1,11 +1,19 @@
 import { PrismaService } from "@/libs/prisma";
-import { CustomException, NotFoundException } from "@/types";
+import {
+  CustomException,
+  NotAllowedException,
+  NotFoundException,
+} from "@/types";
 import { JobApplicationStatus } from "@prisma/client";
-import { FilesBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
-import { ApplyForJobOfferRequest } from "./schema";
-import { JobOfferApplicationsStatisticsRequest } from "./schema/job-offer-statistics";
-import { JobOfferApplicationsRequest } from "./schema/list";
+import { FilesBllModule } from "../files";
+import {
+  ApplyForJobOfferRequest,
+  ChangeJobApplicationStatusRequest,
+  ChangeRejectedJobApplicationReasonRequest,
+  JobOfferApplicationsRequest,
+  JobOfferApplicationsStatisticsRequest,
+} from "./schema";
 
 const getDefaultCountObject = (): Record<JobApplicationStatus, number> => ({
   NEW: 0,
@@ -15,7 +23,6 @@ const getDefaultCountObject = (): Record<JobApplicationStatus, number> => ({
   PRE_OFFER: 0,
   OFFER: 0,
   REJECTED: 0,
-  CANCELED: 0,
 });
 
 export class JobApplicationsBllModule extends AbstractBllService {
@@ -99,8 +106,6 @@ export class JobApplicationsBllModule extends AbstractBllService {
         name: true,
         email: true,
         createdAt: true,
-        dataProcessing: true,
-        futureRecruitment: true,
         _count: { select: { notes: true } },
       },
       orderBy: { createdAt: "desc" },
@@ -132,5 +137,57 @@ export class JobApplicationsBllModule extends AbstractBllService {
     }, getDefaultCountObject());
 
     return statistics;
+  }
+
+  async changeStatus(
+    applicationId: string,
+    dto: ChangeJobApplicationStatusRequest
+  ) {
+    const { status, rejectedReason } = dto;
+
+    const neededApplication =
+      await this.prismaService.jobApplication.findUnique({
+        where: { id: applicationId },
+        select: { id: true },
+      });
+
+    if (!neededApplication)
+      throw new NotFoundException("Application not found");
+
+    const application = await this.prismaService.jobApplication.update({
+      where: { id: applicationId },
+      data: {
+        status,
+        rejectedReason,
+      },
+    });
+
+    return !!application;
+  }
+
+  async changeRejectedReason(
+    applicationId: string,
+    dto: ChangeRejectedJobApplicationReasonRequest
+  ) {
+    const { rejectedReason } = dto;
+
+    const neededApplication =
+      await this.prismaService.jobApplication.findUnique({
+        where: { id: applicationId },
+        select: { status: true },
+      });
+
+    if (!neededApplication)
+      throw new NotFoundException("Application not found");
+    if (neededApplication.status !== JobApplicationStatus.REJECTED)
+      throw new NotAllowedException("Application is not in rejected status");
+
+    const application = await this.prismaService.jobApplication.update({
+      where: { id: applicationId },
+      data: { rejectedReason },
+      select: { id: true },
+    });
+
+    return !!application;
   }
 }

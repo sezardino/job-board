@@ -36,14 +36,7 @@ const JobOfferApplications = (props: Props) => {
     },
     activeStatus === JobApplicationStatus.NEW
   );
-  const canceledApplicationsQuery = useJobOfferApplicationsQuery(
-    {
-      offerId: id,
-      search,
-      status: JobApplicationStatus.CANCELED,
-    },
-    activeStatus === JobApplicationStatus.CANCELED
-  );
+
   const interviewApplicationsQuery = useJobOfferApplicationsQuery(
     {
       offerId: id,
@@ -103,7 +96,6 @@ const JobOfferApplications = (props: Props) => {
       onSearchChange={setSearch}
       activeStatus={activeStatus}
       onStatusChange={setActiveStatus}
-      CANCELED={canceledApplicationsQuery}
       INTERVIEW={interviewApplicationsQuery}
       NEW={newApplicationsQuery}
       PRE_SCREENING={preScreeningApplicationsQuery}
