@@ -15,7 +15,8 @@ import {
 } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
 import { OfferBasicData } from "@/components/modules/offer/OfferBasicData/OfferBasicData";
 import { SkillsList } from "@/components/modules/offer/SkillsList/SkillsList";
-import { CompanyPageUrls } from "@/const";
+import { ApplicationPreviewWrapper } from "@/components/wrappers/ApplicationPreviewWrapper";
+import { APPLICATION_DATE_FORMAT, CompanyPageUrls } from "@/const";
 import { ChangeApplicationStatusRequest } from "@/services/bll/modules/application/schema";
 import { OfferApplicationsResponse } from "@/services/bll/modules/application/schema/list";
 import { OfferApplicationsStatisticsResponse } from "@/services/bll/modules/application/schema/offer-statistics";
@@ -81,6 +82,16 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
   const [applicationToEditStatus, setApplicationToEditStatus] = useState<
     string | null
   >(null);
+  const [applicationToPreview, setApplicationToPreview] = useState<
+    string | null
+  >(null);
+  const [isApplicationTpPreviewOpen, setIsApplicationToPreviewOpen] =
+    useState(false);
+
+  const openPreviewModal = useCallback((applicationId: string) => {
+    setApplicationToPreview(applicationId);
+    setIsApplicationToPreviewOpen(true);
+  }, []);
 
   const changeApplicationStatusHandler = useCallback(
     (values: ApplicationStatusFormValues) => {
@@ -205,6 +216,16 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
                         <Button
                           isIconOnly
                           variant="light"
+                          color="warning"
+                          tooltip="See full information"
+                          size="sm"
+                          onClick={() => openPreviewModal(a.id)}
+                        >
+                          <Icon name="HiEye" size={14} />
+                        </Button>
+                        <Button
+                          isIconOnly
+                          variant="light"
                           color="secondary"
                           tooltip="Edit status"
                           size="sm"
@@ -217,7 +238,9 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
                     <CardFooter className="justify-between">
                       <Typography tag="p" styling="xs">
                         {t("applied-at", {
-                          value: dayjs(a.createdAt).format("DD.MM.YYYY HH:mm"),
+                          value: dayjs(a.createdAt).format(
+                            APPLICATION_DATE_FORMAT
+                          ),
                         })}
                       </Typography>
 
@@ -273,6 +296,15 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
           </Button>
         </Modal.Footer>
       </Modal>
+
+      {applicationToPreview && (
+        <ApplicationPreviewWrapper
+          isOpen={isApplicationTpPreviewOpen}
+          onClose={() => setIsApplicationToPreviewOpen(false)}
+          applicationId={applicationToPreview}
+          onAfterClose={() => setApplicationToPreview(null)}
+        />
+      )}
     </>
   );
 };

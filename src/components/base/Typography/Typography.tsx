@@ -86,6 +86,7 @@ const TypographyComponent: ForwardRefRenderFunction<
         stylingString[styling],
         weightString[weight],
         `text-${color}`,
+        "whitespace-pre-line",
         className
       )}
     >

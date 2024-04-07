@@ -141,6 +141,8 @@ export class ApplicationsBllModule extends AbstractBllService {
         status: true,
         rejectedReason: true,
         curriculumVitae: { select: { id: true, url: true } },
+        createdAt: true,
+        updatedAt: true,
         notes: {
           select: {
             id: true,

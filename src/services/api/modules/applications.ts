@@ -11,6 +11,7 @@ import {
   OfferApplicationsStatisticsRequest,
   offerApplicationsStatisticsResponseSchema,
 } from "@/services/bll/modules/application/schema/offer-statistics";
+import { oneApplicationResponseSchema } from "@/services/bll/modules/application/schema/one";
 import { AbstractApiModule } from "../helpers";
 
 export class ApplicationsApiModule extends AbstractApiModule {
@@ -34,6 +35,14 @@ export class ApplicationsApiModule extends AbstractApiModule {
       endpoint: `applications`,
       config: { method: "GET", params },
       schema: offerApplicationsResponseSchema,
+    });
+  }
+
+  one(id: string) {
+    return this.fetch({
+      endpoint: `applications/${id}`,
+      config: { method: "GET" },
+      schema: oneApplicationResponseSchema,
     });
   }
 
