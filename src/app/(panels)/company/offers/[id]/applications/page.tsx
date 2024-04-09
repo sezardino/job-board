@@ -2,10 +2,12 @@
 
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ApplicationStatusFormValues } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
+import { NoteFormValues } from "@/components/forms/NoteForm/NoteForm";
 import { OfferApplicationsTemplate } from "@/components/templates/Company/OfferApplications/OfferApplicationsTemplate";
 import { useMyCompanyContext } from "@/context";
 import { useOfferApplicationsQuery } from "@/hooks";
 import { useChangeApplicationStatusMutation } from "@/hooks/react-query/mutation/applications/change-status";
+import { useCreateNoteMutation } from "@/hooks/react-query/mutation/notes";
 import { useOfferApplicationsStatisticsQuery } from "@/hooks/react-query/query/applications/statistics";
 import { useOfferBasicDataQuery } from "@/hooks/react-query/query/offers/basic-data";
 import { ApplicationStatus } from "@prisma/client";
@@ -104,6 +106,8 @@ const OfferApplications = (props: Props) => {
     mutateAsync: changeApplicationStatus,
     isPending: isChangeApplicationStatusLoading,
   } = useChangeApplicationStatusMutation();
+  const { mutateAsync: createNote, isPending: isCreateNoteLoading } =
+    useCreateNoteMutation();
 
   const changeApplicationStatusHandler = useCallback(
     async (values: ApplicationStatusFormValues & { applicationId: string }) => {
@@ -117,6 +121,19 @@ const OfferApplications = (props: Props) => {
       });
     },
     [activeStatus, changeApplicationStatus, id]
+  );
+
+  const createNoteHandler = useCallback(
+    async (values: NoteFormValues & { applicationId: string }) => {
+      if (!activeStatus) return;
+
+      return createNote({
+        ...values,
+        offerId: id,
+        status: activeStatus,
+      });
+    },
+    [activeStatus, createNote, id]
   );
 
   const isLoading = isChangeApplicationStatusLoading;
@@ -143,6 +160,10 @@ const OfferApplications = (props: Props) => {
         changeApplicationStatus={{
           handler: changeApplicationStatusHandler,
           isLoading: isChangeApplicationStatusLoading,
+        }}
+        createNote={{
+          handler: createNoteHandler,
+          isLoading: isCreateNoteLoading,
         }}
       />
     </>

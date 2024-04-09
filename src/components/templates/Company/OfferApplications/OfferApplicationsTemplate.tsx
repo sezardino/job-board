@@ -8,6 +8,7 @@ import { Icon } from "@/components/base/Icon/Icon";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import { Typography } from "@/components/base/Typography/Typography";
 import { ApplicationStatusFormValues } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
+import { NoteFormValues } from "@/components/forms/NoteForm/NoteForm";
 import { ApplicationCard } from "@/components/modules/application/ApplicationCard/ApplicationCard";
 import { EditApplicationStatusModal } from "@/components/modules/application/EditApplicationStatusModal/EditApplicationStatusModal";
 import { NoteFormModal } from "@/components/modules/application/NoteFormModal/NoteFormModal";
@@ -18,6 +19,7 @@ import { CompanyPageUrls } from "@/const";
 import { ChangeApplicationStatusRequest } from "@/services/bll/modules/application/schema";
 import { OfferApplicationsResponse } from "@/services/bll/modules/application/schema/list";
 import { OfferApplicationsStatisticsResponse } from "@/services/bll/modules/application/schema/offer-statistics";
+import { CreateNoteRequest } from "@/services/bll/modules/notes/schema";
 import { OfferBasicDataResponse } from "@/services/bll/modules/offers/schema";
 import { ActionProp, QueryProps } from "@/types";
 import {
@@ -40,6 +42,7 @@ export type OfferApplicationsTemplateProps = {
   changeApplicationStatus: ActionProp<
     ChangeApplicationStatusRequest & { applicationId: string }
   >;
+  createNote: ActionProp<CreateNoteRequest & { applicationId: string }>;
   basicData: QueryProps<OfferBasicDataResponse>;
   companyName: string;
   offerId: string;
@@ -67,6 +70,7 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
     onSearchChange,
     basicData,
     changeApplicationStatus,
+    createNote,
     companyName,
     offerId,
     ...applications
@@ -102,20 +106,6 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
     []
   );
 
-  // const [applicationToEditStatus, setApplicationToEditStatus] = useState<
-  //   string | null
-  // >(null);
-  // const [applicationToPreview, setApplicationToPreview] = useState<
-  //   string | null
-  // >(null);
-  // const [isApplicationTpPreviewOpen, setIsApplicationToPreviewOpen] =
-  //   useState(false);
-
-  // const openPreviewModal = useCallback((applicationId: string) => {
-  //   setApplicationToPreview(applicationId);
-  //   setIsApplicationToPreviewOpen(true);
-  // }, []);
-
   const changeApplicationStatusHandler = useCallback(
     (values: ApplicationStatusFormValues) => {
       if (!selectedApplication || selectedApplication?.action !== "status")
@@ -133,6 +123,25 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
       } catch (error) {}
     },
     [changeApplicationStatus, resetSelectedApplication, selectedApplication]
+  );
+
+  const createNoteHandler = useCallback(
+    (values: NoteFormValues) => {
+      if (!selectedApplication || selectedApplication?.action !== "note")
+        return;
+
+      const { id: applicationToEditStatus } = selectedApplication;
+
+      try {
+        createNote.handler({
+          ...values,
+          applicationId: applicationToEditStatus,
+        });
+
+        resetSelectedApplication();
+      } catch (error) {}
+    },
+    [createNote, resetSelectedApplication, selectedApplication]
   );
 
   const breadcrumbs = useMemo<BreadcrumbItem[]>(
@@ -263,7 +272,7 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
           selectedApplication?.action === "note" && selectedApplication.isOpen
         }
         onClose={resetSelectedApplication}
-        onFormSubmit={() => {}}
+        onFormSubmit={createNoteHandler}
       />
 
       {selectedApplication?.action === "preview" && (

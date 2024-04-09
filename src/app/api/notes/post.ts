@@ -8,6 +8,7 @@ export const postCreateNote = async (req: NextRequest) => {
 
   const success = await bllService.notes.create({
     ...data,
+    authorId: session?.user.id!,
     companyId: session?.user.companyId!,
   });
 
