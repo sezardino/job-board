@@ -3,20 +3,17 @@ import {
   BaseBreadcrumbs,
   BreadcrumbItem,
 } from "@/components/base/Breadcrumbs/BaseBreadcrumbs";
-import { Button } from "@/components/base/Button/Button";
 import { Grid } from "@/components/base/Grid/Grid";
 import { Icon } from "@/components/base/Icon/Icon";
-import { Modal } from "@/components/base/Modal/Modal";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import { Typography } from "@/components/base/Typography/Typography";
-import {
-  ApplicationStatusForm,
-  ApplicationStatusFormValues,
-} from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
+import { ApplicationStatusFormValues } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
+import { ApplicationCard } from "@/components/modules/application/ApplicationCard/ApplicationCard";
+import { EditApplicationStatusModal } from "@/components/modules/application/EditApplicationStatusModal/EditApplicationStatusModal";
 import { OfferBasicData } from "@/components/modules/offer/OfferBasicData/OfferBasicData";
 import { SkillsList } from "@/components/modules/offer/SkillsList/SkillsList";
 import { ApplicationPreviewWrapper } from "@/components/wrappers/ApplicationPreviewWrapper";
-import { APPLICATION_DATE_FORMAT, CompanyPageUrls } from "@/const";
+import { CompanyPageUrls } from "@/const";
 import { ChangeApplicationStatusRequest } from "@/services/bll/modules/application/schema";
 import { OfferApplicationsResponse } from "@/services/bll/modules/application/schema/list";
 import { OfferApplicationsStatisticsResponse } from "@/services/bll/modules/application/schema/offer-statistics";
@@ -25,14 +22,11 @@ import { ActionProp, QueryProps } from "@/types";
 import {
   Accordion,
   AccordionItem,
-  Card,
-  CardFooter,
-  CardHeader,
+  ScrollShadow,
   Tab,
   Tabs,
 } from "@nextui-org/react";
 import { ApplicationStatus } from "@prisma/client";
-import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { FC, useCallback, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -59,8 +53,6 @@ export type OfferApplicationsTemplateProps = {
 };
 
 const boardStatuses = Object.values(ApplicationStatus);
-
-const APPLICATION_STATUS_FORM_ID = "application-status-form";
 
 export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
   props
@@ -124,7 +116,7 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
 
   return (
     <>
-      <Grid gap={4} className={twMerge(styles.element)}>
+      <div className={twMerge(styles.element)}>
         <BaseBreadcrumbs items={breadcrumbs} />
         <Grid tag="header" gap={4}>
           <div>
@@ -134,7 +126,7 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
             <Typography tag="p">{t("description")}</Typography>
           </div>
 
-          <Accordion variant="bordered">
+          <Accordion isCompact variant="bordered">
             <AccordionItem
               textValue="Basic"
               isDisabled={basicData.isFetching}
@@ -176,12 +168,22 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
             <Tab
               key={status}
               value={status}
+              isDisabled={
+                applications[status].isFetching || statistics.isFetching
+              }
               title={
-                <div className="flex gap-1 items-center">
-                  <Typography tag="h2" weight="bold">
+                <div className={styles.tab}>
+                  <Typography tag="h2" weight="bold" className={styles.title}>
                     {entityT(`status.${status}`)}
                   </Typography>
                   <Badge color="warning" variant="shadow" size="sm">
+                    {statistics.isFetching && (
+                      <Icon
+                        name="TbLoader"
+                        size={16}
+                        className={styles.loader}
+                      />
+                    )}
                     <Typography tag="span" styling="xs">
                       {statistics.data?.data[status]}
                     </Typography>
@@ -189,113 +191,35 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
                 </div>
               }
               textValue={entityT(`status.${status}`)}
+              className={styles.panel}
             >
-              <ul className="list-none grid grid-cols-1 gap-2">
+              <ScrollShadow as="ul" className={styles.list}>
                 {applications[status].data?.data.map((a) => (
-                  <Card
+                  <ApplicationCard
                     as="li"
                     key={a.id}
-                    shadow="none"
-                    radius="none"
-                    className="border"
-                  >
-                    <CardHeader className="flex flex-wrap items-start justify-between">
-                      <Grid gap={1}>
-                        <Typography
-                          tag="h3"
-                          styling="md"
-                          className="grid grid-cols-1 gap-1"
-                        >
-                          {a.name}
-                          <Typography tag="span" styling="xs">
-                            {a.email}
-                          </Typography>
-                        </Typography>
-                      </Grid>
-                      <div className="flex items-center">
-                        <Button
-                          isIconOnly
-                          variant="light"
-                          color="warning"
-                          tooltip="See full information"
-                          size="sm"
-                          onClick={() => openPreviewModal(a.id)}
-                        >
-                          <Icon name="HiEye" size={14} />
-                        </Button>
-                        <Button
-                          isIconOnly
-                          variant="light"
-                          color="secondary"
-                          tooltip="Edit status"
-                          size="sm"
-                          onClick={() => setApplicationToEditStatus(a.id)}
-                        >
-                          <Icon name="HiPencil" size={14} />
-                        </Button>
-                      </div>
-                    </CardHeader>
-                    <CardFooter className="justify-between">
-                      <Typography tag="p" styling="xs">
-                        {t("applied-at", {
-                          value: dayjs(a.createdAt).format(
-                            APPLICATION_DATE_FORMAT
-                          ),
-                        })}
-                      </Typography>
-
-                      <Badge size="sm">
-                        <Typography tag="span" styling="xs">
-                          {t("notes-count", { value: a._count.notes })}
-                        </Typography>
-                      </Badge>
-                    </CardFooter>
-                  </Card>
+                    name={a.name}
+                    email={a.email}
+                    createdAt={a.createdAt}
+                    notes={a._count.notes}
+                    onAddNote={() => {}}
+                    onEditStatus={() => setApplicationToEditStatus(a.id)}
+                    onPreviewCV={() => {}}
+                    onOpenPreview={() => openPreviewModal(a.id)}
+                  />
                 ))}
-              </ul>
+              </ScrollShadow>
             </Tab>
           ))}
         </Tabs>
-      </Grid>
+      </div>
 
-      <Modal
+      <EditApplicationStatusModal
         isOpen={!!applicationToEditStatus}
-        placement="center"
+        activeStatus={activeStatus!}
         onClose={() => setApplicationToEditStatus(null)}
-      >
-        <Modal.Header>
-          <Typography tag="h2" styling="md">
-            {t("modals.change-status.title")}
-          </Typography>
-          <Typography tag="p">
-            {t("modals.change-status.description")}
-          </Typography>
-        </Modal.Header>
-        <Modal.Body>
-          <ApplicationStatusForm
-            id={APPLICATION_STATUS_FORM_ID}
-            initialStatus={activeStatus!}
-            onFormSubmit={changeApplicationStatusHandler}
-          />
-        </Modal.Body>
-        <Modal.Footer className="flex justify-between items-center">
-          <Button
-            form={APPLICATION_STATUS_FORM_ID}
-            type="reset"
-            variant="bordered"
-            onClick={() => setApplicationToEditStatus(null)}
-          >
-            {t("modals.change-status.cancel")}
-          </Button>
-          <Button
-            form={APPLICATION_STATUS_FORM_ID}
-            type="submit"
-            color="primary"
-          >
-            {t("modals.change-status.confirm")}
-          </Button>
-        </Modal.Footer>
-      </Modal>
+        onChangeApplicationStatus={changeApplicationStatusHandler}
+      />
 
       {applicationToPreview && (
         <ApplicationPreviewWrapper
