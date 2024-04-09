@@ -243,7 +243,7 @@ const generateDevData = async () => {
 
   const notes = applications.map((application) =>
     generateMockNotes({
-      count: faker.number.int({ min: 0, max: 1 }),
+      count: faker.number.int({ min: 1, max: 3 }),
       applicationId: application.id,
       usersIds: company.members.map((member) => member.id),
     })

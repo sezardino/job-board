@@ -120,7 +120,10 @@ export class ApplicationsBllModule extends AbstractBllService {
         createdAt: true,
         _count: { select: { notes: true } },
       },
-      orderBy: { createdAt: "desc" },
+      orderBy:
+        status === ApplicationStatus.NEW
+          ? { createdAt: "desc" }
+          : { updatedAt: "desc" },
     });
 
     return applications;

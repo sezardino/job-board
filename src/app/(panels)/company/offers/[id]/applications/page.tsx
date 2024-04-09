@@ -111,6 +111,7 @@ const OfferApplications = (props: Props) => {
 
       return changeApplicationStatus({
         ...values,
+        rejectedReason: values.message,
         offerId: id,
         oldStatus: activeStatus,
       });

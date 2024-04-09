@@ -184,9 +184,11 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
                         className={styles.loader}
                       />
                     )}
-                    <Typography tag="span" styling="xs">
-                      {statistics.data?.data[status]}
-                    </Typography>
+                    {!statistics.isFetching && (
+                      <Typography tag="span" styling="xs">
+                        {statistics.data?.data[status]}
+                      </Typography>
+                    )}
                   </Badge>
                 </div>
               }

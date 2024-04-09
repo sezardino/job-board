@@ -9,7 +9,12 @@ export const useOfferApplicationsQuery = (
   enabled = true
 ) => {
   return useQuery({
-    queryKey: [APPLICATION_LIST_QUERY_KEY, ...Object.values(params)],
+    queryKey: [
+      APPLICATION_LIST_QUERY_KEY,
+      params.offerId,
+      params.status,
+      params.search,
+    ],
     queryFn: () => apiService.applications.list(params),
     enabled: !!params.offerId && enabled,
   });

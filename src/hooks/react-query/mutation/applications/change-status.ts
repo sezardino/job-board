@@ -13,7 +13,8 @@ type MutationDto = ChangeApplicationStatusRequest & {
 
 export const useChangeApplicationStatusMutation = () =>
   useMutationHelper({
-    mutationFn: (dto: MutationDto) => apiService.applications.changeStatus(dto),
+    mutationFn: ({ oldStatus, ...dto }: MutationDto) =>
+      apiService.applications.changeStatus(dto),
     getQueriesToInvalidate: (data) => [
       [APPLICATION_LIST_QUERY_KEY, data.vars.offerId, data.vars.status],
       [APPLICATION_LIST_QUERY_KEY, data.vars.offerId, data.vars.oldStatus],

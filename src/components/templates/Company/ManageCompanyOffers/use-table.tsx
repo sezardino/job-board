@@ -207,23 +207,23 @@ export const useCompanyOffersTable = (props: Props) => {
       },
       {
         id: Seniority.INTERN,
-        label: entityT(`seniority.${Seniority.INTERN}`),
+        label: entityT(`offers.seniority.${Seniority.INTERN}`),
       },
       {
         id: Seniority.JUNIOR,
-        label: entityT(`seniority.${Seniority.JUNIOR}`),
+        label: entityT(`offers.seniority.${Seniority.JUNIOR}`),
       },
       {
         id: Seniority.MID,
-        label: entityT(`seniority.${Seniority.MID}`),
+        label: entityT(`offers.seniority.${Seniority.MID}`),
       },
       {
         id: Seniority.SENIOR,
-        label: entityT(`seniority.${Seniority.SENIOR}`),
+        label: entityT(`offers.seniority.${Seniority.SENIOR}`),
       },
       {
         id: Seniority.EXPERT,
-        label: entityT(`seniority.${Seniority.EXPERT}`),
+        label: entityT(`offers.seniority.${Seniority.EXPERT}`),
       },
     ];
   }, [entityT, t]);
