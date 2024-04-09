@@ -118,6 +118,7 @@ export class ApplicationsBllModule extends AbstractBllService {
         name: true,
         email: true,
         createdAt: true,
+        updatedAt: true,
         _count: { select: { notes: true } },
       },
       orderBy:

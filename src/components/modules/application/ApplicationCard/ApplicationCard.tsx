@@ -1,15 +1,10 @@
+import { Badge } from "@/components/base/Badge/Badge";
 import { Button } from "@/components/base/Button/Button";
 import { Grid } from "@/components/base/Grid/Grid";
 import { Icon } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
 import { APPLICATION_DATE_FORMAT } from "@/const";
-import {
-  Badge,
-  Card,
-  CardFooter,
-  CardHeader,
-  CardProps,
-} from "@nextui-org/react";
+import { Card, CardFooter, CardHeader, CardProps } from "@nextui-org/react";
 import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
 import { FC } from "react";
@@ -18,6 +13,7 @@ type Props = {
   name: string;
   email: string;
   createdAt: string;
+  updatedAt: string;
   notes: number;
   onOpenPreview: () => void;
   onPreviewCV: () => void;
@@ -33,6 +29,7 @@ export const ApplicationCard: FC<ApplicationCardProps> = (props) => {
     email,
     notes,
     createdAt,
+    updatedAt,
     onOpenPreview,
     onAddNote,
     onPreviewCV,
@@ -97,13 +94,22 @@ export const ApplicationCard: FC<ApplicationCardProps> = (props) => {
         </div>
       </CardHeader>
       <CardFooter className="justify-between">
-        <Typography tag="p" styling="xs">
-          {t("applied-at", {
-            value: dayjs(createdAt).format(APPLICATION_DATE_FORMAT),
-          })}
-        </Typography>
+        <Grid gap={1}>
+          <Typography tag="p" styling="xs">
+            {t("applied-at", {
+              value: dayjs(createdAt).format(APPLICATION_DATE_FORMAT),
+            })}
+          </Typography>
+          {dayjs(updatedAt).isAfter(createdAt) && (
+            <Typography tag="p" styling="xs">
+              {t("updated-at", {
+                value: dayjs(updatedAt).format(APPLICATION_DATE_FORMAT),
+              })}
+            </Typography>
+          )}
+        </Grid>
 
-        <Badge size="sm">
+        <Badge color="warning" size="sm">
           <Typography tag="span" styling="xs">
             {t("notes-count", { value: notes })}
           </Typography>

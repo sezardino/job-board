@@ -387,6 +387,21 @@
         "max-length": "Message should be less than {value} characters",
         "disabled": "You can't write a message for this status"
       }
+    },
+    "note": {
+      "name": {
+        "label": "Note Name",
+        "placeholder": "Note Name",
+        "max-length": "Name should be less than {value} characters",
+        "required": "Name is required"
+      },
+      "content": {
+        "label": "Content",
+        "placeholder": "Content",
+        "required": "Content is required",
+        "max-length": "Content should be less than {value} characters",
+        "description": "This will be usable for you to remember something about this application"
+      }
     }
   },
   "entity": {
@@ -704,6 +719,7 @@
         "description": "From this panel you can manage applications for this job offer",
         "search": "Search",
         "applied-at": "Applied at: {value}",
+        "updated-at": "Updated at: {value}",
         "notes-count": "Notes: {value}",
         "offers": "Offers",
         "applications": "Applications",
@@ -718,6 +734,12 @@
             "description": "Change the status of the application",
             "cancel": "Cancel",
             "confirm": "Change status"
+          },
+          "note": {
+            "title": "Add note",
+            "description": "Add note to this application",
+            "cancel": "Cancel",
+            "confirm": "Add note"
           }
         }
       }

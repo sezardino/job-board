@@ -10,6 +10,7 @@ import { Typography } from "@/components/base/Typography/Typography";
 import { ApplicationStatusFormValues } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
 import { ApplicationCard } from "@/components/modules/application/ApplicationCard/ApplicationCard";
 import { EditApplicationStatusModal } from "@/components/modules/application/EditApplicationStatusModal/EditApplicationStatusModal";
+import { NoteFormModal } from "@/components/modules/application/NoteFormModal/NoteFormModal";
 import { OfferBasicData } from "@/components/modules/offer/OfferBasicData/OfferBasicData";
 import { SkillsList } from "@/components/modules/offer/SkillsList/SkillsList";
 import { ApplicationPreviewWrapper } from "@/components/wrappers/ApplicationPreviewWrapper";
@@ -52,6 +53,8 @@ export type OfferApplicationsTemplateProps = {
   statistics: QueryProps<OfferApplicationsStatisticsResponse>;
 };
 
+type ApplicationModalType = "preview" | "status" | "note";
+
 const boardStatuses = Object.values(ApplicationStatus);
 
 export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
@@ -71,23 +74,54 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
   const t = useTranslations("page.company.offer-applications");
   const entityT = useTranslations("entity.applications");
 
-  const [applicationToEditStatus, setApplicationToEditStatus] = useState<
-    string | null
-  >(null);
-  const [applicationToPreview, setApplicationToPreview] = useState<
-    string | null
-  >(null);
-  const [isApplicationTpPreviewOpen, setIsApplicationToPreviewOpen] =
-    useState(false);
+  const [selectedApplication, setSelectedApplication] = useState<{
+    id: string;
+    action: ApplicationModalType;
+    isOpen: boolean;
+  } | null>(null);
 
-  const openPreviewModal = useCallback((applicationId: string) => {
-    setApplicationToPreview(applicationId);
-    setIsApplicationToPreviewOpen(true);
-  }, []);
+  const openApplicationModal = useCallback(
+    (id: string, type: ApplicationModalType) => {
+      setSelectedApplication({ id, action: type, isOpen: true });
+    },
+    []
+  );
+
+  const closeApplicationModal = useCallback(
+    () =>
+      setSelectedApplication((prev) => {
+        if (!prev) return null;
+
+        return { ...prev, isOpen: false };
+      }),
+    []
+  );
+
+  const resetSelectedApplication = useCallback(
+    () => setSelectedApplication(null),
+    []
+  );
+
+  // const [applicationToEditStatus, setApplicationToEditStatus] = useState<
+  //   string | null
+  // >(null);
+  // const [applicationToPreview, setApplicationToPreview] = useState<
+  //   string | null
+  // >(null);
+  // const [isApplicationTpPreviewOpen, setIsApplicationToPreviewOpen] =
+  //   useState(false);
+
+  // const openPreviewModal = useCallback((applicationId: string) => {
+  //   setApplicationToPreview(applicationId);
+  //   setIsApplicationToPreviewOpen(true);
+  // }, []);
 
   const changeApplicationStatusHandler = useCallback(
     (values: ApplicationStatusFormValues) => {
-      if (!applicationToEditStatus) return;
+      if (!selectedApplication || selectedApplication?.action !== "status")
+        return;
+
+      const { id: applicationToEditStatus } = selectedApplication;
 
       try {
         changeApplicationStatus.handler({
@@ -95,10 +129,10 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
           applicationId: applicationToEditStatus,
         });
 
-        setApplicationToEditStatus(null);
+        resetSelectedApplication();
       } catch (error) {}
     },
-    [applicationToEditStatus, changeApplicationStatus]
+    [changeApplicationStatus, resetSelectedApplication, selectedApplication]
   );
 
   const breadcrumbs = useMemo<BreadcrumbItem[]>(
@@ -203,11 +237,12 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
                     name={a.name}
                     email={a.email}
                     createdAt={a.createdAt}
+                    updatedAt={a.updatedAt}
                     notes={a._count.notes}
-                    onAddNote={() => {}}
-                    onEditStatus={() => setApplicationToEditStatus(a.id)}
+                    onAddNote={() => openApplicationModal(a.id, "note")}
+                    onEditStatus={() => openApplicationModal(a.id, "status")}
                     onPreviewCV={() => {}}
-                    onOpenPreview={() => openPreviewModal(a.id)}
+                    onOpenPreview={() => openApplicationModal(a.id, "preview")}
                   />
                 ))}
               </ScrollShadow>
@@ -217,18 +252,26 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
       </div>
 
       <EditApplicationStatusModal
-        isOpen={!!applicationToEditStatus}
+        isOpen={selectedApplication?.action === "status"}
         activeStatus={activeStatus!}
-        onClose={() => setApplicationToEditStatus(null)}
+        onClose={resetSelectedApplication}
         onChangeApplicationStatus={changeApplicationStatusHandler}
       />
 
-      {applicationToPreview && (
+      <NoteFormModal
+        isOpen={
+          selectedApplication?.action === "note" && selectedApplication.isOpen
+        }
+        onClose={resetSelectedApplication}
+        onFormSubmit={() => {}}
+      />
+
+      {selectedApplication?.action === "preview" && (
         <ApplicationPreviewWrapper
-          isOpen={isApplicationTpPreviewOpen}
-          onClose={() => setIsApplicationToPreviewOpen(false)}
-          applicationId={applicationToPreview}
-          onAfterClose={() => setApplicationToPreview(null)}
+          isOpen={selectedApplication.isOpen}
+          onClose={closeApplicationModal}
+          applicationId={selectedApplication.id}
+          onAfterClose={resetSelectedApplication}
         />
       )}
     </>
