@@ -5,6 +5,7 @@ import { generateMockCompany } from "./models/companies";
 import { mockCompanyOwner } from "./models/const";
 import { generateCurriculumVitae } from "./models/curriculum-vitae";
 import { industries, industriesAndCategories } from "./models/industries";
+import { generateMockNotes } from "./models/notes";
 import { generateMockOffers } from "./models/offers";
 import { generateMockUsers } from "./models/users";
 
@@ -177,6 +178,7 @@ const generateDevData = async () => {
       ...generateMockCompany(),
       members: { connect: { id: owner.id } },
     },
+    select: { id: true, members: { select: { id: true } } },
   });
 
   const industries = await prisma.industry.findMany({
@@ -234,6 +236,26 @@ const generateDevData = async () => {
   const applicationsCount = await prisma.application.count();
 
   console.log(`Generated applications: ${applicationsCount}`);
+
+  const applications = await prisma.application.findMany({
+    select: { id: true },
+  });
+
+  const notes = applications.map((application) =>
+    generateMockNotes({
+      count: faker.number.int({ min: 0, max: 1 }),
+      applicationId: application.id,
+      usersIds: company.members.map((member) => member.id),
+    })
+  );
+
+  await prisma.note.createMany({
+    data: notes.flat(),
+  });
+
+  const notesCount = await prisma.note.count();
+
+  console.log(`Generated notes: ${notesCount}`);
 };
 
 const generateApplications = async () => {

@@ -1,9 +1,18 @@
 import { APPLICATION_DATE_FORMAT } from "@/const";
 import { useOneApplicationQuery } from "@/hooks";
-import { Button, Link } from "@nextui-org/react";
+import {
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Link,
+} from "@nextui-org/react";
 import dayjs from "dayjs";
 import { FC, useState } from "react";
+import { UserInfo } from "../UI/UserInfo/UserInfo";
+import { Button } from "../base/Button/Button";
 import { Checkbox } from "../base/Checkbox/Checkbox";
+import { Icon } from "../base/Icon/Icon";
 import { Modal } from "../base/Modal/Modal";
 import { Typography } from "../base/Typography/Typography";
 
@@ -34,6 +43,8 @@ export const ApplicationPreviewWrapper: FC<ApplicationPreviewWrapperProps> = (
         <Typography tag="h2" styling="lg">
           Application Preview
         </Typography>
+
+        {data?.status}
 
         <Checkbox
           isReadOnly
@@ -75,6 +86,36 @@ export const ApplicationPreviewWrapper: FC<ApplicationPreviewWrapperProps> = (
             </>
           )}
         </Typography>
+        <Button size="lg" variant="bordered" color="primary">
+          <Icon name="HiDocument" size={40} />
+          CV
+        </Button>
+
+        <ul>
+          {data?.notes.map((note) => (
+            <Card key={note.id}>
+              <CardHeader>
+                <Typography tag="h3" styling="md">
+                  {note.name}
+                </Typography>
+              </CardHeader>
+              <CardBody>
+                <Typography tag="p" styling="sm">
+                  {note.author.name} - {note.content}
+                </Typography>
+              </CardBody>
+              <CardFooter>
+                <UserInfo
+                  name={note.author.name}
+                  email={note.author.email}
+                  avatar={note.author.avatar}
+                />
+              </CardFooter>
+            </Card>
+          ))}
+        </ul>
+        {/* {data?.rejectedReason}
+        {data?.notes} */}
       </Modal.Body>
       <Modal.Footer className="flex items-end">
         <Button onClick={onClose} variant="bordered">
