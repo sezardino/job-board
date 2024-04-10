@@ -15,6 +15,9 @@ export const offerApplicationsResponseSchema = z.object({
       email: z.string().email(),
       createdAt: z.string(),
       updatedAt: z.string(),
+      curriculumVitae: z.object({
+        url: z.string(),
+      }),
       _count: z.object({
         notes: z.number(),
       }),

@@ -119,6 +119,7 @@ export class ApplicationsBllModule extends AbstractBllService {
         email: true,
         createdAt: true,
         updatedAt: true,
+        curriculumVitae: { select: { url: true } },
         _count: { select: { notes: true } },
       },
       orderBy:

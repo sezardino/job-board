@@ -1,3 +1,4 @@
+import { PDFViewerModal } from "@/components/UI/PDFViewerModal/PDFViewerModal";
 import { Badge } from "@/components/base/Badge/Badge";
 import {
   BaseBreadcrumbs,
@@ -83,6 +84,7 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
     action: ApplicationModalType;
     isOpen: boolean;
   } | null>(null);
+  const [cvUrlForPreview, setCvUrlForPreview] = useState<string | null>(null);
 
   const openApplicationModal = useCallback(
     (id: string, type: ApplicationModalType) => {
@@ -250,7 +252,9 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
                     notes={a._count.notes}
                     onAddNote={() => openApplicationModal(a.id, "note")}
                     onEditStatus={() => openApplicationModal(a.id, "status")}
-                    onPreviewCV={() => {}}
+                    onPreviewCV={() =>
+                      setCvUrlForPreview(a.curriculumVitae.url)
+                    }
                     onOpenPreview={() => openApplicationModal(a.id, "preview")}
                   />
                 ))}
@@ -278,11 +282,18 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
       {selectedApplication?.action === "preview" && (
         <ApplicationPreviewWrapper
           isOpen={selectedApplication.isOpen}
+          offerId={offerId}
           onClose={closeApplicationModal}
           applicationId={selectedApplication.id}
           onAfterClose={resetSelectedApplication}
         />
       )}
+
+      <PDFViewerModal
+        isOpen={!!cvUrlForPreview}
+        onClose={() => setCvUrlForPreview(null)}
+        file={cvUrlForPreview!}
+      />
     </>
   );
 };
