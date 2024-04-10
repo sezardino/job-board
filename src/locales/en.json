@@ -1082,6 +1082,13 @@
         "form": "Create new note",
         "add": "Create note"
       }
+    },
+    "pdf-viewer-modal": {
+      "download": "Download",
+      "loading": {
+        "document": "Document is loading...",
+        "page": "Page is loading..."
+      }
     }
   },
   "messages": {
