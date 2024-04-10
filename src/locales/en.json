@@ -1056,6 +1056,32 @@
       "contract": "Job Contract",
       "operating": "Operating",
       "seniority": "Seniority"
+    },
+    "application-preview-modal": {
+      "title": "Application preview",
+      "description": "Details of the application",
+      "applied-at": "Applied at: {value}",
+      "updated-at": "Updated at: {value}",
+      "close": "Close",
+      "agreements": {
+        "title": "Agreements",
+        "data-processing": "You must agree to data processing",
+        "future-recruitment": "You must agree to use your data in future recruitment processes"
+      },
+      "rejected-reason": "Reason for rejection",
+      "candidate": {
+        "title": "Candidate",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "cv": "CV"
+      },
+      "notes": {
+        "title": "Notes",
+        "empty": "No notes found",
+        "form": "Create new note",
+        "add": "Create note"
+      }
     }
   },
   "messages": {

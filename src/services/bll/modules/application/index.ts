@@ -157,7 +157,6 @@ export class ApplicationsBllModule extends AbstractBllService {
               select: { id: true, name: true, avatar: true, email: true },
             },
           },
-          orderBy: { createdAt: "desc" },
         },
       },
     });

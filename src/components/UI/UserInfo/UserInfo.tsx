@@ -9,7 +9,7 @@ import { twMerge } from "tailwind-merge";
 type Props = {
   name?: string;
   email?: string;
-  avatar?: string;
+  avatar?: string | null;
   size?: BaseAvatarSize;
 };
 
@@ -24,7 +24,7 @@ export const UserInfo: FC<UserInfoProps> = (props) => {
         size={size}
         radius="lg"
         showFallback
-        src={avatar}
+        src={avatar || undefined}
         alt={name || ""}
       />
       {(name || email) && (
