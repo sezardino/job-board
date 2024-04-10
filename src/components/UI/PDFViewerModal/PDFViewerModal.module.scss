@@ -1,0 +1,28 @@
+.body {
+  &.loading {
+    aspect-ratio: 1/1.4;
+  }
+}
+
+.wrapper {
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.viewer {
+  max-height: 85vh;
+  overflow-y: auto;
+
+  &.loading {
+    visibility: hidden;
+  }
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

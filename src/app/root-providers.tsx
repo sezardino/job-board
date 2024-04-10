@@ -6,7 +6,7 @@ import { SessionProvider } from "next-auth/react";
 import { NextIntlClientProvider } from "next-intl";
 import { PropsWithChildren } from "react";
 import { ToastContainer } from "react-toastify";
-import { ReactQueryProvider } from "../libs/react-query";
+import { ReactQueryProvider } from "../libs/react-query/config";
 
 export type RootLayoutProvidersProps = PropsWithChildren<{
   session: Session | null;

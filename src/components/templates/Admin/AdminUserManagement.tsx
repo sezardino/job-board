@@ -34,7 +34,7 @@ export const AdminUserManagementTemplate: FC<
     ...rest
   } = props;
   const t = useTranslations("page.admin.manage-company-users");
-  const userT = useTranslations("entity.user");
+  const userT = useTranslations("entity.users");
 
   const columns = useMemo(
     () => [

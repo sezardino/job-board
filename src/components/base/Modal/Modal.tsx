@@ -10,7 +10,7 @@ import {
   VariantProps,
   extendVariants,
 } from "@nextui-org/react";
-import { type FC } from "react";
+import { useRef, type FC } from "react";
 
 const ExtendedModal = extendVariants(NextUIModal, {
   variants: {
@@ -28,6 +28,7 @@ const ExtendedModal = extendVariants(NextUIModal, {
 
 type Props = {
   onClose: () => void;
+  onAfterClose?: () => void;
   className?: string;
 };
 
@@ -41,13 +42,25 @@ export type ModalComponent = FC<ModalProps> & {
 };
 
 export const Modal: ModalComponent = (props) => {
-  const { title, children, className, ...rest } = props;
+  const { title, children, className, onAfterClose, ...rest } = props;
+  const timerRef = useRef<number | null>(null);
+
+  const openChangeHandler = (open: boolean) => {
+    if (!open && onAfterClose) {
+      timerRef.current = window.setTimeout(() => {
+        onAfterClose();
+      }, 500);
+    } else if (open && timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+  };
 
   return (
     <ExtendedModal
       {...rest}
       backdrop="blur"
       scrollBehavior="outside"
+      onOpenChange={openChangeHandler}
       classNames={{
         header: "block",
         body: "block",

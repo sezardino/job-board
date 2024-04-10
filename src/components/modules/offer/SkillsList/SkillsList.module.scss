@@ -1,0 +1,3 @@
+.list {
+  @apply grid gap-1 grid-cols-[repeat(auto-fill,minmax(200px,1fr))];
+}

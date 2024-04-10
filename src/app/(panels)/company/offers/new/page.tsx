@@ -6,7 +6,7 @@ import {
   NewOfferTemplate,
 } from "@/components/templates/Company/NewOffer/NewOfferTemplate";
 import { CompanyPageUrls } from "@/const";
-import { useCreateJobOfferMutation } from "@/hooks/react-query/mutation/job-offers";
+import { useCreateOfferMutation } from "@/hooks/react-query/mutation/offers";
 import { useActiveCategoriesQuery } from "@/hooks/react-query/query/categories/active-categories";
 import { useActiveIndustriesQuery } from "@/hooks/react-query/query/industries/active-industries";
 import { useRouter } from "next/navigation";
@@ -23,12 +23,12 @@ const NewOfferPage = () => {
   const { data: activeCategories, isFetching: isActiveCategoriesLoading } =
     useActiveCategoriesQuery(selectedIndustry);
 
-  const { mutateAsync: createJobOffer, isPending: isCreateJobOfferLoading } =
-    useCreateJobOfferMutation();
+  const { mutateAsync: createOffer, isPending: isCreateOfferLoading } =
+    useCreateOfferMutation();
 
   const handleCreateOfferRequest = useCallback(
     (values: Required<NewOfferData>) =>
-      createJobOffer(
+      createOffer(
         {
           ...values.description,
           ...values.details,
@@ -37,12 +37,12 @@ const NewOfferPage = () => {
         },
         { onSuccess: () => router.push(CompanyPageUrls.offers) }
       ),
-    [createJobOffer, router]
+    [createOffer, router]
   );
 
   return (
     <>
-      {isCreateJobOfferLoading && <LoadingOverlay />}
+      {isCreateOfferLoading && <LoadingOverlay />}
       <NewOfferTemplate
         categories={{
           data: activeCategories,
@@ -55,7 +55,7 @@ const NewOfferPage = () => {
         onSelectIndustry={setSelectedIndustry}
         onCreateOfferRequest={{
           handler: handleCreateOfferRequest,
-          isLoading: isCreateJobOfferLoading,
+          isLoading: isCreateOfferLoading,
         }}
       />
     </>

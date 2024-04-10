@@ -13,11 +13,13 @@ export abstract class AbstractBllService {
   protected getPagination(args: GetPaginationArgs) {
     const { page = 0, limit = DEFAULT_PAGE_LIMIT, count = 0 } = args;
 
+    const totalPages = Math.ceil(count / limit) - 1;
+
     return {
       skip: page * limit,
       take: Number(limit),
       meta: {
-        totalPages: Math.ceil(count / limit) - 1,
+        totalPages: totalPages < 0 ? 0 : totalPages,
         page,
         limit,
         count,

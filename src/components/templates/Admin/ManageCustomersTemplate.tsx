@@ -34,7 +34,7 @@ export const ManageCustomersTemplate: FC<ManageCustomersTemplateProps> = (
     ...rest
   } = props;
   const t = useTranslations("page.admin.manage-customers");
-  const userT = useTranslations("entity.user");
+  const userT = useTranslations("entity.users");
 
   const columns = useMemo(
     () => [

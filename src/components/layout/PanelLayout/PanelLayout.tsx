@@ -8,7 +8,7 @@ import {
   AppSidebarItem,
 } from "@/components/UI/AppSidebar/AppSidebar";
 import { twMerge } from "tailwind-merge";
-import styles from "./PanelLayout.module.css";
+import styles from "./PanelLayout.module.scss";
 
 type Props = {
   lists: AppSidebarItem[][];
@@ -46,7 +46,7 @@ export const PanelLayout: FC<PanelLayoutProps> = (props) => {
         className={twMerge(styles.sidebar)}
         brandHref={homeHref}
       />
-      <div className={twMerge(styles.content, "p-4 h-auto")}>{children}</div>
+      <div className={styles.content}>{children}</div>
     </div>
   );
 };

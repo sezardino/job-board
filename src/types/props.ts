@@ -8,6 +8,11 @@ export type DataProp<T> = {
   isLoading: boolean;
 };
 
+export type QueryProps<T> = {
+  data?: T;
+  isFetching: boolean;
+};
+
 export type InfiniteDataProp<T> = {
   data?: T;
   isFetching: boolean;

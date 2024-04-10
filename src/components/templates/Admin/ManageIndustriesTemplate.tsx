@@ -66,7 +66,7 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
     ...rest
   } = props;
   const t = useTranslations("page.admin.manage-industries");
-  const statusT = useTranslations("entity.status");
+  const statusT = useTranslations("entity.common.status");
 
   const [isCreateIndustryModalOpen, setIsCreateIndustryModalOpen] =
     useState(false);

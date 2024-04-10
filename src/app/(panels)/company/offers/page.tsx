@@ -1,23 +1,21 @@
 "use client";
 
-import { ManageCompanyJobOffersTemplate } from "@/components/templates/Company/ManageCompanyJobOffers/ManageCompanyJobOffersTemplate";
+import { ManageCompanyOffersTemplate } from "@/components/templates/Company/ManageCompanyOffers/ManageCompanyOffersTemplate";
 import { useDataOnPage } from "@/hooks";
 import {
-  useArchiveJobOfferMutation,
-  useFinishJobOfferMutation,
-  usePublishJobOfferMutation,
-} from "@/hooks/react-query/mutation/job-offers/change-status";
-import { useDeleteJobOfferMutation } from "@/hooks/react-query/mutation/job-offers/delete";
-import { useCurrentCompanyJobOffersQuery } from "@/hooks/react-query/query/job-offers";
-import { JobOfferStatus, Seniority } from "@prisma/client";
-import { useSession } from "next-auth/react";
+  useArchiveOfferMutation,
+  useFinishOfferMutation,
+  usePublishOfferMutation,
+} from "@/hooks/react-query/mutation/offers/change-status";
+import { useDeleteOfferMutation } from "@/hooks/react-query/mutation/offers/delete";
+import { useCurrentCompanyOffersQuery } from "@/hooks/react-query/query/offers";
+import { OfferStatus, Seniority } from "@prisma/client";
 import { useState } from "react";
 
-export type JobOfferStatusFilters = JobOfferStatus | "all";
-export type JobOfferSeniorityFilters = Seniority | "all";
+export type OfferStatusFilters = Exclude<OfferStatus, "INACTIVE">;
+export type OfferSeniorityFilters = Seniority | "all";
 
 const CompanyOffersPage = () => {
-  const { data } = useSession();
   const {
     limit,
     page,
@@ -28,29 +26,29 @@ const CompanyOffersPage = () => {
     changeHandler,
   } = useDataOnPage();
 
-  const [status, setStatus] = useState<JobOfferStatusFilters>("all");
-  const [seniority, setSeniority] = useState<JobOfferSeniorityFilters>("all");
+  const [status, setStatus] = useState<OfferStatusFilters>(OfferStatus.ACTIVE);
+  const [seniority, setSeniority] = useState<OfferSeniorityFilters>("all");
 
   const { data: companyOffers, isFetching: isCompanyOffersLoading } =
-    useCurrentCompanyJobOffersQuery({
+    useCurrentCompanyOffersQuery({
       limit,
       page,
       search,
-      status: status === "all" ? undefined : status,
+      status: status,
       seniority: seniority === "all" ? undefined : seniority,
     });
 
-  const { mutateAsync: deleteJobOffer, isPending: isDeleteJobOfferLoading } =
-    useDeleteJobOfferMutation();
-  const { mutateAsync: finishJobOffer, isPending: isFinishJobOfferLoading } =
-    useFinishJobOfferMutation();
-  const { mutateAsync: archiveJobOffer, isPending: isArchiveJobOfferLoading } =
-    useArchiveJobOfferMutation();
-  const { mutateAsync: publishJobOffer, isPending: isPublishJobOfferLoading } =
-    usePublishJobOfferMutation();
+  const { mutateAsync: deleteOffer, isPending: isDeleteOfferLoading } =
+    useDeleteOfferMutation();
+  const { mutateAsync: finishOffer, isPending: isFinishOfferLoading } =
+    useFinishOfferMutation();
+  const { mutateAsync: archiveOffer, isPending: isArchiveOfferLoading } =
+    useArchiveOfferMutation();
+  const { mutateAsync: publishOffer, isPending: isPublishOfferLoading } =
+    usePublishOfferMutation();
 
   return (
-    <ManageCompanyJobOffersTemplate
+    <ManageCompanyOffersTemplate
       offers={{
         data: companyOffers,
         isLoading: isCompanyOffersLoading,
@@ -70,20 +68,20 @@ const CompanyOffersPage = () => {
         onChange: (value) => changeHandler(value, setSeniority),
       }}
       deleteAction={{
-        handler: deleteJobOffer,
-        isLoading: isDeleteJobOfferLoading,
+        handler: deleteOffer,
+        isLoading: isDeleteOfferLoading,
       }}
       finishAction={{
-        handler: finishJobOffer,
-        isLoading: isFinishJobOfferLoading,
+        handler: finishOffer,
+        isLoading: isFinishOfferLoading,
       }}
       archiveAction={{
-        handler: archiveJobOffer,
-        isLoading: isArchiveJobOfferLoading,
+        handler: archiveOffer,
+        isLoading: isArchiveOfferLoading,
       }}
       publishAction={{
-        handler: publishJobOffer,
-        isLoading: isPublishJobOfferLoading,
+        handler: publishOffer,
+        isLoading: isPublishOfferLoading,
       }}
     />
   );

@@ -1,3 +1,4 @@
+import parse from "html-react-parser";
 import {
   ForwardRefRenderFunction,
   forwardRef,
@@ -85,10 +86,11 @@ const TypographyComponent: ForwardRefRenderFunction<
         stylingString[styling],
         weightString[weight],
         `text-${color}`,
+        "whitespace-pre-line",
         className
       )}
     >
-      {children}
+      {typeof children === "string" ? parse(children) : children}
     </Tag>
   );
 };

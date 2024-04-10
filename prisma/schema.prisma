@@ -65,7 +65,7 @@ enum UserStatus {
   INACTIVE
 }
 
-enum JobOfferStatus {
+enum OfferStatus {
   ARCHIVED
   FINISHED
   ACTIVE
@@ -73,14 +73,9 @@ enum JobOfferStatus {
   DRAFT
 }
 
-enum JobAplicationStatus {
-  PROCESSED
-  OPENED
-  REJECTED
-}
-
-enum JobAplicationRecruitmentStatus {
-  PROCESSED
+enum ApplicationStatus {
+  NEW
+  PRE_SCREENING
   SCREENING
   INTERVIEW
   PRE_OFFER
@@ -137,10 +132,14 @@ model User {
   company   Company? @relation(name: "member", fields: [companyId], references: [id])
   companyId String?  @map("company_id") @db.ObjectId
 
-  applications JobApplication[]
+  applications Application[]
+
+  notes Note[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("users")
 }
 
 model Industry {
@@ -150,10 +149,12 @@ model Industry {
   status     EntityStatus @default(CREATED)
   categories Category[]
 
-  offers JobOffer[]
+  offers Offer[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("industries")
 }
 
 model Category {
@@ -165,8 +166,10 @@ model Category {
   industry   Industry @relation(fields: [industryId], references: [id])
   industryId String   @map("industry_id") @db.ObjectId
 
-  createdAt DateTime   @default(now()) @map("created_at")
-  offers    JobOffer[]
+  createdAt DateTime @default(now()) @map("created_at")
+  offers    Offer[]
+
+  @@map("categories")
 }
 
 model Company {
@@ -192,21 +195,23 @@ model Company {
   slogan String? @map("slogan")
   bio    String?
 
-  members User[]     @relation(name: "member")
-  offers  JobOffer[]
+  members User[]  @relation(name: "member")
+  offers  Offer[]
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("companies")
 }
 
-model JobOffer {
+model Offer {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
   salaryFrom Int? @map("salary_from")
   salaryTo   Int? @map("salary_to")
 
   name      String
-  status    JobOfferStatus     @default(DRAFT)
+  status    OfferStatus        @default(DRAFT)
   type      JobType
   contract  JobContract[]
   operating JobOperatingMode[]
@@ -230,23 +235,38 @@ model JobOffer {
   // TODO: add in next version (deadline)
   // deadlineAt  DateTime? @map("deadline_at")
 
-  applications JobApplication[]
+  applications Application[]
 
   createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("offers")
 }
 
-type JobApplicationNote {
-  content   String
-  createdAt DateTime @default(now()) @map("created_at")
-}
-
-model JobApplication {
+model Note {
   id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  status            JobAplicationStatus            @default(PROCESSED)
-  recruitmentStatus JobAplicationRecruitmentStatus @default(PROCESSED) @map("rectuitment_status")
+  name      String
+  content   String
+  createdAt DateTime @default(now()) @map("created_at")
 
-  notes JobApplicationNote[]
+  application   Application @relation(fields: [applicationId], references: [id])
+  applicationId String      @map("application_id") @db.ObjectId
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String @map("author_id") @db.ObjectId
+
+  @@map("notes")
+}
+
+model Application {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+
+  status ApplicationStatus @default(NEW) @map("status")
+
+  rejectedReason String?   @map("rejected_reason")
+  rejectedAt     DateTime? @map("rejected_at")
+
+  notes Note[]
 
   name              String
   email             String
@@ -254,8 +274,8 @@ model JobApplication {
   futureRecruitment Boolean @map("future_recturation")
   dataProcessing    Boolean @map("data_processing")
 
-  jobOffer   JobOffer @relation(fields: [jobOfferId], references: [id])
-  jobOfferId String   @map("job_offer_id") @db.ObjectId
+  offer   Offer  @relation(fields: [offerId], references: [id])
+  offerId String @map("offer_id") @db.ObjectId
 
   user   User?   @relation(fields: [userId], references: [id])
   userId String? @map("user_id") @db.ObjectId
@@ -265,6 +285,9 @@ model JobApplication {
   curriculumVitaeId String          @map("cv_id") @db.ObjectId
 
   createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("applications")
 }
 
 model Image {
@@ -288,6 +311,8 @@ model Image {
   userId String? @unique @db.ObjectId
 
   createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("images")
 }
 
 model CurriculumVitae {
@@ -298,7 +323,9 @@ model CurriculumVitae {
 
   status CVFileStatus @default(ACTIVE)
 
-  applications JobApplication[]
+  applications Application[]
 
   createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("cvs")
 }

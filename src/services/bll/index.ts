@@ -5,10 +5,11 @@ import {
   CompaniesBllModule,
   FilesBllModule,
   IndustriesBllModule,
-  JobOffersBllModule,
+  NotesBllModule,
+  OffersBllModule,
   UsersBllModule,
 } from "./modules";
-import { JobApplicationsBllModule } from "./modules/job-application";
+import { ApplicationsBllModule } from "./modules/application";
 
 class BllService {
   auth: AuthBllModule;
@@ -16,9 +17,10 @@ class BllService {
   industries: IndustriesBllModule;
   companies: CompaniesBllModule;
   files: FilesBllModule;
-  jobOffers: JobOffersBllModule;
+  offers: OffersBllModule;
   categories: CategoriesBllModule;
-  jobApplications: JobApplicationsBllModule;
+  applications: ApplicationsBllModule;
+  notes: NotesBllModule;
 
   constructor(private readonly prismaService: PrismaService) {
     this.files = new FilesBllModule(prismaService);
@@ -26,12 +28,10 @@ class BllService {
     this.companies = new CompaniesBllModule(prismaService, this.files);
     this.auth = new AuthBllModule(prismaService, this.users, this.companies);
     this.industries = new IndustriesBllModule(prismaService);
-    this.jobOffers = new JobOffersBllModule(prismaService);
+    this.offers = new OffersBllModule(prismaService);
     this.categories = new CategoriesBllModule(prismaService);
-    this.jobApplications = new JobApplicationsBllModule(
-      prismaService,
-      this.files
-    );
+    this.applications = new ApplicationsBllModule(prismaService, this.files);
+    this.notes = new NotesBllModule(prismaService, this.applications);
   }
 }
 

@@ -19,12 +19,8 @@ export const BaseBreadcrumbs: FC<BaseBreadcrumbsProps> = (props) => {
   return (
     <Breadcrumbs {...rest}>
       {items.map((item, index) => (
-        <BreadcrumbItem
-          key={index}
-          as={item.href ? Link : undefined}
-          href={item.href ? item.href : undefined}
-        >
-          {item.label}
+        <BreadcrumbItem key={index} as="li">
+          {item.href ? <Link href={item.href}>{item.label}</Link> : item.label}
         </BreadcrumbItem>
       ))}
     </Breadcrumbs>

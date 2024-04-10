@@ -373,22 +373,100 @@
       "future-recruitment": {
         "label": "I agree to use my data in future recruitment processes"
       }
+    },
+    "application-status": {
+      "status": {
+        "label": "Status",
+        "placeholder": "Status",
+        "required": "Status is required"
+      },
+      "message": {
+        "label": "Message",
+        "placeholder": "Message",
+        "required": "Message is required",
+        "max-length": "Message should be less than {value} characters",
+        "disabled": "You can't write a message for this status"
+      }
+    },
+    "note": {
+      "name": {
+        "label": "Note Name",
+        "placeholder": "Note Name",
+        "max-length": "Name should be less than {value} characters",
+        "required": "Name is required"
+      },
+      "content": {
+        "label": "Content",
+        "placeholder": "Content",
+        "required": "Content is required",
+        "max-length": "Content should be less than {value} characters",
+        "description": "This will be usable for you to remember something about this application"
+      }
     }
   },
   "entity": {
-    "status": {
-      "ACTIVE": "Active",
-      "INACTIVE": "Inactive",
-      "CREATED": "Created"
+    "common": {
+      "status": {
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive",
+        "CREATED": "Created"
+      }
     },
-    "job-status": {
-      "ARCHIVED": "Archived",
-      "FINISHED": "Finished",
-      "ACTIVE": "Active",
-      "INACTIVE": "Inactive",
-      "DRAFT": "Draft"
+    "offers": {
+      "status": {
+        "ARCHIVED": "Archived",
+        "FINISHED": "Finished",
+        "ACTIVE": "Active",
+        "INACTIVE": "Inactive",
+        "DRAFT": "Draft"
+      },
+      "seniority": {
+        "INTERN": "Intern",
+        "JUNIOR": "Junior",
+        "MID": "Mid",
+        "SENIOR": "Senior",
+        "EXPERT": "Expert"
+      },
+      "operating": {
+        "REMOTE": "Remote",
+        "OFFICE": "Office",
+        "HYBRID": "Hybrid",
+        "OTHER": "Other"
+      },
+      "skill-level": {
+        "NICE_TO_HAVE": "Nice to have",
+        "BASIC": "Basic",
+        "MEDIUM": "Medium",
+        "ADVANCED": "Advanced",
+        "EXPERT": "Expert"
+      },
+      "type": {
+        "FULL_TIME": "Full time",
+        "PART_TIME": "Part time",
+        "PRACTICE_INTERNSHIP": "Practice internship",
+        "FREELANCE": "Freelance"
+      },
+      "contract": {
+        "B2B": "B2B",
+        "PERMANENT": "Permanent",
+        "MANDATE_CONTRACT": "Mandate contract",
+        "SPECIFIC_TASK_CONTRACT": "Specific task contract",
+        "INTERNSHIP": "Internship"
+      }
     },
-    "user": {
+    "applications": {
+      "status": {
+        "NEW": "New",
+        "PRE_SCREENING": "Pre screening",
+        "SCREENING": "Screening",
+        "INTERVIEW": "Interview",
+        "PRE_OFFER": "Pre offer",
+        "OFFER": "Offer",
+        "REJECTED": "Rejected",
+        "CANCELED": "Canceled"
+      }
+    },
+    "users": {
       "role": {
         "ADMIN": "Admin",
         "SUB_ADMIN": "Sub Admin",
@@ -403,39 +481,6 @@
         "BLOCKED": "Blocked",
         "INACTIVE": "Inactive"
       }
-    },
-    "seniority": {
-      "INTERN": "Intern",
-      "JUNIOR": "Junior",
-      "MID": "Mid",
-      "SENIOR": "Senior",
-      "EXPERT": "Expert"
-    },
-    "operating": {
-      "REMOTE": "Remote",
-      "OFFICE": "Office",
-      "HYBRID": "Hybrid",
-      "OTHER": "Other"
-    },
-    "skill-level": {
-      "NICE_TO_HAVE": "Nice to have",
-      "BASIC": "Basic",
-      "MEDIUM": "Medium",
-      "ADVANCED": "Advanced",
-      "EXPERT": "Expert"
-    },
-    "job-type": {
-      "FULL_TIME": "Full time",
-      "PART_TIME": "Part time",
-      "PRACTICE_INTERNSHIP": "Practice internship",
-      "FREELANCE": "Freelance"
-    },
-    "job-contract": {
-      "B2B": "B2B",
-      "PERMANENT": "Permanent",
-      "MANDATE_CONTRACT": "Mandate contract",
-      "SPECIFIC_TASK_CONTRACT": "Specific task contract",
-      "INTERNSHIP": "Internship"
     },
     "industries": {
       "information-technology": "Information Technology",
@@ -662,6 +707,41 @@
           "cancel": "Cancel",
           "confirm": "Create"
         }
+      },
+      "manage-offer": {
+        "manage": "Manage job offer",
+        "edit": "Edit",
+        "applications": "See applications",
+        "offers": "Offers"
+      },
+      "offer-applications": {
+        "title": "Applications for offer: \"{value}\"",
+        "description": "From this panel you can manage applications for this job offer",
+        "search": "Search",
+        "applied-at": "Applied at: {value}",
+        "updated-at": "Updated at: {value}",
+        "notes-count": "Notes: {value}",
+        "offers": "Offers",
+        "applications": "Applications",
+        "skills": {
+          "title": "Skills",
+          "description": "Skills required for this job offer",
+          "no-data": "No skills was provided"
+        },
+        "modals": {
+          "change-status": {
+            "title": "Change application status",
+            "description": "Change the status of the application",
+            "cancel": "Cancel",
+            "confirm": "Change status"
+          },
+          "note": {
+            "title": "Add note",
+            "description": "Add note to this application",
+            "cancel": "Cancel",
+            "confirm": "Add note"
+          }
+        }
       }
     },
     "customer-registration": {
@@ -887,12 +967,14 @@
         "name": "Name",
         "industry-category": "Industry/Category",
         "deadline": "Deadline",
+        "applications-count": "Applications count",
         "seniority": "Seniority",
         "status": "Status",
         "actions": {
           "label": "More",
           "edit": "Edit",
           "preview": "Preview",
+          "applications": "Manage Applications",
           "publish": "Publish",
           "unpublish": "Unpublish",
           "archive": "Archive",
@@ -962,23 +1044,50 @@
       }
     },
     "job-offer-details": {
-      "contract": "Job Contract",
-      "seniority": "Seniority",
-      "type": "Job Type",
-      "operating": "Operating",
       "deadline": "Deadline",
       "skills": { "title": "Skills", "no-data": "No skills was provided" },
       "description": {
         "title": "Job offer description",
         "description": "Description of the job offer"
       }
-    }
-  },
-  "templates": {
-    "company": {
-      "manage-job-offer": {
-        "manage": "Manage job offer",
-        "edit": "Edit"
+    },
+    "offer-basic-data": {
+      "type": "Job Type",
+      "contract": "Job Contract",
+      "operating": "Operating",
+      "seniority": "Seniority"
+    },
+    "application-preview-modal": {
+      "title": "Application preview",
+      "description": "Details of the application",
+      "applied-at": "Applied at: {value}",
+      "updated-at": "Updated at: {value}",
+      "close": "Close",
+      "agreements": {
+        "title": "Agreements",
+        "data-processing": "You must agree to data processing",
+        "future-recruitment": "You must agree to use your data in future recruitment processes"
+      },
+      "rejected-reason": "Reason for rejection",
+      "candidate": {
+        "title": "Candidate",
+        "name": "Name",
+        "email": "Email",
+        "message": "Message",
+        "cv": "CV"
+      },
+      "notes": {
+        "title": "Notes",
+        "empty": "No notes found",
+        "form": "Create new note",
+        "add": "Create note"
+      }
+    },
+    "pdf-viewer-modal": {
+      "download": "Download",
+      "loading": {
+        "document": "Document is loading...",
+        "page": "Page is loading..."
       }
     }
   },
@@ -986,6 +1095,14 @@
     "login": {
       "success": "Login successful",
       "error": "Login failed"
+    }
+  },
+  "toasts": {
+    "applications": {
+      "change-status": {
+        "success": "Application status changed successfully",
+        "error": "Application status change failed"
+      }
     }
   }
 }

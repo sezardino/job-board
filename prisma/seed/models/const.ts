@@ -1,9 +1,9 @@
 import {
   EntityStatus,
   JobContract,
-  JobOfferStatus,
   JobOperatingMode,
   JobType,
+  OfferStatus,
   Seniority,
   SkillLevel,
   UserRoles,
@@ -18,9 +18,7 @@ export const jobOperatingModes = Object.values(
   JobOperatingMode
 ) as JobOperatingMode[];
 export const jobContracts = Object.values(JobContract) as JobContract[];
-export const jobOfferStatuses = Object.values(
-  JobOfferStatus
-) as JobOfferStatus[];
+export const jobOfferStatuses = Object.values(OfferStatus) as OfferStatus[];
 export const jobTypes = Object.values(JobType) as JobType[];
 
 export const seniorities = Object.values(Seniority) as Seniority[];
@@ -28,7 +26,7 @@ export const skillLevels = Object.values(SkillLevel) as SkillLevel[];
 
 // password: "password",
 export const mockPassword =
-  "$argon2id$v=19$m=65536,t=3,p=4$10ShtgkPnvHRc3Xe6DXXOw$D7Ycbyy58LU5ff5i0wGcOjaTjn3GzLEeSCYvQhIucZA";
+  "$argon2id$v=19$m=65536,t=3,p=4$ksL++i4JghttGKcJWzi34Q$2i5qDdlA6ClSJPhZL8HY02zguWuL6GuvvyNFCt7dbFU";
 
 export const jobDescriptionHTML = `
   <h1>Job Title: Web Developer</h1>
@@ -200,5 +198,6 @@ export const mockCompanyOwner = {
   emailToken: "123",
   role: UserRoles.OWNER,
   isAcceptInvite: true,
+  emailVerified: true,
   status: UserStatus.ACTIVE,
 };

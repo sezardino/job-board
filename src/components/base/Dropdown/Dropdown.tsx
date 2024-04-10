@@ -8,12 +8,14 @@ import {
 import { ForwardRefRenderFunction, ReactNode, forwardRef } from "react";
 import { twMerge } from "tailwind-merge";
 
-import styles from "./Dropdown.module.scss";
+import NextLink from "next/link";
 import { Typography } from "../Typography/Typography";
+import styles from "./Dropdown.module.scss";
 
 export type DropdownItemProps = Omit<NextUIDropdownItemProps, "children"> & {
   key: string;
   text: string;
+  to?: string;
 };
 
 type Props = {
@@ -37,9 +39,13 @@ const DropdownComponent: DropdownComponent = (props, ref) => {
     <NextUIDropdown ref={ref} placement="bottom-end" radius="sm" {...rest}>
       {children}
       <DropdownMenu disabledKeys={disabledKeys} aria-label={label}>
-        {items.map((item) => (
+        {items.map(({ to, href, ...item }) => (
           <DropdownItem
             {...item}
+            as={href ? "a" : to ? NextLink : "button"}
+            href={href || to}
+            target={href ? "_blank" : undefined}
+            rel={href ? "noopener noreferrer" : undefined}
             key={item.key}
             aria-label={item.text}
             className={twMerge(styles.item, item.className)}
