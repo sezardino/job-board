@@ -1,6 +1,6 @@
 "use client";
 
-import { AdminUserManagementTemplate } from "@/components/templates/Admin/AdminUserManagement";
+import { ManageCompanyUsersTemplate } from "@/components/templates/Admin/ManageCompanyUsers/ManageCompanyUsersTemplate";
 import { useCompaniesUsersQuery } from "@/hooks/react-query/query/users/companies";
 import { useDataOnPage } from "@/hooks/use-data-on-page";
 
@@ -15,15 +15,13 @@ const AdminsPage = () => {
     });
 
   return (
-    <>
-      <AdminUserManagementTemplate
-        data={companyUsers}
-        isTableDataLoading={isCompanyUsersLoading}
-        onLimitChange={onLimitChange}
-        onPageChange={onPageChange}
-        onSearchChange={onSearchChange}
-      />
-    </>
+    <ManageCompanyUsersTemplate
+      data={companyUsers}
+      isTableDataLoading={isCompanyUsersLoading}
+      onLimitChange={onLimitChange}
+      onPageChange={onPageChange}
+      onSearchChange={onSearchChange}
+    />
   );
 };
 

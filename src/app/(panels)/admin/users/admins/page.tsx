@@ -1,6 +1,6 @@
 "use client";
 
-import { ManageAdminsTemplate } from "@/components/templates/Admin/ManageAdminsTemplate";
+import { ManageAdminUsersTemplate } from "@/components/templates/Admin/ManageAdminUsers/ManageAdminUsersTemplate";
 import {
   useAdminUsersQuery,
   useInviteAdminMutation,
@@ -33,7 +33,7 @@ const AdminsPage = () => {
   );
 
   return (
-    <ManageAdminsTemplate
+    <ManageAdminUsersTemplate
       data={admins}
       isInviteAdminLoading={isInviteAdminLoading}
       isTableDataLoading={isAdminsLoading}

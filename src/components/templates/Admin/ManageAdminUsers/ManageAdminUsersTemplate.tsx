@@ -1,5 +1,4 @@
 import { Button } from "@/components/base/Button/Button";
-import { Icon } from "@/components/base/Icon/Icon";
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import { AdminUsersResponse } from "@/services/bll/modules/users/schema";
@@ -7,16 +6,15 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import {
   useCallback,
-  useMemo,
   useState,
   type ComponentPropsWithoutRef,
   type FC,
 } from "react";
-import { twMerge } from "tailwind-merge";
-import { TableWidget } from "../../UI/TableWidget/TableWidget";
-import { UserInfo } from "../../UI/UserInfo/UserInfo";
-import { SearchForm } from "../../base/SearchForm/SearchForm";
-import { AuthForm, AuthFormValues } from "../../forms";
+import { SearchForm } from "../../../base/SearchForm/SearchForm";
+import { AuthForm, AuthFormValues } from "../../../forms";
+
+import { AdminsTable } from "@/components/modules/admin/AdminsTable";
+import styles from "./ManageAdminUsersTemplate.module.scss";
 
 type Props = {
   data?: AdminUsersResponse;
@@ -29,12 +27,14 @@ type Props = {
   onSearchChange: (search: string) => void;
 };
 
-export type ManageAdminsTemplateProps = ComponentPropsWithoutRef<"section"> &
-  Props;
+export type ManageAdminUsersTemplateProps =
+  ComponentPropsWithoutRef<"section"> & Props;
 
 const CH = createColumnHelper<AdminUsersResponse["data"][number]>();
 
-export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
+export const ManageAdminUsersTemplate: FC<ManageAdminUsersTemplateProps> = (
+  props
+) => {
   const {
     data,
     isTableDataLoading,
@@ -52,44 +52,6 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
 
   const [isInviteAdminModalOpen, setIsInviteAdminModalOpen] = useState(false);
 
-  const columns = useMemo(
-    () => [
-      CH.accessor("email", {
-        enableSorting: false,
-        header: t("table.head.info"),
-        cell: (row) => (
-          <UserInfo
-            name={row.row.original.name}
-            email={row.row.original.email}
-            avatar={row.row.original.avatar?.url}
-          />
-        ),
-      }),
-      CH.accessor("isAcceptInvite", {
-        enableSorting: false,
-        header: t("table.head.is-email-verified"),
-        cell: (row) => (
-          <Icon
-            name={row.getValue() ? "HiCheckCircle" : "HiXCircle"}
-            color={row.getValue() ? "green" : "red"}
-            size={16}
-          />
-        ),
-      }),
-      CH.accessor("role", {
-        enableSorting: false,
-        header: t("table.head.role"),
-        cell: (row) => userT(`role.${row.getValue()}`),
-      }),
-      CH.accessor("status", {
-        enableSorting: false,
-        header: t("table.head.status"),
-        cell: (row) => userT(`status.${row.getValue()}`),
-      }),
-    ],
-    [t, userT]
-  );
-
   const inviteAdminHandler = useCallback(
     async (values: AuthFormValues) => {
       try {
@@ -102,8 +64,8 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
 
   return (
     <>
-      <section {...rest} className={twMerge("", className)}>
-        <header className="flex justify-between gap-3 flex-wrap items-center">
+      <section {...rest} className={className}>
+        <header className={styles.header}>
           <SearchForm onSearch={onSearchChange} />
           <Button
             color="primary"
@@ -112,12 +74,9 @@ export const ManageAdminsTemplate: FC<ManageAdminsTemplateProps> = (props) => {
             {t("invite.trigger")}
           </Button>
         </header>
-        <TableWidget
-          // @ts-ignore
-          columns={columns}
+        <AdminsTable
           data={data?.data || []}
           isLoading={isTableDataLoading}
-          noDataMessage={t("table.no-data")}
           page={data?.meta.page || 0}
           limit={data?.meta.limit || 10}
           total={data?.meta.totalPages || 0}

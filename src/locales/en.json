@@ -625,7 +625,7 @@
           }
         }
       },
-      "manage-company-users": {
+      "company-users": {
         "table": {
           "no-data": "No customers found",
           "head": {
