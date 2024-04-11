@@ -1,32 +1,31 @@
 import { Button } from "@/components/base/Button/Button";
-import { Icon } from "@/components/base/Icon/Icon";
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
+import { IndustriesTable } from "@/components/modules/admin/IndustriesTable";
 import { AdminIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { ActionProp } from "@/types";
 import { EntityStatus } from "@prisma/client";
-import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import {
   useCallback,
-  useMemo,
   useState,
   type ComponentPropsWithoutRef,
   type FC,
 } from "react";
-import { twMerge } from "tailwind-merge";
-import { ConfirmModal } from "../../UI/ConformModal/ConfirmModal";
-import { TableWidget } from "../../UI/TableWidget/TableWidget";
-import { TitleDescription } from "../../UI/TitleDescription/TitleDescription";
-import { SearchForm } from "../../base/SearchForm/SearchForm";
+import { ConfirmModal } from "../../../UI/ConformModal/ConfirmModal";
+import { TitleDescription } from "../../../UI/TitleDescription/TitleDescription";
+import { SearchForm } from "../../../base/SearchForm/SearchForm";
 import {
   CreateIndustryForm,
   CreateIndustryFormValues,
-} from "../../forms/CreateIndustry/CreateIndustryForm";
+} from "../../../forms/CreateIndustry/CreateIndustryForm";
 import {
   UpdateIndustryForm,
   UpdateIndustryFormValues,
-} from "../../forms/UpdateIndustry/UpdateIndustryForm";
+} from "../../../forms/UpdateIndustry/UpdateIndustryForm";
+
+import { Grid } from "@/components/base/Grid/Grid";
+import styles from "./ManageIndustriesTemplate.module.scss";
 
 type Props = {
   data?: AdminIndustriesResponse;
@@ -45,8 +44,6 @@ type Props = {
 export type ManageIndustriesTemplateProps =
   ComponentPropsWithoutRef<"section"> & Props;
 
-const CH = createColumnHelper<AdminIndustriesResponse["data"][number]>();
-
 export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
   props
 ) => {
@@ -62,11 +59,9 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
     onLimitChange,
     onPageChange,
     onSearchChange,
-    className,
     ...rest
   } = props;
   const t = useTranslations("page.admin.manage-industries");
-  const statusT = useTranslations("entity.common.status");
 
   const [isCreateIndustryModalOpen, setIsCreateIndustryModalOpen] =
     useState(false);
@@ -75,66 +70,6 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
     id: string;
     status: EntityStatus;
   } | null>(null);
-
-  const columns = useMemo(
-    () => [
-      CH.accessor("name", {
-        enableSorting: false,
-        header: t("table.head.name"),
-      }),
-      CH.accessor("status", {
-        enableSorting: false,
-        header: t("table.head.status"),
-        cell: (row) => statusT(row.getValue()),
-      }),
-      CH.accessor("_count.categories", {
-        enableSorting: false,
-        header: t("table.head.categories"),
-      }),
-      CH.accessor("_count.offers", {
-        enableSorting: false,
-        header: t("table.head.offers"),
-      }),
-      CH.accessor("id", {
-        enableSorting: false,
-        header: () => null,
-        cell: (row) => (
-          <div className="flex gap-1 items-center">
-            <Button
-              isIconOnly
-              size="sm"
-              variant="light"
-              tooltip={t("update.trigger")}
-              color="warning"
-              onClick={() =>
-                setToUpdateIndustry({
-                  id: row.getValue(),
-                  status: row.row.original.status,
-                })
-              }
-            >
-              <Icon name="HiPencil" size={20} />
-            </Button>
-            <Button
-              isDisabled={
-                row.row.original._count.categories > 0 ||
-                row.row.original._count.offers > 0
-              }
-              isIconOnly
-              size="sm"
-              variant="light"
-              tooltip={t("delete.trigger")}
-              color="danger"
-              onClick={() => setToDeleteId(row.getValue())}
-            >
-              <Icon name="HiTrash" size={20} />
-            </Button>
-          </div>
-        ),
-      }),
-    ],
-    [t, statusT]
-  );
 
   const createIndustryHandler = useCallback(
     async (values: CreateIndustryFormValues) => {
@@ -160,16 +95,13 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
 
   return (
     <>
-      <section
-        {...rest}
-        className={twMerge("grid grid-cols-1 gap-4", className)}
-      >
+      <Grid {...rest} tag="section" gap={4}>
         <TitleDescription
           title={t("title")}
           titleLevel="h1"
           description={t("description")}
         />
-        <header className="flex justify-between gap-3 flex-wrap items-center">
+        <header className={styles.header}>
           <SearchForm onSearch={onSearchChange} placeholder={t("search")} />
 
           <Button
@@ -179,9 +111,7 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
             {t("create.trigger")}
           </Button>
         </header>
-        <TableWidget
-          // @ts-ignore
-          columns={columns}
+        <IndustriesTable
           data={data?.data || []}
           isLoading={isTableDataLoading}
           noDataMessage={t("table.no-data")}
@@ -191,8 +121,10 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
           className="mt-4"
           onLimitChange={onLimitChange}
           onPageChange={onPageChange}
+          onSelectToDelete={setToDeleteId}
+          onSelectToUpdate={setToUpdateIndustry}
         />
-      </section>
+      </Grid>
 
       <ModalWithDescription
         isOpen={isCreateIndustryModalOpen}

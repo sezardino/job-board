@@ -4,9 +4,9 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
-import { TableWidget } from "../../UI/TableWidget/TableWidget";
-import { UserInfo } from "../../UI/UserInfo/UserInfo";
-import { SearchForm } from "../../base/SearchForm/SearchForm";
+import { TableWidget } from "../../../UI/TableWidget/TableWidget";
+import { UserInfo } from "../../../UI/UserInfo/UserInfo";
+import { SearchForm } from "../../../base/SearchForm/SearchForm";
 
 type Props = {
   data?: CustomerUsersResponse;
