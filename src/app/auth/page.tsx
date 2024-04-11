@@ -1,7 +1,7 @@
 "use client";
 
 import { AuthFormValues } from "@/components/forms";
-import { LoginTemplate } from "@/components/templates/LoginTemplate";
+import { LoginTemplate } from "@/components/templates/Auth/LoginTemplate";
 import { PublicPageUrls } from "@/const";
 import { reactToastify } from "@/libs/react-toastify";
 import { signIn } from "next-auth/react";

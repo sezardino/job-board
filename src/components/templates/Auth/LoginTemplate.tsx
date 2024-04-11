@@ -2,10 +2,10 @@
 
 import { useTranslations } from "next-intl";
 import { type ComponentPropsWithoutRef, type FC } from "react";
-import { Typography } from "../base/Typography/Typography";
-import { AuthFormProps } from "../forms";
-import { LoginForm } from "../forms/Login/LoginForm";
-import { SignUpPopover } from "../modules/layout/SignUpPopover";
+import { Typography } from "../../base/Typography/Typography";
+import { AuthFormProps } from "../../forms";
+import { LoginForm } from "../../forms/Login/LoginForm";
+import { SignUpPopover } from "../../modules/layout/SignUpPopover";
 
 export type LoginTemplateProps = ComponentPropsWithoutRef<"section"> & {
   onFormSubmit: AuthFormProps["onFormSubmit"];
