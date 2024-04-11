@@ -4,6 +4,10 @@ import { Icon, IconNames } from "@/components/base/Icon/Icon";
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
 
+import { Grid } from "@/components/base/Grid/Grid";
+import Link from "next/link";
+import styles from "./AppSidebar.module.scss";
+
 type CopyProp = {
   title: string;
   closeSidebar: string;
@@ -34,51 +38,44 @@ export const AppSidebar: FC<AppSidebarProps> = (props) => {
     <aside
       {...rest}
       className={twMerge(
-        "relative h-screen flex flex-col transition-transform md:translate-x-0 border-r py-5 px-3 bg-gray-50",
-        isOpen && "max-md:translate-x-0",
-        !isOpen && "max-md:-translate-x-full",
+        styles.element,
+        isOpen && styles.opened,
+        !isOpen && styles.closed,
         className
       )}
       aria-label={copy.title}
     >
       {/* TODO: add brand */}
       {/* <Brand href={brandHref} isTextHidden={!isOpen} /> */}
-      <div className="mt-5 overflow-y-auto h-full">
+      <div className={styles.wrapper}>
         {lists.map((items, index) => (
-          <ul
-            key={index}
-            className={twMerge(
-              "list-none",
-              index === 0
-                ? "space-y-2"
-                : "pt-5 mt-5 space-y-2 border-t border-gray-200"
-            )}
-          >
+          <Grid key={index} tag="ul" gap={2} className={styles.list}>
             {items.map((item, index) => (
               <li key={index}>
-                <a
+                <Link
                   href={item.to}
-                  className="flex items-center p-2 text-base font-medium rounded-lg hover:bg-gray-500 group"
+                  className={twMerge(styles.link)}
                   onClick={() => {
                     setIsOpen(false);
                     item.onClick;
                   }}
                 >
                   <Icon name={item.icon} />
-                  <span className={twMerge("ml-3", !isOpen && "sr-only")}>
+                  <span
+                    className={twMerge(
+                      styles.label,
+                      !isOpen && styles.notExpanded
+                    )}
+                  >
                     {item.label}
                   </span>
-                </a>
+                </Link>
               </li>
             ))}
-          </ul>
+          </Grid>
         ))}
       </div>
-      <button
-        type="button"
-        className="absolute bottom-7 right-0 translate-x-1/2 z-10 border rounded-full p-1 bg-gray-50 max-md:hidden"
-        onClick={toggleOpen}
-      >
+      <button type="button" className={styles.toggle} onClick={toggleOpen}>
         <Icon
           name={!isOpen ? "HiChevronDoubleRight" : "HiChevronDoubleLeft"}
           size={14}
@@ -87,7 +84,7 @@ export const AppSidebar: FC<AppSidebarProps> = (props) => {
 
       <button
         type="button"
-        className="absolute bottom-7 left-full translate-x-3 z-10 border rounded-full p-2 md:hidden bg-gray-50 shadow-2xl"
+        className={styles.hamburger}
         onClick={toggleOpen}
         aria-label={isOpen ? copy.closeSidebar : copy.openSidebar}
       >

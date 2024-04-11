@@ -7,6 +7,7 @@ import {
   IndustriesBllModule,
   NotesBllModule,
   OffersBllModule,
+  StatisticsBllModule,
   UsersBllModule,
 } from "./modules";
 import { ApplicationsBllModule } from "./modules/application";
@@ -21,6 +22,7 @@ class BllService {
   categories: CategoriesBllModule;
   applications: ApplicationsBllModule;
   notes: NotesBllModule;
+  statistics: StatisticsBllModule;
 
   constructor(private readonly prismaService: PrismaService) {
     this.files = new FilesBllModule(prismaService);
@@ -32,6 +34,7 @@ class BllService {
     this.categories = new CategoriesBllModule(prismaService);
     this.applications = new ApplicationsBllModule(prismaService, this.files);
     this.notes = new NotesBllModule(prismaService, this.applications);
+    this.statistics = new StatisticsBllModule(prismaService);
   }
 }
 

@@ -1,0 +1,11 @@
+.wrapper {
+  @apply flex items-start gap-2 justify-between flex-wrap;
+}
+
+.select {
+  @apply max-w-80;
+}
+
+.statistics {
+  @apply mt-5;
+}

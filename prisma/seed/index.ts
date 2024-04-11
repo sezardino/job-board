@@ -54,18 +54,7 @@ const generateUsers = async () => {
     status: [UserStatus.ACTIVE, UserStatus.BLOCKED, UserStatus.INACTIVE],
   });
 
-  const ownersData = generateMockUsers({
-    count: faker.number.int({ min: 100, max: 200 }),
-    roles: [UserRoles.OWNER],
-  });
-
-  const mockUsers = [
-    ...admins,
-    ...subAdmins,
-    ...customers,
-    ...ownersData,
-    mockCompanyOwner,
-  ];
+  const mockUsers = [...admins, ...subAdmins, ...customers, mockCompanyOwner];
 
   await Promise.all([
     await prisma.user.createMany({
@@ -79,6 +68,13 @@ const generateUsers = async () => {
 };
 
 const generateCompanies = async () => {
+  await prisma.user.createMany({
+    data: generateMockUsers({
+      count: faker.number.int({ min: 10, max: 20 }),
+      roles: [UserRoles.OWNER],
+    }),
+  });
+
   const owners = await prisma.user.findMany({
     where: { role: UserRoles.OWNER },
     select: { id: true },
@@ -110,7 +106,7 @@ const generateCompanyMembers = async () => {
   const companyMembers = companies.map((company) => ({
     companyId: company.id,
     members: generateMockUsers({
-      count: faker.number.int({ min: 1, max: 10 }),
+      count: faker.number.int({ min: 5, max: 20 }),
       roles: [UserRoles.MODERATOR, UserRoles.RECRUITER],
     }),
   }));
@@ -147,7 +143,7 @@ const generateOffers = async () => {
 
   const offers = companies.map((company) =>
     generateMockOffers({
-      count: faker.number.int({ min: 1, max: 10 }),
+      count: faker.number.int({ min: 5, max: 20 }),
       companyId: company.id,
       industries: industries,
     })
@@ -278,7 +274,7 @@ const generateApplications = async () => {
       const application = generateMockApplications({
         offerId: offer.id,
         cvId: testCV.id,
-        count: faker.number.int({ min: 100, max: 1000 }),
+        count: faker.number.int({ min: 10, max: 100 }),
       });
 
       await prisma.application.createMany({
@@ -292,6 +288,33 @@ const generateApplications = async () => {
   console.log(`Generated applications: ${ApplicationsCount}`);
 };
 
+const generateNotes = async () => {
+  const applications = await prisma.application.findMany({
+    select: {
+      id: true,
+      offer: {
+        select: { company: { select: { members: { select: { id: true } } } } },
+      },
+    },
+  });
+
+  const notes = applications.map((application) =>
+    generateMockNotes({
+      count: faker.number.int({ min: 0, max: 2 }),
+      applicationId: application.id,
+      usersIds: application.offer.company.members.map((member) => member.id),
+    })
+  );
+
+  await prisma.note.createMany({
+    data: notes.flat(),
+  });
+
+  const notesCount = await prisma.note.count();
+
+  console.log(`Generated notes: ${notesCount}`);
+};
+
 (async () => {
   if (!prisma) return;
 
@@ -300,10 +323,10 @@ const generateApplications = async () => {
     console.log("Generating industries...");
     await generateIndustries();
 
-    if (true) {
-      await generateDevData();
-      return;
-    }
+    // if (true) {
+    //   await generateDevData();
+    //   return;
+    // }
 
     console.log("Generating users...");
     await generateUsers();
@@ -316,6 +339,7 @@ const generateApplications = async () => {
     console.log("Generating applications...");
     await generateApplications();
     console.log("Database seeded successfully!");
+    await generateNotes();
   } catch (error) {
     console.error(error);
     process.exit(1);
