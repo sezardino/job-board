@@ -410,6 +410,13 @@
         "ACTIVE": "Active",
         "INACTIVE": "Inactive",
         "CREATED": "Created"
+      },
+      "period": {
+        "7": "Week",
+        "14": "Two weeks",
+        "30": "Month",
+        "90": "Three months",
+        "365": "Year"
       }
     },
     "offers": {
@@ -548,6 +555,34 @@
   },
   "page": {
     "admin": {
+      "dashboard": {
+        "title": "Dashboard",
+        "description": "From this panel you can manage the system",
+        "statistics": {
+          "title": "Statistics",
+          "description": "Here you can see statistics of the system",
+          "users": {
+            "label": "Users",
+            "current": "Now",
+            "prev": "In previous period"
+          },
+          "companies": {
+            "label": "Companies",
+            "current": "Now",
+            "prev": "In previous period"
+          },
+          "offers": {
+            "label": "Offers",
+            "current": "Now",
+            "prev": "In previous period"
+          },
+          "applications": {
+            "label": "Applications",
+            "current": "Now",
+            "prev": "In previous period"
+          }
+        }
+      },
       "manage-admins": {
         "invite": {
           "title": "Invite admin",
@@ -590,7 +625,7 @@
           }
         }
       },
-      "manage-company-users": {
+      "company-users": {
         "table": {
           "no-data": "No customers found",
           "head": {

@@ -1,0 +1,47 @@
+.element {
+  @apply relative h-screen flex flex-col transition-transform md:translate-x-0 border-r py-5 px-3 bg-gray-50;
+}
+
+.opened {
+  @apply max-md:translate-x-0;
+}
+
+.closed {
+  @apply max-md:-translate-x-full;
+}
+
+.wrapper {
+  @apply mt-5 overflow-y-auto h-full;
+}
+
+.list {
+  @apply list-none;
+
+  &:not(:last-child) {
+    @apply pt-5 mt-5 space-y-2 border-t border-gray-200;
+  }
+}
+
+.link {
+  @apply flex items-center p-2 text-base font-medium rounded-lg hover:bg-gray-500;
+}
+
+.active {
+  @apply bg-gray-500;
+}
+
+.label {
+  @apply ml-3;
+}
+
+.notExpanded {
+  @apply sr-only;
+}
+
+.toggle {
+  @apply absolute bottom-7 right-0 translate-x-1/2 z-10 border rounded-full p-1 bg-gray-50 max-md:hidden;
+}
+
+.hamburger {
+  @apply absolute bottom-7 left-full translate-x-3 z-10 border rounded-full p-2 md:hidden bg-gray-50 shadow-2xl;
+}

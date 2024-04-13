@@ -5,6 +5,7 @@ import { CompaniesApiModule } from "./modules/companies";
 import { IndustriesApiModule } from "./modules/industries";
 import { NotesApiModule } from "./modules/notes";
 import { OffersApiModule } from "./modules/offers";
+import { StatisticsApiModule } from "./modules/statistics";
 import { UsersApiModule } from "./modules/users";
 
 class ApiService {
@@ -16,6 +17,7 @@ class ApiService {
   categories: CategoriesApiModule;
   applications: ApplicationsApiModule;
   notes: NotesApiModule;
+  statistics: StatisticsApiModule;
 
   constructor() {
     this.auth = new AuthApiModule();
@@ -26,6 +28,7 @@ class ApiService {
     this.categories = new CategoriesApiModule();
     this.applications = new ApplicationsApiModule();
     this.notes = new NotesApiModule();
+    this.statistics = new StatisticsApiModule();
   }
 }
 

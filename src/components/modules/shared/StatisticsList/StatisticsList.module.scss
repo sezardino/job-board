@@ -1,0 +1,15 @@
+.element {
+  @apply grid grid-cols-[repeat(auto-fit,minmax(150px,1fr))] gap-4 justify-items-center;
+}
+
+.loader {
+  @apply h-24 w-full;
+}
+
+.item {
+  @apply p-4 text-center;
+}
+
+.wrapper {
+  @apply flex items-end gap-2;
+}

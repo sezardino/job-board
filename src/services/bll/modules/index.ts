@@ -5,4 +5,5 @@ export * from "./files";
 export * from "./industries";
 export * from "./notes";
 export * from "./offers";
+export * from "./statistics";
 export * from "./users";

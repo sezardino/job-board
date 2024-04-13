@@ -1,11 +1,13 @@
+import { CompaniesTable } from "@/components/modules/admin/CompaniesTable";
 import { AdminCompaniesResponse } from "@/services/bll/modules/companies/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 import { twMerge } from "tailwind-merge";
-import { TableWidget } from "../../UI/TableWidget/TableWidget";
-import { UserInfo } from "../../UI/UserInfo/UserInfo";
-import { SearchForm } from "../../base/SearchForm/SearchForm";
+import { UserInfo } from "../../../UI/UserInfo/UserInfo";
+import { SearchForm } from "../../../base/SearchForm/SearchForm";
+
+import styles from "./ManageCompaniesTemplate.module.scss";
 
 type Props = {
   data?: AdminCompaniesResponse;
@@ -66,15 +68,12 @@ export const ManageCompaniesTemplate: FC<ManageCompaniesTemplateProps> = (
   return (
     <>
       <section {...rest} className={twMerge("", className)}>
-        <header className="flex justify-between gap-3 flex-wrap items-center">
+        <header className={styles.header}>
           <SearchForm onSearch={onSearchChange} />
         </header>
-        <TableWidget
-          // @ts-ignore
-          columns={columns}
+        <CompaniesTable
           data={data?.data || []}
           isLoading={isTableDataLoading}
-          noDataMessage={t("table.no-data")}
           page={data?.meta.page || 0}
           limit={data?.meta.limit || 10}
           total={data?.meta.totalPages || 0}
