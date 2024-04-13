@@ -37,6 +37,9 @@ export const CompaniesTable: FC<CompaniesTableProps> = (props) => {
       CH.accessor("_count.members", {
         enableSorting: false,
         header: t("table.head.members"),
+        cell: (row) => (
+          <span className="justify-self-center">{row.getValue()}</span>
+        ),
       }),
       CH.accessor("_count.offers", {
         enableSorting: false,

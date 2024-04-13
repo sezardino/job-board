@@ -10,6 +10,9 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      zIndex: {
+        "1": "1",
+      },
       aspectRatio: { thumbnail: "42 / 9" },
       container: {
         padding: "16px",
