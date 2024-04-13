@@ -196,9 +196,12 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
       />
       <div className="flex flex-col gap-2 items-center">
         {!formik.values.salary && (
-          <Button variant="bordered" color="primary" onClick={addSalaryRange}>
-            {t("details.salary.add")}
-          </Button>
+          <Button
+            variant="bordered"
+            color="primary"
+            onClick={addSalaryRange}
+            text={t("details.salary.add")}
+          />
         )}
         {formik.values.salary && (
           <>
@@ -225,10 +228,9 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
               isIconOnly
               color="danger"
               size="sm"
-              aria-label={t("details.salary.remove")}
-            >
-              <Icon name="TbTrash" size={16} />
-            </Button>
+              text={t("details.salary.remove")}
+              endContent={<Icon name="HiTrash" size={16} />}
+            />
           </>
         )}
       </div>

@@ -107,9 +107,8 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
           <Button
             onClick={() => setIsCreateIndustryModalOpen(true)}
             color="primary"
-          >
-            {t("create.trigger")}
-          </Button>
+            text={t("create.trigger")}
+          />
         </header>
         <IndustriesTable
           data={data?.data || []}

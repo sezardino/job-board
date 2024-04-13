@@ -127,9 +127,9 @@ export const FileInput: FC<FileInputProps> = (props) => {
                 color="danger"
                 variant="light"
                 onClick={onFileDelete}
-              >
-                <Icon name="TbTrash" size={20} />
-              </Button>
+                text="Delete file"
+                endContent={<Icon name="TbTrash" size={20} />}
+              />
             )}
           </CardBody>
         </Card>

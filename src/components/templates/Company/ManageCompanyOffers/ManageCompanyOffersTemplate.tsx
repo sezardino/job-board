@@ -238,9 +238,8 @@ export const ManageCompanyOffersTemplate: FC<
               as={NextLink}
               href={CompanyPageUrls.newOffer}
               color="primary"
-            >
-              {t("create")}
-            </Button>
+              text={t("create")}
+            />
           </div>
         </Grid>
 

@@ -70,9 +70,8 @@ export const ManageAdminUsersTemplate: FC<ManageAdminUsersTemplateProps> = (
           <Button
             color="primary"
             onClick={() => setIsInviteAdminModalOpen(true)}
-          >
-            {t("invite.trigger")}
-          </Button>
+            text={t("invite.trigger")}
+          />
         </header>
         <AdminsTable
           data={data?.data || []}

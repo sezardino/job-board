@@ -1,5 +1,4 @@
-import { Button } from "@/components/base/Button/Button";
-import { Icon } from "@/components/base/Icon/Icon";
+import { TableActions } from "@/components/UI/TableActions/TableActions";
 import {
   TableWidget,
   TableWidgetProps,
@@ -52,37 +51,34 @@ export const IndustriesTable: FC<IndustriesTableProps> = (props) => {
         enableSorting: false,
         header: () => null,
         cell: (row) => (
-          <div className="flex gap-1 items-center">
-            <Button
-              isIconOnly
-              size="sm"
-              variant="light"
-              tooltip={t("update.trigger")}
-              color="warning"
-              onClick={() =>
-                onSelectToUpdate({
-                  id: row.getValue(),
-                  status: row.row.original.status,
-                })
-              }
-            >
-              <Icon name="HiPencil" size={20} />
-            </Button>
-            <Button
-              isDisabled={
-                row.row.original._count.categories > 0 ||
-                row.row.original._count.offers > 0
-              }
-              isIconOnly
-              size="sm"
-              variant="light"
-              tooltip={t("delete.trigger")}
-              color="danger"
-              onClick={() => onSelectToDelete(row.getValue())}
-            >
-              <Icon name="HiTrash" size={20} />
-            </Button>
-          </div>
+          <>
+            <TableActions
+              actions={[
+                {
+                  text: t("update.trigger"),
+                  icon: "HiPencil",
+                  color: "warning",
+                  variant: "light",
+                  onClick: () =>
+                    onSelectToUpdate({
+                      id: row.getValue(),
+                      status: row.row.original.status,
+                    }),
+                },
+                {
+                  text: t("delete.trigger"),
+                  icon: "HiTrash",
+                  variant: "light",
+                  color: "danger",
+                  disabledText: t("delete.disabled"),
+                  isDisabled:
+                    row.row.original._count.categories > 0 ||
+                    row.row.original._count.offers > 0,
+                  onClick: () => onSelectToDelete(row.getValue()),
+                },
+              ]}
+            />
+          </>
         ),
       }),
     ],

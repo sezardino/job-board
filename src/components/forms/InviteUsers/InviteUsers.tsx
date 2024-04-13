@@ -189,10 +189,9 @@ export const InviteUsersForm: FC<InviteUsersFormProps> = (props) => {
                     isDisabled={formik.values.users.length === 1}
                     className="mt-6"
                     onClick={() => helpers.remove(i)}
-                    aria-label={t("remove")}
-                  >
-                    <Icon name="HiTrash" size={16} />
-                  </Button>
+                    text={t("remove")}
+                    endContent={<Icon name="HiTrash" size={16} />}
+                  />
                 </div>
               ))}
               <Button
@@ -202,10 +201,9 @@ export const InviteUsersForm: FC<InviteUsersFormProps> = (props) => {
                 onClick={() =>
                   helpers.push(type === "admin" ? subAdminUser : emptyUser)
                 }
-                aria-label={t("add")}
-              >
-                <Icon name="HiPlus" size={16} />
-              </Button>
+                text={t("add")}
+                endContent={<Icon name="HiPlus" size={16} />}
+              />
             </div>
           )}
         />
@@ -215,12 +213,18 @@ export const InviteUsersForm: FC<InviteUsersFormProps> = (props) => {
             "flex gap-3 flex-wrap justify-between items-center"
           )}
         >
-          <Button onClick={cancel.onClick} variant="bordered">
-            {cancel.label}
-          </Button>
-          <Button type="submit" color="primary" fullWidth={!cancel}>
-            {submitText}
-          </Button>
+          <Button
+            onClick={cancel.onClick}
+            variant="bordered"
+            text={cancel.label}
+          />
+
+          <Button
+            type="submit"
+            color="primary"
+            fullWidth={!cancel}
+            text={submitText}
+          />
         </div>
       </Form>
     </FormikProvider>

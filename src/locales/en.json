@@ -658,7 +658,8 @@
           "title": "Delete industry",
           "description": "Are you sure you want to delete this industry?",
           "cancel": "Cancel",
-          "confirm": "Delete Industry"
+          "confirm": "Delete Industry",
+          "disabled": "Industry can't be deleted because it's used."
         },
         "table": {
           "no-data": "No Industries found",

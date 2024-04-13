@@ -23,9 +23,11 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
 
         <div className="flex justify-between items-center gap-3 flex-wrap">
           {cancel && (
-            <Button variant="bordered" onClick={cancel.onClick}>
-              {cancel.label}
-            </Button>
+            <Button
+              variant="bordered"
+              onClick={cancel.onClick}
+              text={cancel.label}
+            />
           )}
           <Button
             type="submit"
@@ -33,9 +35,8 @@ export const FormWrapper: FC<FormWrapperProps> = (props) => {
             isLoading={isLoading}
             color="primary"
             fullWidth={submit.isFullWidth}
-          >
-            {submit.label}
-          </Button>
+            text={submit.label}
+          />
         </div>
       </Form>
     </FormikProvider>

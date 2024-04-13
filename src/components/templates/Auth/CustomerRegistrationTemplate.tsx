@@ -119,9 +119,8 @@ export const CustomerRegistrationTemplate: FC<
               color="primary"
               className="justify-self-center"
               size="md"
-            >
-              {t("email-used.trigger")}
-            </Button>
+              text={t("email-used.trigger")}
+            />
           )}
 
           {(step === RegistrationStatus.Success ||

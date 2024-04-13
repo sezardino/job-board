@@ -63,7 +63,7 @@ export const PDFViewerModal: FC<PDFViewerModalProps> = (props) => {
         <Button
           isIconOnly
           endContent={<Icon name="HiDownload" />}
-          tooltip={t("download")}
+          text={t("download")}
           href={file}
         />
       </Modal.Header>

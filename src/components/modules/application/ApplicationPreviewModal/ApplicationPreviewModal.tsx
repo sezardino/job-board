@@ -148,14 +148,10 @@ export const ApplicationPreviewModal: FC<ApplicationPreviewModalProps> = (
                   variant="bordered"
                   color="primary"
                   className={styles.cv}
-                >
-                  <Icon
-                    name="HiDocument"
-                    size={40}
-                    onClick={() => setIsCvModalOpen(true)}
-                  />
-                  {t("candidate.cv")}
-                </Button>
+                  onClick={() => setIsCvModalOpen(true)}
+                  startContent={<Icon name="HiDocument" size={40} />}
+                  text={t("candidate.cv")}
+                />
               </Grid>
             </AccordionItem>
 
@@ -201,18 +197,18 @@ export const ApplicationPreviewModal: FC<ApplicationPreviewModalProps> = (
 
                   <NoteForm id={noteFormId} onFormSubmit={onCreateNote} />
 
-                  <Button form={noteFormId} type="submit">
-                    {t("notes.add")}
-                  </Button>
+                  <Button
+                    form={noteFormId}
+                    type="submit"
+                    text={t("notes.add")}
+                  />
                 </Grid>
               </Grid>
             </AccordionItem>
           </Accordion>
         </Modal.Body>
         <Modal.Footer className={styles.footer}>
-          <Button onClick={onClose} variant="bordered">
-            {t("close")}
-          </Button>
+          <Button onClick={onClose} variant="bordered" text={t("close")} />
         </Modal.Footer>
       </Modal>
 

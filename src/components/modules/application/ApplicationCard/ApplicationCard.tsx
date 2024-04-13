@@ -55,42 +55,39 @@ export const ApplicationCard: FC<ApplicationCardProps> = (props) => {
             isIconOnly
             variant="light"
             color="warning"
-            tooltip="See full information"
+            text="See full information"
             size="sm"
             onClick={onOpenPreview}
-          >
-            <Icon name="HiEye" size={14} />
-          </Button>
+            endContent={<Icon name="HiEye" size={14} />}
+          />
+
           <Button
             isIconOnly
             variant="light"
             color="secondary"
-            tooltip="See CV"
+            text="See CV"
             size="sm"
             onClick={onPreviewCV}
-          >
-            <Icon name="HiDocumentText" size={14} />
-          </Button>
+            endContent={<Icon name="HiDocument" size={14} />}
+          />
           <Button
             isIconOnly
             variant="light"
             color="secondary"
-            tooltip="Add note"
+            text="Add note"
             size="sm"
             onClick={onAddNote}
-          >
-            <Icon name="HiMiniSquaresPlus" size={14} />
-          </Button>
+            endContent={<Icon name="HiDocumentAdd" size={14} />}
+          />
           <Button
             isIconOnly
             variant="light"
             color="secondary"
-            tooltip="Edit status"
+            text="Edit status"
             size="sm"
             onClick={onEditStatus}
-          >
-            <Icon name="HiPencil" size={14} />
-          </Button>
+            endContent={<Icon name="HiPencil" size={14} />}
+          />
         </div>
       </CardHeader>
       <CardFooter className="justify-between">

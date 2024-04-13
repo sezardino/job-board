@@ -135,9 +135,8 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
                   size="sm"
                   color="primary"
                   onClick={() => setIsEditBaseDataModalOpen(true)}
-                >
-                  {t("edit-base-data.trigger")}
-                </Button>
+                  text={t("edit-base-data.trigger")}
+                />
               </div>
               {company?.slogan && (
                 <Typography tag="p" styling="sm" className="italic">
@@ -180,9 +179,8 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
               size="sm"
               color="primary"
               onClick={() => setIsEditBioModalOpen(true)}
-            >
-              {t("edit-bio.trigger")}
-            </Button>
+              text={t("edit-bio.trigger")}
+            />
           </div>
           {company?.bio ? (
             <div>{parse(company.bio)}</div>

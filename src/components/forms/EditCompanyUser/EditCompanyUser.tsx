@@ -77,12 +77,12 @@ export const EditCompanyUserForm: FC<EditCompanyUserFormProps> = (props) => {
             "flex gap-3 flex-wrap justify-between items-center"
           )}
         >
-          <Button onClick={onCancelClick} variant="bordered">
-            {cancelText}
-          </Button>
-          <Button type="submit" color="primary">
-            {submitText}
-          </Button>
+          <Button
+            onClick={onCancelClick}
+            variant="bordered"
+            text={cancelText}
+          />
+          <Button type="submit" color="primary" text={submitText} />
         </div>
       </Form>
     </FormikProvider>

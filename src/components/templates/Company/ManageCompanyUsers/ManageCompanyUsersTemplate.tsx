@@ -138,9 +138,11 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
                 aria-label={t("filter")}
               />
             </div>
-            <Button color="primary" onClick={() => setIsInviteModalOpen(true)}>
-              {t("invite-user.trigger")}
-            </Button>
+            <Button
+              color="primary"
+              onClick={() => setIsInviteModalOpen(true)}
+              text={t("invite-user.trigger")}
+            />
           </div>
         </header>
 

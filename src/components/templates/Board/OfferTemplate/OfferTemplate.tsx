@@ -135,9 +135,8 @@ export const OfferTemplate: FC<OfferTemplateProps> = (props) => {
               onClick={() =>
                 formSectionRef.current?.scrollIntoView({ behavior: "smooth" })
               }
-            >
-              {t("apply")}
-            </Button>
+              text={t("apply")}
+            />
           </CardBody>
 
           <CardFooter className={styles.footer}>

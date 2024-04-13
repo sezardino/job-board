@@ -219,15 +219,17 @@ export const NewOfferTemplate: FC<NewOfferTemplateProps> = (props) => {
                   </>
                 )}
               <footer className={styles.footer}>
-                <Button variant="bordered" onClick={() => setStep("details")}>
-                  {t("to-first-step")}
-                </Button>
+                <Button
+                  variant="bordered"
+                  onClick={() => setStep("details")}
+                  text={t("to-first-step")}
+                />
+
                 <Button
                   color="primary"
                   onClick={() => setIsConfirmModalOpen(true)}
-                >
-                  {t("confirm")}
-                </Button>
+                  text={t("confirm")}
+                />
               </footer>
             </Grid>
           )}

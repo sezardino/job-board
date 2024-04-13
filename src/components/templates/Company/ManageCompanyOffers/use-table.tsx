@@ -159,11 +159,10 @@ export const useCompanyOffersTable = (props: Props) => {
                 <Button
                   variant="light"
                   color="default"
-                  tooltip={t("table.actions.label")}
+                  text={t("table.actions.label")}
                   isIconOnly
-                >
-                  <Icon name="HiDotsHorizontal" />
-                </Button>
+                  endContent={<Icon name="HiDotsHorizontal" />}
+                />
               </DropdownTrigger>
             </Dropdown>
           );

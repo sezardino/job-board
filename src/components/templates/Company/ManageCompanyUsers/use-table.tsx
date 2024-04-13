@@ -83,11 +83,9 @@ export const useCompanyUsersTable = (props: Props) => {
                   role: row.row.original.role as EditCompanyUserAcceptedRoles,
                 })
               }
-              tooltip={t("table.actions.edit")}
-              aria-label={t("table.actions.edit")}
-            >
-              <Icon name="HiPencil" size={16} />
-            </Button>
+              text={t("table.actions.edit")}
+              endContent={<Icon name="HiPencil" size={16} />}
+            />
             {!row.row.original.isAcceptInvite && (
               <>
                 <Button
@@ -96,22 +94,18 @@ export const useCompanyUsersTable = (props: Props) => {
                   size="sm"
                   isIconOnly
                   onClick={() => onSelectUserToResendInvite(row.getValue())}
-                  tooltip={t("table.actions.resend-invite")}
-                  aria-label={t("table.actions.resend-invite")}
-                >
-                  <Icon name="HiRefresh" size={16} />
-                </Button>
+                  text={t("table.actions.resend-invite")}
+                  endContent={<Icon name="HiRefresh" size={16} />}
+                />
                 <Button
                   color="danger"
                   variant="light"
                   size="sm"
                   isIconOnly
                   onClick={() => onSelectUserToCancelInvite(row.getValue())}
-                  tooltip={t("table.actions.cancel-invite")}
-                  aria-label={t("table.actions.cancel-invite")}
-                >
-                  <Icon name="HiOutlineBan" size={16} />
-                </Button>
+                  text={t("table.actions.cancel-invite")}
+                  endContent={<Icon name="HiOutlineBan" size={16} />}
+                />
               </>
             )}
           </div>
