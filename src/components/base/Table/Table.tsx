@@ -117,16 +117,11 @@ export const Table = <TRowData extends Record<string, any>>(
           {!isPlaceholderShowed &&
             table.getRowModel().rows.map((row, index) => (
               <tr key={row.id + index.toString()} className={styles.tr}>
-                {row.getVisibleCells().map((cell, index) => {
-                  return (
-                    <td key={cell.id + index.toString()} className={styles.td}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
-                  );
-                })}
+                {row.getVisibleCells().map((cell, index) => (
+                  <td key={cell.id + index.toString()} className={styles.td}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </td>
+                ))}
               </tr>
             ))}
         </tbody>
