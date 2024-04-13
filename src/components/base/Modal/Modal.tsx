@@ -12,18 +12,10 @@ import {
 } from "@nextui-org/react";
 import { useRef, type FC } from "react";
 
+import styles from "./Modal.module.scss";
+
 const ExtendedModal = extendVariants(NextUIModal, {
-  variants: {
-    isDrawer: {
-      true: {
-        base: [
-          "mt-0 mb-0 ml-0 mr-0 sm:mt-0 sm:mb-0 sm:ml-0 sm:mr-0 rounded-none ",
-          "fixed",
-          "top-0 bottom-0 right-0",
-        ],
-      },
-    },
-  },
+  variants: { isDrawer: { true: { base: styles.drawer } } },
 });
 
 type Props = {
