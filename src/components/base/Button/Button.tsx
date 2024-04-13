@@ -2,6 +2,7 @@ import {
   Button as NextUIButton,
   ButtonProps as NextUIButtonProps,
   Tooltip,
+  button,
 } from "@nextui-org/react";
 import { ForwardRefRenderFunction, forwardRef } from "react";
 
@@ -47,12 +48,12 @@ const ButtonComponent: ForwardRefRenderFunction<
   if (isIconOnly || disabledText) {
     return (
       <Tooltip
-        color={color}
+        color={!isDisabled ? color : "default"}
         offset={offset}
         isDisabled={isDisabled && !disabledText}
         content={isDisabled && disabledText ? disabledText : text}
       >
-        <span>{button}</span>
+        {isDisabled && disabledText ? <span>{button}</span> : button}
       </Tooltip>
     );
   }
