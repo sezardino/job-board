@@ -3,11 +3,10 @@ import { AdminCompaniesResponse } from "@/services/bll/modules/companies/schema"
 import { type FC } from "react";
 import { SearchForm } from "../../../base/SearchForm/SearchForm";
 
-import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
-import { Grid } from "@/components/base/Grid/Grid";
+import { PreviewTemplateWrapper } from "@/components/modules/shared/PreviewTemplateWrapper/PreviewTemplateWrapper";
+import { AdminPageUrls } from "@/const";
 import { QueryProps } from "@/types";
 import { useTranslations } from "next-intl";
-import styles from "./ManageCompaniesTemplate.module.scss";
 
 type Props = {
   companies: QueryProps<AdminCompaniesResponse>;
@@ -25,17 +24,14 @@ export const ManageCompaniesTemplate: FC<ManageCompaniesTemplateProps> = (
   const t = useTranslations("page.admin.manage-companies");
 
   return (
-    <Grid tag="section" gap={4}>
-      <header className={styles.header}>
-        <TitleDescription
-          title={t("title")}
-          titleLevel="h1"
-          description={t("description")}
-        />
-
-        <SearchForm onSearch={onSearchChange} />
-      </header>
-
+    <PreviewTemplateWrapper
+      copy={{ title: t("title"), description: t("description") }}
+      breadcrumbs={[
+        { label: t("breadcrumbs.home"), href: AdminPageUrls.home },
+        { label: t("breadcrumbs.companies") },
+      ]}
+      search={<SearchForm onSearch={onSearchChange} />}
+    >
       <CompaniesTable
         data={companies?.data?.data || []}
         isLoading={companies.isFetching}
@@ -45,6 +41,6 @@ export const ManageCompaniesTemplate: FC<ManageCompaniesTemplateProps> = (
         onLimitChange={onLimitChange}
         onPageChange={onPageChange}
       />
-    </Grid>
+    </PreviewTemplateWrapper>
   );
 };
