@@ -1,6 +1,6 @@
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
-import { Grid } from "@/components/base/Grid/Grid";
-import { ComponentPropsWithoutRef, FC } from "react";
+import { Grid, GridProps } from "@/components/base/Grid/Grid";
+import { FC } from "react";
 
 import {
   BaseBreadcrumbs,
@@ -17,16 +17,22 @@ type Props = {
   breadcrumbs?: BreadcrumbItem[];
 };
 
-export type PreviewTemplateWrapperProps = ComponentPropsWithoutRef<"section"> &
-  Props;
+export type PreviewTemplateWrapperProps = GridProps<"div" | "section"> & Props;
 
 export const PreviewTemplateWrapper: FC<PreviewTemplateWrapperProps> = (
   props
 ) => {
-  const { copy, search, breadcrumbs, children, ...rest } = props;
+  const {
+    tag = "section",
+    copy,
+    search,
+    breadcrumbs,
+    children,
+    ...rest
+  } = props;
 
   return (
-    <Grid {...rest} tag="section" gap={4}>
+    <Grid {...rest} tag={tag} gap={4}>
       <Grid gap={1}>
         {breadcrumbs && (
           <BaseBreadcrumbs items={breadcrumbs} className={styles.breadcrumbs} />

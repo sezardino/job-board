@@ -1,14 +1,9 @@
-import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { CurrentCompanyOffersResponse } from "@/services/bll/modules/offers/schema";
 import { DataListProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
 import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
 
-import {
-  BaseBreadcrumbs,
-  BreadcrumbItem,
-} from "@/components/base/Breadcrumbs/BaseBreadcrumbs";
-import { Grid } from "@/components/base/Grid/Grid";
+import { BreadcrumbItem } from "@/components/base/Breadcrumbs/BaseBreadcrumbs";
 
 import {
   CompanyOffersFilter,
@@ -17,8 +12,8 @@ import {
 } from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
 
 import { CompanyOffersTable } from "@/components/modules/admin/CompanyOffersTable";
+import { PreviewTemplateWrapper } from "@/components/modules/shared/PreviewTemplateWrapper/PreviewTemplateWrapper";
 import { AdminPageUrls } from "@/const";
-import styles from "./CompanyOffersTemplate.module.scss";
 
 type OfferFilters = {
   statusFilter: {
@@ -69,36 +64,32 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
   );
 
   return (
-    <>
-      <Grid tag="section" gap={4} {...rest}>
-        <Grid tag="header" gap={3}>
-          <TitleDescription
-            title={t("title", { value: company.name })}
-            titleLevel="h1"
-            description={t("description")}
-          />
-
-          <BaseBreadcrumbs items={breadcrumbs} className={styles.breadcrumbs} />
-
-          <CompanyOffersFilter
-            onSearchChange={onSearchChange}
-            seniorityFilter={seniorityFilter}
-            statusFilter={statusFilter}
-            isAdmin
-          />
-        </Grid>
-
-        <CompanyOffersTable
-          {...offers}
-          data={offers.data?.data || []}
-          total={offers.data?.meta.totalPages || 0}
-          page={page}
-          onPageChange={onPageChange}
-          limit={limit}
-          onLimitChange={onLimitChange}
-          companyId={company.id}
+    <PreviewTemplateWrapper
+      copy={{
+        title: t("title", { value: company.name }),
+        description: t("description"),
+      }}
+      breadcrumbs={breadcrumbs}
+      search={
+        <CompanyOffersFilter
+          onSearchChange={onSearchChange}
+          seniorityFilter={seniorityFilter}
+          statusFilter={statusFilter}
+          isAdmin
+          className="w-full"
         />
-      </Grid>
-    </>
+      }
+    >
+      <CompanyOffersTable
+        {...offers}
+        data={offers.data?.data || []}
+        total={offers.data?.meta.totalPages || 0}
+        page={page}
+        onPageChange={onPageChange}
+        limit={limit}
+        onLimitChange={onLimitChange}
+        companyId={company.id}
+      />
+    </PreviewTemplateWrapper>
   );
 };

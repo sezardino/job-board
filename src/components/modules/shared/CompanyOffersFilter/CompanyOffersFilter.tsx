@@ -4,6 +4,7 @@ import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import { Select, SelectOption } from "@/components/base/Select/Select";
 import { OfferStatus, Seniority } from "@prisma/client";
 import { useTranslations } from "next-intl";
+import { twMerge } from "tailwind-merge";
 import styles from "./CompanyOffersFilter.module.scss";
 
 export type OfferFilterSeniority = Seniority | "all";
@@ -103,7 +104,7 @@ export const CompanyOffersFilter: FC<CompanyOffersFilterProps> = (props) => {
   }, [entityT, t]);
 
   return (
-    <div {...rest} className={styles.element}>
+    <div {...rest} className={twMerge(styles.element, className)}>
       <div className={styles.search}>
         <SearchForm placeholder={t("search")} onSearch={onSearchChange} />
 

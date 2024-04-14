@@ -13,6 +13,10 @@
     "admin-users": {
       "title": "Users",
       "description": "From this panel you can manage users, invite new admin, edit or delete existing ones",
+      "breadcrumbs": {
+        "home": "Home",
+        "users": "Users"
+      },
       "navigation": {
         "title": "Navigation between user type",
         "companies": "Companies",

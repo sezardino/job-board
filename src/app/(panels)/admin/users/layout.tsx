@@ -1,7 +1,7 @@
 "use client";
 
-import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { WindowNavigation } from "@/components/base/WindowNavigation/WindowNavigation";
+import { PreviewTemplateWrapper } from "@/components/modules/shared/PreviewTemplateWrapper/PreviewTemplateWrapper";
 import { AdminPageUrls } from "@/const";
 import { UserRoles } from "@prisma/client";
 import { useSession } from "next-auth/react";
@@ -13,13 +13,17 @@ const AdminUsersLayout: FC<PropsWithChildren> = ({ children }) => {
   const session = useSession();
 
   return (
-    <div className="container grid grid-cols-1 gap-4">
-      <TitleDescription
-        title={t("title")}
-        titleLevel="h1"
-        description={t("description")}
-      />
-
+    <PreviewTemplateWrapper
+      tag="div"
+      copy={{
+        title: t("title"),
+        description: t("description"),
+      }}
+      breadcrumbs={[
+        { label: t("breadcrumbs.home"), href: AdminPageUrls.home },
+        { label: t("breadcrumbs.users") },
+      ]}
+    >
       <WindowNavigation
         items={[
           { title: t("navigation.companies"), href: AdminPageUrls.users },
@@ -34,7 +38,7 @@ const AdminUsersLayout: FC<PropsWithChildren> = ({ children }) => {
       />
 
       <main>{children}</main>
-    </div>
+    </PreviewTemplateWrapper>
   );
 };
 
