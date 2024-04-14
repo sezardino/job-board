@@ -653,6 +653,10 @@
         "title": "Industries",
         "description": "From this panel you can manage industries.",
         "search": "Search industry",
+        "breadcrumbs": {
+          "home": "Home",
+          "industries": "Industries"
+        },
         "create": {
           "title": "Create industry",
           "description": "Enter valid name of the industry you want to create (in slug format)",

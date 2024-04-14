@@ -27,12 +27,14 @@ export const IndustriesTable: FC<IndustriesTableProps> = (props) => {
 
   const t = useTranslations("page.admin.manage-industries");
   const statusT = useTranslations("entity.common.status");
+  const industriesT = useTranslations("entity.industries");
 
   const columns = useMemo(
     () => [
       CH.accessor("name", {
         enableSorting: false,
         header: t("table.head.name"),
+        cell: (row) => industriesT(row.getValue()),
       }),
       CH.accessor("status", {
         enableSorting: false,
