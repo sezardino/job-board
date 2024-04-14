@@ -2,7 +2,7 @@
 
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ApplicationStatusFormValues } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
-import { NoteFormValues } from "@/components/forms/NoteForm/NoteForm";
+import { CommentsFormValues } from "@/components/forms/Comments/CommentsForm";
 import { ManageOfferApplicationsTemplate } from "@/components/templates/Company/ManageOfferApplications/ManageOfferApplicationsTemplate";
 import { useCompanyPagesContext } from "@/context";
 import { useOfferApplicationsQuery } from "@/hooks";
@@ -124,7 +124,7 @@ const OfferApplications = (props: Props) => {
   );
 
   const createNoteHandler = useCallback(
-    async (values: NoteFormValues & { applicationId: string }) => {
+    async (values: CommentsFormValues & { applicationId: string }) => {
       if (!activeStatus) return;
 
       return createNote({

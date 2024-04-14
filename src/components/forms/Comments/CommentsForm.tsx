@@ -8,26 +8,26 @@ import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
-import styles from "./NoteForm.module.scss";
+import styles from "./CommentsForm.module.scss";
 
-export type NoteFormValues = {
+export type CommentsFormValues = {
   name: string;
   content: string;
 };
 
 type Props = {
-  initialValues?: NoteFormValues;
-  onFormSubmit: (values: NoteFormValues) => void;
+  initialValues?: CommentsFormValues;
+  onFormSubmit: (values: CommentsFormValues) => void;
 };
 
-export type NoteFormProps = ComponentPropsWithoutRef<"form"> & Props;
+export type CommentsFormProps = ComponentPropsWithoutRef<"form"> & Props;
 
 const clearValues = {
   name: "",
   content: "",
 };
 
-export const NoteForm = (props: NoteFormProps) => {
+export const CommentsForm = (props: CommentsFormProps) => {
   const { initialValues, onFormSubmit, className, ...rest } = props;
   const t = useTranslations("forms.note");
 
@@ -54,7 +54,7 @@ export const NoteForm = (props: NoteFormProps) => {
     [t]
   );
 
-  const formik = useFormik<NoteFormValues>({
+  const formik = useFormik<CommentsFormValues>({
     validationSchema,
     onSubmit: onFormSubmit,
     initialValues: initialValues ?? clearValues,
@@ -73,7 +73,6 @@ export const NoteForm = (props: NoteFormProps) => {
           name="content"
           label={t("content.label")}
           placeholder={t("content.placeholder")}
-          description={t("content.description")}
         />
       </Form>
     </FormikProvider>

@@ -1,4 +1,3 @@
-import { APPLICATION_DATE_FORMAT } from "@/const";
 import {
   Accordion,
   AccordionItem,
@@ -6,8 +5,7 @@ import {
   CardBody,
   CardHeader,
 } from "@nextui-org/react";
-import dayjs from "dayjs";
-import { FC, useId, useState } from "react";
+import { FC, useState } from "react";
 
 import { PDFViewerModal } from "@/components/UI/PDFViewerModal/PDFViewerModal";
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
@@ -20,10 +18,13 @@ import { Input } from "@/components/base/Input/Input";
 import { Modal } from "@/components/base/Modal/Modal";
 import { BaseTextarea } from "@/components/base/Textarea/Textarea";
 import { Typography } from "@/components/base/Typography/Typography";
-import { NoteForm, NoteFormValues } from "@/components/forms/NoteForm/NoteForm";
+import { CommentsFormValues } from "@/components/forms/Comments/CommentsForm";
+import { APPLICATION_DATE_FORMAT } from "@/const";
 import { OneApplicationResponse } from "@/services/bll/modules/application/schema/one";
 import { QueryProps } from "@/types";
+import dayjs from "dayjs";
 import { useTranslations } from "next-intl";
+import { Comments } from "../../shared/Comments/Comments";
 import { NoteCard } from "../NoteCard/NoteCard";
 import styles from "./ApplicationPreviewModal.module.scss";
 
@@ -32,7 +33,7 @@ export type ApplicationPreviewModalProps = {
   onClose: () => void;
   onAfterClose: () => void;
   application: QueryProps<OneApplicationResponse>;
-  onCreateNote: (values: NoteFormValues) => void;
+  onCreateNote: (values: CommentsFormValues) => void;
 };
 
 export const ApplicationPreviewModal: FC<ApplicationPreviewModalProps> = (
@@ -40,7 +41,6 @@ export const ApplicationPreviewModal: FC<ApplicationPreviewModalProps> = (
 ) => {
   const { application, isOpen, onClose, onAfterClose, onCreateNote } = props;
   const t = useTranslations("components.application-preview-modal");
-  const noteFormId = useId();
   const [isCvModalOpen, setIsCvModalOpen] = useState(false);
 
   return (
@@ -57,49 +57,63 @@ export const ApplicationPreviewModal: FC<ApplicationPreviewModalProps> = (
               titleLevel="h2"
               titleStyling="lg"
               title={t("title")}
+              gap={0}
               description={t("description")}
             />
 
             <Badge color="warning">{application.data?.status}</Badge>
           </div>
-
-          <div>
-            <Typography tag="p" styling="sm">
-              {t("applied-at", {
-                value: dayjs(application.data?.createdAt).format(
-                  APPLICATION_DATE_FORMAT
-                ),
-              })}
-            </Typography>
-            <Typography tag="p" styling="sm">
-              {t("updated-at", {
-                value: dayjs(application.data?.updatedAt).format(
-                  APPLICATION_DATE_FORMAT
-                ),
-              })}
-            </Typography>
-          </div>
         </Modal.Header>
 
         <Modal.Body className={styles.body}>
-          <section>
-            <Typography tag="h3" styling="md">
-              {t("agreements.title")}
+          <Grid gap={2} tag="section">
+            <Typography tag="h2" styling="lg">
+              {t("basic.title")}
             </Typography>
 
-            <Grid gap={4}>
-              <Checkbox
-                isReadOnly
-                checked={application.data?.dataProcessing}
-                label={t("agreements.data-processing")}
-              />
-              <Checkbox
-                isReadOnly
-                checked={application.data?.futureRecruitment}
-                label={t("agreements.future-recruitment")}
-              />
-            </Grid>
-          </section>
+            <ul className="flex items-start flex-wrap gap-10">
+              <Grid gap={3}>
+                <Typography tag="h3" styling="md">
+                  {t("basic.dates.title")}
+                </Typography>
+                <Grid gap={2}>
+                  <Typography tag="p" styling="sm">
+                    {t("basic.dates.applied-at", {
+                      value: dayjs(application.data?.createdAt).format(
+                        APPLICATION_DATE_FORMAT
+                      ),
+                    })}
+                  </Typography>
+                  <Typography tag="p" styling="sm">
+                    {t("basic.dates.updated-at", {
+                      value: dayjs(application.data?.updatedAt).format(
+                        APPLICATION_DATE_FORMAT
+                      ),
+                    })}
+                  </Typography>
+                </Grid>
+              </Grid>
+
+              <Grid gap={2}>
+                <Typography tag="h3" styling="md">
+                  {t("basic.agreements.title")}
+                </Typography>
+
+                <Grid gap={1}>
+                  <Checkbox
+                    isReadOnly
+                    checked={application.data?.dataProcessing}
+                    label={t("basic.agreements.data-processing")}
+                  />
+                  <Checkbox
+                    isReadOnly
+                    checked={application.data?.futureRecruitment}
+                    label={t("basic.agreements.future-recruitment")}
+                  />
+                </Grid>
+              </Grid>
+            </ul>
+          </Grid>
 
           {application.data?.rejectedReason && (
             <Card>
@@ -119,7 +133,7 @@ export const ApplicationPreviewModal: FC<ApplicationPreviewModalProps> = (
           <Accordion
             defaultSelectedKeys={["candidate"]}
             isCompact
-            variant="bordered"
+            variant="splitted"
             selectionMode="multiple"
           >
             <AccordionItem key="candidate" title={t("candidate.title")}>
@@ -167,43 +181,30 @@ export const ApplicationPreviewModal: FC<ApplicationPreviewModalProps> = (
               }
               textValue={t("notes.title")}
             >
-              <Grid gap={4} className={styles.wrapper}>
-                {application.data?.notes.length === 0 && (
-                  <Typography tag="p" styling="sm">
-                    {t("notes.empty")}
-                  </Typography>
-                )}
-
-                {application.data?.notes.length && (
-                  <Grid tag="ul" gap={1}>
-                    {application.data?.notes.map((note) => (
-                      <NoteCard
-                        as="li"
-                        key={note.id}
-                        author={note.author}
-                        content={note.content}
-                        createdAt={note.createdAt}
-                        name={note.name}
-                        shadow="none"
-                      />
-                    ))}
-                  </Grid>
-                )}
-
-                <Grid gap={4}>
-                  <Typography tag="h3" styling="md">
-                    {t("notes.form")}
-                  </Typography>
-
-                  <NoteForm id={noteFormId} onFormSubmit={onCreateNote} />
-
-                  <Button
-                    form={noteFormId}
-                    type="submit"
-                    text={t("notes.add")}
+              <Comments
+                copy={{
+                  title: t("notes.title"),
+                  noData: t("notes.empty"),
+                  new: {
+                    title: t("notes.form"),
+                    trigger: t("notes.add"),
+                  },
+                }}
+                isTitleHidden
+                comments={application.data?.notes || []}
+                onCreateComment={onCreateNote}
+                renderItem={(note) => (
+                  <NoteCard
+                    key={note.id}
+                    author={note.author}
+                    content={note.content}
+                    createdAt={note.createdAt}
+                    name={note.name}
+                    shadow="none"
                   />
-                </Grid>
-              </Grid>
+                )}
+                className={styles.wrapper}
+              />
             </AccordionItem>
           </Accordion>
         </Modal.Body>

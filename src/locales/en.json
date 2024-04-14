@@ -388,10 +388,10 @@
         "disabled": "You can't write a message for this status"
       }
     },
-    "note": {
+    "comments": {
       "name": {
-        "label": "Note Name",
-        "placeholder": "Note Name",
+        "label": "Name",
+        "placeholder": "Name",
         "max-length": "Name should be less than {value} characters",
         "required": "Name is required"
       },
@@ -399,8 +399,7 @@
         "label": "Content",
         "placeholder": "Content",
         "required": "Content is required",
-        "max-length": "Content should be less than {value} characters",
-        "description": "This will be usable for you to remember something about this application"
+        "max-length": "Content should be less than {value} characters"
       }
     }
   },
@@ -1200,17 +1199,23 @@
     "application-preview-modal": {
       "title": "Application preview",
       "description": "Details of the application",
-      "applied-at": "Applied at: {value}",
-      "updated-at": "Updated at: {value}",
       "close": "Close",
-      "agreements": {
-        "title": "Agreements",
-        "data-processing": "You must agree to data processing",
-        "future-recruitment": "You must agree to use your data in future recruitment processes"
+      "basic": {
+        "title": "Basic information:",
+        "dates": {
+          "title": "Dates",
+          "applied-at": "Applied at: {value}",
+          "updated-at": "Updated at: {value}"
+        },
+        "agreements": {
+          "title": "User add agreements for:",
+          "data-processing": "Data processing",
+          "future-recruitment": "Future recruitment processes"
+        }
       },
       "rejected-reason": "Reason for rejection",
       "candidate": {
-        "title": "Candidate",
+        "title": "Candidate information",
         "name": "Name",
         "email": "Email",
         "message": "Message",

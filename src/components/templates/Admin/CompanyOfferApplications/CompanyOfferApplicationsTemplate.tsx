@@ -203,8 +203,6 @@ export const CompanyOfferApplicationsTemplate: FC<
                     createdAt={a.createdAt}
                     updatedAt={a.updatedAt}
                     notes={a._count.notes}
-                    onAddNote={() => openApplicationModal(a.id, "note")}
-                    onEditStatus={() => openApplicationModal(a.id, "status")}
                     onPreviewCV={() =>
                       setCvUrlForPreview(a.curriculumVitae.url)
                     }

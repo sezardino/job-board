@@ -10,7 +10,7 @@ import { Icon } from "@/components/base/Icon/Icon";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import { Typography } from "@/components/base/Typography/Typography";
 import { ApplicationStatusFormValues } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
-import { NoteFormValues } from "@/components/forms/NoteForm/NoteForm";
+import { CommentsFormValues } from "@/components/forms/Comments/CommentsForm";
 import { ApplicationCard } from "@/components/modules/application/ApplicationCard/ApplicationCard";
 import { EditApplicationStatusModal } from "@/components/modules/application/EditApplicationStatusModal/EditApplicationStatusModal";
 import { NoteFormModal } from "@/components/modules/application/NoteFormModal/NoteFormModal";
@@ -129,7 +129,7 @@ export const ManageOfferApplicationsTemplate: FC<
   );
 
   const createNoteHandler = useCallback(
-    (values: NoteFormValues) => {
+    (values: CommentsFormValues) => {
       if (!selectedApplication || selectedApplication?.action !== "note")
         return;
 

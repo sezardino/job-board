@@ -17,8 +17,8 @@ type Props = {
   notes: number;
   onOpenPreview: () => void;
   onPreviewCV: () => void;
-  onAddNote: () => void;
-  onEditStatus: () => void;
+  onAddNote?: () => void;
+  onEditStatus?: () => void;
 };
 
 export type ApplicationCardProps = CardProps & Props;
@@ -70,24 +70,28 @@ export const ApplicationCard: FC<ApplicationCardProps> = (props) => {
             onClick={onPreviewCV}
             endContent={<Icon name="HiDocument" size={14} />}
           />
-          <Button
-            isIconOnly
-            variant="light"
-            color="secondary"
-            text="Add note"
-            size="sm"
-            onClick={onAddNote}
-            endContent={<Icon name="HiDocumentAdd" size={14} />}
-          />
-          <Button
-            isIconOnly
-            variant="light"
-            color="secondary"
-            text="Edit status"
-            size="sm"
-            onClick={onEditStatus}
-            endContent={<Icon name="HiPencil" size={14} />}
-          />
+          {onAddNote && (
+            <Button
+              isIconOnly
+              variant="light"
+              color="secondary"
+              text="Add note"
+              size="sm"
+              onClick={onAddNote}
+              endContent={<Icon name="HiDocumentAdd" size={14} />}
+            />
+          )}
+          {onEditStatus && (
+            <Button
+              isIconOnly
+              variant="light"
+              color="secondary"
+              text="Edit status"
+              size="sm"
+              onClick={onEditStatus}
+              endContent={<Icon name="HiPencil" size={14} />}
+            />
+          )}
         </div>
       </CardHeader>
       <CardFooter className="justify-between">
