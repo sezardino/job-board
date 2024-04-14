@@ -26,7 +26,7 @@ export type SignUpPopoverProps = OmittedProps & Props;
 
 export const SignUpPopover: FC<SignUpPopoverProps> = (props) => {
   const { text, buttonType = "button", className, ...rest } = props;
-  const t = useTranslations("components.sign-up-popover");
+  const t = useTranslations("components.shared.sign-up-popover");
 
   const trigger =
     buttonType === "link" ? (

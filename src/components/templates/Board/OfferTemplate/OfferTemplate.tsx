@@ -36,7 +36,7 @@ export type OfferTemplateProps = ComponentPropsWithoutRef<"div"> & {
 export const OfferTemplate: FC<OfferTemplateProps> = (props) => {
   const { offer, applyForOffer, commonOffers, className, ...rest } = props;
   const entityT = useTranslations("entity");
-  const t = useTranslations("page.landing.job-offer");
+  const t = useTranslations("page.shared.offer");
   const [isSuccessShowed, setIsSuccessShowed] = useState(false);
   const formSectionRef = useRef<HTMLDivElement>(null);
 

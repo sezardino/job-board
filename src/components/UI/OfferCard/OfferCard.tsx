@@ -44,7 +44,7 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("components.offer-card");
+  const t = useTranslations("components.shared.offer-card");
 
   const daysAfterPublication = dayjs(createdAt).diff(new Date(), "days") * -1;
   const dateOfPublicationString =

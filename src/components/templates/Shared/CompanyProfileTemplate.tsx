@@ -64,7 +64,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
     className,
     ...rest
   } = props;
-  const t = useTranslations("components.company-template");
+  const t = useTranslations("company.page.profile");
   const [isEditBioModalOpen, setIsEditBioModalOpen] = useState(false);
   const [isEditBaseDataModalOpen, setIsEditBaseDataModalOpen] = useState(false);
   // TODO: add in next version (gallery)

@@ -48,7 +48,7 @@ export const CompanyRegistrationTemplate: FC<
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.company-registration");
+  const t = useTranslations("page.shared.company-registration");
   const [step, setStep] = useState<CompanyRegistrationStatus | "form">("form");
   const submittedEmail = useRef<string | null>(null);
 

@@ -48,7 +48,7 @@ export type EditOfferWrapperProps = Props;
 
 export const EditOfferWrapper: FC<EditOfferWrapperProps> = (props) => {
   const { offerId, onClose } = props;
-  const t = useTranslations("components.edit-job-offer-wrapper");
+  const t = useTranslations("components.company.edit-job-offer-wrapper");
 
   const { data: editionData, isFetching: isEditionDataLoading } =
     useOfferEditionDataQuery(offerId);

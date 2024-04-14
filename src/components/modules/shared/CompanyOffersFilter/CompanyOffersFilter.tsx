@@ -35,7 +35,7 @@ export const CompanyOffersFilter: FC<CompanyOffersFilterProps> = (props) => {
     ...rest
   } = props;
 
-  const t = useTranslations("components.company-offers-filter");
+  const t = useTranslations("components.shared.company-offers-filter");
   const entityT = useTranslations("entity");
 
   const statusFilterOptions = useMemo<SelectOption<OfferFilterStatus>[]>(() => {

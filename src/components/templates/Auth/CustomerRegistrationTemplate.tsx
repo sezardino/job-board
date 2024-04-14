@@ -45,7 +45,7 @@ export const CustomerRegistrationTemplate: FC<
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.customer-registration");
+  const t = useTranslations("page.shared.customer-registration");
   const [step, setStep] = useState<RegistrationStatus | "form">("form");
   const submittedEmail = useRef<string | null>(null);
 

@@ -44,7 +44,7 @@ export type OfferDetailsProps = ComponentPropsWithoutRef<"div"> & Props;
 export const OfferDetails: FC<OfferDetailsProps> = (props) => {
   const { offer, company, skills, breadcrumbs, className, ...rest } = props;
 
-  const t = useTranslations("components.job-offer-details");
+  const t = useTranslations("components.shared.offer-details");
   const entityT = useTranslations("entity.offers");
 
   return (

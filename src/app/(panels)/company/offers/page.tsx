@@ -4,7 +4,7 @@ import {
   OfferFilterSeniority,
   OfferFilterStatus,
 } from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
-import { ManageCompanyOffersTemplate } from "@/components/templates/Company/ManageCompanyOffers/ManageCompanyOffersTemplate";
+import { ManageOffersTemplate } from "@/components/templates/Company/ManageOffers/ManageOffersTemplate";
 import { useDataOnPage } from "@/hooks";
 import {
   useArchiveOfferMutation,
@@ -48,7 +48,7 @@ const CompanyOffersPage = () => {
     usePublishOfferMutation();
 
   return (
-    <ManageCompanyOffersTemplate
+    <ManageOffersTemplate
       offers={{
         data: companyOffers,
         isLoading: isCompanyOffersLoading,

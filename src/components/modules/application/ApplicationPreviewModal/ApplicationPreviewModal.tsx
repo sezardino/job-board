@@ -43,7 +43,7 @@ export const ApplicationPreviewModal: FC<ApplicationPreviewModalProps> = (
   props
 ) => {
   const { application, isOpen, onClose, onAfterClose, onCreateNote } = props;
-  const t = useTranslations("components.application-preview-modal");
+  const t = useTranslations("components.shared.application-preview-modal");
   const [isCvModalOpen, setIsCvModalOpen] = useState(false);
 
   return (

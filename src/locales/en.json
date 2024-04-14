@@ -816,98 +816,176 @@
             "confirm": "Add note"
           }
         }
-      }
-    },
-    "customer-registration": {
-      "form": {
-        "title": "Register new user",
-        "text": "Already have an account?",
-        "link": "Login"
       },
-      "success": {
-        "title": "Registration successful",
-        "description": "Please check your email to activate your account",
-        "resend-email": {
-          "trigger": "Resend verification email",
-          "description": "If you didn't receive verification email, you can resend it here",
-          "interval": "You can resend verification email in {value} seconds"
+      "manage-offers": {
+        "title": "Job Offers",
+        "description": "From this panel you can manage job offers of your company.",
+        "create": "Create job offer",
+        "modals": {
+          "delete": {
+            "title": "Delete job offer",
+            "description": "Are you sure you want to delete this job offer?",
+            "cancel": "Cancel",
+            "confirm": "Delete"
+          },
+          "archive": {
+            "title": "Archive job offer",
+            "description": "Are you sure you want to archive this job offer?",
+            "cancel": "Cancel",
+            "confirm": "Archive"
+          },
+          "finish": {
+            "title": "Finish job offer",
+            "description": "Are you sure you want to finish this job offer? You can't edit job offer after finishing",
+            "cancel": "Cancel",
+            "confirm": "Finish"
+          },
+          "publish": {
+            "title": "Publish job offer",
+            "description": "Are you sure you want to publish this job offer? You can't unpublish it after publishing",
+            "cancel": "Cancel",
+            "confirm": "Publish"
+          }
         }
       },
-      "email-used": {
-        "title": "Email already used",
-        "description": "This email is already used by another user",
-        "trigger": "Login"
-      },
-      "waiting-for-email-confirmation": {
-        "title": "Waiting for email confirmation",
-        "description": "Please check your email to activate your account",
-        "resend-email": {
-          "trigger": "Resend verification email",
-          "description": "If you didn't receive verification email, you can resend it here",
-          "interval": "You can resend verification email in {value} seconds"
+      "profile": {
+        "users": "Users:",
+        "owner": "Owner",
+        "members": "Members",
+        "gallery": "Gallery",
+        "bio": "Bio",
+        "no-bio": "No bio",
+        "offers": {
+          "title": "Offers",
+          "more": "See more offers"
+        },
+        "edit-bio": {
+          "title": "Edit bio",
+          "description": "You can edit bio of your company here",
+          "cancel": "Cancel",
+          "submit": "Edit bio",
+          "trigger": "Edit bio"
+        },
+        "edit-base-data": {
+          "title": "Edit Base Data",
+          "description": "You can edit base data of your company here",
+          "cancel": "Cancel",
+          "submit": "Edit Base Data",
+          "trigger": "Edit Base Data"
+        },
+        "edit-gallery": {
+          "label": "Select Images",
+          "title": "Edit Gallery",
+          "description": "You can edit gallery of your company here",
+          "cancel": "Cancel",
+          "submit": "Edit Gallery",
+          "trigger": "Edit Gallery"
         }
       }
     },
-    "company-registration": {
-      "title": "Register new company",
+    "shared": {
       "login": {
-        "description": "Already have an account?",
-        "link": "Login"
-      },
-      "success": {
-        "title": "Registration successful",
-        "description": "Please check your email to activate your account",
-        "resend-email": {
-          "trigger": "Resend verification email",
-          "description": "If you didn't receive verification email, you can resend it here",
-          "interval": "You can resend verification email in {value} seconds"
+        "title": "Login",
+        "description": "Please enter your login and password to access the system",
+        "submit": "Login",
+        "forgot-password": "Forgot password? Contact your administrator",
+        "register": {
+          "text": "Don't have an account?",
+          "trigger": "Sign up",
+          "title": "Sign up as:",
+          "company": "Company",
+          "customer": "Customer"
         }
       },
-      "email-used": {
-        "title": "Email already used",
-        "description": "This email is already used by another user",
-        "trigger": "Login"
-      },
-      "waiting-for-email-confirmation": {
-        "title": "Waiting for email confirmation",
-        "description": "Please check your email to activate your account",
-        "resend-email": {
-          "trigger": "Resend verification email",
-          "description": "If you didn't receive verification email, you can resend it here",
-          "interval": "You can resend verification email in {value} seconds"
+      "customer-registration": {
+        "form": {
+          "title": "Register new user",
+          "text": "Already have an account?",
+          "link": "Login"
+        },
+        "success": {
+          "title": "Registration successful",
+          "description": "Please check your email to activate your account",
+          "resend-email": {
+            "trigger": "Resend verification email",
+            "description": "If you didn't receive verification email, you can resend it here",
+            "interval": "You can resend verification email in {value} seconds"
+          }
+        },
+        "email-used": {
+          "title": "Email already used",
+          "description": "This email is already used by another user",
+          "trigger": "Login"
+        },
+        "waiting-for-email-confirmation": {
+          "title": "Waiting for email confirmation",
+          "description": "Please check your email to activate your account",
+          "resend-email": {
+            "trigger": "Resend verification email",
+            "description": "If you didn't receive verification email, you can resend it here",
+            "interval": "You can resend verification email in {value} seconds"
+          }
         }
-      }
-    },
-    "verify-email": {
-      "success": {
-        "title": "Email verified",
-        "description": "Your email has been verified successfully",
-        "trigger": "Login"
       },
-      "not-found": {
-        "title": "Invalid verification link",
-        "description": "Your verification link is invalid"
+      "company-registration": {
+        "title": "Register new company",
+        "login": {
+          "description": "Already have an account?",
+          "link": "Login"
+        },
+        "success": {
+          "title": "Registration successful",
+          "description": "Please check your email to activate your account",
+          "resend-email": {
+            "trigger": "Resend verification email",
+            "description": "If you didn't receive verification email, you can resend it here",
+            "interval": "You can resend verification email in {value} seconds"
+          }
+        },
+        "email-used": {
+          "title": "Email already used",
+          "description": "This email is already used by another user",
+          "trigger": "Login"
+        },
+        "waiting-for-email-confirmation": {
+          "title": "Waiting for email confirmation",
+          "description": "Please check your email to activate your account",
+          "resend-email": {
+            "trigger": "Resend verification email",
+            "description": "If you didn't receive verification email, you can resend it here",
+            "interval": "You can resend verification email in {value} seconds"
+          }
+        }
       },
-      "expired": {
-        "title": "Expired verification link",
-        "description": "Your verification link has expired",
-        "trigger": "Resend verification email",
-        "interval": "You can resend verification email in {value} seconds"
+      "verify-email": {
+        "success": {
+          "title": "Email verified",
+          "description": "Your email has been verified successfully",
+          "trigger": "Login"
+        },
+        "not-found": {
+          "title": "Invalid verification link",
+          "description": "Your verification link is invalid"
+        },
+        "expired": {
+          "title": "Expired verification link",
+          "description": "Your verification link has expired",
+          "trigger": "Resend verification email",
+          "interval": "You can resend verification email in {value} seconds"
+        },
+        "already-verified": {
+          "title": "Email already verified",
+          "description": "Your email has been already verified",
+          "trigger": "Login"
+        }
       },
-      "already-verified": {
-        "title": "Email already verified",
-        "description": "Your email has been already verified",
-        "trigger": "Login"
-      }
-    },
-    "landing": {
-      "job-offers-board": {
+      "offers-board": {
         "no-data": {
           "title": "No job offers found",
           "description": "There are no job offers according to your search criteria"
         }
       },
-      "job-offer": {
+      "offer": {
         "home": "Home",
         "operating": "Operating",
         "apply": "Apply now",
@@ -924,19 +1002,6 @@
           "description": "Your application has been sent successfully"
         }
       }
-    }
-  },
-  "login-page": {
-    "title": "Login",
-    "description": "Please enter your login and password to access the system",
-    "submit": "Login",
-    "forgot-password": "Forgot password? Contact your administrator",
-    "register": {
-      "text": "Don't have an account?",
-      "trigger": "Sign up",
-      "title": "Sign up as:",
-      "company": "Company",
-      "customer": "Customer"
     }
   },
   "components": {
@@ -975,264 +1040,155 @@
           "finish": "Finish",
           "delete": "Delete"
         }
+      },
+      "offer-preview": {
+        "details": {
+          "title": "Details",
+          "description": "Details of the job offer",
+          "industry": "Industry",
+          "category": "Category",
+          "contract": "Job Contract",
+          "seniority": "Seniority",
+          "type": "Job Type",
+          "operating": "Operating",
+          "salary": {
+            "label": "Salary",
+            "value": "{from} - {to}",
+            "no-value": "Not specified"
+          }
+        },
+        "skills": {
+          "title": "Skills",
+          "description": "Skills required for this job offer",
+          "no-data": "No skills was provided"
+        },
+        "description": {
+          "title": "Job offer description",
+          "description": "Description of the job offer"
+        }
+      },
+      "edit-job-offer-wrapper": {
+        "edit": {
+          "title": "Edit job offer \"{value}\"",
+          "description": "You can edit job offer here",
+          "cancel": "Cancel",
+          "next": "Next",
+          "edit": "Edit job offer",
+          "back": "Back"
+        },
+        "back": {
+          "title": "Go back",
+          "description": "Are you sure you want to go back? All unsaved data will be lost",
+          "cancel": "Cancel",
+          "confirm": "Go back"
+        },
+        "cancel": {
+          "title": "Cancel",
+          "description": "Are you sure you want to cancel? All unsaved data will be lost",
+          "cancel": "Cancel",
+          "confirm": "Confirm"
+        },
+        "confirm": {
+          "title": "Confirm",
+          "description": "Edit job offer with provided data?",
+          "cancel": "Cancel",
+          "confirm": "Edit"
+        },
+        "no-changes": {
+          "title": "No changes",
+          "description": "You didn't make any changes",
+          "cancel": "Continue editing",
+          "confirm": "Cancel editing"
+        }
       }
     },
-    "landing-navbar": {
-      "user-menu-title": "User menu",
-      "dashboard": "Dashboard",
-      "home": "Home",
-      "about": "About",
-      "login": "Login",
-      "register": {
-        "trigger": "Sign up",
+    "shared": {
+      "navbar": {
+        "user-menu-title": "User menu",
+        "dashboard": "Dashboard",
+        "home": "Home",
+        "about": "About",
+        "login": "Login",
+        "register": {
+          "trigger": "Sign up",
+          "title": "Sign up as:",
+          "company": "Company",
+          "customer": "Customer"
+        },
+        "logout": "Logout",
+        "open-menu": "Open menu",
+        "close-menu": "Close menu"
+      },
+      "sign-up-popover": {
         "title": "Sign up as:",
+        "trigger": "Sign up",
         "company": "Company",
         "customer": "Customer"
       },
-      "logout": "Logout",
-      "open-menu": "Open menu",
-      "close-menu": "Close menu"
-    },
-    "company-template": {
-      "users": "Users:",
-      "owner": "Owner",
-      "members": "Members",
-      "gallery": "Gallery",
-      "bio": "Bio",
-      "no-bio": "No bio",
-      "offers": {
-        "title": "Offers",
-        "more": "See more offers"
+      "offer-card": {
+        "new": "New!",
+        "created-at": "{value} days ago"
       },
-      "edit-bio": {
-        "title": "Edit bio",
-        "description": "You can edit bio of your company here",
-        "cancel": "Cancel",
-        "submit": "Edit bio",
-        "trigger": "Edit bio"
-      },
-      "edit-base-data": {
-        "title": "Edit Base Data",
-        "description": "You can edit base data of your company here",
-        "cancel": "Cancel",
-        "submit": "Edit Base Data",
-        "trigger": "Edit Base Data"
-      },
-      "edit-gallery": {
-        "label": "Select Images",
-        "title": "Edit Gallery",
-        "description": "You can edit gallery of your company here",
-        "cancel": "Cancel",
-        "submit": "Edit Gallery",
-        "trigger": "Edit Gallery"
-      }
-    },
-    "offer-preview": {
-      "details": {
-        "title": "Details",
-        "description": "Details of the job offer",
-        "industry": "Industry",
-        "category": "Category",
-        "contract": "Job Contract",
-        "seniority": "Seniority",
-        "type": "Job Type",
-        "operating": "Operating",
-        "salary": {
-          "label": "Salary",
-          "value": "{from} - {to}",
-          "no-value": "Not specified"
-        }
-      },
-      "skills": {
-        "title": "Skills",
-        "description": "Skills required for this job offer",
-        "no-data": "No skills was provided"
-      },
-      "description": {
-        "title": "Job offer description",
-        "description": "Description of the job offer"
-      }
-    },
-    "offer-card": {
-      "new": "New!",
-      "created-at": "{value} days ago"
-    },
-    "sign-up-popover": {
-      "title": "Sign up as:",
-      "trigger": "Sign up",
-      "company": "Company",
-      "customer": "Customer"
-    },
-    "manage-company-job-offers-template": {
-      "title": "Job Offers",
-      "description": "From this panel you can manage job offers of your company.",
-      "search": "Search job offer",
-      "create": "Create job offer",
-      "filters": {
-        "status": "Filer by status",
-        "seniority": "Filter by seniority"
-      },
-      "all": "All",
-      "table": {
-        "no-data": "No offers found",
-        "name": "Name",
-        "industry-category": "Industry/Category",
+      "offer-details": {
         "deadline": "Deadline",
-        "applications-count": "Applications count",
-        "seniority": "Seniority",
-        "status": "Status",
-        "actions": {
-          "label": "More",
-          "edit": "Edit",
-          "preview": "Preview",
-          "applications": "Manage Applications",
-          "publish": "Publish",
-          "unpublish": "Unpublish",
-          "archive": "Archive",
-          "finish": "Finish",
-          "delete": "Delete"
+        "skills": { "title": "Skills", "no-data": "No skills was provided" },
+        "description": {
+          "title": "Job offer description",
+          "description": "Description of the job offer"
         }
       },
-      "modals": {
-        "delete": {
-          "title": "Delete job offer",
-          "description": "Are you sure you want to delete this job offer?",
-          "cancel": "Cancel",
-          "confirm": "Delete"
-        },
-        "archive": {
-          "title": "Archive job offer",
-          "description": "Are you sure you want to archive this job offer?",
-          "cancel": "Cancel",
-          "confirm": "Archive"
-        },
-        "finish": {
-          "title": "Finish job offer",
-          "description": "Are you sure you want to finish this job offer? You can't edit job offer after finishing",
-          "cancel": "Cancel",
-          "confirm": "Finish"
-        },
-        "publish": {
-          "title": "Publish job offer",
-          "description": "Are you sure you want to publish this job offer? You can't unpublish it after publishing",
-          "cancel": "Cancel",
-          "confirm": "Publish"
-        }
-      }
-    },
-    "company-offers-filter": {
-      "search": "Search job offer",
-      "filters": {
-        "all": "All",
-        "status": "Filer by status",
-        "seniority": "Filter by seniority"
-      }
-    },
-    "company-offers-table": {
-      "no-data": "No offers found",
-      "name": "Name",
-      "industry-category": "Industry/Category",
-      "deadline": "Deadline",
-      "applications-count": "Applications count",
-      "seniority": "Seniority",
-      "status": "Status",
-      "actions": {
-        "label": "More",
-        "edit": "Edit",
-        "preview": "Preview",
-        "applications": "Manage Applications",
-        "publish": "Publish",
-        "unpublish": "Unpublish",
-        "archive": "Archive",
-        "finish": "Finish",
-        "delete": "Delete"
-      }
-    },
-    "edit-job-offer-wrapper": {
-      "edit": {
-        "title": "Edit job offer \"{value}\"",
-        "description": "You can edit job offer here",
-        "cancel": "Cancel",
-        "next": "Next",
-        "edit": "Edit job offer",
-        "back": "Back"
-      },
-      "back": {
-        "title": "Go back",
-        "description": "Are you sure you want to go back? All unsaved data will be lost",
-        "cancel": "Cancel",
-        "confirm": "Go back"
-      },
-      "cancel": {
-        "title": "Cancel",
-        "description": "Are you sure you want to cancel? All unsaved data will be lost",
-        "cancel": "Cancel",
-        "confirm": "Confirm"
-      },
-      "confirm": {
-        "title": "Confirm",
-        "description": "Edit job offer with provided data?",
-        "cancel": "Cancel",
-        "confirm": "Edit"
-      },
-      "no-changes": {
-        "title": "No changes",
-        "description": "You didn't make any changes",
-        "cancel": "Continue editing",
-        "confirm": "Cancel editing"
-      }
-    },
-    "job-offer-details": {
-      "deadline": "Deadline",
-      "skills": { "title": "Skills", "no-data": "No skills was provided" },
-      "description": {
-        "title": "Job offer description",
-        "description": "Description of the job offer"
-      }
-    },
-    "offer-basic-data": {
-      "type": "Job Type",
-      "contract": "Job Contract",
-      "operating": "Operating",
-      "seniority": "Seniority"
-    },
-    "application-preview-modal": {
-      "title": "Application preview",
-      "description": "Details of the application",
-      "close": "Close",
-      "basic": {
-        "title": "Basic information",
-        "dates": {
-          "title": "Dates",
-          "applied-at": "Applied at: {value}",
-          "updated-at": "Updated at: {value}"
-        },
-        "agreements": {
-          "title": "User add agreements for:",
-          "data-processing": "Data processing",
-          "future-recruitment": "Future recruitment processes"
+      "company-offers-filter": {
+        "search": "Search job offer",
+        "filters": {
+          "all": "All",
+          "status": "Filer by status",
+          "seniority": "Filter by seniority"
         }
       },
-      "rejected-reason": "Reason for rejection",
-      "candidate": {
-        "title": "Candidate information",
-        "name": "Name",
-        "email": "Email",
-        "message": "Message",
-        "cv": "CV"
+      "offer-basic-data": {
+        "type": "Job Type",
+        "contract": "Job Contract",
+        "operating": "Operating",
+        "seniority": "Seniority"
       },
-      "notes": {
-        "title": "Notes",
-        "empty": "No notes found",
-        "form": "Create new note",
-        "add": "Create note"
-      }
-    },
-    "pdf-viewer-modal": {
-      "download": "Download",
-      "loading": {
-        "document": "Document is loading...",
-        "page": "Page is loading..."
+      "pdf-viewer-modal": {
+        "download": "Download",
+        "loading": {
+          "document": "Document is loading...",
+          "page": "Page is loading..."
+        }
+      },
+      "application-preview-modal": {
+        "title": "Application preview",
+        "description": "Details of the application",
+        "close": "Close",
+        "basic": {
+          "title": "Basic information",
+          "dates": {
+            "title": "Dates",
+            "applied-at": "Applied at: {value}",
+            "updated-at": "Updated at: {value}"
+          },
+          "agreements": {
+            "title": "User add agreements for:",
+            "data-processing": "Data processing",
+            "future-recruitment": "Future recruitment processes"
+          }
+        },
+        "rejected-reason": "Reason for rejection",
+        "candidate": {
+          "title": "Candidate information",
+          "name": "Name",
+          "email": "Email",
+          "message": "Message",
+          "cv": "CV"
+        },
+        "notes": {
+          "title": "Notes",
+          "empty": "No notes found",
+          "form": "Create new note",
+          "add": "Create note"
+        }
       }
     }
   },

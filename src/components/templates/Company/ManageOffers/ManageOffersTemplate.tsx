@@ -48,15 +48,12 @@ export type ManageCompanyOffersTableAction = {
   id: string;
 };
 
-export type ManageCompanyOffersTemplateProps =
-  ComponentPropsWithoutRef<"section"> &
-    Props &
-    PickerFiltersProps &
-    DataListProp;
+export type ManageOffersTemplateProps = ComponentPropsWithoutRef<"section"> &
+  Props &
+  PickerFiltersProps &
+  DataListProp;
 
-export const ManageCompanyOffersTemplate: FC<
-  ManageCompanyOffersTemplateProps
-> = (props) => {
+export const ManageOffersTemplate: FC<ManageOffersTemplateProps> = (props) => {
   const {
     statusFilter,
     seniorityFilter,
@@ -74,7 +71,7 @@ export const ManageCompanyOffersTemplate: FC<
     className,
     ...rest
   } = props;
-  const t = useTranslations("components.manage-company-job-offers-template");
+  const t = useTranslations("page.company.manage-offers");
 
   const [selectedTableAction, setSelectedTableAction] =
     useState<ManageCompanyOffersTableAction | null>(null);

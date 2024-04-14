@@ -27,7 +27,7 @@ export type VerifyEmailTemplateProps = ComponentPropsWithoutRef<"section"> &
 
 export const VerifyEmailTemplate: FC<VerifyEmailTemplateProps> = (props) => {
   const { resendEmailAction, status, className, ...rest } = props;
-  const t = useTranslations("page.verify-email");
+  const t = useTranslations("page.shared.verify-email");
 
   const { isActive: isTimerActive, startTimer, left: timeLeft } = useTimer({});
 

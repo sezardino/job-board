@@ -13,7 +13,7 @@ export type LoginTemplateProps = ComponentPropsWithoutRef<"section"> & {
 
 export const LoginTemplate: FC<LoginTemplateProps> = (props) => {
   const { onFormSubmit, ...rest } = props;
-  const t = useTranslations("login-page");
+  const t = useTranslations("page.shared.login");
 
   return (
     <section {...rest} className="max-w-xl mx-auto border-2 rounded-md p-4">

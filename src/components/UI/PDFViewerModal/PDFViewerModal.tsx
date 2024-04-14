@@ -27,7 +27,7 @@ export type PDFViewerModalProps = {
 
 export const PDFViewerModal: FC<PDFViewerModalProps> = (props) => {
   const { file, onClose, isOpen } = props;
-  const t = useTranslations("components.pdf-viewer-modal");
+  const t = useTranslations("components.shared.pdf-viewer-modal");
 
   const [totalPagesCount, setTotalPagesCount] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState<number>(0);
