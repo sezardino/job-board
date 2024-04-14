@@ -18,17 +18,17 @@ export type CompaniesTableProps = Omit<TableWidgetProps<Company>, "columns">;
 const CH = createColumnHelper<Company>();
 
 export const CompaniesTable: FC<CompaniesTableProps> = (props) => {
-  const t = useTranslations("page.admin.manage-companies");
+  const t = useTranslations("components.admin.companies-table");
 
   const columns = useMemo(
     () => [
       CH.accessor("name", {
         enableSorting: false,
-        header: t("table.head.name"),
+        header: t("head.name"),
       }),
       CH.accessor("owner", {
         enableSorting: false,
-        header: t("table.head.owner"),
+        header: t("head.owner"),
         cell: (row) => (
           <UserInfo
             name={row.getValue().name}
@@ -39,14 +39,14 @@ export const CompaniesTable: FC<CompaniesTableProps> = (props) => {
       }),
       CH.accessor("_count.members", {
         enableSorting: false,
-        header: t("table.head.members"),
+        header: t("head.members"),
         cell: (row) => (
           <span className="justify-self-center">{row.getValue()}</span>
         ),
       }),
       CH.accessor("_count.offers", {
         enableSorting: false,
-        header: t("table.head.offers"),
+        header: t("head.offers"),
       }),
       CH.accessor("id", {
         enableSorting: false,
@@ -57,7 +57,7 @@ export const CompaniesTable: FC<CompaniesTableProps> = (props) => {
               {
                 icon: "HiEye",
                 color: "primary",
-                text: t("table.actions.more"),
+                text: t("actions.more"),
                 as: Link,
                 href: AdminPageUrls.companyOffers(cell.getValue()),
               },
@@ -74,7 +74,7 @@ export const CompaniesTable: FC<CompaniesTableProps> = (props) => {
       {...props}
       // @ts-ignore
       columns={columns}
-      noDataMessage={t("table.no-data")}
+      noDataMessage={t("no-data")}
       className="mt-4"
     />
   );

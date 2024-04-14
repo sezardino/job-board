@@ -1018,6 +1018,18 @@
           "preview": "See Offer",
           "applications": "See Applications"
         }
+      },
+      "companies-table": {
+        "no-data": "No companies found",
+        "head": {
+          "name": "Name",
+          "owner": "Owner",
+          "members": "Members",
+          "offers": "Offers"
+        },
+        "actions": {
+          "more": "See offers"
+        }
       }
     },
     "company": {

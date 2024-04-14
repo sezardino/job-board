@@ -1,53 +1,50 @@
 import { CompaniesTable } from "@/components/modules/admin/CompaniesTable";
 import { AdminCompaniesResponse } from "@/services/bll/modules/companies/schema";
-import { type ComponentPropsWithoutRef, type FC } from "react";
-import { twMerge } from "tailwind-merge";
+import { type FC } from "react";
 import { SearchForm } from "../../../base/SearchForm/SearchForm";
 
+import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
+import { Grid } from "@/components/base/Grid/Grid";
+import { QueryProps } from "@/types";
+import { useTranslations } from "next-intl";
 import styles from "./ManageCompaniesTemplate.module.scss";
 
 type Props = {
-  data?: AdminCompaniesResponse;
-  isTableDataLoading: boolean;
+  companies: QueryProps<AdminCompaniesResponse>;
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
   onSearchChange: (search: string) => void;
 };
 
-export type ManageCompaniesTemplateProps = ComponentPropsWithoutRef<"section"> &
-  Props;
+export type ManageCompaniesTemplateProps = Props;
 
 export const ManageCompaniesTemplate: FC<ManageCompaniesTemplateProps> = (
   props
 ) => {
-  const {
-    data,
-    isTableDataLoading,
-    onLimitChange,
-    onPageChange,
-    onSearchChange,
-    className,
-    ...rest
-  } = props;
+  const { companies, onLimitChange, onPageChange, onSearchChange } = props;
+  const t = useTranslations("page.admin.manage-companies");
 
   return (
-    <>
-      <section {...rest} className={twMerge("", className)}>
-        <header className={styles.header}>
-          <SearchForm onSearch={onSearchChange} />
-        </header>
-
-        <CompaniesTable
-          data={data?.data || []}
-          isLoading={isTableDataLoading}
-          page={data?.meta.page || 0}
-          limit={data?.meta.limit || 10}
-          total={data?.meta.totalPages || 0}
-          className="mt-4"
-          onLimitChange={onLimitChange}
-          onPageChange={onPageChange}
+    <Grid tag="section" gap={4}>
+      <header className={styles.header}>
+        <TitleDescription
+          title={t("title")}
+          titleLevel="h1"
+          description={t("description")}
         />
-      </section>
-    </>
+
+        <SearchForm onSearch={onSearchChange} />
+      </header>
+
+      <CompaniesTable
+        data={companies?.data?.data || []}
+        isLoading={companies.isFetching}
+        page={companies?.data?.meta.page || 0}
+        limit={companies?.data?.meta.limit || 10}
+        total={companies?.data?.meta.totalPages || 0}
+        onLimitChange={onLimitChange}
+        onPageChange={onPageChange}
+      />
+    </Grid>
   );
 };
