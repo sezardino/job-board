@@ -40,7 +40,7 @@ const columnHelper = createColumnHelper<Offer>();
 export const ManageOffersTable: FC<ManageOffersTableProps> = (props) => {
   const { onAction, ...rest } = props;
 
-  const t = useTranslations("components.offers-table");
+  const t = useTranslations("components.company.offers-table");
   const entityT = useTranslations("entity");
 
   const columns = useMemo(

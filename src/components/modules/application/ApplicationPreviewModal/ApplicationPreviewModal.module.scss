@@ -10,6 +10,14 @@
   @apply grid grid-cols-1 gap-4;
 }
 
+.basic {
+  @apply flex items-start flex-wrap gap-10;
+}
+
+.notes {
+  @apply flex items-center gap-1;
+}
+
 .cv {
   @apply justify-self-start;
 }

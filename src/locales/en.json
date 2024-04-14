@@ -1201,7 +1201,7 @@
       "description": "Details of the application",
       "close": "Close",
       "basic": {
-        "title": "Basic information:",
+        "title": "Basic information",
         "dates": {
           "title": "Dates",
           "applied-at": "Applied at: {value}",

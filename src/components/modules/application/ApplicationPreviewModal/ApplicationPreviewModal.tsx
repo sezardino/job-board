@@ -36,6 +36,9 @@ export type ApplicationPreviewModalProps = {
   onCreateNote: (values: CommentsFormValues) => void;
 };
 
+const CANDIDATE_KEY = "candidate";
+const BASIC_INFORMATION_KEY = "basic-information";
+
 export const ApplicationPreviewModal: FC<ApplicationPreviewModalProps> = (
   props
 ) => {
@@ -51,166 +54,173 @@ export const ApplicationPreviewModal: FC<ApplicationPreviewModalProps> = (
         size="5xl"
         onAfterClose={onAfterClose}
       >
-        <Modal.Header className={styles.header}>
-          <div className={styles.headerWrapper}>
-            <TitleDescription
-              titleLevel="h2"
-              titleStyling="lg"
-              title={t("title")}
-              gap={0}
-              description={t("description")}
-            />
+        {application.isFetching && <Modal.Loader size="600" />}
 
-            <Badge color="warning">{application.data?.status}</Badge>
-          </div>
-        </Modal.Header>
+        {!application.isFetching && (
+          <>
+            <Modal.Header className={styles.header}>
+              <div className={styles.headerWrapper}>
+                <TitleDescription
+                  titleLevel="h2"
+                  titleStyling="lg"
+                  title={t("title")}
+                  gap={0}
+                  description={t("description")}
+                />
 
-        <Modal.Body className={styles.body}>
-          <Grid gap={2} tag="section">
-            <Typography tag="h2" styling="lg">
-              {t("basic.title")}
-            </Typography>
+                <Badge color="warning">{application.data?.status}</Badge>
+              </div>
+            </Modal.Header>
 
-            <ul className="flex items-start flex-wrap gap-10">
-              <Grid gap={3}>
-                <Typography tag="h3" styling="md">
-                  {t("basic.dates.title")}
-                </Typography>
-                <Grid gap={2}>
-                  <Typography tag="p" styling="sm">
-                    {t("basic.dates.applied-at", {
-                      value: dayjs(application.data?.createdAt).format(
-                        APPLICATION_DATE_FORMAT
-                      ),
-                    })}
-                  </Typography>
-                  <Typography tag="p" styling="sm">
-                    {t("basic.dates.updated-at", {
-                      value: dayjs(application.data?.updatedAt).format(
-                        APPLICATION_DATE_FORMAT
-                      ),
-                    })}
-                  </Typography>
-                </Grid>
-              </Grid>
+            <Modal.Body className={styles.body}>
+              {application.data?.rejectedReason && (
+                <Card>
+                  <CardHeader>
+                    <Typography tag="h3" styling="md">
+                      {t("rejected-reason")}
+                    </Typography>
+                  </CardHeader>
+                  <CardBody>
+                    <Typography tag="p" styling="sm">
+                      {application.data?.rejectedReason}
+                    </Typography>
+                  </CardBody>
+                </Card>
+              )}
 
-              <Grid gap={2}>
-                <Typography tag="h3" styling="md">
-                  {t("basic.agreements.title")}
-                </Typography>
+              <Accordion
+                defaultSelectedKeys={[CANDIDATE_KEY, BASIC_INFORMATION_KEY]}
+                variant="splitted"
+                selectionMode="multiple"
+              >
+                <AccordionItem
+                  key={BASIC_INFORMATION_KEY}
+                  textValue={t("basic.title")}
+                  title={<Typography tag="span">{t("basic.title")}</Typography>}
+                >
+                  <ul className={styles.basic}>
+                    <Grid gap={3}>
+                      <Typography tag="h3" styling="md">
+                        {t("basic.dates.title")}
+                      </Typography>
+                      <Grid gap={2}>
+                        <Typography tag="p" styling="sm">
+                          {t("basic.dates.applied-at", {
+                            value: dayjs(application.data?.createdAt).format(
+                              APPLICATION_DATE_FORMAT
+                            ),
+                          })}
+                        </Typography>
+                        <Typography tag="p" styling="sm">
+                          {t("basic.dates.updated-at", {
+                            value: dayjs(application.data?.updatedAt).format(
+                              APPLICATION_DATE_FORMAT
+                            ),
+                          })}
+                        </Typography>
+                      </Grid>
+                    </Grid>
 
-                <Grid gap={1}>
-                  <Checkbox
-                    isReadOnly
-                    checked={application.data?.dataProcessing}
-                    label={t("basic.agreements.data-processing")}
+                    <Grid gap={2}>
+                      <Typography tag="h3" styling="md">
+                        {t("basic.agreements.title")}
+                      </Typography>
+
+                      <Grid gap={1}>
+                        <Checkbox
+                          isReadOnly
+                          checked={application.data?.dataProcessing}
+                          label={t("basic.agreements.data-processing")}
+                        />
+                        <Checkbox
+                          isReadOnly
+                          checked={application.data?.futureRecruitment}
+                          label={t("basic.agreements.future-recruitment")}
+                        />
+                      </Grid>
+                    </Grid>
+                  </ul>
+                </AccordionItem>
+                <AccordionItem
+                  key={CANDIDATE_KEY}
+                  textValue={t("candidate.title")}
+                  title={
+                    <Typography tag="span">{t("candidate.title")}</Typography>
+                  }
+                >
+                  <Grid gap={2}>
+                    <Input
+                      isReadOnly
+                      isDisabled
+                      label={t("candidate.name")}
+                      value={application.data?.name}
+                    />
+                    <Input
+                      isReadOnly
+                      isDisabled
+                      label={t("candidate.email")}
+                      value={application.data?.email}
+                    />
+                    <BaseTextarea
+                      isDisabled
+                      isReadOnly
+                      label={t("candidate.message")}
+                      disableAnimation
+                      value={application.data?.message}
+                    />
+                    <Button
+                      size="lg"
+                      variant="bordered"
+                      color="primary"
+                      className={styles.cv}
+                      onClick={() => setIsCvModalOpen(true)}
+                      startContent={<Icon name="HiDocument" size={40} />}
+                      text={t("candidate.cv")}
+                    />
+                  </Grid>
+                </AccordionItem>
+
+                <AccordionItem
+                  key="notes"
+                  title={
+                    <div className={styles.notes}>
+                      <Typography tag="span">{t("notes.title")}</Typography>
+                      <Badge size="sm">{application.data?.notes.length}</Badge>
+                    </div>
+                  }
+                  textValue={t("notes.title")}
+                >
+                  <Comments
+                    copy={{
+                      title: t("notes.title"),
+                      noData: t("notes.empty"),
+                      new: {
+                        title: t("notes.form"),
+                        trigger: t("notes.add"),
+                      },
+                    }}
+                    isTitleHidden
+                    comments={application.data?.notes || []}
+                    onCreateComment={onCreateNote}
+                    renderItem={(note) => (
+                      <NoteCard
+                        key={note.id}
+                        author={note.author}
+                        content={note.content}
+                        createdAt={note.createdAt}
+                        name={note.name}
+                        shadow="none"
+                      />
+                    )}
                   />
-                  <Checkbox
-                    isReadOnly
-                    checked={application.data?.futureRecruitment}
-                    label={t("basic.agreements.future-recruitment")}
-                  />
-                </Grid>
-              </Grid>
-            </ul>
-          </Grid>
-
-          {application.data?.rejectedReason && (
-            <Card>
-              <CardHeader>
-                <Typography tag="h3" styling="md">
-                  {t("rejected-reason")}
-                </Typography>
-              </CardHeader>
-              <CardBody>
-                <Typography tag="p" styling="sm">
-                  {application.data?.rejectedReason}
-                </Typography>
-              </CardBody>
-            </Card>
-          )}
-
-          <Accordion
-            defaultSelectedKeys={["candidate"]}
-            isCompact
-            variant="splitted"
-            selectionMode="multiple"
-          >
-            <AccordionItem key="candidate" title={t("candidate.title")}>
-              <Grid gap={4} className={styles.wrapper}>
-                <Input
-                  isReadOnly
-                  isDisabled
-                  label={t("candidate.name")}
-                  value={application.data?.name}
-                />
-                <Input
-                  isReadOnly
-                  isDisabled
-                  label={t("candidate.email")}
-                  value={application.data?.email}
-                />
-                <BaseTextarea
-                  isDisabled
-                  isReadOnly
-                  label={t("candidate.message")}
-                  disableAnimation
-                  value={application.data?.message}
-                />
-                <Button
-                  size="lg"
-                  variant="bordered"
-                  color="primary"
-                  className={styles.cv}
-                  onClick={() => setIsCvModalOpen(true)}
-                  startContent={<Icon name="HiDocument" size={40} />}
-                  text={t("candidate.cv")}
-                />
-              </Grid>
-            </AccordionItem>
-
-            <AccordionItem
-              key="notes"
-              title={
-                <>
-                  <Typography tag="span" styling="sm">
-                    {t("notes.title")}
-                  </Typography>
-                  <Badge size="sm">{application.data?.notes.length}</Badge>
-                </>
-              }
-              textValue={t("notes.title")}
-            >
-              <Comments
-                copy={{
-                  title: t("notes.title"),
-                  noData: t("notes.empty"),
-                  new: {
-                    title: t("notes.form"),
-                    trigger: t("notes.add"),
-                  },
-                }}
-                isTitleHidden
-                comments={application.data?.notes || []}
-                onCreateComment={onCreateNote}
-                renderItem={(note) => (
-                  <NoteCard
-                    key={note.id}
-                    author={note.author}
-                    content={note.content}
-                    createdAt={note.createdAt}
-                    name={note.name}
-                    shadow="none"
-                  />
-                )}
-                className={styles.wrapper}
-              />
-            </AccordionItem>
-          </Accordion>
-        </Modal.Body>
-        <Modal.Footer className={styles.footer}>
-          <Button onClick={onClose} variant="bordered" text={t("close")} />
-        </Modal.Footer>
+                </AccordionItem>
+              </Accordion>
+            </Modal.Body>
+            <Modal.Footer className={styles.footer}>
+              <Button onClick={onClose} variant="bordered" text={t("close")} />
+            </Modal.Footer>
+          </>
+        )}
       </Modal>
 
       <PDFViewerModal

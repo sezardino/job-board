@@ -70,7 +70,12 @@ export const Comments: FC<CommentsProps> = (props) => {
 
           <CommentsForm id={formId} onFormSubmit={onCreateComment} />
 
-          <Button form={formId} type="submit" text={copy.new.trigger} />
+          <Button
+            form={formId}
+            type="submit"
+            className="justify-self-end"
+            text={copy.new.trigger}
+          />
         </Grid>
       )}
     </Grid>

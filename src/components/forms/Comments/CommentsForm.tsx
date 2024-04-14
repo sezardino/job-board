@@ -29,7 +29,7 @@ const clearValues = {
 
 export const CommentsForm = (props: CommentsFormProps) => {
   const { initialValues, onFormSubmit, className, ...rest } = props;
-  const t = useTranslations("forms.note");
+  const t = useTranslations("forms.comments");
 
   const validationSchema = useMemo(
     () =>
@@ -71,6 +71,7 @@ export const CommentsForm = (props: CommentsFormProps) => {
 
         <ControlledTextarea
           name="content"
+          disableAnimation
           label={t("content.label")}
           placeholder={t("content.placeholder")}
         />
