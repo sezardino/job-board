@@ -1,15 +1,14 @@
-import {
-  OfferSeniorityFilters,
-  OfferStatusFilters,
-} from "@/app/(panels)/company/offers/page";
-import { SelectOption } from "@/components/base/Select/Select";
 import { CurrentCompanyOffersResponse } from "@/services/bll/modules/offers/schema";
 
-import { OfferStatus, Seniority } from "@prisma/client";
+import { OfferStatus } from "@prisma/client";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
-import { useMemo } from "react";
+import { FC, useMemo } from "react";
 
+import {
+  TableWidget,
+  TableWidgetProps,
+} from "@/components/UI/TableWidget/TableWidget";
 import { Button } from "@/components/base/Button/Button";
 import {
   Dropdown,
@@ -21,35 +20,39 @@ import { CompanyPageUrls } from "@/const";
 import { DropdownTrigger } from "@nextui-org/react";
 import Link from "next/link";
 
-export type ManageCompanyOffersTableAction = {
+type Offer = CurrentCompanyOffersResponse["data"][number];
+
+export type ManageManageOffersTableAction = {
   type: "edit" | "delete" | "finish" | "archive" | "publish";
   id: string;
 };
 
 type Props = {
-  onAction: (action: ManageCompanyOffersTableAction) => void;
+  onAction: (action: ManageManageOffersTableAction) => void;
 };
 
-type Entity = CurrentCompanyOffersResponse["data"][number];
+type OmittedProps = Omit<TableWidgetProps<Offer>, "columns">;
 
-const columnHelper = createColumnHelper<Entity>();
+export type ManageOffersTableProps = OmittedProps & Props;
 
-export const useCompanyOffersTable = (props: Props) => {
-  const { onAction } = props;
+const columnHelper = createColumnHelper<Offer>();
 
-  const t = useTranslations("components.manage-company-job-offers-template");
+export const ManageOffersTable: FC<ManageOffersTableProps> = (props) => {
+  const { onAction, ...rest } = props;
+
+  const t = useTranslations("components.offers-table");
   const entityT = useTranslations("entity");
 
   const columns = useMemo(
     () => [
       columnHelper.accessor("name", {
         enableSorting: false,
-        header: t("table.name"),
+        header: t("name"),
         cell: (row) => row.getValue(),
       }),
       columnHelper.accessor("industry.name", {
         enableSorting: false,
-        header: t("table.industry-category"),
+        header: t("industry-category"),
         cell: (row) => (
           <Typography tag="p">
             {entityT(`industries.${row.getValue()}`)} {" / "}
@@ -59,17 +62,17 @@ export const useCompanyOffersTable = (props: Props) => {
       }),
       columnHelper.accessor("status", {
         enableSorting: false,
-        header: t("table.status"),
+        header: t("status"),
         cell: (row) => entityT(`offers.status.${row.getValue()}`),
       }),
       columnHelper.accessor("seniority", {
         enableSorting: false,
-        header: t("table.seniority"),
+        header: t("seniority"),
         cell: (row) => entityT(`offers.seniority.${row.getValue()}`),
       }),
       // columnHelper.accessor("deadlineAt", {
       //   enableSorting: false,
-      //   header: t("table.deadline"),
+      //   header: t("deadline"),
       //   cell: (row) =>
       //     row.getValue()
       //       ? dayjs(row.getValue()).format(DEFAULT_DATE_FORMAT)
@@ -77,7 +80,7 @@ export const useCompanyOffersTable = (props: Props) => {
       // }),
       columnHelper.accessor("_count.applications", {
         enableSorting: false,
-        header: t("table.applications-count"),
+        header: t("applications-count"),
         cell: (row) => row.getValue(),
       }),
       columnHelper.accessor("id", {
@@ -91,24 +94,25 @@ export const useCompanyOffersTable = (props: Props) => {
               key: "preview",
               as: Link,
               to: CompanyPageUrls.offer(row.getValue()),
-              text: t("table.actions.preview"),
-            },
-            {
-              key: "edit",
-              text: t("table.actions.edit"),
-              onClick: () => onAction({ type: "edit", id: row.getValue() }),
+              text: t("actions.preview"),
             },
             {
               key: "applications",
-              text: t("table.actions.applications"),
+              text: t("actions.applications"),
               to: CompanyPageUrls.applications(row.getValue()),
             },
           ];
 
+          items.push({
+            key: "edit",
+            text: t("actions.edit"),
+            onClick: () => onAction({ type: "edit", id: row.getValue() }),
+          });
+
           if (status === OfferStatus.DRAFT) {
             items.push({
               key: "publish",
-              text: t("table.actions.publish"),
+              text: t("actions.publish"),
               onClick: () => onAction({ type: "publish", id: row.getValue() }),
             });
           }
@@ -116,7 +120,7 @@ export const useCompanyOffersTable = (props: Props) => {
           if (status === OfferStatus.ACTIVE) {
             items.push({
               key: "finish",
-              text: t("table.actions.finish"),
+              text: t("actions.finish"),
               onClick: () => onAction({ type: "finish", id: row.getValue() }),
             });
           }
@@ -124,7 +128,7 @@ export const useCompanyOffersTable = (props: Props) => {
           if (status === OfferStatus.FINISHED) {
             items.push({
               key: "archive",
-              text: t("table.actions.archive"),
+              text: t("actions.archive"),
               onClick: () => onAction({ type: "archive", id: row.getValue() }),
             });
           }
@@ -132,7 +136,7 @@ export const useCompanyOffersTable = (props: Props) => {
           if (status !== OfferStatus.INACTIVE) {
             items.push({
               key: "delete",
-              text: t("table.actions.delete"),
+              text: t("actions.delete"),
               color: "danger",
               onClick: () => onAction({ type: "delete", id: row.getValue() }),
             });
@@ -159,7 +163,7 @@ export const useCompanyOffersTable = (props: Props) => {
                 <Button
                   variant="light"
                   color="default"
-                  text={t("table.actions.label")}
+                  text={t("actions.label")}
                   isIconOnly
                   endContent={<Icon name="HiDotsHorizontal" />}
                 />
@@ -172,64 +176,7 @@ export const useCompanyOffersTable = (props: Props) => {
     [entityT, onAction, t]
   );
 
-  const statusFilterOptions = useMemo<
-    SelectOption<OfferStatusFilters>[]
-  >(() => {
-    return [
-      {
-        id: OfferStatus.ACTIVE,
-        label: entityT(`offers.status.${OfferStatus.ACTIVE}`),
-      },
-      {
-        id: OfferStatus.DRAFT,
-        label: entityT(`offers.status.${OfferStatus.DRAFT}`),
-      },
-
-      {
-        id: OfferStatus.FINISHED,
-        label: entityT(`offers.status.${OfferStatus.FINISHED}`),
-      },
-      {
-        id: OfferStatus.ARCHIVED,
-        label: entityT(`offers.status.${OfferStatus.ARCHIVED}`),
-      },
-    ];
-  }, [entityT]);
-
-  const seniorityFilterOptions = useMemo<
-    SelectOption<OfferSeniorityFilters>[]
-  >(() => {
-    return [
-      {
-        id: "all",
-        label: t("all"),
-      },
-      {
-        id: Seniority.INTERN,
-        label: entityT(`offers.seniority.${Seniority.INTERN}`),
-      },
-      {
-        id: Seniority.JUNIOR,
-        label: entityT(`offers.seniority.${Seniority.JUNIOR}`),
-      },
-      {
-        id: Seniority.MID,
-        label: entityT(`offers.seniority.${Seniority.MID}`),
-      },
-      {
-        id: Seniority.SENIOR,
-        label: entityT(`offers.seniority.${Seniority.SENIOR}`),
-      },
-      {
-        id: Seniority.EXPERT,
-        label: entityT(`offers.seniority.${Seniority.EXPERT}`),
-      },
-    ];
-  }, [entityT, t]);
-
-  return {
-    columns,
-    statusFilterOptions,
-    seniorityFilterOptions,
-  };
+  return (
+    <TableWidget {...rest} columns={columns} noDataMessage={t("no-data")} />
+  );
 };

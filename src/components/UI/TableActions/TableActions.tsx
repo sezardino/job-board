@@ -21,6 +21,7 @@ export const TableActions: FC<TableActionsProps> = (props) => {
       {actions.map((action, index) => (
         <Button
           key={index}
+          variant="light"
           {...action}
           isIconOnly
           size="sm"

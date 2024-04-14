@@ -1,11 +1,11 @@
 import { apiService } from "@/services/api";
 import { useQuery } from "@tanstack/react-query";
 
-export const MY_COMPANY_BASE_DATA = "admin-companies";
+export const COMPANY_BASE_DATA = "company-base-data";
 
-export const useMyCompanyBaseDataQuery = () => {
+export const useCompanyBaseDataQuery = (companyId?: string) => {
   return useQuery({
-    queryKey: [MY_COMPANY_BASE_DATA],
-    queryFn: () => apiService.companies.myCompanyBaseData(),
+    queryKey: [COMPANY_BASE_DATA, companyId],
+    queryFn: () => apiService.companies.baseData(companyId),
   });
 };

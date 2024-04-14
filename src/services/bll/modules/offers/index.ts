@@ -50,19 +50,35 @@ export class OffersBllModule extends AbstractBllService {
     return offer;
   }
 
-  async companyOffers(data: CurrentCompanyOffersRequest, companyId: string) {
+  async companyOffers(
+    data: CurrentCompanyOffersRequest & { companyId: string; isAdmin: boolean }
+  ) {
     const {
       search,
       status,
       seniority,
       limit = DEFAULT_PAGE_LIMIT,
       page = 0,
+      companyId,
+      isAdmin,
     } = data;
 
     const where: Prisma.OfferWhereInput = { companyId };
 
     if (search) where.name = { contains: search, mode: "insensitive" };
-    if (status) where.status = status;
+
+    where.status = status
+      ? status
+      : isAdmin
+      ? undefined
+      : {
+          in: [
+            OfferStatus.ACTIVE,
+            OfferStatus.DRAFT,
+            OfferStatus.FINISHED,
+            OfferStatus.ARCHIVED,
+          ],
+        };
     if (seniority) where.seniority = seniority;
 
     return this.findMany({
@@ -189,7 +205,9 @@ export class OffersBllModule extends AbstractBllService {
     return offer;
   }
 
-  async basicData(offerId: string, companyId: string) {
+  async basicData(dto: { offerId: string; companyId: string }) {
+    const { offerId, companyId } = dto;
+
     const neededOffer = await this.prismaService.offer.findUnique({
       where: { id: offerId, companyId },
       select: {

@@ -8,6 +8,10 @@ import {
 } from "@prisma/client";
 import { z } from "zod";
 
+export const offerBasicDataRequestSchema = z.object({
+  companyId: z.string().optional(),
+});
+
 export const offerBasicDataResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -25,6 +29,8 @@ export const offerBasicDataResponseSchema = z.object({
   industry: z.object({ name: z.string(), id: z.string() }),
   _count: z.object({ applications: z.number() }),
 });
+
+export type OfferBasicDataRequest = z.infer<typeof offerBasicDataRequestSchema>;
 
 export type OfferBasicDataResponse = z.infer<
   typeof offerBasicDataResponseSchema

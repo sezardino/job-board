@@ -1,7 +1,7 @@
 import { offerApplicationsStatisticsRequestSchema } from "@/services/bll/modules/application/schema/offer-statistics";
-import { UserRoles } from "@prisma/client";
 import { withApiRouteHandler, withValidation } from "../../utils";
 import { getOfferApplicationsStatistics } from "./get";
+import { AdminRoles, CompanyRoles } from "@/const";
 
 export const GET = withValidation({
   handler: withApiRouteHandler(
@@ -10,11 +10,5 @@ export const GET = withValidation({
   ),
   schema: offerApplicationsStatisticsRequestSchema,
   input: "search",
-  role: [
-    UserRoles.ADMIN,
-    UserRoles.OWNER,
-    UserRoles.MODERATOR,
-    UserRoles.RECRUITER,
-    UserRoles.SUB_ADMIN,
-  ],
+  role: [...AdminRoles, ...CompanyRoles],
 });

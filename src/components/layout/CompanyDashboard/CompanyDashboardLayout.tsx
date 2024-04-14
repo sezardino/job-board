@@ -4,7 +4,7 @@ import {
   WindowNavigationLink,
 } from "@/components/base/WindowNavigation/WindowNavigation";
 import { CompanyPageUrls } from "@/const";
-import { useMyCompanyContext } from "@/context";
+import { useCompanyPagesContext } from "@/context";
 import { Link } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
@@ -12,7 +12,7 @@ import { PropsWithChildren, useMemo, type FC } from "react";
 
 export const CompanyDashboardLayout: FC<PropsWithChildren> = ({ children }) => {
   const t = useTranslations("layout.company-dashboard");
-  const { name, slogan } = useMyCompanyContext();
+  const { name, slogan } = useCompanyPagesContext();
 
   const navigationLinks = useMemo<WindowNavigationLink[]>(
     () => [

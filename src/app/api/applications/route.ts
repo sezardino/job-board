@@ -1,6 +1,6 @@
+import { AdminRoles, CompanyRoles } from "@/const";
 import { applyForOfferRequestSchema } from "@/services/bll/modules/application/schema";
 import { offerApplicationsRequestSchema } from "@/services/bll/modules/application/schema/list";
-import { UserRoles } from "@prisma/client";
 import { withApiRouteHandler, withValidation } from "../utils";
 import { getOfferApplications } from "./get";
 import { postApplyForOffer } from "./post";
@@ -12,13 +12,7 @@ export const GET = withValidation({
   ),
   schema: offerApplicationsRequestSchema,
   input: "search",
-  role: [
-    UserRoles.ADMIN,
-    UserRoles.OWNER,
-    UserRoles.MODERATOR,
-    UserRoles.RECRUITER,
-    UserRoles.SUB_ADMIN,
-  ],
+  role: [...AdminRoles, ...CompanyRoles],
 });
 
 export const POST = withValidation({

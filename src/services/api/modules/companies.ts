@@ -3,9 +3,9 @@ import {
   EditCompanyRequest,
   adminCompaniesResponseSchema,
   checkCompanyNameAvailableResponseSchema,
+  companyBaseDataResponseSchema,
   companyProfileResponseSchema,
   editCompanyResponseSchema,
-  myCompanyBaseDataResponseSchema,
 } from "@/services/bll/modules/companies/schema";
 import { AdminIndustriesRequest } from "@/services/bll/modules/industries/schema";
 import { AbstractApiModule } from "../helpers";
@@ -59,10 +59,10 @@ export class CompaniesApiModule extends AbstractApiModule {
     });
   }
 
-  async myCompanyBaseData() {
+  async baseData(companyId?: string) {
     return await this.fetch({
-      endpoint: "companies/base",
-      schema: myCompanyBaseDataResponseSchema,
+      endpoint: `companies/base/${companyId || ""}`,
+      schema: companyBaseDataResponseSchema,
     });
   }
 

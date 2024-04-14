@@ -3,6 +3,7 @@ import {
   CommonOffersRequest,
   CreateOfferRequest,
   CurrentCompanyOffersRequest,
+  OfferBasicDataRequest,
   OffersListRequest,
   PreviewOfferRequest,
   changeOfferStatusResponseSchema,
@@ -46,9 +47,13 @@ export class OffersApiModule extends AbstractApiModule {
     });
   }
 
-  basicData(id: string) {
+  basicData({
+    offerId,
+    ...params
+  }: OfferBasicDataRequest & { offerId: string }) {
     return this.fetch({
-      endpoint: `offers/${id}/basic`,
+      endpoint: `offers/${offerId}/basic`,
+      config: { params },
       schema: offerBasicDataResponseSchema,
     });
   }

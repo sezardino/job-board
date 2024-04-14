@@ -20,6 +20,12 @@ export class NotAllowedException extends CustomException {
   }
 }
 
+export class BadRequestException extends CustomException {
+  constructor(message: string) {
+    super({ message, code: 400 });
+  }
+}
+
 export const isCustomException = (obj: any): obj is CustomException => {
   return (
     typeof obj === "object" &&

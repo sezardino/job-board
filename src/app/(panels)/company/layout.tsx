@@ -5,11 +5,11 @@ import { PropsWithChildren, useMemo } from "react";
 
 import { AppSidebarItem } from "@/components/UI/AppSidebar/AppSidebar";
 import { PanelLayout } from "@/components/layout/PanelLayout/PanelLayout";
-import { MyCompanyProvider } from "@/context";
+import { CompanyPagesProvider } from "@/context";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 
-const AdminPanelLayout = (props: PropsWithChildren) => {
+const CompanyPanelLayout = (props: PropsWithChildren) => {
   const { children } = props;
   const session = useSession();
   const t = useTranslations("layout.app");
@@ -42,9 +42,9 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
       onSignOutClick={signOut}
       avatar={undefined}
     >
-      <MyCompanyProvider>{children}</MyCompanyProvider>
+      <CompanyPagesProvider>{children}</CompanyPagesProvider>
     </PanelLayout>
   );
 };
 
-export default AdminPanelLayout;
+export default CompanyPanelLayout;

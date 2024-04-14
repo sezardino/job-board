@@ -36,6 +36,7 @@ export const ManageCompaniesTemplate: FC<ManageCompaniesTemplateProps> = (
         <header className={styles.header}>
           <SearchForm onSearch={onSearchChange} />
         </header>
+
         <CompaniesTable
           data={data?.data || []}
           isLoading={isTableDataLoading}

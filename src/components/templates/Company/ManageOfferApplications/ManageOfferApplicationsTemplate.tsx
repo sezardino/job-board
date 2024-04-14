@@ -1,4 +1,5 @@
 import { PDFViewerModal } from "@/components/UI/PDFViewerModal/PDFViewerModal";
+import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { Badge } from "@/components/base/Badge/Badge";
 import {
   BaseBreadcrumbs,
@@ -34,9 +35,9 @@ import { ApplicationStatus } from "@prisma/client";
 import { useTranslations } from "next-intl";
 import { FC, useCallback, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
-import styles from "./OfferApplicationsTemplate.module.scss";
+import styles from "./ManageOfferApplicationsTemplate.module.scss";
 
-export type OfferApplicationsTemplateProps = {
+export type ManageOfferApplicationsTemplateProps = {
   activeStatus: ApplicationStatus | null;
   onStatusChange: (status: ApplicationStatus | null) => void;
   onSearchChange: (search: string) => void;
@@ -61,9 +62,9 @@ type ApplicationModalType = "preview" | "status" | "note";
 
 const boardStatuses = Object.values(ApplicationStatus);
 
-export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
-  props
-) => {
+export const ManageOfferApplicationsTemplate: FC<
+  ManageOfferApplicationsTemplateProps
+> = (props) => {
   const {
     activeStatus,
     statistics,
@@ -164,12 +165,13 @@ export const OfferApplicationsTemplate: FC<OfferApplicationsTemplateProps> = (
       <div className={twMerge(styles.element)}>
         <BaseBreadcrumbs items={breadcrumbs} />
         <Grid tag="header" gap={4}>
-          <div>
-            <Typography tag="h1" styling="xl">
-              {t("title", { value: basicData.data?.name })}
-            </Typography>
-            <Typography tag="p">{t("description")}</Typography>
-          </div>
+          <TitleDescription
+            title={t("title", { value: basicData.data?.name })}
+            description={t("description")}
+            titleLevel="h1"
+            titleStyling="xl"
+            tag="div"
+          />
 
           <Accordion isCompact variant="bordered">
             <AccordionItem

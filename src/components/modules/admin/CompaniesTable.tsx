@@ -1,11 +1,14 @@
+import { TableActions } from "@/components/UI/TableActions/TableActions";
 import {
   TableWidget,
   TableWidgetProps,
 } from "@/components/UI/TableWidget/TableWidget";
 import { UserInfo } from "@/components/UI/UserInfo/UserInfo";
+import { AdminPageUrls } from "@/const";
 import { AdminCompaniesResponse } from "@/services/bll/modules/companies/schema";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { useMemo, type FC } from "react";
 
 type Company = AdminCompaniesResponse["data"][number];
@@ -44,6 +47,23 @@ export const CompaniesTable: FC<CompaniesTableProps> = (props) => {
       CH.accessor("_count.offers", {
         enableSorting: false,
         header: t("table.head.offers"),
+      }),
+      CH.accessor("id", {
+        enableSorting: false,
+        header: () => null,
+        cell: (cell) => (
+          <TableActions
+            actions={[
+              {
+                icon: "HiEye",
+                color: "primary",
+                text: t("table.actions.more"),
+                as: Link,
+                href: AdminPageUrls.companyOffers(cell.getValue()),
+              },
+            ]}
+          />
+        ),
       }),
     ],
     [t]

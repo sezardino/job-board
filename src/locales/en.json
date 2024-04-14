@@ -622,6 +622,9 @@
             "owner": "Owner",
             "members": "Members",
             "offers": "Offers"
+          },
+          "actions": {
+            "more": "See offers"
           }
         }
       },
@@ -635,6 +638,24 @@
             "role": "Role",
             "status": "Status"
           }
+        }
+      },
+      "company-offers": {
+        "title": "Offers of company: \"{value}\"",
+        "description": "From this panel you can manage offers of this company",
+        "breadcrumbs": {
+          "companies": "Companies"
+        }
+      },
+      "company-offer": {
+        "actions": {
+          "label": "Actions",
+          "see-applications": "See applications"
+        },
+        "breadcrumbs": {
+          "home": "Home",
+          "companies": "Companies",
+          "offers": "Offers"
         }
       },
       "manage-industries": {
@@ -669,6 +690,24 @@
             "categories": "Categories",
             "status": "Status"
           }
+        }
+      },
+      "company-offer-applications": {
+        "title": "Applications for offer: \"{value}\"",
+        "search": "Search",
+        "applied-at": "Applied at: {value}",
+        "updated-at": "Updated at: {value}",
+        "notes-count": "Notes: {value}",
+        "skills": {
+          "title": "Skills",
+          "description": "Skills required for this job offer",
+          "no-data": "No skills was provided"
+        },
+        "breadcrumbs": {
+          "home": "Home",
+          "companies": "Companies",
+          "offers": "Offers",
+          "applications": "Applications"
         }
       }
     },
@@ -902,6 +941,43 @@
     }
   },
   "components": {
+    "admin": {
+      "company-offers-table": {
+        "no-data": "No offers found",
+        "name": "Name",
+        "industry-category": "Industry/Category",
+        "deadline": "Deadline",
+        "applications-count": "Applications count",
+        "seniority": "Seniority",
+        "status": "Status",
+        "actions": {
+          "preview": "See Offer",
+          "applications": "See Applications"
+        }
+      }
+    },
+    "company": {
+      "offers-table": {
+        "no-data": "No offers found",
+        "name": "Name",
+        "industry-category": "Industry/Category",
+        "deadline": "Deadline",
+        "applications-count": "Applications count",
+        "seniority": "Seniority",
+        "status": "Status",
+        "actions": {
+          "label": "More",
+          "edit": "Edit",
+          "preview": "Preview",
+          "applications": "Manage Applications",
+          "publish": "Publish",
+          "unpublish": "Unpublish",
+          "archive": "Archive",
+          "finish": "Finish",
+          "delete": "Delete"
+        }
+      }
+    },
     "landing-navbar": {
       "user-menu-title": "User menu",
       "dashboard": "Dashboard",
@@ -1043,6 +1119,34 @@
           "cancel": "Cancel",
           "confirm": "Publish"
         }
+      }
+    },
+    "company-offers-filter": {
+      "search": "Search job offer",
+      "filters": {
+        "all": "All",
+        "status": "Filer by status",
+        "seniority": "Filter by seniority"
+      }
+    },
+    "company-offers-table": {
+      "no-data": "No offers found",
+      "name": "Name",
+      "industry-category": "Industry/Category",
+      "deadline": "Deadline",
+      "applications-count": "Applications count",
+      "seniority": "Seniority",
+      "status": "Status",
+      "actions": {
+        "label": "More",
+        "edit": "Edit",
+        "preview": "Preview",
+        "applications": "Manage Applications",
+        "publish": "Publish",
+        "unpublish": "Unpublish",
+        "archive": "Archive",
+        "finish": "Finish",
+        "delete": "Delete"
       }
     },
     "edit-job-offer-wrapper": {

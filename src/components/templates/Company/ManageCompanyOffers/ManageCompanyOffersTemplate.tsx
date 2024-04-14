@@ -1,10 +1,4 @@
-import {
-  OfferSeniorityFilters,
-  OfferStatusFilters,
-} from "@/app/(panels)/company/offers/page";
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
-import { SearchForm } from "@/components/base/SearchForm/SearchForm";
-import { Select } from "@/components/base/Select/Select";
 import { CompanyPageUrls } from "@/const";
 import {
   ChangeOfferStatusResponse,
@@ -26,38 +20,39 @@ import {
   ConfirmModal,
   ConfirmModalProps,
 } from "@/components/UI/ConformModal/ConfirmModal";
-import { TableWidget } from "@/components/UI/TableWidget/TableWidget";
 import { Button } from "@/components/base/Button/Button";
 import { Grid } from "@/components/base/Grid/Grid";
+import { ManageOffersTable } from "@/components/modules/company/ManageOffersTable";
+import {
+  CompanyOffersFilter,
+  CompanyOffersFilterProps,
+} from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
 import { EditOfferWrapper } from "@/components/wrappers/EditOfferWrapper";
 import { DeleteOfferResponse } from "@/services/bll/modules/offers/schema/delete";
-import styles from "./ManageCompanyOffersTemplate.module.scss";
-import {
-  ManageCompanyOffersTableAction,
-  useCompanyOffersTable,
-} from "./use-table";
 
-type OfferFilters = {
-  statusFilter: {
-    value: OfferStatusFilters;
-    onChange: (value: OfferStatusFilters) => void;
-  };
-  seniorityFilter: {
-    value: OfferSeniorityFilters;
-    onChange: (value: OfferSeniorityFilters) => void;
-  };
+type Props = {
+  offers: DataProp<CurrentCompanyOffersResponse>;
   deleteAction: ActionProp<string, DeleteOfferResponse>;
   finishAction: ActionProp<string, ChangeOfferStatusResponse>;
   archiveAction: ActionProp<string, ChangeOfferStatusResponse>;
   publishAction: ActionProp<string, ChangeOfferStatusResponse>;
 };
 
-type Props = {
-  offers: DataProp<CurrentCompanyOffersResponse>;
+type PickerFiltersProps = Pick<
+  CompanyOffersFilterProps,
+  "statusFilter" | "seniorityFilter"
+>;
+
+export type ManageCompanyOffersTableAction = {
+  type: "edit" | "delete" | "finish" | "archive" | "publish";
+  id: string;
 };
 
 export type ManageCompanyOffersTemplateProps =
-  ComponentPropsWithoutRef<"section"> & Props & DataListProp & OfferFilters;
+  ComponentPropsWithoutRef<"section"> &
+    Props &
+    PickerFiltersProps &
+    DataListProp;
 
 export const ManageCompanyOffersTemplate: FC<
   ManageCompanyOffersTemplateProps
@@ -83,11 +78,6 @@ export const ManageCompanyOffersTemplate: FC<
 
   const [selectedTableAction, setSelectedTableAction] =
     useState<ManageCompanyOffersTableAction | null>(null);
-
-  const { columns, seniorityFilterOptions, statusFilterOptions } =
-    useCompanyOffersTable({
-      onAction: setSelectedTableAction,
-    });
 
   const confirmHandler = useCallback(async () => {
     if (!selectedTableAction) return;
@@ -209,49 +199,29 @@ export const ManageCompanyOffersTemplate: FC<
             titleLevel="h1"
             description={t("description")}
           />
-          <div className={styles.wrapper}>
-            <div className={styles.search}>
-              <SearchForm placeholder={t("search")} onSearch={onSearchChange} />
-
-              <Select
-                options={statusFilterOptions}
-                value={statusFilter.value}
-                defaultSelectedKeys={[statusFilter.value]}
-                isMultiple={false}
-                onSelectChange={statusFilter.onChange}
-                placeholder={t("filters.status")}
-                aria-label={t("filters.status")}
-                className={styles.filter}
-              />
-              <Select
-                options={seniorityFilterOptions}
-                value={seniorityFilter.value}
-                defaultSelectedKeys={[seniorityFilter.value]}
-                isMultiple={false}
-                onSelectChange={seniorityFilter.onChange}
-                placeholder={t("filters.seniority")}
-                aria-label={t("filters.seniority")}
-                className={styles.filter}
-              />
-            </div>
+          <CompanyOffersFilter
+            onSearchChange={onSearchChange}
+            seniorityFilter={seniorityFilter}
+            statusFilter={statusFilter}
+          >
             <Button
               as={NextLink}
               href={CompanyPageUrls.newOffer}
               color="primary"
               text={t("create")}
             />
-          </div>
+          </CompanyOffersFilter>
         </Grid>
 
-        <TableWidget
+        <ManageOffersTable
           {...offers}
-          columns={columns}
           data={offers.data?.data || []}
           total={offers.data?.meta.totalPages || 0}
           page={page}
           onPageChange={onPageChange}
           limit={limit}
           onLimitChange={onLimitChange}
+          onAction={setSelectedTableAction}
         />
       </Grid>
 

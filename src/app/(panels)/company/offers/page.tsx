@@ -1,5 +1,9 @@
 "use client";
 
+import {
+  OfferFilterSeniority,
+  OfferFilterStatus,
+} from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
 import { ManageCompanyOffersTemplate } from "@/components/templates/Company/ManageCompanyOffers/ManageCompanyOffersTemplate";
 import { useDataOnPage } from "@/hooks";
 import {
@@ -9,11 +13,7 @@ import {
 } from "@/hooks/react-query/mutation/offers/change-status";
 import { useDeleteOfferMutation } from "@/hooks/react-query/mutation/offers/delete";
 import { useCurrentCompanyOffersQuery } from "@/hooks/react-query/query/offers";
-import { OfferStatus, Seniority } from "@prisma/client";
 import { useState } from "react";
-
-export type OfferStatusFilters = Exclude<OfferStatus, "INACTIVE">;
-export type OfferSeniorityFilters = Seniority | "all";
 
 const CompanyOffersPage = () => {
   const {
@@ -26,15 +26,15 @@ const CompanyOffersPage = () => {
     changeHandler,
   } = useDataOnPage();
 
-  const [status, setStatus] = useState<OfferStatusFilters>(OfferStatus.ACTIVE);
-  const [seniority, setSeniority] = useState<OfferSeniorityFilters>("all");
+  const [status, setStatus] = useState<OfferFilterStatus>("all");
+  const [seniority, setSeniority] = useState<OfferFilterSeniority>("all");
 
   const { data: companyOffers, isFetching: isCompanyOffersLoading } =
     useCurrentCompanyOffersQuery({
       limit,
       page,
       search,
-      status: status,
+      status: status === "all" ? undefined : status,
       seniority: seniority === "all" ? undefined : seniority,
     });
 

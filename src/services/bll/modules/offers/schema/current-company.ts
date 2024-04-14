@@ -4,6 +4,7 @@ import { z } from "zod";
 
 export const currentCompanyOffersRequestSchema = z
   .object({
+    companyId: z.string().optional(),
     status: z.nativeEnum(OfferStatus).optional(),
     seniority: z.nativeEnum(Seniority).optional(),
   })

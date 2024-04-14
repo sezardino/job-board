@@ -1,13 +1,22 @@
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
-import { useMyCompanyBaseDataQuery } from "@/hooks";
+import { useCompanyBaseDataQuery } from "@/hooks";
 import { FC, PropsWithChildren, useMemo } from "react";
-import { MyCompanyContext } from ".";
+import { CompanyPagesContext } from ".";
 
-export const MyCompanyProvider: FC<PropsWithChildren> = ({ children }) => {
+type Props = {
+  companyId?: string;
+};
+
+type CompanyPagesProviderProps = PropsWithChildren & Props;
+
+export const CompanyPagesProvider: FC<CompanyPagesProviderProps> = ({
+  companyId,
+  children,
+}) => {
   const { data: baseData, isLoading: isBaseDataLoading } =
-    useMyCompanyBaseDataQuery();
+    useCompanyBaseDataQuery(companyId);
 
-  const value = useMemo<MyCompanyContext>(() => {
+  const value = useMemo<CompanyPagesContext>(() => {
     if (!baseData) return { id: "", name: "", slogan: null, logo: null };
 
     return {
@@ -19,9 +28,9 @@ export const MyCompanyProvider: FC<PropsWithChildren> = ({ children }) => {
   }, [baseData]);
 
   return (
-    <MyCompanyContext.Provider value={value}>
+    <CompanyPagesContext.Provider value={value}>
       {isBaseDataLoading && <LoadingOverlay />}
       {children}
-    </MyCompanyContext.Provider>
+    </CompanyPagesContext.Provider>
   );
 };

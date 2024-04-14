@@ -1,8 +1,8 @@
+import { CompanyRoles } from "@/const";
 import {
   createOfferRequestSchema,
   offersListRequestSchema,
 } from "@/services/bll/modules/offers/schema";
-import { UserRoles } from "@prisma/client";
 import { withApiRouteHandler, withValidation } from "../utils";
 import { getOffersList } from "./get";
 import { postCreateOffer } from "./post";
@@ -16,5 +16,5 @@ export const GET = withValidation({
 export const POST = withValidation({
   handler: postCreateOffer,
   schema: createOfferRequestSchema,
-  role: [UserRoles.OWNER, UserRoles.MODERATOR, UserRoles.RECRUITER],
+  role: CompanyRoles,
 });
