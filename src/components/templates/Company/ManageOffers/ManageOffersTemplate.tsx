@@ -281,7 +281,6 @@ export const ManageOffersTemplate: FC<ManageOffersTemplateProps> = (props) => {
       ) {
         disabledKeys.push("edit");
       }
-      console.log({ status: row.status, disabledKeys });
 
       return (
         <Dropdown

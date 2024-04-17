@@ -1,4 +1,3 @@
-import { AdminOffersResponse } from "@/services/bll/modules/offers/schema";
 import { DataListProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
 import { useMemo, type FC } from "react";
@@ -11,8 +10,10 @@ import {
   OfferFilterStatus,
 } from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
 
+import { ManageOffersTable } from "@/components/modules/shared/ManageOffersTable/ManageOffersTable";
 import { PreviewTemplateWrapper } from "@/components/modules/shared/PreviewTemplateWrapper/PreviewTemplateWrapper";
 import { AdminPageUrls } from "@/const";
+import { OffersForManageResponse } from "@/services/bll/modules/offers/schema";
 
 type OfferFilters = {
   statusFilter: {
@@ -26,7 +27,7 @@ type OfferFilters = {
 };
 
 type Props = {
-  offers: DataProp<AdminOffersResponse>;
+  offers: DataProp<OffersForManageResponse>;
   industry: { name: string; id: string };
 };
 
@@ -36,6 +37,7 @@ export const IndustryOffersTemplate: FC<IndustryOffersTemplateProps> = (
   props
 ) => {
   const {
+    industry,
     statusFilter,
     seniorityFilter,
     limit,
@@ -44,16 +46,15 @@ export const IndustryOffersTemplate: FC<IndustryOffersTemplateProps> = (
     onSearchChange,
     page,
     offers,
-    industry,
   } = props;
   const t = useTranslations("page.admin.industry-offers");
 
   const breadcrumbs = useMemo<BreadcrumbItem[]>(
     () => [
-      { label: t("breadcrumbs.companies"), href: AdminPageUrls.companies },
-      { label: industry.name },
+      { label: t("breadcrumbs.home"), href: AdminPageUrls.home },
+      { label: industry.name, href: AdminPageUrls.categories(industry.id) },
     ],
-    [t, industry.name]
+    [t, industry.name, industry.id]
   );
 
   return (
@@ -73,7 +74,7 @@ export const IndustryOffersTemplate: FC<IndustryOffersTemplateProps> = (
         />
       }
     >
-      {/* <OffersTable
+      <ManageOffersTable
         {...offers}
         data={offers.data?.data || []}
         total={offers.data?.meta.totalPages || 0}
@@ -81,8 +82,7 @@ export const IndustryOffersTemplate: FC<IndustryOffersTemplateProps> = (
         onPageChange={onPageChange}
         limit={limit}
         onLimitChange={onLimitChange}
-        companyId={company.id}
-      /> */}
+      />
     </PreviewTemplateWrapper>
   );
 };

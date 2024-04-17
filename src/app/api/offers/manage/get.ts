@@ -1,7 +1,7 @@
 import { getNextAuthSession } from "@/libs/next-auth";
 import { bllService } from "@/services/bll";
 import { OffersForManageRequest } from "@/services/bll/modules/offers/schema";
-import { BadRequestException, NotAllowedException } from "@/types";
+import { NotAllowedException } from "@/types";
 import { OfferStatus, UserRoles } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { formatUrlSearchParams } from "../../utils";
@@ -29,9 +29,6 @@ export const getOffersForManage = async (req: NextRequest) => {
     throw new NotAllowedException(
       "You are not allowed to view inactive offers"
     );
-
-  if (!companyId && isAdmin)
-    throw new BadRequestException("Company id is required");
 
   const res = await bllService.offers.offersForManage({
     ...data,

@@ -58,6 +58,8 @@ export class OffersBllModule extends AbstractBllService {
       limit = DEFAULT_PAGE_LIMIT,
       page = 0,
       companyId,
+      industryId,
+      categoryId,
       isAdmin,
     } = data;
 
@@ -78,6 +80,8 @@ export class OffersBllModule extends AbstractBllService {
           ],
         };
     if (seniority) where.seniority = seniority;
+    if (industryId) where.industryId = industryId;
+    if (categoryId) where.categoryId = categoryId;
 
     return this.findMany({
       limit,

@@ -35,6 +35,17 @@ export class CategoriesBllModule extends AbstractBllService {
     return { data, meta: pagination?.meta };
   }
 
+  async baseData(id: string) {
+    return this.prismaService.category.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        status: true,
+      },
+    });
+  }
+
   async admin(dto: AdminCategoriesRequest): Promise<AdminCategoriesResponse> {
     const { limit = 10, page = 0, search } = dto;
 

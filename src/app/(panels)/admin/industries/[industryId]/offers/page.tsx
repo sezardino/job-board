@@ -5,6 +5,7 @@ import {
   OfferFilterStatus,
 } from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
 import { IndustryOffersTemplate } from "@/components/templates/Admin/IndustryOffers/IndustryOffersTemplate";
+import { useIndustryPagesContext } from "@/context";
 import { useOffersForManageQuery } from "@/hooks/react-query/query/offers";
 import { useDataOnPage } from "@/hooks/use-data-on-page";
 import { useState } from "react";
@@ -15,6 +16,7 @@ type Props = {
 
 const CategoriesPage = (props: Props) => {
   const { industryId } = props.params;
+  const industry = useIndustryPagesContext();
 
   const [status, setStatus] = useState<OfferFilterStatus>("all");
   const [seniority, setSeniority] = useState<OfferFilterSeniority>("all");
@@ -31,10 +33,7 @@ const CategoriesPage = (props: Props) => {
 
   return (
     <IndustryOffersTemplate
-      industry={{
-        name: "test",
-        id: industryId,
-      }}
+      industry={industry}
       search={search}
       offers={offersQuery}
       limit={limit}

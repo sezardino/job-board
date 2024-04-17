@@ -646,6 +646,13 @@
           "applications": "See Applications"
         }
       },
+      "category-offers": {
+        "title": "Offers of category: \"{value}\"",
+        "description": "From this panel you can manage offers of this category",
+        "breadcrumbs": {
+          "home": "Home"
+        }
+      },
       "company-offer": {
         "actions": {
           "label": "Actions",
@@ -690,7 +697,7 @@
         "title": "Offers of industry: \"{value}\"",
         "description": "From this panel you can manage offers of this industry",
         "breadcrumbs": {
-          "companies": "Companies"
+          "home": "Home"
         }
       },
       "manage-categories": {

@@ -8,5 +8,5 @@ export const GET = withValidation({
     "Cant get active categories"
   ),
   schema: activeCategoriesRequestSchema,
-  input: "params",
+  input: "search",
 });
