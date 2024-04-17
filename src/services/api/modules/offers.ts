@@ -1,5 +1,4 @@
 import {
-  AdminOffersRequest,
   ChangeOfferStatusRequest,
   CommonOffersRequest,
   CreateOfferRequest,
@@ -7,7 +6,6 @@ import {
   OffersForManageRequest,
   OffersListRequest,
   PreviewOfferRequest,
-  adminOffersResponseSchema,
   changeOfferStatusResponseSchema,
   commonOffersResponseSchema,
   createOfferResponseSchema,
@@ -104,14 +102,6 @@ export class OffersApiModule extends AbstractApiModule {
       endpoint: `offers/${id}`,
       config: { method: "DELETE" },
       schema: deleteOfferResponseSchema,
-    });
-  }
-
-  async adminList(params: AdminOffersRequest) {
-    return await this.fetch({
-      endpoint: "offers/admin",
-      config: { params },
-      schema: adminOffersResponseSchema,
     });
   }
 }

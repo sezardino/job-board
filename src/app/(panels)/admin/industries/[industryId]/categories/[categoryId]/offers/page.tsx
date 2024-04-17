@@ -1,6 +1,6 @@
 "use client";
 
-import { useAdminOffersListQuery } from "@/hooks/react-query/query/offers";
+import { useOffersForManageQuery } from "@/hooks/react-query/query/offers";
 import { useDataOnPage } from "@/hooks/use-data-on-page";
 
 type Props = {
@@ -12,7 +12,7 @@ const CategoriesPage = (props: Props) => {
 
   const { limit, onLimitChange, onPageChange, onSearchChange, page, search } =
     useDataOnPage();
-  const { data: offers, isFetching: isOffersLoading } = useAdminOffersListQuery(
+  const { data: offers, isFetching: isOffersLoading } = useOffersForManageQuery(
     { limit, page, search, industryId, categoryId }
   );
 

@@ -1,4 +1,3 @@
-export * from "./admin";
 export * from "./basic-data";
 export * from "./change-status";
 export * from "./common-offers";

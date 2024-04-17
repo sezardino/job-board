@@ -5,7 +5,7 @@ import {
   OfferFilterStatus,
 } from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
 import { IndustryOffersTemplate } from "@/components/templates/Admin/IndustryOffers/IndustryOffersTemplate";
-import { useAdminOffersListQuery } from "@/hooks/react-query/query/offers";
+import { useOffersForManageQuery } from "@/hooks/react-query/query/offers";
 import { useDataOnPage } from "@/hooks/use-data-on-page";
 import { useState } from "react";
 
@@ -20,7 +20,7 @@ const CategoriesPage = (props: Props) => {
   const [seniority, setSeniority] = useState<OfferFilterSeniority>("all");
   const { limit, onLimitChange, onPageChange, onSearchChange, page, search } =
     useDataOnPage();
-  const offersQuery = useAdminOffersListQuery({
+  const offersQuery = useOffersForManageQuery({
     limit,
     page,
     search,
