@@ -28,13 +28,13 @@ import {
 import { Grid } from "@/components/base/Grid/Grid";
 import { Icon } from "@/components/base/Icon/Icon";
 import {
-  ManageOffersTable,
-  ManageOffersTableCellRenderFun,
-} from "@/components/modules/company/ManageOffersTable";
-import {
   CompanyOffersFilter,
   CompanyOffersFilterProps,
 } from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
+import {
+  ManageOffersTable,
+  ManageOffersTableCellRenderFun,
+} from "@/components/modules/shared/ManageOffersTable/ManageOffersTable";
 import { EditOfferWrapper } from "@/components/wrappers/EditOfferWrapper";
 import { DeleteOfferResponse } from "@/services/bll/modules/offers/schema/delete";
 import { DropdownTrigger } from "@nextui-org/react";

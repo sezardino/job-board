@@ -7,7 +7,7 @@ import {
 import { CompanyOffersTemplate } from "@/components/templates/Admin/CompanyOffers/CompanyOffersTemplate";
 import { useCompanyPagesContext } from "@/context";
 import { useDataOnPage } from "@/hooks";
-import { useCurrentCompanyOffersQuery } from "@/hooks/react-query/query/offers";
+import { useOffersForManageQuery } from "@/hooks/react-query/query/offers";
 import { useState } from "react";
 
 type Props = {
@@ -36,7 +36,7 @@ const CompanyOffersPage = (props: Props) => {
   const [seniority, setSeniority] = useState<OfferFilterSeniority>("all");
 
   const { data: companyOffers, isFetching: isCompanyOffersLoading } =
-    useCurrentCompanyOffersQuery({
+    useOffersForManageQuery({
       limit,
       page,
       search,

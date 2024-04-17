@@ -640,6 +640,10 @@
         "description": "From this panel you can manage offers of this company",
         "breadcrumbs": {
           "companies": "Companies"
+        },
+        "actions": {
+          "preview": "See Offer",
+          "applications": "See Applications"
         }
       },
       "company-offer": {
@@ -1051,19 +1055,6 @@
         },
         "actions": {
           "offers": "See offers"
-        }
-      },
-      "company-offers-table": {
-        "no-data": "No offers found",
-        "name": "Name",
-        "industry-category": "Industry/Category",
-        "deadline": "Deadline",
-        "applications-count": "Applications count",
-        "seniority": "Seniority",
-        "status": "Status",
-        "actions": {
-          "preview": "See Offer",
-          "applications": "See Applications"
         }
       },
       "companies-table": {

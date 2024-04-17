@@ -1,6 +1,6 @@
 import { DataListProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
-import { useMemo, type FC } from "react";
+import { useCallback, useMemo, type FC } from "react";
 
 import { BreadcrumbItem } from "@/components/base/Breadcrumbs/BaseBreadcrumbs";
 
@@ -10,10 +10,15 @@ import {
   OfferFilterStatus,
 } from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
 
-import { CompanyOffersTable } from "@/components/modules/admin/CompanyOffersTable";
+import { TableActions } from "@/components/UI/TableActions/TableActions";
+import {
+  ManageOffersTable,
+  ManageOffersTableCellRenderFun,
+} from "@/components/modules/shared/ManageOffersTable/ManageOffersTable";
 import { PreviewTemplateWrapper } from "@/components/modules/shared/PreviewTemplateWrapper/PreviewTemplateWrapper";
 import { AdminPageUrls } from "@/const";
 import { OffersForManageResponse } from "@/services/bll/modules/offers/schema";
+import Link from "next/link";
 
 type OfferFilters = {
   statusFilter: {
@@ -57,6 +62,31 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
     [t, company.name]
   );
 
+  const actionsCell: ManageOffersTableCellRenderFun = useCallback(
+    (row) => (
+      <TableActions
+        actions={[
+          {
+            icon: "HiEye",
+            text: t("actions.preview"),
+            as: Link,
+            color: "primary",
+            href: AdminPageUrls.offer(company.id, row.id),
+          },
+          {
+            key: "applications",
+            icon: "HiOutlineUsers",
+            text: t("actions.applications"),
+            color: "secondary",
+            as: Link,
+            href: AdminPageUrls.applications(company.id, row.id),
+          },
+        ]}
+      />
+    ),
+    [company.id, t]
+  );
+
   return (
     <PreviewTemplateWrapper
       copy={{
@@ -74,7 +104,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
         />
       }
     >
-      <CompanyOffersTable
+      <ManageOffersTable
         {...offers}
         data={offers.data?.data || []}
         total={offers.data?.meta.totalPages || 0}
@@ -82,7 +112,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
         onPageChange={onPageChange}
         limit={limit}
         onLimitChange={onLimitChange}
-        companyId={company.id}
+        actionsCell={actionsCell}
       />
     </PreviewTemplateWrapper>
   );

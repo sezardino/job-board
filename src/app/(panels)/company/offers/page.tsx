@@ -12,7 +12,7 @@ import {
   usePublishOfferMutation,
 } from "@/hooks/react-query/mutation/offers/change-status";
 import { useDeleteOfferMutation } from "@/hooks/react-query/mutation/offers/delete";
-import { useCurrentCompanyOffersQuery } from "@/hooks/react-query/query/offers";
+import { useOffersForManageQuery } from "@/hooks/react-query/query/offers";
 import { useState } from "react";
 
 const CompanyOffersPage = () => {
@@ -30,7 +30,7 @@ const CompanyOffersPage = () => {
   const [seniority, setSeniority] = useState<OfferFilterSeniority>("all");
 
   const { data: companyOffers, isFetching: isCompanyOffersLoading } =
-    useCurrentCompanyOffersQuery({
+    useOffersForManageQuery({
       limit,
       page,
       search,
