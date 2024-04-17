@@ -31,9 +31,9 @@ type Props = {
   company: { name: string; id: string };
 };
 
-export type CompanyOffersTemplateProps = Props & DataListProp & OfferFilters;
+export type CategoryOffersTemplateProps = Props & DataListProp & OfferFilters;
 
-export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
+export const CategoryOffersTemplate: FC<CategoryOffersTemplateProps> = (
   props
 ) => {
   const {

@@ -2,7 +2,7 @@ import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescript
 import { CompanyPageUrls } from "@/const";
 import {
   ChangeOfferStatusResponse,
-  CurrentCompanyOffersResponse,
+  OffersForManageResponse,
 } from "@/services/bll/modules/offers/schema";
 import { ActionProp, DataListProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
@@ -21,17 +21,28 @@ import {
   ConfirmModalProps,
 } from "@/components/UI/ConformModal/ConfirmModal";
 import { Button } from "@/components/base/Button/Button";
+import {
+  Dropdown,
+  DropdownItemProps,
+} from "@/components/base/Dropdown/Dropdown";
 import { Grid } from "@/components/base/Grid/Grid";
-import { ManageOffersTable } from "@/components/modules/company/ManageOffersTable";
+import { Icon } from "@/components/base/Icon/Icon";
+import {
+  ManageOffersTable,
+  ManageOffersTableCellRenderFun,
+} from "@/components/modules/company/ManageOffersTable";
 import {
   CompanyOffersFilter,
   CompanyOffersFilterProps,
 } from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
 import { EditOfferWrapper } from "@/components/wrappers/EditOfferWrapper";
 import { DeleteOfferResponse } from "@/services/bll/modules/offers/schema/delete";
+import { DropdownTrigger } from "@nextui-org/react";
+import { OfferStatus } from "@prisma/client";
+import Link from "next/link";
 
 type Props = {
-  offers: DataProp<CurrentCompanyOffersResponse>;
+  offers: DataProp<OffersForManageResponse>;
   deleteAction: ActionProp<string, DeleteOfferResponse>;
   finishAction: ActionProp<string, ChangeOfferStatusResponse>;
   archiveAction: ActionProp<string, ChangeOfferStatusResponse>;
@@ -187,6 +198,113 @@ export const ManageOffersTemplate: FC<ManageOffersTemplateProps> = (props) => {
     ] as ConfirmModalProps[];
   }, [confirmHandler, selectedTableAction?.type, t]);
 
+  const actionsCell: ManageOffersTableCellRenderFun = useCallback(
+    (row) => {
+      const status = row.status;
+      const id = row.id;
+
+      const items: DropdownItemProps[] = [
+        {
+          key: "preview",
+          as: Link,
+          to: CompanyPageUrls.offer(id),
+          text: t("actions.preview"),
+        },
+        {
+          key: "applications",
+          text: t("actions.applications"),
+          to: CompanyPageUrls.applications(id),
+        },
+      ];
+
+      items.push({
+        key: "edit",
+        text: t("actions.edit"),
+        onClick: () => setSelectedTableAction({ type: "edit", id: id }),
+      });
+
+      if (status === OfferStatus.DRAFT) {
+        items.push({
+          key: "publish",
+          text: t("actions.publish"),
+          onClick: () =>
+            setSelectedTableAction({
+              type: "publish",
+              id,
+            }),
+        });
+      }
+
+      if (status === OfferStatus.ACTIVE) {
+        items.push({
+          key: "finish",
+          text: t("actions.finish"),
+          onClick: () =>
+            setSelectedTableAction({
+              type: "finish",
+              id,
+            }),
+        });
+      }
+
+      if (status === OfferStatus.FINISHED) {
+        items.push({
+          key: "archive",
+          text: t("actions.archive"),
+          onClick: () =>
+            setSelectedTableAction({
+              type: "archive",
+              id,
+            }),
+        });
+      }
+
+      if (status !== OfferStatus.INACTIVE) {
+        items.push({
+          key: "delete",
+          text: t("actions.delete"),
+          color: "danger",
+          onClick: () =>
+            setSelectedTableAction({
+              type: "delete",
+              id,
+            }),
+        });
+      }
+
+      const disabledKeys = [];
+
+      if (
+        status === OfferStatus.INACTIVE ||
+        status === OfferStatus.FINISHED ||
+        status === OfferStatus.ARCHIVED
+      ) {
+        disabledKeys.push("edit");
+      }
+      console.log({ status: row.status, disabledKeys });
+
+      return (
+        <Dropdown
+          placement="bottom-end"
+          label="Actions dropdown"
+          items={items}
+          disabledKeys={disabledKeys}
+        >
+          <DropdownTrigger>
+            <Button
+              variant="light"
+              color="default"
+              text={t("actions.label")}
+              isIconOnly
+              endContent={<Icon name="HiDotsHorizontal" />}
+            />
+          </DropdownTrigger>
+        </Dropdown>
+      );
+    },
+    [t]
+  );
+
   return (
     <>
       <Grid tag="section" gap={4} {...rest}>
@@ -218,7 +336,7 @@ export const ManageOffersTemplate: FC<ManageOffersTemplateProps> = (props) => {
           onPageChange={onPageChange}
           limit={limit}
           onLimitChange={onLimitChange}
-          onAction={setSelectedTableAction}
+          actionsCell={actionsCell}
         />
       </Grid>
 

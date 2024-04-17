@@ -1,4 +1,4 @@
-import { CurrentCompanyOffersResponse } from "@/services/bll/modules/offers/schema";
+import { OffersForManageResponse } from "@/services/bll/modules/offers/schema";
 
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
@@ -13,12 +13,7 @@ import { Typography } from "@/components/base/Typography/Typography";
 import { AdminPageUrls } from "@/const";
 import Link from "next/link";
 
-type Offer = CurrentCompanyOffersResponse["data"][number];
-
-export type ManageCompanyOffersTableAction = {
-  type: "edit" | "delete" | "finish" | "archive" | "publish";
-  id: string;
-};
+type Offer = OffersForManageResponse["data"][number];
 
 type Props = {
   companyId: string;

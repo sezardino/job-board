@@ -3,10 +3,12 @@ import {
   TableWidget,
   TableWidgetProps,
 } from "@/components/UI/TableWidget/TableWidget";
+import { AdminPageUrls } from "@/const";
 import { AdminIndustriesResponse } from "@/services/bll/modules/industries/schema";
 import { EntityStatus } from "@prisma/client";
 import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import { FC, useMemo } from "react";
 
 type Industry = AdminIndustriesResponse["data"][number];
@@ -25,7 +27,7 @@ const CH = createColumnHelper<Industry>();
 export const IndustriesTable: FC<IndustriesTableProps> = (props) => {
   const { onSelectToDelete, onSelectToUpdate, ...rest } = props;
 
-  const t = useTranslations("page.admin.manage-industries");
+  const t = useTranslations("components.admin.manage-industries-table");
   const statusT = useTranslations("entity.common.status");
   const industriesT = useTranslations("entity.industries");
 
@@ -33,21 +35,21 @@ export const IndustriesTable: FC<IndustriesTableProps> = (props) => {
     () => [
       CH.accessor("name", {
         enableSorting: false,
-        header: t("table.head.name"),
+        header: t("head.name"),
         cell: (row) => industriesT(row.getValue()),
       }),
       CH.accessor("status", {
         enableSorting: false,
-        header: t("table.head.status"),
+        header: t("head.status"),
         cell: (row) => statusT(row.getValue()),
       }),
       CH.accessor("_count.categories", {
         enableSorting: false,
-        header: t("table.head.categories"),
+        header: t("head.categories"),
       }),
       CH.accessor("_count.offers", {
         enableSorting: false,
-        header: t("table.head.offers"),
+        header: t("head.offers"),
       }),
       CH.accessor("id", {
         enableSorting: false,
@@ -57,7 +59,23 @@ export const IndustriesTable: FC<IndustriesTableProps> = (props) => {
             <TableActions
               actions={[
                 {
-                  text: t("update.trigger"),
+                  text: t("actions.categories"),
+                  icon: "HiEye",
+                  color: "primary",
+                  variant: "light",
+                  as: Link,
+                  href: AdminPageUrls.categories(row.getValue()),
+                },
+                {
+                  text: t("actions.offers"),
+                  icon: "HiDocumentText",
+                  color: "secondary",
+                  variant: "light",
+                  as: Link,
+                  href: AdminPageUrls.industryOffers(row.getValue()),
+                },
+                {
+                  text: t("actions.edit"),
                   icon: "HiPencil",
                   color: "warning",
                   variant: "light",
@@ -68,11 +86,11 @@ export const IndustriesTable: FC<IndustriesTableProps> = (props) => {
                     }),
                 },
                 {
-                  text: t("delete.trigger"),
+                  text: t("actions.delete.active"),
                   icon: "HiTrash",
                   variant: "light",
                   color: "danger",
-                  disabledText: t("delete.disabled"),
+                  disabledText: t("actions.delete.disabled"),
                   isDisabled:
                     row.row.original._count.categories > 0 ||
                     row.row.original._count.offers > 0,
@@ -92,7 +110,7 @@ export const IndustriesTable: FC<IndustriesTableProps> = (props) => {
       {...rest}
       // @ts-ignore
       columns={columns}
-      noDataMessage={t("table.no-data")}
+      noDataMessage={t("no-data")}
     />
   );
 };

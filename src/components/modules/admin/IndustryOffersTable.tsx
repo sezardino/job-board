@@ -2,31 +2,32 @@ import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import { FC, useMemo } from "react";
 
+import { TableActions } from "@/components/UI/TableActions/TableActions";
 import {
   TableWidget,
   TableWidgetProps,
 } from "@/components/UI/TableWidget/TableWidget";
 import { Typography } from "@/components/base/Typography/Typography";
+import { AdminPageUrls } from "@/const";
 import { OffersForManageResponse } from "@/services/bll/modules/offers/schema";
+import Link from "next/link";
 
 type Offer = OffersForManageResponse["data"][number];
 
-export type ManageOffersTableCellRenderFun = (offer: Offer) => JSX.Element;
-
 type Props = {
-  actionsCell?: (offer: Offer) => JSX.Element;
+  industryId: string;
 };
 
 type OmittedProps = Omit<TableWidgetProps<Offer>, "columns">;
 
-export type ManageOffersTableProps = OmittedProps & Props;
+export type CompanyOffersTableProps = OmittedProps & Props;
 
 const columnHelper = createColumnHelper<Offer>();
 
-export const ManageOffersTable: FC<ManageOffersTableProps> = (props) => {
-  const { actionsCell, ...rest } = props;
+export const CompanyOffersTable: FC<CompanyOffersTableProps> = (props) => {
+  const { industryId, ...rest } = props;
 
-  const t = useTranslations("components.shared.manage-offers-table");
+  const t = useTranslations("components.admin.company-offers-table");
   const entityT = useTranslations("entity");
 
   const columns = useMemo(
@@ -69,17 +70,33 @@ export const ManageOffersTable: FC<ManageOffersTableProps> = (props) => {
         header: t("applications-count"),
         cell: (row) => row.getValue(),
       }),
-      ...(actionsCell
-        ? [
-            columnHelper.accessor("id", {
-              enableSorting: false,
-              header: () => null,
-              cell: (cell) => actionsCell(cell.row.original),
-            }),
-          ]
-        : []),
+      columnHelper.accessor("id", {
+        enableSorting: false,
+        header: () => null,
+        cell: (row) => (
+          <TableActions
+            actions={[
+              {
+                icon: "HiEye",
+                text: t("actions.preview"),
+                as: Link,
+                color: "primary",
+                href: AdminPageUrls.offer(industryId, row.getValue()),
+              },
+              {
+                key: "applications",
+                icon: "HiOutlineUsers",
+                text: t("actions.applications"),
+                color: "secondary",
+                as: Link,
+                href: AdminPageUrls.applications(industryId, row.getValue()),
+              },
+            ]}
+          />
+        ),
+      }),
     ],
-    [entityT, actionsCell, t]
+    [entityT, industryId, t]
   );
 
   return (

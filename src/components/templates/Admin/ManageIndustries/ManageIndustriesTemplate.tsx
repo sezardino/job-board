@@ -100,7 +100,7 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
             <Button
               onClick={() => setIsCreateIndustryModalOpen(true)}
               color="primary"
-              text={t("create.trigger")}
+              text={t("create")}
             />
           </div>
         }
@@ -112,22 +112,21 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         <IndustriesTable
           data={data?.data || []}
           isLoading={isTableDataLoading}
-          noDataMessage={t("table.no-data")}
           page={data?.meta.page || 0}
           limit={data?.meta.limit || 10}
           total={data?.meta.totalPages || 0}
-          className="mt-4"
           onLimitChange={onLimitChange}
           onPageChange={onPageChange}
           onSelectToDelete={setToDeleteId}
           onSelectToUpdate={setToUpdateIndustry}
         />
       </PreviewTemplateWrapper>
+
       <ModalWithDescription
         isOpen={isCreateIndustryModalOpen}
         onClose={() => setIsCreateIndustryModalOpen(false)}
-        title={t("create.title")}
-        description={t("create.description")}
+        title={t("modals.create.title")}
+        description={t("modals.create.description")}
       >
         <ModalWithDescription.Body>
           {isCreateIndustryLoading && <LoadingOverlay isInWrapper />}
@@ -143,8 +142,8 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         <ModalWithDescription
           isOpen
           onClose={() => setToUpdateIndustry(null)}
-          title={t("update.title")}
-          description={t("update.description")}
+          title={t("modals.update.title")}
+          description={t("modals.update.description")}
         >
           <ModalWithDescription.Body>
             {update.isLoading && <LoadingOverlay isInWrapper />}
@@ -161,16 +160,16 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         isOpen={!!toDeleteId}
         onClose={() => setToDeleteId(null)}
         isLoading={isDeleteIndustryLoading}
-        title={t("delete.title")}
-        description={t("delete.description")}
+        title={t("modals.delete.title")}
+        description={t("modals.delete.description")}
         buttons={[
           {
-            text: t("delete.cancel"),
+            text: t("modals.delete.cancel"),
             variant: "bordered",
             onClick: () => setToDeleteId(null),
           },
           {
-            text: t("delete.confirm"),
+            text: t("modals.delete.confirm"),
             color: "danger",
             onClick: async () =>
               toDeleteId ? onDeleteIndustry(toDeleteId) : undefined,

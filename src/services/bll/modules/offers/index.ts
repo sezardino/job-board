@@ -7,11 +7,13 @@ import {
 import { OfferStatus, Prisma } from "@prisma/client";
 import { AbstractBllService } from "../../module.abstract";
 import {
+  AdminOffersRequest,
+  AdminOffersResponse,
   ChangeOfferStatusRequest,
   CommonOffersRequest,
   CreateOfferRequest,
-  CurrentCompanyOffersRequest,
   EditOfferRequest,
+  OffersForManageRequest,
   OffersListRequest,
   PreviewOfferRequest,
 } from "./schema";
@@ -50,9 +52,7 @@ export class OffersBllModule extends AbstractBllService {
     return offer;
   }
 
-  async companyOffers(
-    data: CurrentCompanyOffersRequest & { companyId: string; isAdmin: boolean }
-  ) {
+  async offersForManage(data: OffersForManageRequest & { isAdmin: boolean }) {
     const {
       search,
       status,
@@ -370,5 +370,38 @@ export class OffersBllModule extends AbstractBllService {
         },
       },
     });
+  }
+
+  async admin(dto: AdminOffersRequest): Promise<AdminOffersResponse> {
+    const { limit = 10, page = 0, search, industryId, categoryId } = dto;
+
+    const where: Prisma.OfferWhereInput = { industryId };
+
+    if (categoryId) where.categoryId = categoryId;
+    if (search) where.name = { contains: search, mode: "insensitive" };
+
+    const count = await this.prismaService.offer.count({ where });
+
+    const { meta, skip, take } = this.getPagination({ page, limit, count });
+
+    const offers = await this.prismaService.offer.findMany({
+      select: {
+        id: true,
+        name: true,
+        seniority: true,
+        status: true,
+        _count: {
+          select: {
+            applications: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take,
+      where,
+    });
+
+    return { data: offers, meta };
   }
 }

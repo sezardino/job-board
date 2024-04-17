@@ -1,17 +1,19 @@
 import {
+  AdminOffersRequest,
   ChangeOfferStatusRequest,
   CommonOffersRequest,
   CreateOfferRequest,
-  CurrentCompanyOffersRequest,
   OfferBasicDataRequest,
+  OffersForManageRequest,
   OffersListRequest,
   PreviewOfferRequest,
+  adminOffersResponseSchema,
   changeOfferStatusResponseSchema,
   commonOffersResponseSchema,
   createOfferResponseSchema,
-  currentCompanyOffersResponseSchema,
   offerBasicDataResponseSchema,
   offerEditionDataResponseSchema,
+  offersForManageResponseSchema,
   offersListResponseSchema,
   previewOfferResponseSchema,
 } from "@/services/bll/modules/offers/schema";
@@ -23,11 +25,11 @@ import {
 import { AbstractApiModule } from "../helpers";
 
 export class OffersApiModule extends AbstractApiModule {
-  currentCompany(params: CurrentCompanyOffersRequest) {
+  currentCompany(params: OffersForManageRequest) {
     return this.fetch({
-      endpoint: "offers/company",
+      endpoint: "offers/manage",
       config: { params },
-      schema: currentCompanyOffersResponseSchema,
+      schema: offersForManageResponseSchema,
     });
   }
 
@@ -102,6 +104,14 @@ export class OffersApiModule extends AbstractApiModule {
       endpoint: `offers/${id}`,
       config: { method: "DELETE" },
       schema: deleteOfferResponseSchema,
+    });
+  }
+
+  async adminList(params: AdminOffersRequest) {
+    return await this.fetch({
+      endpoint: "offers/admin",
+      config: { params },
+      schema: adminOffersResponseSchema,
     });
   }
 }

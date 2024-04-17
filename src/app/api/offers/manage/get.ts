@@ -1,6 +1,6 @@
 import { getNextAuthSession } from "@/libs/next-auth";
 import { bllService } from "@/services/bll";
-import { CurrentCompanyOffersRequest } from "@/services/bll/modules/offers/schema";
+import { OffersForManageRequest } from "@/services/bll/modules/offers/schema";
 import { BadRequestException, NotAllowedException } from "@/types";
 import { OfferStatus, UserRoles } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
@@ -14,10 +14,10 @@ const CompanyUsers = [
 
 const AdminUsers = [UserRoles.ADMIN, UserRoles.SUB_ADMIN];
 
-export const getCurrentCompanyOffers = async (req: NextRequest) => {
-  const { companyId, ...data } = formatUrlSearchParams(
+export const getOffersForManage = async (req: NextRequest) => {
+  const { companyId, ...data } = formatUrlSearchParams<OffersForManageRequest>(
     req.nextUrl.searchParams
-  ) as CurrentCompanyOffersRequest;
+  );
   const session = await getNextAuthSession();
 
   const isAdmin = AdminUsers.some((r) => r === session?.user.role!);
@@ -33,7 +33,7 @@ export const getCurrentCompanyOffers = async (req: NextRequest) => {
   if (!companyId && isAdmin)
     throw new BadRequestException("Company id is required");
 
-  const res = await bllService.offers.companyOffers({
+  const res = await bllService.offers.offersForManage({
     ...data,
     companyId: isAdmin ? companyId! : session!.user.companyId!,
     isAdmin,

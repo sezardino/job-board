@@ -1,6 +1,11 @@
 export const AdminPageUrls = {
   home: "/admin",
   industries: "/admin/industries",
+  industryOffers: (id: string) => `/admin/industries/${id}/offers`,
+  categories: (industryId: string) =>
+    `/admin/industries/${industryId}/categories`,
+  categoryOffers: (industryId: string, categoryId: string) =>
+    `/admin/industries/${industryId}/categories/${categoryId}/offers`,
   companies: "/admin/companies",
   companyOffers: (id: string) => `/admin/companies/${id}`,
   offer: (companyId: string, offerId: string) =>

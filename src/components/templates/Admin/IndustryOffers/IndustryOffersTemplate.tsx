@@ -1,3 +1,4 @@
+import { AdminOffersResponse } from "@/services/bll/modules/offers/schema";
 import { DataListProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
 import { useMemo, type FC } from "react";
@@ -10,10 +11,8 @@ import {
   OfferFilterStatus,
 } from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
 
-import { CompanyOffersTable } from "@/components/modules/admin/CompanyOffersTable";
 import { PreviewTemplateWrapper } from "@/components/modules/shared/PreviewTemplateWrapper/PreviewTemplateWrapper";
 import { AdminPageUrls } from "@/const";
-import { OffersForManageResponse } from "@/services/bll/modules/offers/schema";
 
 type OfferFilters = {
   statusFilter: {
@@ -27,13 +26,13 @@ type OfferFilters = {
 };
 
 type Props = {
-  offers: DataProp<OffersForManageResponse>;
-  company: { name: string; id: string };
+  offers: DataProp<AdminOffersResponse>;
+  industry: { name: string; id: string };
 };
 
-export type CompanyOffersTemplateProps = Props & DataListProp & OfferFilters;
+export type IndustryOffersTemplateProps = Props & DataListProp & OfferFilters;
 
-export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
+export const IndustryOffersTemplate: FC<IndustryOffersTemplateProps> = (
   props
 ) => {
   const {
@@ -45,22 +44,22 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
     onSearchChange,
     page,
     offers,
-    company,
+    industry,
   } = props;
-  const t = useTranslations("page.admin.company-offers");
+  const t = useTranslations("page.admin.industry-offers");
 
   const breadcrumbs = useMemo<BreadcrumbItem[]>(
     () => [
       { label: t("breadcrumbs.companies"), href: AdminPageUrls.companies },
-      { label: company.name },
+      { label: industry.name },
     ],
-    [t, company.name]
+    [t, industry.name]
   );
 
   return (
     <PreviewTemplateWrapper
       copy={{
-        title: t("title", { value: company.name }),
+        title: t("title", { value: industry.name }),
         description: t("description"),
       }}
       breadcrumbs={breadcrumbs}
@@ -74,7 +73,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
         />
       }
     >
-      <CompanyOffersTable
+      {/* <OffersTable
         {...offers}
         data={offers.data?.data || []}
         total={offers.data?.meta.totalPages || 0}
@@ -83,7 +82,7 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
         limit={limit}
         onLimitChange={onLimitChange}
         companyId={company.id}
-      />
+      /> */}
     </PreviewTemplateWrapper>
   );
 };
