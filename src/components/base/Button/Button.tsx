@@ -2,14 +2,16 @@ import {
   Button as NextUIButton,
   ButtonProps as NextUIButtonProps,
   Tooltip,
+  button,
 } from "@nextui-org/react";
 import { ForwardRefRenderFunction, forwardRef } from "react";
 
-type OmittedLibProps = Omit<NextUIButtonProps, "ref">;
+type OmittedLibProps = Omit<NextUIButtonProps, "ref" | "children">;
 
 type Props = {
-  tooltip?: string;
-  text?: string;
+  text: string;
+  disabledText?: string;
+  offset?: number;
 };
 
 export type ButtonProps = OmittedLibProps & Props;
@@ -18,24 +20,40 @@ const ButtonComponent: ForwardRefRenderFunction<
   HTMLButtonElement,
   ButtonProps
 > = (props, ref) => {
-  const { text, tooltip, variant = "solid", color, children, ...rest } = props;
+  const {
+    text,
+    isIconOnly,
+    disabledText,
+    isDisabled,
+    variant = "solid",
+    offset,
+    color,
+    ...rest
+  } = props;
 
   const button = (
     <NextUIButton
       {...rest}
+      isIconOnly={isIconOnly}
+      isDisabled={isDisabled}
       color={color}
       ref={ref}
       variant={variant}
       radius="lg"
     >
-      {text ? text : children}
+      {text && !isIconOnly ? text : undefined}
     </NextUIButton>
   );
 
-  if (tooltip) {
+  if (isIconOnly || disabledText) {
     return (
-      <Tooltip color={color} content={tooltip}>
-        {button}
+      <Tooltip
+        color={!isDisabled ? color : "default"}
+        offset={offset}
+        isDisabled={isDisabled && !disabledText}
+        content={isDisabled && disabledText ? disabledText : text}
+      >
+        {isDisabled && disabledText ? <span>{button}</span> : button}
       </Tooltip>
     );
   }

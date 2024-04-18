@@ -1,15 +1,16 @@
 import {
   AdminIndustriesRequest,
-  adminIndustriesResponseSchema,
+  CheckIndustryNameAvailableRequest,
   CreateIndustryRequest,
+  UpdateIndustryRequest,
+  activeIndustriesResponseSchema,
+  adminIndustriesResponseSchema,
+  checkIndustryNameAvailableResponseSchema,
   createIndustryRequestSchema,
   deleteIndustryResponseSchema,
-  UpdateIndustryRequest,
   updateIndustryRequestSchema,
-  CheckIndustryNameAvailableRequest,
-  checkIndustryNameAvailableResponseSchema,
-  activeIndustriesResponseSchema,
 } from "@/services/bll/modules/industries/schema";
+import { baseIndustryDataResponseSchema } from "@/services/bll/modules/industries/schema/base";
 import { AbstractApiModule } from "../helpers";
 
 export class IndustriesApiModule extends AbstractApiModule {
@@ -18,6 +19,13 @@ export class IndustriesApiModule extends AbstractApiModule {
       endpoint: "industries/admin",
       config: { params },
       schema: adminIndustriesResponseSchema,
+    });
+  }
+
+  async baseData(id: string) {
+    return await this.fetch({
+      endpoint: `industries/${id}`,
+      schema: baseIndustryDataResponseSchema,
     });
   }
 

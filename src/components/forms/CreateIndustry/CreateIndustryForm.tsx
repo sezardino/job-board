@@ -89,12 +89,12 @@ export const CreateIndustryForm: FC<CreateIndustryFormProps> = (props) => {
             "flex gap-3 flex-wrap justify-between items-center"
           )}
         >
-          <Button onClick={onCancelClick} variant="bordered">
-            {t("cancel")}
-          </Button>
-          <Button type="submit" color="primary">
-            {t("submit")}
-          </Button>
+          <Button
+            onClick={onCancelClick}
+            variant="bordered"
+            text={t("cancel")}
+          />
+          <Button type="submit" color="primary" text={t("submit")} />
         </div>
       </Form>
     </FormikProvider>

@@ -1,0 +1,7 @@
+.breadcrumbs {
+  @apply -order-1;
+}
+
+.wrapper {
+  @apply flex justify-between gap-3 flex-wrap items-center;
+}

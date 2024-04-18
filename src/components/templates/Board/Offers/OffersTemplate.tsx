@@ -18,7 +18,7 @@ export type OffersTemplateProps = ComponentPropsWithoutRef<"div"> & Props;
 export const OffersTemplate: FC<OffersTemplateProps> = (props) => {
   const { offers, className, ...rest } = props;
 
-  const t = useTranslations("page.landing.job-offers-board");
+  const t = useTranslations("page.shared.offers-board");
 
   return (
     <div {...rest} className={twMerge(styles.element, className)}>

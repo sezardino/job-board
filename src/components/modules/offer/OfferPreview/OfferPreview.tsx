@@ -44,7 +44,7 @@ export const OfferPreview: FC<OfferPreviewProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("components.offer-preview");
+  const t = useTranslations("components.company.offer-preview");
   const entityT = useTranslations("entity");
 
   const details = useMemo(

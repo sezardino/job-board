@@ -1,3 +1,4 @@
+import { NotAllowedException, NotFoundException } from "@/types";
 import { EntityStatus, Prisma } from "@prisma/client";
 import { AbstractBllService } from "../../module.abstract";
 import {
@@ -6,7 +7,6 @@ import {
   CreateIndustryRequest,
   UpdateIndustryRequest,
 } from "./schema";
-import { NotAllowedException, NotFoundException } from "@/types";
 
 export class IndustriesBllModule extends AbstractBllService {
   async checkNameAvailable(name: string): Promise<boolean> {
@@ -21,6 +21,17 @@ export class IndustriesBllModule extends AbstractBllService {
   async create(dto: CreateIndustryRequest) {
     return await this.prismaService.industry.create({
       data: dto,
+      select: {
+        id: true,
+        name: true,
+        status: true,
+      },
+    });
+  }
+
+  async baseData(id: string) {
+    return await this.prismaService.industry.findUnique({
+      where: { id },
       select: {
         id: true,
         name: true,

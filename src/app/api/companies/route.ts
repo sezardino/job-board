@@ -1,4 +1,5 @@
 import { editCompanyRequestSchema } from "@/services/bll/modules/companies/schema";
+import { UserRoles } from "@prisma/client";
 import { withApiRouteHandler, withValidation } from "../utils";
 import { getMyCompanyProfile } from "./get";
 import { putEditCompany } from "./put";
@@ -11,5 +12,5 @@ export const PUT = withValidation({
   handler: withApiRouteHandler(putEditCompany, "Cant edit company"),
   schema: editCompanyRequestSchema,
   input: "formData",
-  role: ["OWNER"],
+  role: [UserRoles.OWNER],
 });

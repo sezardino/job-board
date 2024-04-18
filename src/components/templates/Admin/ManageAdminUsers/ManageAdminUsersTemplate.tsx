@@ -2,7 +2,6 @@ import { Button } from "@/components/base/Button/Button";
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import { AdminUsersResponse } from "@/services/bll/modules/users/schema";
-import { createColumnHelper } from "@tanstack/react-table";
 import { useTranslations } from "next-intl";
 import {
   useCallback,
@@ -30,8 +29,6 @@ type Props = {
 export type ManageAdminUsersTemplateProps =
   ComponentPropsWithoutRef<"section"> & Props;
 
-const CH = createColumnHelper<AdminUsersResponse["data"][number]>();
-
 export const ManageAdminUsersTemplate: FC<ManageAdminUsersTemplateProps> = (
   props
 ) => {
@@ -48,7 +45,6 @@ export const ManageAdminUsersTemplate: FC<ManageAdminUsersTemplateProps> = (
     ...rest
   } = props;
   const t = useTranslations("page.admin.manage-admins");
-  const userT = useTranslations("entity.users");
 
   const [isInviteAdminModalOpen, setIsInviteAdminModalOpen] = useState(false);
 
@@ -70,9 +66,8 @@ export const ManageAdminUsersTemplate: FC<ManageAdminUsersTemplateProps> = (
           <Button
             color="primary"
             onClick={() => setIsInviteAdminModalOpen(true)}
-          >
-            {t("invite.trigger")}
-          </Button>
+            text={t("invite.trigger")}
+          />
         </header>
         <AdminsTable
           data={data?.data || []}

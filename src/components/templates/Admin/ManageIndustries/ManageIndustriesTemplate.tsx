@@ -6,14 +6,8 @@ import { AdminIndustriesResponse } from "@/services/bll/modules/industries/schem
 import { ActionProp } from "@/types";
 import { EntityStatus } from "@prisma/client";
 import { useTranslations } from "next-intl";
-import {
-  useCallback,
-  useState,
-  type ComponentPropsWithoutRef,
-  type FC,
-} from "react";
+import { useCallback, useState, type FC } from "react";
 import { ConfirmModal } from "../../../UI/ConformModal/ConfirmModal";
-import { TitleDescription } from "../../../UI/TitleDescription/TitleDescription";
 import { SearchForm } from "../../../base/SearchForm/SearchForm";
 import {
   CreateIndustryForm,
@@ -24,7 +18,8 @@ import {
   UpdateIndustryFormValues,
 } from "../../../forms/UpdateIndustry/UpdateIndustryForm";
 
-import { Grid } from "@/components/base/Grid/Grid";
+import { PreviewTemplateWrapper } from "@/components/modules/shared/PreviewTemplateWrapper/PreviewTemplateWrapper";
+import { AdminPageUrls } from "@/const";
 import styles from "./ManageIndustriesTemplate.module.scss";
 
 type Props = {
@@ -41,8 +36,7 @@ type Props = {
   update: ActionProp<UpdateIndustryFormValues & { id: string }>;
 };
 
-export type ManageIndustriesTemplateProps =
-  ComponentPropsWithoutRef<"section"> & Props;
+export type ManageIndustriesTemplateProps = Props;
 
 export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
   props
@@ -59,7 +53,6 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
     onLimitChange,
     onPageChange,
     onSearchChange,
-    ...rest
   } = props;
   const t = useTranslations("page.admin.manage-industries");
 
@@ -95,42 +88,45 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
 
   return (
     <>
-      <Grid {...rest} tag="section" gap={4}>
-        <TitleDescription
-          title={t("title")}
-          titleLevel="h1"
-          description={t("description")}
-        />
-        <header className={styles.header}>
-          <SearchForm onSearch={onSearchChange} placeholder={t("search")} />
+      <PreviewTemplateWrapper
+        copy={{
+          title: t("title"),
+          description: t("description"),
+        }}
+        search={
+          <div className={styles.wrapper}>
+            <SearchForm onSearch={onSearchChange} placeholder={t("search")} />
 
-          <Button
-            onClick={() => setIsCreateIndustryModalOpen(true)}
-            color="primary"
-          >
-            {t("create.trigger")}
-          </Button>
-        </header>
+            <Button
+              onClick={() => setIsCreateIndustryModalOpen(true)}
+              color="primary"
+              text={t("create")}
+            />
+          </div>
+        }
+        breadcrumbs={[
+          { label: t("breadcrumbs.home"), href: AdminPageUrls.home },
+          { label: t("breadcrumbs.industries") },
+        ]}
+      >
         <IndustriesTable
           data={data?.data || []}
           isLoading={isTableDataLoading}
-          noDataMessage={t("table.no-data")}
           page={data?.meta.page || 0}
           limit={data?.meta.limit || 10}
           total={data?.meta.totalPages || 0}
-          className="mt-4"
           onLimitChange={onLimitChange}
           onPageChange={onPageChange}
           onSelectToDelete={setToDeleteId}
           onSelectToUpdate={setToUpdateIndustry}
         />
-      </Grid>
+      </PreviewTemplateWrapper>
 
       <ModalWithDescription
         isOpen={isCreateIndustryModalOpen}
         onClose={() => setIsCreateIndustryModalOpen(false)}
-        title={t("create.title")}
-        description={t("create.description")}
+        title={t("modals.create.title")}
+        description={t("modals.create.description")}
       >
         <ModalWithDescription.Body>
           {isCreateIndustryLoading && <LoadingOverlay isInWrapper />}
@@ -146,8 +142,8 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         <ModalWithDescription
           isOpen
           onClose={() => setToUpdateIndustry(null)}
-          title={t("update.title")}
-          description={t("update.description")}
+          title={t("modals.update.title")}
+          description={t("modals.update.description")}
         >
           <ModalWithDescription.Body>
             {update.isLoading && <LoadingOverlay isInWrapper />}
@@ -164,16 +160,16 @@ export const ManageIndustriesTemplate: FC<ManageIndustriesTemplateProps> = (
         isOpen={!!toDeleteId}
         onClose={() => setToDeleteId(null)}
         isLoading={isDeleteIndustryLoading}
-        title={t("delete.title")}
-        description={t("delete.description")}
+        title={t("modals.delete.title")}
+        description={t("modals.delete.description")}
         buttons={[
           {
-            text: t("delete.cancel"),
+            text: t("modals.delete.cancel"),
             variant: "bordered",
             onClick: () => setToDeleteId(null),
           },
           {
-            text: t("delete.confirm"),
+            text: t("modals.delete.confirm"),
             color: "danger",
             onClick: async () =>
               toDeleteId ? onDeleteIndustry(toDeleteId) : undefined,

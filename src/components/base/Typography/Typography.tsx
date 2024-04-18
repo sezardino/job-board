@@ -34,6 +34,7 @@ export type TypographyProps = ComponentPropsWithoutRef<"p"> & {
   styling?: TypographyStyling;
   tag: TypographyTag;
   weight?: TypographyWeight;
+  isVisuallyHidden?: boolean;
   color?:
     | "inherit"
     | "primary"
@@ -73,6 +74,7 @@ const TypographyComponent: ForwardRefRenderFunction<
     styling = "sm",
     weight = "regular",
     tag: Tag,
+    isVisuallyHidden = false,
     className,
     children,
     ...rest
@@ -87,6 +89,7 @@ const TypographyComponent: ForwardRefRenderFunction<
         weightString[weight],
         `text-${color}`,
         "whitespace-pre-line",
+        isVisuallyHidden && "sr-only",
         className
       )}
     >

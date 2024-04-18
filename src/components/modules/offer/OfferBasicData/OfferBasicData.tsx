@@ -23,7 +23,7 @@ export type OfferBasicDataProps = ComponentPropsWithoutRef<"ul"> & Props;
 
 export const OfferBasicData: FC<OfferBasicDataProps> = (props) => {
   const { type, contract, operating, seniority, className, ...rest } = props;
-  const t = useTranslations("components.offer-basic-data");
+  const t = useTranslations("components.shared.offer-basic-data");
   const entityT = useTranslations("entity.offers");
 
   const items = useMemo<

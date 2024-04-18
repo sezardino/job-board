@@ -35,7 +35,7 @@ export type LandingNavbarProps = ComponentPropsWithoutRef<"div"> & Props;
 
 export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
   const { user, onSignOutClick, className, children, ...rest } = props;
-  const t = useTranslations("components.landing-navbar");
+  const t = useTranslations("components.shared.navbar");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = useMemo(() => {

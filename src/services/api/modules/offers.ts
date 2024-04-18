@@ -2,15 +2,16 @@ import {
   ChangeOfferStatusRequest,
   CommonOffersRequest,
   CreateOfferRequest,
-  CurrentCompanyOffersRequest,
+  OfferBasicDataRequest,
+  OffersForManageRequest,
   OffersListRequest,
   PreviewOfferRequest,
   changeOfferStatusResponseSchema,
   commonOffersResponseSchema,
   createOfferResponseSchema,
-  currentCompanyOffersResponseSchema,
   offerBasicDataResponseSchema,
   offerEditionDataResponseSchema,
+  offersForManageResponseSchema,
   offersListResponseSchema,
   previewOfferResponseSchema,
 } from "@/services/bll/modules/offers/schema";
@@ -22,11 +23,11 @@ import {
 import { AbstractApiModule } from "../helpers";
 
 export class OffersApiModule extends AbstractApiModule {
-  currentCompany(params: CurrentCompanyOffersRequest) {
+  currentCompany(params: OffersForManageRequest) {
     return this.fetch({
-      endpoint: "offers/company",
+      endpoint: "offers/manage",
       config: { params },
-      schema: currentCompanyOffersResponseSchema,
+      schema: offersForManageResponseSchema,
     });
   }
 
@@ -46,9 +47,13 @@ export class OffersApiModule extends AbstractApiModule {
     });
   }
 
-  basicData(id: string) {
+  basicData({
+    offerId,
+    ...params
+  }: OfferBasicDataRequest & { offerId: string }) {
     return this.fetch({
-      endpoint: `offers/${id}/basic`,
+      endpoint: `offers/${offerId}/basic`,
+      config: { params },
       schema: offerBasicDataResponseSchema,
     });
   }

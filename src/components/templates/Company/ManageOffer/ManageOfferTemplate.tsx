@@ -69,17 +69,15 @@ export const ManageOfferTemplate: FC<ManageOfferTemplateProps> = (props) => {
                 color="secondary"
                 onClick={() => setIsEditModalOpen(true)}
                 endContent={<Icon name="HiPencilAlt" />}
-              >
-                {t("edit")}
-              </Button>
+                text={t("edit")}
+              />
               <Button
                 as={NextLink}
                 color="primary"
                 href={CompanyPageUrls.applications(offer.id)}
                 endContent={<Icon name="HiEye" />}
-              >
-                {t("applications")}
-              </Button>
+                text={t("applications")}
+              />
             </CardBody>
           </Card>
         }

@@ -3,18 +3,13 @@ import { NextRequestWithAuth, withAuth } from "next-auth/middleware";
 import { NextResponse } from "next/server";
 import {
   AdminPageUrls,
+  AdminRoles,
   CompanyPageUrls,
+  CompanyRoles,
   PublicPageUrls,
   UserPageUrls,
 } from "./const";
 import nextAuthMiddleware from "./libs/next-auth/middleware";
-
-const adminRoles = [UserRoles.ADMIN, UserRoles.SUB_ADMIN];
-const companyRoles = [
-  UserRoles.OWNER,
-  UserRoles.MODERATOR,
-  UserRoles.RECRUITER,
-];
 
 export default withAuth((req: NextRequestWithAuth) => {
   const currentPathName = req.nextUrl.pathname;
@@ -32,7 +27,7 @@ export default withAuth((req: NextRequestWithAuth) => {
   if (
     currentPathName.startsWith(AdminPageUrls.home) &&
     token &&
-    !adminRoles.includes(token.role as (typeof adminRoles)[number])
+    !AdminRoles.includes(token.role as (typeof AdminRoles)[number])
   ) {
     return NextResponse.redirect(new URL("/404", req.url));
   }
@@ -40,7 +35,7 @@ export default withAuth((req: NextRequestWithAuth) => {
   if (
     currentPathName.startsWith(CompanyPageUrls.home) &&
     token &&
-    !companyRoles.includes(token.role as (typeof companyRoles)[number])
+    !CompanyRoles.includes(token.role as (typeof CompanyRoles)[number])
   ) {
     return NextResponse.rewrite(new URL("/404", req.url));
   }

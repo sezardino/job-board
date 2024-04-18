@@ -26,6 +26,7 @@ export const TitleDescription: FC<TitleDescriptionProps> = (props) => {
     titleLevel,
     description,
     isTextCentered,
+    gap = 1,
     className,
     ...rest
   } = props;
@@ -33,7 +34,7 @@ export const TitleDescription: FC<TitleDescriptionProps> = (props) => {
   return (
     <Grid
       {...rest}
-      gap={1}
+      gap={gap}
       className={twMerge(isTextCentered && "text-center", className)}
     >
       <Typography tag={titleLevel} weight="medium" styling={titleStyling}>

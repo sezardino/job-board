@@ -152,13 +152,15 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
               href={cancel.href}
               onClick={cancel.onClick}
               variant="bordered"
-            >
-              {cancel.label}
-            </Button>
+              text={cancel.label}
+            />
           )}
-          <Button type="submit" color="primary" fullWidth={!cancel}>
-            {submitText}
-          </Button>
+          <Button
+            type="submit"
+            color="primary"
+            fullWidth={!cancel}
+            text={submitText}
+          />
         </div>
       </Form>
     </FormikProvider>

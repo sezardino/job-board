@@ -45,7 +45,7 @@ export const CustomerRegistrationTemplate: FC<
     className,
     ...rest
   } = props;
-  const t = useTranslations("page.customer-registration");
+  const t = useTranslations("page.shared.customer-registration");
   const [step, setStep] = useState<RegistrationStatus | "form">("form");
   const submittedEmail = useRef<string | null>(null);
 
@@ -119,9 +119,8 @@ export const CustomerRegistrationTemplate: FC<
               color="primary"
               className="justify-self-center"
               size="md"
-            >
-              {t("email-used.trigger")}
-            </Button>
+              text={t("email-used.trigger")}
+            />
           )}
 
           {(step === RegistrationStatus.Success ||

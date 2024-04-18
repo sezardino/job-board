@@ -1,7 +1,7 @@
 "use client";
 
 import { ManageOfferTemplate } from "@/components/templates/Company/ManageOffer/ManageOfferTemplate";
-import { useMyCompanyContext } from "@/context";
+import { useCompanyPagesContext } from "@/context";
 import { usePreviewOfferQuery } from "@/hooks/react-query/query/offers";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 
 const OfferPage = (props: Props) => {
   const { id } = props.params;
-  const { name } = useMyCompanyContext();
+  const { name } = useCompanyPagesContext();
 
   const { data: oneOffer } = usePreviewOfferQuery({ id, isPreview: true });
 

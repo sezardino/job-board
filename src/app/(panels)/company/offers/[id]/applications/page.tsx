@@ -2,9 +2,9 @@
 
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ApplicationStatusFormValues } from "@/components/forms/ApplicationStatus/ApplicationStatusForm";
-import { NoteFormValues } from "@/components/forms/NoteForm/NoteForm";
-import { OfferApplicationsTemplate } from "@/components/templates/Company/OfferApplications/OfferApplicationsTemplate";
-import { useMyCompanyContext } from "@/context";
+import { CommentsFormValues } from "@/components/forms/Comments/CommentsForm";
+import { ManageOfferApplicationsTemplate } from "@/components/templates/Company/ManageOfferApplications/ManageOfferApplicationsTemplate";
+import { useCompanyPagesContext } from "@/context";
 import { useOfferApplicationsQuery } from "@/hooks";
 import { useChangeApplicationStatusMutation } from "@/hooks/react-query/mutation/applications/change-status";
 import { useCreateNoteMutation } from "@/hooks/react-query/mutation/notes";
@@ -30,14 +30,14 @@ export type OfferApplicationsTypes =
 
 const OfferApplications = (props: Props) => {
   const { id } = props.params;
-  const { name } = useMyCompanyContext();
+  const { name } = useCompanyPagesContext();
 
   const [search, setSearch] = useState("");
   const [activeStatus, setActiveStatus] = useState<ApplicationStatus | null>(
     null
   );
 
-  const offerBasicDataQuery = useOfferBasicDataQuery(id);
+  const offerBasicDataQuery = useOfferBasicDataQuery({ offerId: id });
 
   const newApplicationsQuery = useOfferApplicationsQuery(
     {
@@ -124,7 +124,7 @@ const OfferApplications = (props: Props) => {
   );
 
   const createNoteHandler = useCallback(
-    async (values: NoteFormValues & { applicationId: string }) => {
+    async (values: CommentsFormValues & { applicationId: string }) => {
       if (!activeStatus) return;
 
       return createNote({
@@ -142,7 +142,7 @@ const OfferApplications = (props: Props) => {
     <>
       {isLoading && <LoadingOverlay />}
 
-      <OfferApplicationsTemplate
+      <ManageOfferApplicationsTemplate
         companyName={name}
         offerId={id}
         basicData={offerBasicDataQuery}

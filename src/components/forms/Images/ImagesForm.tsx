@@ -2,6 +2,9 @@ import { ChangeEvent, ComponentPropsWithoutRef, useMemo, type FC } from "react";
 
 import { ImageCard } from "@/components/UI/ImageCard/ImageCard";
 import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
+import { Icon } from "@/components/base/Icon/Icon";
+import { Typography } from "@/components/base/Typography/Typography";
 import { useFormField } from "@/hooks/use-form-field";
 import { FileEntity } from "@/types";
 import { megabytesToBytes } from "@/utils";
@@ -11,9 +14,6 @@ import { twMerge } from "tailwind-merge";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper, FormWrapperProps } from "../FormWrapper/FormWrapper";
-import { Grid } from "@/components/base/Grid/Grid";
-import { Icon } from "@/components/base/Icon/Icon";
-import { Typography } from "@/components/base/Typography/Typography";
 
 const MAX_IMAGE_SIZE_MB = 10;
 const MAX_IMAGE_SIZE_BYTES = megabytesToBytes(MAX_IMAGE_SIZE_MB);
@@ -170,9 +170,9 @@ export const ImagesForm: FC<ImagesFormProps> = (props) => {
                       isIconOnly
                       className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out"
                       onClick={() => removeImage(i.id)}
-                    >
-                      <Icon name="HiTrash" size={16} />
-                    </Button>
+                      endContent={<Icon name="HiTrash" size={16} />}
+                      text="Remove image"
+                    />
                   </ImageCard>
                   {Array.isArray(formik.errors.images) &&
                     formik.errors.images?.[index] && (

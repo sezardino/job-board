@@ -2,7 +2,7 @@ import { apiService } from "@/services/api";
 import { OfferStatus } from "@prisma/client";
 import { useMutationHelper } from "../../helpers";
 import {
-  CURRENT_COMPANY_OFFERS_QUERY_KEY,
+  OFFERS_FOR_MANAGE_QUERY,
   OFFERS_LIST_QUERY_KEY,
   PREVIEW_OFFER_QUERY_KEY,
 } from "../../query/offers";
@@ -12,7 +12,7 @@ export const usePublishOfferMutation = () =>
     mutationFn: (id: string) =>
       apiService.offers.changeStatus({ id, status: OfferStatus.ACTIVE }),
     getQueriesToInvalidate: ({ vars }) => [
-      [CURRENT_COMPANY_OFFERS_QUERY_KEY],
+      [OFFERS_FOR_MANAGE_QUERY],
       [OFFERS_LIST_QUERY_KEY],
       [PREVIEW_OFFER_QUERY_KEY, vars],
     ],
@@ -23,7 +23,7 @@ export const useUnpublishOfferMutation = () =>
     mutationFn: (id: string) =>
       apiService.offers.changeStatus({ id, status: OfferStatus.DRAFT }),
     getQueriesToInvalidate: ({ vars }) => [
-      [CURRENT_COMPANY_OFFERS_QUERY_KEY],
+      [OFFERS_FOR_MANAGE_QUERY],
       [OFFERS_LIST_QUERY_KEY],
       [PREVIEW_OFFER_QUERY_KEY, vars],
     ],
@@ -37,7 +37,7 @@ export const useFinishOfferMutation = () =>
         status: OfferStatus.FINISHED,
       }),
     getQueriesToInvalidate: ({ vars }) => [
-      [CURRENT_COMPANY_OFFERS_QUERY_KEY],
+      [OFFERS_FOR_MANAGE_QUERY],
       [OFFERS_LIST_QUERY_KEY],
       [PREVIEW_OFFER_QUERY_KEY, vars],
     ],
@@ -51,7 +51,7 @@ export const useArchiveOfferMutation = () =>
         status: OfferStatus.ARCHIVED,
       }),
     getQueriesToInvalidate: ({ vars }) => [
-      [CURRENT_COMPANY_OFFERS_QUERY_KEY],
+      [OFFERS_FOR_MANAGE_QUERY],
       [OFFERS_LIST_QUERY_KEY],
       [PREVIEW_OFFER_QUERY_KEY, vars],
     ],

@@ -82,9 +82,7 @@ export const LoginForm: FC<LoginFormProps> = (props) => {
             "flex gap-3 flex-wrap justify-between items-center"
           )}
         >
-          <Button type="submit" color="primary" fullWidth>
-            {t("submit")}
-          </Button>
+          <Button type="submit" color="primary" fullWidth text={t("submit")} />
         </div>
       </Form>
     </FormikProvider>

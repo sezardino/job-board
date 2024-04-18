@@ -1,12 +1,15 @@
 import { Modal, ModalProps } from "@/components/base/Modal/Modal";
 import { Typography } from "@/components/base/Typography/Typography";
-import { NoteForm, NoteFormValues } from "@/components/forms/NoteForm/NoteForm";
+import {
+  CommentsForm,
+  CommentsFormValues,
+} from "@/components/forms/Comments/CommentsForm";
 import { Button } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import { FC, useId } from "react";
 
 type Props = {
-  onFormSubmit: (values: NoteFormValues) => void;
+  onFormSubmit: (values: CommentsFormValues) => void;
 };
 
 export type NoteFormModalProps = ModalProps & Props;
@@ -26,7 +29,7 @@ export const NoteFormModal: FC<NoteFormModalProps> = (props) => {
         <Typography tag="p">{t("modals.note.description")}</Typography>
       </Modal.Header>
       <Modal.Body>
-        <NoteForm id={formId} onFormSubmit={onFormSubmit} />
+        <CommentsForm id={formId} onFormSubmit={onFormSubmit} />
       </Modal.Body>
       <Modal.Footer className="flex justify-between items-center">
         <Button form={formId} type="reset" variant="bordered" onClick={onClose}>

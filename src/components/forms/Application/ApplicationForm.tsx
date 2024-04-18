@@ -143,9 +143,7 @@ export const ApplicationForm: FC<ApplicationFormProps> = (props) => {
           label={t("future-recruitment.label")}
         />
 
-        <Button type="submit" color="primary">
-          {t("submit")}
-        </Button>
+        <Button type="submit" color="primary" text={t("submit")} />
       </Form>
     </FormikProvider>
   );

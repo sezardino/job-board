@@ -2,7 +2,7 @@ import { useOneApplicationQuery } from "@/hooks";
 import { useCreateNoteMutation } from "@/hooks/react-query/mutation/notes";
 import { FC, useCallback } from "react";
 import { LoadingOverlay } from "../base/LoadingOverlay/LoadingOverlay";
-import { NoteFormValues } from "../forms/NoteForm/NoteForm";
+import { CommentsFormValues } from "../forms/Comments/CommentsForm";
 import { ApplicationPreviewModal } from "../modules/application/ApplicationPreviewModal/ApplicationPreviewModal";
 
 export type ApplicationPreviewWrapperProps = {
@@ -23,7 +23,7 @@ export const ApplicationPreviewWrapper: FC<ApplicationPreviewWrapperProps> = (
     useCreateNoteMutation();
 
   const createNoteHandler = useCallback(
-    async (values: NoteFormValues) => {
+    async (values: CommentsFormValues) => {
       if (!applicationQuery.data) return;
 
       createNote({

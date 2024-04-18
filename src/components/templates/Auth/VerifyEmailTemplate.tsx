@@ -27,7 +27,7 @@ export type VerifyEmailTemplateProps = ComponentPropsWithoutRef<"section"> &
 
 export const VerifyEmailTemplate: FC<VerifyEmailTemplateProps> = (props) => {
   const { resendEmailAction, status, className, ...rest } = props;
-  const t = useTranslations("page.verify-email");
+  const t = useTranslations("page.shared.verify-email");
 
   const { isActive: isTimerActive, startTimer, left: timeLeft } = useTimer({});
 
@@ -74,9 +74,8 @@ export const VerifyEmailTemplate: FC<VerifyEmailTemplateProps> = (props) => {
             href={PublicPageUrls.login}
             className="mt-4 justify-self-center min-w-[120px]"
             color="primary"
-          >
-            {t(`${status}.trigger`)}
-          </Button>
+            text={t(`${status}.trigger`)}
+          />
         )}
 
         {status === VerifyEmailTokenStatus.Expired && (
@@ -89,9 +88,8 @@ export const VerifyEmailTemplate: FC<VerifyEmailTemplateProps> = (props) => {
               className="justify-self-center"
               size="md"
               onClick={resendHandler}
-            >
-              {t("expired.trigger")}
-            </Button>
+              text={t("expired.trigger")}
+            />
 
             {!!timeLeft && isTimerActive && (
               <Typography tag="p" styling="xs" className="text-center">

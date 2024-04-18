@@ -46,9 +46,8 @@ export const RegistrationEmailVerificationStep: FC<
         className="justify-self-center"
         size="md"
         onClick={resendHandler}
-      >
-        {copy.trigger}
-      </Button>
+        text={copy.trigger}
+      />
 
       <Typography tag="p" styling="xs" className="text-center">
         {copy.description}

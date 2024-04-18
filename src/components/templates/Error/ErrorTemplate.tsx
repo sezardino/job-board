@@ -38,9 +38,8 @@ export const ErrorTemplate: FC<ErrorTemplateProps> = (props) => {
             color="primary"
             href={action.href}
             className="justify-self-center"
-          >
-            {action.text}
-          </Button>
+            text={action.text}
+          />
         )}
       </Grid>
     </main>

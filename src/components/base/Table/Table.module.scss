@@ -1,0 +1,27 @@
+.element {
+  @apply p-4 z-0 flex flex-col relative justify-between gap-4 overflow-auto rounded-large shadow-small w-full;
+}
+
+.thead > tr:first-child {
+  @apply rounded-lg;
+}
+
+.tr {
+  @apply outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2;
+}
+
+.th {
+  @apply px-3 h-10 text-left align-middle bg-default-100 whitespace-nowrap text-foreground-500 text-tiny font-semibold first:rounded-l-lg last:rounded-r-lg data-[sortable=true]:transition-colors data-[sortable=true]:cursor-pointer data-[hover=true]:text-foreground-400 outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2;
+}
+
+.td {
+  @apply py-2 px-3 relative align-middle whitespace-normal text-small font-normal [&>*]:z-1 [&>*]:relative outline-none data-[focus-visible=true]:z-10 data-[focus-visible=true]:outline-2 data-[focus-visible=true]:outline-focus data-[focus-visible=true]:outline-offset-2 before:content-[''] before:absolute before:z-0 before:inset-0 before:opacity-0 data-[selected=true]:before:opacity-100 group-data-[disabled=true]:text-foreground-300 before:bg-default/40 data-[selected=true]:text-default-foreground first:before:rounded-l-lg last:before:rounded-r-lg;
+}
+
+.loaderTd {
+  @apply text-foreground-400 align-middle text-center h-40;
+}
+
+.loader {
+  @apply w-full h-full rounded-xl mt-2;
+}

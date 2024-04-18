@@ -72,12 +72,11 @@ export const ImageFormField: FC<ImageFormFieldProps> = (props) => {
         <Button
           color="danger"
           isIconOnly
+          text={remove.text}
           isDisabled={!src || isDisabled}
+          startContent={<Icon name="HiTrash" size={16} />}
           onClick={remove.onClick}
-          aria-label={remove.text}
-        >
-          <Icon name="HiTrash" size={16} />
-        </Button>
+        />
       </div>
       {description && (
         <Typography tag="p" id={descriptionId}>

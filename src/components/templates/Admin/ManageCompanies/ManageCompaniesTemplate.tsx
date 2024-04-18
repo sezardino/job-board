@@ -1,87 +1,46 @@
 import { CompaniesTable } from "@/components/modules/admin/CompaniesTable";
 import { AdminCompaniesResponse } from "@/services/bll/modules/companies/schema";
-import { createColumnHelper } from "@tanstack/react-table";
-import { useTranslations } from "next-intl";
-import { useMemo, type ComponentPropsWithoutRef, type FC } from "react";
-import { twMerge } from "tailwind-merge";
-import { UserInfo } from "../../../UI/UserInfo/UserInfo";
+import { type FC } from "react";
 import { SearchForm } from "../../../base/SearchForm/SearchForm";
 
-import styles from "./ManageCompaniesTemplate.module.scss";
+import { PreviewTemplateWrapper } from "@/components/modules/shared/PreviewTemplateWrapper/PreviewTemplateWrapper";
+import { AdminPageUrls } from "@/const";
+import { QueryProps } from "@/types";
+import { useTranslations } from "next-intl";
 
 type Props = {
-  data?: AdminCompaniesResponse;
-  isTableDataLoading: boolean;
+  companies: QueryProps<AdminCompaniesResponse>;
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
   onSearchChange: (search: string) => void;
 };
 
-export type ManageCompaniesTemplateProps = ComponentPropsWithoutRef<"section"> &
-  Props;
-
-const CH = createColumnHelper<AdminCompaniesResponse["data"][number]>();
+export type ManageCompaniesTemplateProps = Props;
 
 export const ManageCompaniesTemplate: FC<ManageCompaniesTemplateProps> = (
   props
 ) => {
-  const {
-    data,
-    isTableDataLoading,
-    onLimitChange,
-    onPageChange,
-    onSearchChange,
-    className,
-    ...rest
-  } = props;
+  const { companies, onLimitChange, onPageChange, onSearchChange } = props;
   const t = useTranslations("page.admin.manage-companies");
 
-  const columns = useMemo(
-    () => [
-      CH.accessor("name", {
-        enableSorting: false,
-        header: t("table.head.name"),
-      }),
-      CH.accessor("owner", {
-        enableSorting: false,
-        header: t("table.head.owner"),
-        cell: (row) => (
-          <UserInfo
-            name={row.getValue().name}
-            email={row.getValue().email}
-            avatar={row.getValue().avatar?.url}
-          />
-        ),
-      }),
-      CH.accessor("_count.members", {
-        enableSorting: false,
-        header: t("table.head.members"),
-      }),
-      CH.accessor("_count.offers", {
-        enableSorting: false,
-        header: t("table.head.offers"),
-      }),
-    ],
-    [t]
-  );
-
   return (
-    <>
-      <section {...rest} className={twMerge("", className)}>
-        <header className={styles.header}>
-          <SearchForm onSearch={onSearchChange} />
-        </header>
-        <CompaniesTable
-          data={data?.data || []}
-          isLoading={isTableDataLoading}
-          page={data?.meta.page || 0}
-          limit={data?.meta.limit || 10}
-          total={data?.meta.totalPages || 0}
-          className="mt-4"
-          onLimitChange={onLimitChange}
-          onPageChange={onPageChange}
-        />
-      </section>
-    </>
+    <PreviewTemplateWrapper
+      copy={{ title: t("title"), description: t("description") }}
+      breadcrumbs={[
+        { label: t("breadcrumbs.home"), href: AdminPageUrls.home },
+        { label: t("breadcrumbs.companies") },
+      ]}
+      search={<SearchForm onSearch={onSearchChange} />}
+    >
+      <CompaniesTable
+        data={companies?.data?.data || []}
+        isLoading={companies.isFetching}
+        page={companies?.data?.meta.page || 0}
+        limit={companies?.data?.meta.limit || 10}
+        total={companies?.data?.meta.totalPages || 0}
+        onLimitChange={onLimitChange}
+        onPageChange={onPageChange}
+      />
+    </PreviewTemplateWrapper>
   );
 };

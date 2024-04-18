@@ -102,9 +102,12 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
         description={t("description")}
       />
       {!formik.values.skills.length && (
-        <Button color="primary" variant="bordered" onClick={addFirstSkill}>
-          {t("add-first")}
-        </Button>
+        <Button
+          color="primary"
+          variant="bordered"
+          onClick={addFirstSkill}
+          text={t("add-first")}
+        />
       )}
 
       {!!formik.values.skills.length && (
@@ -136,10 +139,9 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                       color="danger"
                       variant="light"
                       onClick={() => helpers.remove(i)}
-                      aria-label={t("remove")}
-                    >
-                      <Icon name="HiTrash" size={16} />
-                    </Button>
+                      text={t("remove")}
+                      endContent={<Icon name="HiTrash" size={16} />}
+                    />
                     <Button
                       isIconOnly
                       color="default"
@@ -147,10 +149,9 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                       variant="flat"
                       isDisabled={i === 0}
                       onClick={() => helpers.move(i, i - 1)}
-                      aria-label={t("up")}
-                    >
-                      <Icon name="HiChevronUp" size={16} />
-                    </Button>
+                      text={t("up")}
+                      endContent={<Icon name="HiChevronUp" size={16} />}
+                    />
                     <Button
                       size="sm"
                       isIconOnly
@@ -158,10 +159,9 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                       variant="flat"
                       isDisabled={i === arr.length - 1}
                       onClick={() => helpers.move(i, i + 1)}
-                      aria-label={t("down")}
-                    >
-                      <Icon name="HiChevronDown" size={16} />
-                    </Button>
+                      text={t("down")}
+                      endContent={<Icon name="HiChevronDown" size={16} />}
+                    />
                   </div>
                 </div>
               ))}
@@ -169,10 +169,9 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
                 isIconOnly
                 className="justify-self-center"
                 onClick={() => helpers.push(BASIC_SKILL)}
-                aria-label={t("add")}
-              >
-                <Icon name="HiPlus" size={16} />
-              </Button>
+                text={t("add")}
+                endContent={<Icon name="HiPlus" size={16} />}
+              />
             </div>
           )}
         />

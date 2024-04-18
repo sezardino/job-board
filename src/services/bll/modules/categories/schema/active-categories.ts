@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const activeCategoriesRequestSchema = z.object({
-  industry: z.string(),
+  industryId: z.string(),
 });
 
 export const activeCategoriesResponseSchema = z.object({

@@ -4,6 +4,7 @@ import {
   AbstractBllService,
   GetPaginationReturnType,
 } from "../../module.abstract";
+import { AdminCategoriesRequest, AdminCategoriesResponse } from "./schema";
 
 export class CategoriesBllModule extends AbstractBllService {
   protected async findMany(
@@ -32,6 +33,44 @@ export class CategoriesBllModule extends AbstractBllService {
     });
 
     return { data, meta: pagination?.meta };
+  }
+
+  async baseData(id: string) {
+    return this.prismaService.category.findUnique({
+      where: { id },
+      select: {
+        id: true,
+        name: true,
+        status: true,
+      },
+    });
+  }
+
+  async admin(dto: AdminCategoriesRequest): Promise<AdminCategoriesResponse> {
+    const { limit = 10, page = 0, search } = dto;
+
+    const where: Prisma.CategoryWhereInput = {};
+
+    if (search) where.name = { contains: search, mode: "insensitive" };
+
+    const count = await this.prismaService.category.count({ where });
+
+    const { meta, skip, take } = this.getPagination({ page, limit, count });
+
+    const categories = await this.prismaService.category.findMany({
+      select: {
+        id: true,
+        name: true,
+        status: true,
+        _count: { select: { offers: true } },
+      },
+      orderBy: { createdAt: "desc" },
+      skip,
+      take,
+      where,
+    });
+
+    return { data: categories, meta };
   }
 
   activeList(industry: string) {

@@ -26,7 +26,7 @@ export type SignUpPopoverProps = OmittedProps & Props;
 
 export const SignUpPopover: FC<SignUpPopoverProps> = (props) => {
   const { text, buttonType = "button", className, ...rest } = props;
-  const t = useTranslations("components.sign-up-popover");
+  const t = useTranslations("components.shared.sign-up-popover");
 
   const trigger =
     buttonType === "link" ? (
@@ -34,9 +34,7 @@ export const SignUpPopover: FC<SignUpPopoverProps> = (props) => {
         {t("trigger")}
       </Link>
     ) : (
-      <Button variant="bordered" color="primary">
-        {t("trigger")}
-      </Button>
+      <Button variant="bordered" color="primary" text={t("trigger")} />
     );
 
   return (
@@ -66,9 +64,8 @@ export const SignUpPopover: FC<SignUpPopoverProps> = (props) => {
                   color="primary"
                   variant="bordered"
                   startContent={<Icon name="HiUser" />}
-                >
-                  {t("customer")}
-                </Button>
+                  text={t("customer")}
+                />
               </li>
               <li>
                 <Button
@@ -78,9 +75,8 @@ export const SignUpPopover: FC<SignUpPopoverProps> = (props) => {
                   variant="bordered"
                   color="primary"
                   startContent={<Icon name="HiBuildingOffice" />}
-                >
-                  {t("company")}
-                </Button>
+                  text={t("company")}
+                />
               </li>
             </Grid>
           </Grid>
