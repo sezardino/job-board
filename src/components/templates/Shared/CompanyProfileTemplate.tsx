@@ -64,7 +64,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
     className,
     ...rest
   } = props;
-  const t = useTranslations("company.page.profile");
+  const t = useTranslations("page.company.profile");
   const [isEditBioModalOpen, setIsEditBioModalOpen] = useState(false);
   const [isEditBaseDataModalOpen, setIsEditBaseDataModalOpen] = useState(false);
   // TODO: add in next version (gallery)
@@ -145,7 +145,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
               )}
             </Grid>
           </Grid>
-          <div className="-order-1 aspect-thumbnail bg-black w-full"></div>
+          {/* <div className="-order-1 aspect-thumbnail bg-black w-full"></div> */}
         </Grid>
 
         {/* TODO: add in next version (gallery) */}

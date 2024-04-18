@@ -32,6 +32,11 @@ const CompanyPanelLayout = (props: PropsWithChildren) => {
           icon: "HiOutlineBriefcase",
           to: CompanyPageUrls.offers,
         },
+        {
+          label: t("company.profile"),
+          icon: "TbPolaroidFilled",
+          to: CompanyPageUrls.profile,
+        },
       ],
     ],
     [t]
