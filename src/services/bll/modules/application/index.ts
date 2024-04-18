@@ -4,10 +4,11 @@ import {
   NotAllowedException,
   NotFoundException,
 } from "@/types";
-import { ApplicationStatus } from "@prisma/client";
+import { ApplicationStatus, OfferStatus, Prisma } from "@prisma/client";
 import { AbstractBllService } from "../../module.abstract";
 import { FilesBllModule } from "../files";
 import {
+  ApplicationHistoryRequest,
   ApplyForOfferRequest,
   ChangeApplicationStatusRequest,
   ChangeRejectedApplicationReasonRequest,
@@ -238,5 +239,31 @@ export class ApplicationsBllModule extends AbstractBllService {
     });
 
     return !!application;
+  }
+
+  async history(dto: ApplicationHistoryRequest) {
+    const { page, limit, customerId } = dto;
+
+    const where: Prisma.ApplicationWhereInput = {
+      userId: customerId,
+      offer: { status: { notIn: [OfferStatus.DRAFT, OfferStatus.INACTIVE] } },
+    };
+
+    const count = await this.prismaService.application.count({ where });
+
+    const { meta, take, skip } = this.getPagination({ count, page, limit });
+
+    const applications = await this.prismaService.application.findMany({
+      where,
+      select: {
+        id: true,
+        createdAt: true,
+        offer: { select: { id: true, name: true } },
+      },
+      skip,
+      take,
+    });
+
+    return { data: applications, meta };
   }
 }

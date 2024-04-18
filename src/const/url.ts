@@ -37,7 +37,7 @@ export const PublicPageUrls = {
   home: "/",
   about: "/about",
   login: "/auth",
-
+  profile: "/profile",
   settings: "/settings",
   settingsSecurity: "/settings/security",
   settingsNotifications: "/settings/notifications",

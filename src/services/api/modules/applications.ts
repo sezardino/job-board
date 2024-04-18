@@ -1,6 +1,8 @@
 import {
+  ApplicationHistoryRequest,
   ApplyForOfferRequest,
   ChangeApplicationStatusRequest,
+  applicationHistoryResponseSchema,
   applyForOfferResponseSchema,
 } from "@/services/bll/modules/application/schema";
 import {
@@ -62,6 +64,14 @@ export class ApplicationsApiModule extends AbstractApiModule {
       endpoint: `applications/${applicationId}`,
       config: { method: "PATCH", data },
       schema: offerApplicationsStatisticsResponseSchema,
+    });
+  }
+
+  history(params: ApplicationHistoryRequest) {
+    return this.fetch({
+      endpoint: "applications/history",
+      config: { params },
+      schema: applicationHistoryResponseSchema,
     });
   }
 }

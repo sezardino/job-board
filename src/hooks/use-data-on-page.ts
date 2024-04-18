@@ -1,9 +1,17 @@
 import { useState } from "react";
 
-export const useDataOnPage = () => {
-  const [page, setPage] = useState(0);
-  const [limit, setLimit] = useState(10);
-  const [search, setSearch] = useState("");
+type Args = {
+  page?: number;
+  limit?: number;
+  search?: string;
+};
+
+export const useDataOnPage = (props: Args = {}) => {
+  const { page = 0, limit = 10, search = "" } = props;
+
+  const [pageParam, setPage] = useState(page);
+  const [limitParam, setLimit] = useState(limit);
+  const [searchParam, setSearch] = useState(search);
 
   const onElseChange = <T>(value: T, setter: (value: T) => void) => {
     setPage(0);
@@ -15,11 +23,11 @@ export const useDataOnPage = () => {
   const onLimitChange = (value: number) => onElseChange(value, setLimit);
 
   return {
-    page,
+    page: pageParam,
     onPageChange: setPage,
-    limit,
+    limit: limitParam,
     onLimitChange,
-    search,
+    search: searchParam,
     onSearchChange,
     changeHandler: onElseChange,
   };
