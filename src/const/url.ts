@@ -39,6 +39,8 @@ export const PublicPageUrls = {
   home: "/",
   about: "/about",
   login: "/auth",
+  profile: "/profile",
+  settings: "/settings",
   verify: (token: string) => `/auth/verify?token=${token}`,
   registerUser: "/auth/registration",
   registerCompany: "/auth/registration/company",

@@ -26,6 +26,8 @@ import {
 import { twMerge } from "tailwind-merge";
 import { AvatarDropdown } from "../AvatarDropdown/AvatarDropdown";
 
+import styles from "./LandingNavbar.module.scss";
+
 type Props = {
   user?: User;
   onSignOutClick: () => void;
@@ -65,39 +67,45 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
   );
 
   const avatarLinks = useMemo(() => {
-    return [{ onClick: onSignOutClick, label: t("logout") }];
-  }, [t, onSignOutClick]);
+    const links: { onClick?: () => void; href?: string; label: string }[] = [];
+
+    const logoutLink = { onClick: onSignOutClick, label: t("logout") };
+    const profileLink = { href: PublicPageUrls.profile, label: t("profile") };
+    const settingsLink = {
+      href: PublicPageUrls.settings,
+      label: t("settings"),
+    };
+
+    if (user?.role === UserRoles.CUSTOMER) links.push(profileLink);
+
+    links.push(settingsLink, logoutLink);
+    return links;
+  }, [onSignOutClick, t, user?.role]);
 
   return (
-    <div
-      {...rest}
-      className={twMerge(
-        "sticky top-0 grid grid-cols-1 gap-3 z-40 w-full h-auto backdrop-blur-lg backdrop-saturate-150 bg-background/70",
-        className
-      )}
-    >
+    <div {...rest} className={twMerge(styles.element, className)}>
       <Navbar
         position="static"
         isBlurred={false}
-        className="bg-transparent backdrop-blur-none backdrop-saturate-0"
+        className={styles.navbar}
         onMenuOpenChange={setIsMenuOpen}
       >
         <NavbarContent>
           <NavbarMenuToggle
             aria-label={isMenuOpen ? t("close-menu") : t("open-menu")}
-            className="sm:hidden"
+            className={styles.hamburger}
           />
           <NavbarBrand>
-            <p className="font-bold text-inherit">{BRAND_NAME}</p>
+            <p className={styles.brand}>{BRAND_NAME}</p>
           </NavbarBrand>
         </NavbarContent>
 
-        <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarContent className={styles.content} justify="center">
           {menuItems.map((item) => (
             <NavbarItem key={item.href}>
               <Link
                 as={NextLink}
-                className="w-full"
+                className={styles.link}
                 color="foreground"
                 href={item.href}
               >
@@ -116,12 +124,12 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
             />
           )}
         </NavbarContent>
-        <NavbarMenu className="list-none">
+        <NavbarMenu className={styles.list}>
           {menuItems.map((item) => (
             <NavbarMenuItem key={item.href}>
               <Link
                 as={NextLink}
-                className="w-full"
+                className={styles.link}
                 color="foreground"
                 href={item.href}
               >
@@ -132,7 +140,7 @@ export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
         </NavbarMenu>
       </Navbar>
 
-      {children && <div className="container">{children}</div>}
+      {children && <div className={styles.content}>{children}</div>}
     </div>
   );
 };

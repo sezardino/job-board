@@ -39,6 +39,7 @@ export const AvatarDropdown: FC<AvatarDropdownProps> = (props) => {
             key={`${href}/${index}`}
             as={href ? Link : "button"}
             href={href}
+            className="text-left"
             onClick={onClick}
           >
             {label}

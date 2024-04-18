@@ -3,10 +3,10 @@
 import { AdminPageUrls } from "@/const/url";
 import { PropsWithChildren, useMemo } from "react";
 
+import { AppSidebarItem } from "@/components/UI/AppSidebar/AppSidebar";
 import { PanelLayout } from "@/components/layout/PanelLayout/PanelLayout";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { AppSidebarItem } from "@/components/UI/AppSidebar/AppSidebar";
 
 const AdminPanelLayout = (props: PropsWithChildren) => {
   const { children } = props;
@@ -45,11 +45,10 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
 
   return (
     <PanelLayout
-      email={session.data.user.email}
+      user={session.data.user}
       homeHref={AdminPageUrls.home}
       lists={lists}
       onSignOutClick={signOut}
-      avatar={undefined}
     >
       {children}
     </PanelLayout>

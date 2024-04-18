@@ -46,11 +46,10 @@ const CompanyPanelLayout = (props: PropsWithChildren) => {
 
   return (
     <PanelLayout
-      email={session.data.user.email}
+      user={session.data.user}
       homeHref={AdminPageUrls.home}
       lists={lists}
       onSignOutClick={signOut}
-      avatar={undefined}
     >
       <CompanyPagesProvider>{children}</CompanyPagesProvider>
     </PanelLayout>
