@@ -3,26 +3,28 @@
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { CompanyProfileTemplate } from "@/components/templates/Shared/CompanyProfileTemplate";
 import { CompanyPageUrls } from "@/const";
-import { useMyCompanyProfileQuery } from "@/hooks";
+import { useCompanyPagesContext } from "@/context";
+import { useCompanyProfileQuery } from "@/hooks";
 import { useEditMyCompanyMutation } from "@/hooks/react-query/mutation/companies";
+import { useOffersListInfiniteQuery } from "@/hooks/react-query/query/offers";
 
 const CompanyProfilePage = () => {
-  const { data: myCompany, isFetching: isMyCompanyLoading } =
-    useMyCompanyProfileQuery();
+  const { id } = useCompanyPagesContext();
+  const companyProfile = useCompanyProfileQuery({});
 
   const { mutateAsync: editCompany, isPending: isEditLoading } =
     useEditMyCompanyMutation();
+  const offersQuery = useOffersListInfiniteQuery({ companyId: id });
 
-  const isLoading = isMyCompanyLoading;
+  const isLoading = companyProfile.isFetching;
 
   return (
     <>
       {isLoading && <LoadingOverlay />}
       <CompanyProfileTemplate
         offerLinkPrefix={CompanyPageUrls.offers}
-        isLoading={isMyCompanyLoading}
-        withManage
-        company={myCompany}
+        profile={companyProfile}
+        offers={offersQuery}
         editAction={{
           handler: editCompany,
           isLoading: isEditLoading,

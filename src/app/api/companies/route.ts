@@ -1,11 +1,16 @@
-import { editCompanyRequestSchema } from "@/services/bll/modules/companies/schema";
+import {
+  companyProfileRequestSchema,
+  editCompanyRequestSchema,
+} from "@/services/bll/modules/companies/schema";
 import { UserRoles } from "@prisma/client";
 import { withApiRouteHandler, withValidation } from "../utils";
-import { getMyCompanyProfile } from "./get";
+import { getCompanyProfile } from "./get";
 import { putEditCompany } from "./put";
 
 export const GET = withValidation({
-  handler: withApiRouteHandler(getMyCompanyProfile, "Cant get company profile"),
+  handler: withApiRouteHandler(getCompanyProfile, "Cant get company profile"),
+  input: "search",
+  schema: companyProfileRequestSchema,
 });
 
 export const PUT = withValidation({

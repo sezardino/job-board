@@ -1,7 +1,4 @@
-import {
-  OfferCardEntity,
-  OffersList,
-} from "@/components/UI/OffersList/OffersList";
+import { OffersList } from "@/components/UI/OffersList/OffersList";
 import { BaseAvatar } from "@/components/base/Avatar/BaseAvatar";
 import { Button } from "@/components/base/Button/Button";
 import { Grid } from "@/components/base/Grid/Grid";
@@ -17,10 +14,12 @@ import {
   EditCompanyBioFormValues,
 } from "@/components/forms/EditCompanyBio/EditCompanyBioForm";
 import {
+  CompanyProfileResponse,
   EditCompanyRequest,
   EditCompanyResponse,
 } from "@/services/bll/modules/companies/schema";
-import { ActionProp, FileEntity } from "@/types";
+import { OffersListResponse } from "@/services/bll/modules/offers/schema";
+import { ActionProp, FileEntity, InfiniteDataProp, QueryProps } from "@/types";
 import parse from "html-react-parser";
 import { useTranslations } from "next-intl";
 import { useState, type ComponentPropsWithoutRef, type FC } from "react";
@@ -35,15 +34,14 @@ export type CompanyProfileTemplateEntity = {
   // gallery: FileEntity[];
   // TODO: add in next version (thumbnail)
   // thumbnail: FileEntity | null;
-  offers: OfferCardEntity[];
   _count: {
     offers: number;
   };
 };
 
 type Props = {
-  isLoading: boolean;
-  company?: CompanyProfileTemplateEntity;
+  profile: QueryProps<CompanyProfileResponse>;
+  offers: InfiniteDataProp<OffersListResponse>;
   offerLinkPrefix: string;
   withManage?: boolean;
   editAction?: ActionProp<EditCompanyRequest, EditCompanyResponse>;
@@ -57,14 +55,14 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
 ) => {
   const {
     offerLinkPrefix,
-    company,
-    isLoading,
-    withManage,
+    profile,
+    offers,
+    withManage = false,
     editAction,
     className,
     ...rest
   } = props;
-  const t = useTranslations("company.page.profile");
+  const t = useTranslations("page.company.profile");
   const [isEditBioModalOpen, setIsEditBioModalOpen] = useState(false);
   const [isEditBaseDataModalOpen, setIsEditBaseDataModalOpen] = useState(false);
   // TODO: add in next version (gallery)
@@ -117,35 +115,37 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
             <Grid gap={1}>
               <div className="flex justify-between items-start gap-3 flex-wrap">
                 <div className="flex items-center gap-2">
-                  {company?.logo && (
+                  {profile.data?.logo && (
                     <BaseAvatar
                       type="image"
                       size="lg"
-                      src={company?.logo?.url}
-                      alt={company.name}
+                      src={profile.data?.logo?.url}
+                      alt={profile.data.name}
                     />
                   )}
                   <Typography tag="h1" styling="2xl">
-                    {company?.name}
+                    {profile.data?.name}
                   </Typography>
                 </div>
 
-                <Button
-                  variant="light"
-                  size="sm"
-                  color="primary"
-                  onClick={() => setIsEditBaseDataModalOpen(true)}
-                  text={t("edit-base-data.trigger")}
-                />
+                {withManage && (
+                  <Button
+                    variant="light"
+                    size="sm"
+                    color="primary"
+                    onClick={() => setIsEditBaseDataModalOpen(true)}
+                    text={t("edit-base-data.trigger")}
+                  />
+                )}
               </div>
-              {company?.slogan && (
+              {profile.data?.slogan && (
                 <Typography tag="p" styling="sm" className="italic">
-                  {company.slogan}
+                  {profile.data.slogan}
                 </Typography>
               )}
             </Grid>
           </Grid>
-          <div className="-order-1 aspect-thumbnail bg-black w-full"></div>
+          {/* <div className="-order-1 aspect-thumbnail bg-black w-full"></div> */}
         </Grid>
 
         {/* TODO: add in next version (gallery) */}
@@ -174,16 +174,19 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
             <Typography tag="h2" weight="medium" styling="lg">
               {t("bio")}
             </Typography>
-            <Button
-              variant="light"
-              size="sm"
-              color="primary"
-              onClick={() => setIsEditBioModalOpen(true)}
-              text={t("edit-bio.trigger")}
-            />
+
+            {withManage && (
+              <Button
+                variant="light"
+                size="sm"
+                color="primary"
+                onClick={() => setIsEditBioModalOpen(true)}
+                text={t("edit-bio.trigger")}
+              />
+            )}
           </div>
-          {company?.bio ? (
-            <div>{parse(company.bio)}</div>
+          {profile.data?.bio ? (
+            <div>{parse(profile.data.bio)}</div>
           ) : (
             <Typography tag="p" weight="thin" className="italic ">
               {t("no-bio")}
@@ -196,7 +199,11 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
             {t("offers.title")}
           </Typography>
           <OffersList
-            offers={company?.offers || []}
+            offers={offers.data?.data || []}
+            hasNextPage={!!offers.hasNextPage}
+            fetchNextPage={offers.fetchNextPage}
+            isFetching={offers.isFetching}
+            isFetchingNextPage={offers.isFetchingNextPage}
             linkPrefix={offerLinkPrefix}
           />
         </Grid>
@@ -217,7 +224,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
                   {editAction.isLoading && <LoadingOverlay isInWrapper />}
                   <EditCompanyBioForm
                     onFormSubmit={editBioHandler}
-                    initialValues={{ bio: company?.bio || "" }}
+                    initialValues={{ bio: profile.data?.bio || "" }}
                     cancel={{
                       label: t("edit-bio.cancel"),
                       onClick: () => setIsEditBioModalOpen(false),
@@ -238,8 +245,8 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
                   {editAction.isLoading && <LoadingOverlay isInWrapper />}
                   <EditCompanyBaseDataForm
                     initialValues={{
-                      slogan: company?.slogan || "",
-                      logo: company?.logo?.url || null,
+                      slogan: profile.data?.slogan || "",
+                      logo: profile.data?.logo?.url || null,
                       isLogoDeleted: false,
                     }}
                     onFormSubmit={editBaseCompanyDataHandler}

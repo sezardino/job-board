@@ -7,7 +7,9 @@
       "users": "Users",
       "company": {
         "dashboard": "Dashboard",
-        "offers": "Offers"
+        "offers": "Offers",
+        "users": "Users",
+        "profile": "Profile"
       }
     },
     "admin-users": {
@@ -22,14 +24,6 @@
         "companies": "Companies",
         "customers": "Customers",
         "admins": "Admins"
-      }
-    },
-    "company-dashboard": {
-      "profile": "See Profile",
-      "navigation": {
-        "title": "Company dashboard navigation",
-        "statistic": "Statistics",
-        "users": "Users"
       }
     }
   },
