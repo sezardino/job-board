@@ -128,25 +128,6 @@ export class CompaniesBllModule extends AbstractBllService {
         // TODO: add in next version (thumbnail)
         // thumbnail: { select: { id: true, url: true, name: true } },
         _count: { select: { offers: true } },
-        offers: {
-          take: 5,
-          select: {
-            id: true,
-            name: true,
-            seniority: true,
-            salaryFrom: true,
-            salaryTo: true,
-            createdAt: true,
-            skills: { select: { name: true } },
-            company: {
-              select: {
-                id: true,
-                name: true,
-                logo: { select: { id: true, url: true, name: true } },
-              },
-            },
-          },
-        },
       },
     });
 

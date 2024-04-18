@@ -1,23 +1,30 @@
 "use client";
 
-import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { CompanyProfileTemplate } from "@/components/templates/Shared/CompanyProfileTemplate";
 import { PublicPageUrls } from "@/const";
 import { useCompanyProfileQuery } from "@/hooks";
+import { useOffersListInfiniteQuery } from "@/hooks/react-query/query/offers";
 
-const CompanyProfilePage = () => {
-  const { data: myCompany, isFetching: isMyCompanyLoading } =
-    useCompanyProfileQuery({});
+type CompanyProfileProps = {
+  params: {
+    id: string;
+  };
+};
 
-  const isLoading = isMyCompanyLoading;
+const CompanyProfilePage = (props: CompanyProfileProps) => {
+  const {
+    params: { id },
+  } = props;
+
+  const companyProfile = useCompanyProfileQuery({});
+  const offersQuery = useOffersListInfiniteQuery({ companyId: id });
 
   return (
     <>
-      {isLoading && <LoadingOverlay />}
       <CompanyProfileTemplate
         offerLinkPrefix={PublicPageUrls.offer("")}
-        isLoading={isMyCompanyLoading}
-        company={myCompany}
+        profile={companyProfile}
+        offers={offersQuery}
       />
     </>
   );

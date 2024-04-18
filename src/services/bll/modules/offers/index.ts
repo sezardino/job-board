@@ -111,10 +111,13 @@ export class OffersBllModule extends AbstractBllService {
       operating,
       salary,
       seniority,
+      categoryId,
+      industryId,
       type,
       search,
       industry,
       category,
+      companyId,
       limit = DEFAULT_PAGE_LIMIT,
       page = 0,
     } = data;
@@ -137,6 +140,9 @@ export class OffersBllModule extends AbstractBllService {
     if (type) where.type = { in: type };
     if (contract) where.contract = { hasSome: contract };
     if (operating) where.operating = { hasSome: operating };
+    if (categoryId) where.categoryId = categoryId;
+    if (industryId) where.industryId = industryId;
+    if (companyId) where.companyId = companyId;
     if (salary) {
       where.salaryFrom = { gt: salary.from, lt: salary.to };
       where.salaryTo = { gt: salary.from, lt: salary.to };
@@ -329,7 +335,7 @@ export class OffersBllModule extends AbstractBllService {
   }
 
   async commonOffers(dto: CommonOffersRequest, offerId: string) {
-    const { page } = dto;
+    const { page, limit, search } = dto;
 
     const example = await this.prismaService.offer.findUnique({
       where: { id: offerId },
@@ -345,32 +351,42 @@ export class OffersBllModule extends AbstractBllService {
 
     const { industryId, categoryId, skills, seniority } = example;
 
-    return this.findMany({
-      limit: 5,
+    return this.list({
       page,
-      where: {
-        status: OfferStatus.ACTIVE,
-        industryId: { equals: industryId },
-        categoryId: { equals: categoryId },
-        skills: { some: { name: { in: skills.map((skill) => skill.name) } } },
-        seniority: { equals: seniority },
-      },
-      select: {
-        id: true,
-        name: true,
-        seniority: true,
-        salaryFrom: true,
-        salaryTo: true,
-        createdAt: true,
-        skills: { select: { name: true } },
-        company: {
-          select: {
-            id: true,
-            name: true,
-            logo: { select: { id: true, url: true, name: true } },
-          },
-        },
-      },
+      limit,
+      search,
+      industryId,
+      categoryId,
+      seniority: [seniority],
+      skills,
     });
+
+    // return this.findMany({
+    //   limit: 5,
+    //   page,
+    //   where: {
+    //     status: OfferStatus.ACTIVE,
+    //     industryId: { equals: industryId },
+    //     categoryId: { equals: categoryId },
+    //     skills: { some: { name: { in: skills.map((skill) => skill.name) } } },
+    //     seniority: { equals: seniority },
+    //   },
+    //   select: {
+    //     id: true,
+    //     name: true,
+    //     seniority: true,
+    //     salaryFrom: true,
+    //     salaryTo: true,
+    //     createdAt: true,
+    //     skills: { select: { name: true } },
+    //     company: {
+    //       select: {
+    //         id: true,
+    //         name: true,
+    //         logo: { select: { id: true, url: true, name: true } },
+    //       },
+    //     },
+    //   },
+    // });
   }
 }

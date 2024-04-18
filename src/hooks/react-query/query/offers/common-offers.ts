@@ -10,7 +10,7 @@ export const useCommonOffersQuery = (
 ) => {
   return useQuery({
     queryKey: [COMMON_OFFERS_QUERY_KEY, ...Object.values(params)],
-    queryFn: () => apiService.offers.list(params),
+    queryFn: () => apiService.offers.commonOffers(params),
     enabled: !!params.id,
   });
 };
