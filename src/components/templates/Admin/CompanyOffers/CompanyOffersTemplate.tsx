@@ -5,17 +5,13 @@ import { useCallback, useMemo, type FC } from "react";
 import { BreadcrumbItem } from "@/components/base/Breadcrumbs/BaseBreadcrumbs";
 
 import {
-  CompanyOffersFilter,
   OfferFilterSeniority,
   OfferFilterStatus,
 } from "@/components/modules/shared/CompanyOffersFilter/CompanyOffersFilter";
 
 import { TableActions } from "@/components/UI/TableActions/TableActions";
-import {
-  ManageOffersTable,
-  ManageOffersTableCellRenderFun,
-} from "@/components/modules/shared/ManageOffersTable/ManageOffersTable";
-import { PreviewTemplateWrapper } from "@/components/modules/shared/PreviewTemplateWrapper/PreviewTemplateWrapper";
+import { AdminOffersTemplateWrapper } from "@/components/modules/admin/AdminOffersTemplateWrapper";
+import { ManageOffersTableCellRenderFun } from "@/components/modules/shared/ManageOffersTable/ManageOffersTable";
 import { AdminPageUrls } from "@/const";
 import { OffersForManageResponse } from "@/services/bll/modules/offers/schema";
 import Link from "next/link";
@@ -88,32 +84,20 @@ export const CompanyOffersTemplate: FC<CompanyOffersTemplateProps> = (
   );
 
   return (
-    <PreviewTemplateWrapper
-      copy={{
-        title: t("title", { value: company.name }),
-        description: t("description"),
-      }}
+    <AdminOffersTemplateWrapper
+      {...offers}
+      title={t("title", { value: company.name })}
+      description={t("description")}
       breadcrumbs={breadcrumbs}
-      search={
-        <CompanyOffersFilter
-          onSearchChange={onSearchChange}
-          seniorityFilter={seniorityFilter}
-          statusFilter={statusFilter}
-          isAdmin
-          className="w-full"
-        />
-      }
-    >
-      <ManageOffersTable
-        {...offers}
-        data={offers.data?.data || []}
-        total={offers.data?.meta.totalPages || 0}
-        page={page}
-        onPageChange={onPageChange}
-        limit={limit}
-        onLimitChange={onLimitChange}
-        actionsCell={actionsCell}
-      />
-    </PreviewTemplateWrapper>
+      offers={offers}
+      statusFilter={statusFilter}
+      seniorityFilter={seniorityFilter}
+      limit={limit}
+      onLimitChange={onLimitChange}
+      onPageChange={onPageChange}
+      onSearchChange={onSearchChange}
+      page={page}
+      actionsCell={actionsCell}
+    />
   );
 };
