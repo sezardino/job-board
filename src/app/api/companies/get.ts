@@ -1,11 +1,22 @@
 import { getNextAuthSession } from "@/libs/next-auth";
 import { bllService } from "@/services/bll";
-import { NextResponse } from "next/server";
+import { CompanyProfileRequest } from "@/services/bll/modules/companies/schema";
+import { BadRequestException } from "@/types";
+import { NextRequest, NextResponse } from "next/server";
+import { formatUrlSearchParams } from "../utils";
 
-export const getMyCompanyProfile = async () => {
+export const getCompanyProfile = async (req: NextRequest) => {
+  const params = formatUrlSearchParams<CompanyProfileRequest>(
+    req.nextUrl.searchParams
+  );
   const session = await getNextAuthSession();
 
-  const res = await bllService.companies.profile(session?.user.companyId!);
+  if (!session?.user.companyId)
+    throw new BadRequestException("Company id not provided");
+
+  const res = await bllService.companies.profile({
+    id: params.id ? params.id : session?.user.companyId!,
+  });
 
   return NextResponse.json(res, { status: 200 });
 };

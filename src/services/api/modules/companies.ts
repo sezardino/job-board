@@ -1,5 +1,6 @@
 import {
   CheckCompanyNameAvailableRequest,
+  CompanyProfileRequest,
   EditCompanyRequest,
   adminCompaniesResponseSchema,
   checkCompanyNameAvailableResponseSchema,
@@ -52,9 +53,10 @@ export class CompaniesApiModule extends AbstractApiModule {
     });
   }
 
-  async myCompanyProfile() {
+  async companyProfile(params: CompanyProfileRequest) {
     return await this.fetch({
-      endpoint: "companies",
+      endpoint: `companies`,
+      config: { params },
       schema: companyProfileResponseSchema,
     });
   }

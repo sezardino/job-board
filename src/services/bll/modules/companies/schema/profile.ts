@@ -2,6 +2,10 @@ import { fileSchema } from "@/types";
 import { Seniority } from "@prisma/client";
 import { z } from "zod";
 
+export const companyProfileRequestSchema = z.object({
+  id: z.string().optional(),
+});
+
 export const companyProfileResponseSchema = z.object({
   id: z.string(),
   name: z.string(),
@@ -32,6 +36,8 @@ export const companyProfileResponseSchema = z.object({
     offers: z.number(),
   }),
 });
+
+export type CompanyProfileRequest = z.infer<typeof companyProfileRequestSchema>;
 
 export type CompanyProfileResponse = z.infer<
   typeof companyProfileResponseSchema

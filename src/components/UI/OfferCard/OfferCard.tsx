@@ -60,7 +60,7 @@ export const OfferCard: FC<OfferCardProps> = (props) => {
       isHoverable
       className={twMerge("w-full", className)}
     >
-      <Link href={`${linkPrefix}/${id}`} className={styles.wrapper}>
+      <Link href={`${linkPrefix}${id}`} className={styles.wrapper}>
         <CardHeader
           className={twMerge(
             styles.head,

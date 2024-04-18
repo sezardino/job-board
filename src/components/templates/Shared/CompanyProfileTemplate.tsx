@@ -59,7 +59,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
     offerLinkPrefix,
     company,
     isLoading,
-    withManage,
+    withManage = false,
     editAction,
     className,
     ...rest
@@ -130,13 +130,15 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
                   </Typography>
                 </div>
 
-                <Button
-                  variant="light"
-                  size="sm"
-                  color="primary"
-                  onClick={() => setIsEditBaseDataModalOpen(true)}
-                  text={t("edit-base-data.trigger")}
-                />
+                {withManage && (
+                  <Button
+                    variant="light"
+                    size="sm"
+                    color="primary"
+                    onClick={() => setIsEditBaseDataModalOpen(true)}
+                    text={t("edit-base-data.trigger")}
+                  />
+                )}
               </div>
               {company?.slogan && (
                 <Typography tag="p" styling="sm" className="italic">
@@ -174,13 +176,16 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
             <Typography tag="h2" weight="medium" styling="lg">
               {t("bio")}
             </Typography>
-            <Button
-              variant="light"
-              size="sm"
-              color="primary"
-              onClick={() => setIsEditBioModalOpen(true)}
-              text={t("edit-bio.trigger")}
-            />
+
+            {withManage && (
+              <Button
+                variant="light"
+                size="sm"
+                color="primary"
+                onClick={() => setIsEditBioModalOpen(true)}
+                text={t("edit-bio.trigger")}
+              />
+            )}
           </div>
           {company?.bio ? (
             <div>{parse(company.bio)}</div>

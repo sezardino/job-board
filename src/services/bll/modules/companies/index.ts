@@ -8,7 +8,11 @@ import { Prisma, UserRoles } from "@prisma/client";
 import { FilesBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
 import { CompanyRegistrationRequest } from "../auth/schema/company-registration";
-import { AdminCompaniesRequest, EditCompanyRequest } from "./schema";
+import {
+  AdminCompaniesRequest,
+  CompanyProfileRequest,
+  EditCompanyRequest,
+} from "./schema";
 
 export class CompaniesBllModule extends AbstractBllService {
   constructor(
@@ -108,9 +112,11 @@ export class CompaniesBllModule extends AbstractBllService {
     });
   }
 
-  async profile(companyId: string) {
+  async profile(dto: CompanyProfileRequest) {
+    const { id } = dto;
+
     const response = await this.prismaService.company.findUnique({
-      where: { id: companyId },
+      where: { id },
       select: {
         id: true,
         name: true,

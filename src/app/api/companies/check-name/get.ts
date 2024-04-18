@@ -7,9 +7,9 @@ import { NextRequest, NextResponse } from "next/server";
 import { formatUrlSearchParams } from "../../utils";
 
 export const getCompanyNameAvailability = async (req: NextRequest) => {
-  const params = formatUrlSearchParams(
+  const params = formatUrlSearchParams<CheckCompanyNameAvailableRequest>(
     req.nextUrl.searchParams
-  ) as CheckCompanyNameAvailableRequest;
+  );
 
   const bllResponse = await bllService.companies.checkNameAvailable(
     params.name
