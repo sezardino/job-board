@@ -1,0 +1,23 @@
+.element {
+  @apply flex-1 h-full grid grid-cols-1 grid-rows-[auto,1fr] gap-6 content-start py-8;
+}
+
+.header {
+  @apply pb-6 border-b;
+}
+
+.wrapper {
+  @apply flex flex-col space-y-8 lg:flex-row lg:space-x-12 lg:space-y-0;
+}
+
+.nav {
+  @apply flex gap-2 lg:flex-col overflow-auto;
+}
+
+.link {
+  @apply inline-flex items-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 disabled:pointer-events-none disabled:opacity-50 pr-4 py-2 hover:bg-transparent hover:underline justify-start;
+}
+
+.content {
+  @apply flex-1 flex flex-col;
+}

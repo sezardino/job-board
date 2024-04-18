@@ -25,6 +25,15 @@
         "customers": "Customers",
         "admins": "Admins"
       }
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Manage your account settings and set e-mail preferences.",
+      "profile": "Profile",
+      "account": "Account",
+      "security": "Security",
+      "appearance": "Appearance",
+      "notifications": "Notifications"
     }
   },
   "forms": {
@@ -1024,6 +1033,16 @@
           "title": "Application sent",
           "description": "Your application has been sent successfully"
         }
+      },
+      "settings-profile": {},
+      "settings-security": {},
+      "settings-notifications": {
+        "title": "Coming soon",
+        "description": "We're working hard to bring you something amazing. Stay tuned!"
+      },
+      "settings-appearance": {
+        "title": "Coming soon",
+        "description": "We're working hard to bring you something amazing. Stay tuned!"
       }
     }
   },

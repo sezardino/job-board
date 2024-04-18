@@ -3,6 +3,7 @@ import {
   Typography,
   TypographyStyling,
   TypographyTag,
+  TypographyWeight,
 } from "@/components/base/Typography/Typography";
 import { type FC } from "react";
 import { twMerge } from "tailwind-merge";
@@ -11,9 +12,11 @@ type Props = {
   title: string;
   titleLevel: TypographyTag;
   titleStyling?: TypographyStyling;
+  titleWeight?: TypographyWeight;
   description?: string;
   descriptionStyling?: TypographyStyling;
   isTextCentered?: boolean;
+  isTitlePulsed?: boolean;
 };
 
 export type TitleDescriptionProps = GridProps<GridTags> & Props;
@@ -23,6 +26,8 @@ export const TitleDescription: FC<TitleDescriptionProps> = (props) => {
     title,
     titleStyling = "lg",
     descriptionStyling = "sm",
+    titleWeight = "medium",
+    isTitlePulsed,
     titleLevel,
     description,
     isTextCentered,
@@ -37,7 +42,12 @@ export const TitleDescription: FC<TitleDescriptionProps> = (props) => {
       gap={gap}
       className={twMerge(isTextCentered && "text-center", className)}
     >
-      <Typography tag={titleLevel} weight="medium" styling={titleStyling}>
+      <Typography
+        tag={titleLevel}
+        weight={titleWeight}
+        styling={titleStyling}
+        className={twMerge(isTitlePulsed && "animate-pulse")}
+      >
         {title}
       </Typography>
       {description && (
