@@ -915,6 +915,20 @@
         }
       }
     },
+    "customer": {
+      "profile": {
+        "title": "Profile",
+        "description": "From this panel you can manage your profile",
+        "history": {
+          "title": "History",
+          "description": "Here you can see history of your applications",
+          "no-data": {
+            "title": "No applications found",
+            "description": "You don't have any applications yet"
+          }
+        }
+      }
+    },
     "shared": {
       "login": {
         "title": "Login",

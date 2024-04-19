@@ -1,3 +1,5 @@
+import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
+import { Grid } from "@/components/base/Grid/Grid";
 import {
   ApplicationsHistory,
   ApplicationsHistoryItem,
@@ -6,6 +8,7 @@ import { PaginationWidget } from "@/components/modules/shared/PaginationWidget/P
 import { ApplicationHistoryResponse } from "@/services/bll/modules/application/schema";
 import { QueryProps } from "@/types";
 import dayjs from "dayjs";
+import { useTranslations } from "next-intl";
 import { FC, useMemo } from "react";
 
 type Props = {
@@ -20,6 +23,7 @@ export type ProfileTemplateProps = Props;
 
 export const ProfileTemplate: FC<ProfileTemplateProps> = (props) => {
   const { history, onLimitChange, onPageChange, limit, page } = props;
+  const t = useTranslations("page.customer.profile");
 
   const historyItems = useMemo<ApplicationsHistoryItem[]>(() => {
     if (!history.data) return [];
@@ -47,20 +51,40 @@ export const ProfileTemplate: FC<ProfileTemplateProps> = (props) => {
     return items;
   }, [history.data]);
 
+  const hasHistory = history.data?.meta.count !== 0;
+
   return (
-    <section className="py-6">
-      <ApplicationsHistory
-        isLoading={history.isFetching}
-        items={historyItems}
+    <Grid gap={6} tag="section" className="py-6">
+      <TitleDescription
+        titleLevel="h1"
+        title={t("title")}
+        description={t("description")}
       />
-      <PaginationWidget
-        current={page}
-        total={history.data?.meta.count || 0}
-        onPageChange={onPageChange}
-        limit={limit}
-        disabled={history.isFetching}
-        onLimitChange={onLimitChange}
-      />
-    </section>
+
+      {!hasHistory && (
+        <TitleDescription
+          titleLevel="h2"
+          title={t("history.no-data.title")}
+          description={t("history.no-data.description")}
+        />
+      )}
+
+      {hasHistory && (
+        <>
+          <ApplicationsHistory
+            isLoading={history.isFetching}
+            items={historyItems}
+          />
+          <PaginationWidget
+            current={page}
+            total={history.data?.meta.totalPages || 0}
+            onPageChange={onPageChange}
+            limit={limit}
+            disabled={history.isFetching}
+            onLimitChange={onLimitChange}
+          />
+        </>
+      )}
+    </Grid>
   );
 };
