@@ -100,24 +100,33 @@ export const OfferTemplate: FC<OfferTemplateProps> = (props) => {
     [applyForOffer]
   );
 
-  const companyData = {
-    id: offer.data?.company.id,
-    name: offer.data?.company.name,
-    logo: { url: offer.data?.company.logo?.url || "" },
-  };
+  const companyData = useMemo(() => {
+    if (!offer.data) return;
 
-  const offerData = {
-    name: offer.data?.name,
-    description: offer.data?.description || "",
-    contract: offer.data?.contract,
-    seniority: offer.data?.seniority,
-    type: offer.data?.type,
-    operating: offer.data?.operating,
-  };
+    return {
+      id: offer.data?.company.id,
+      name: offer.data?.company.name,
+      logo: { url: offer.data?.company.logo?.url || "" },
+    };
+  }, [offer.data]);
+
+  const offerData = useMemo(() => {
+    if (!offer.data) return;
+
+    return {
+      name: offer.data?.name,
+      description: offer.data?.description || "",
+      contract: offer.data?.contract,
+      seniority: offer.data?.seniority,
+      type: offer.data?.type,
+      operating: offer.data?.operating,
+    };
+  }, [offer.data]);
 
   return (
     <OfferTemplateWrapper
       {...rest}
+      isLoading={offer.isFetching}
       breadcrumbs={breadcrumbs}
       company={companyData}
       offer={offerData}
