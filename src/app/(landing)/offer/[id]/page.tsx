@@ -5,6 +5,7 @@ import { OfferTemplate } from "@/components/templates/Board/OfferTemplate/OfferT
 import { useApplyForOfferMutation } from "@/hooks";
 import { usePreviewOfferQuery } from "@/hooks/react-query/query/offers";
 import { useCommonOffersInfiniteQuery } from "@/hooks/react-query/query/offers/common-offers";
+import { useSession } from "next-auth/react";
 import { useCallback } from "react";
 
 type Props = {
@@ -15,12 +16,9 @@ type Props = {
 
 const OfferPage = (props: Props) => {
   const { id } = props.params;
+  const { data: session } = useSession();
 
-  const {
-    data: oneOffer,
-    isFetching: isOneOfferLoading,
-    error,
-  } = usePreviewOfferQuery({ id });
+  const offerPreviewQuery = usePreviewOfferQuery({ id });
 
   const commonOffersQuery = useCommonOffersInfiniteQuery({ id });
 
@@ -38,11 +36,13 @@ const OfferPage = (props: Props) => {
     [applyForOffer, id]
   );
 
-  if (!oneOffer) return null;
+  if (!offerPreviewQuery.data) return null;
 
   return (
     <OfferTemplate
-      offer={oneOffer}
+      isReadOnly
+      // isReadOnly={!session?.user || session.user.role !== UserRoles.CUSTOMER}
+      offer={offerPreviewQuery}
       commonOffers={commonOffersQuery}
       applyForOffer={{
         handler: applyForOfferHandler,

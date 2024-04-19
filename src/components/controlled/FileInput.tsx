@@ -2,14 +2,14 @@ import { useField } from "formik";
 import { type FC } from "react";
 import { FileInput, FileInputProps } from "../base/FileInput/FileInput";
 
-export type ControlledCheckboxProps = Omit<
+export type ControlledFileInputProps = Omit<
   FileInputProps,
   "ref" | "onFileChange"
 > & {
   name: string;
 };
 
-export const ControlledFileInput: FC<ControlledCheckboxProps> = (props) => {
+export const ControlledFileInput: FC<ControlledFileInputProps> = (props) => {
   const { name, isMultiple, ...rest } = props;
   const [field, meta, helpers] = useField(name);
 

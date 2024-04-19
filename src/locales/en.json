@@ -1034,9 +1034,15 @@
       "offer": {
         "home": "Home",
         "operating": "Operating",
-        "apply": "Apply now",
+        "apply": {
+          "now": "Apply now",
+          "again": "Apply again"
+        },
         "form": "Apply for this job offer",
-        "similar": "Similar job offers",
+        "similar": {
+          "title": "Similar job offers",
+          "empty": "No similar job offers found"
+        },
         "publication": {
           "label": "Published ",
           "today": "Today",

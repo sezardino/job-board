@@ -36,13 +36,14 @@ const MAX_CV_FILE_SIZE_BYTES = megabytesToBytes(MAX_CV_FILE_SIZE_MB);
 const ACCEPTED_CV_FILE_TYPES: FileInputFileAcceptedTypes[] = ["pdf"];
 
 type Props = {
+  isDisabled?: boolean;
   onFormSubmit: (values: ApplicationFormValues) => void;
 };
 
 export type ApplicationFormProps = ComponentPropsWithoutRef<"form"> & Props;
 
 export const ApplicationForm: FC<ApplicationFormProps> = (props) => {
-  const { onFormSubmit, className, ...rest } = props;
+  const { isDisabled, onFormSubmit, className, ...rest } = props;
   const t = useTranslations("forms.job-application");
 
   const validationSchema = useMemo(
@@ -111,18 +112,21 @@ export const ApplicationForm: FC<ApplicationFormProps> = (props) => {
             label={t("name.label")}
             placeholder={t("name.placeholder")}
             className="flex-1"
+            isDisabled={isDisabled}
           />
           <ControlledInput
             name="email"
             label={t("email.label")}
             placeholder={t("email.placeholder")}
             className="flex-1"
+            isDisabled={isDisabled}
           />
         </div>
         <ControlledTextarea
           name="message"
           label={t("message.label")}
           placeholder={t("message.placeholder")}
+          isDisabled={isDisabled}
         />
 
         <ControlledFileInput
@@ -131,19 +135,27 @@ export const ApplicationForm: FC<ApplicationFormProps> = (props) => {
           allowedFileTypes={["pdf"]}
           isMultiple={false}
           noFileString={t("file.placeholder")}
+          isDisabled={isDisabled}
         />
 
         <ControlledCheckbox
           name="dataProcessing"
           label={t("data-processing.label")}
+          isDisabled={isDisabled}
         />
 
         <ControlledCheckbox
           name="futureRecruitment"
           label={t("future-recruitment.label")}
+          isDisabled={isDisabled}
         />
 
-        <Button type="submit" color="primary" text={t("submit")} />
+        <Button
+          isDisabled={isDisabled}
+          type="submit"
+          color="primary"
+          text={t("submit")}
+        />
       </Form>
     </FormikProvider>
   );

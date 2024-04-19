@@ -1,6 +1,6 @@
-import { ChangeEvent, FC, MouseEvent, useId, useRef, useState } from "react";
-// import { Input, Button,  } from '@nextui-org/react';
 import { Card, CardBody } from "@nextui-org/react";
+import { ChangeEvent, FC, MouseEvent, useId, useRef, useState } from "react";
+import { twMerge } from "tailwind-merge";
 import { Button } from "../Button/Button";
 import { Grid } from "../Grid/Grid";
 import { Icon, IconNames } from "../Icon/Icon";
@@ -22,6 +22,8 @@ export type FileInputProps = {
   isMultiple?: boolean;
   defaultValue?: { name: string; url: string };
   noFileString: string;
+  isDisabled?: boolean;
+  className?: string;
 };
 
 export const FileInput: FC<FileInputProps> = (props) => {
@@ -31,11 +33,13 @@ export const FileInput: FC<FileInputProps> = (props) => {
     description,
     errorMessage,
     onFileChange,
+    isDisabled,
     allowedFileTypes = ["pdf"],
     noFileString,
     icon,
     defaultValue,
     isMultiple = false,
+    className,
     ...rest
   } = props;
 
@@ -68,7 +72,11 @@ export const FileInput: FC<FileInputProps> = (props) => {
   };
 
   return (
-    <Grid {...rest} gap={1}>
+    <Grid
+      {...rest}
+      gap={1}
+      className={twMerge(isDisabled && "opacity-50", className)}
+    >
       <Grid tag="label" gap={2}>
         <label htmlFor={id}>
           <Typography tag="span">{label}</Typography>
@@ -76,7 +84,7 @@ export const FileInput: FC<FileInputProps> = (props) => {
         <Card
           as="div"
           radius="sm"
-          isPressable
+          isPressable={!isDisabled}
           classNames={{ base: "min-h-20 border-danger-500" }}
           onClick={onCardClick}
           onPress={onCardClick}
@@ -111,6 +119,7 @@ export const FileInput: FC<FileInputProps> = (props) => {
               <input
                 id={id}
                 ref={inputRef}
+                disabled={isDisabled}
                 type="file"
                 multiple={isMultiple}
                 accept={allowedFileTypes

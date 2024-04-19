@@ -1,7 +1,7 @@
 import { ComponentPropsWithoutRef, FC, useMemo } from "react";
 import { twMerge } from "tailwind-merge";
 
-import { Icon, IconNames } from "@/components/base/Icon/Icon";
+import { IconNames } from "@/components/base/Icon/Icon";
 import { Typography } from "@/components/base/Typography/Typography";
 import {
   JobContract,
@@ -61,14 +61,20 @@ export const OfferBasicData: FC<OfferBasicDataProps> = (props) => {
   return (
     <ul {...rest} className={twMerge(styles.element, className)}>
       {items.map((item) => (
-        <li key={item.label} className={styles.item}>
-          <Icon name={item.icon} color={item.color} />
-          <Typography tag="span" weight="medium" styling="sm">
-            {item.label}
-          </Typography>
-          <Typography tag="span" styling="xs">
-            {item.value}
-          </Typography>
+        <li key={item.label}>
+          <dl>
+            <dt className="inline">
+              <Typography tag="span" weight="bold" styling="sm">
+                {item.label}
+              </Typography>
+            </dt>
+            {": "}
+            <dd className="inline">
+              <Typography tag="span" styling="sm">
+                {item.value}
+              </Typography>
+            </dd>
+          </dl>
         </li>
       ))}
     </ul>
