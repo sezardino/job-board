@@ -6,13 +6,16 @@ type Args = {
   count?: number;
   offerId: string;
   cvId: string;
+  usersIds: string[];
 };
 
 export const generateJobApplication = ({
   offerId,
+  usersIds,
   cvId,
 }: Args): Prisma.ApplicationCreateManyInput => {
   const status = faker.helpers.arrayElement(Object.values(ApplicationStatus));
+  const random = faker.datatype.boolean();
 
   return {
     dataProcessing: true,
@@ -23,6 +26,7 @@ export const generateJobApplication = ({
     status,
     offerId,
     curriculumVitaeId: cvId,
+    userId: random ? faker.helpers.arrayElement(usersIds) : undefined,
   };
 };
 

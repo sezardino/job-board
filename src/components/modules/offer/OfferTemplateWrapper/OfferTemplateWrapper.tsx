@@ -8,6 +8,7 @@ import {
 import styles from "./OfferTemplateWrapper.module.scss";
 
 type Props = {
+  isLoading?: boolean;
   aside: ReactNode;
   footer?: ReactNode;
 };

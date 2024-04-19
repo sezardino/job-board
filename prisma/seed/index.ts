@@ -169,6 +169,11 @@ const generateDevData = async () => {
     select: { id: true },
   });
 
+  const customers = await prisma.user.findMany({
+    where: { role: UserRoles.CUSTOMER },
+    select: { id: true },
+  });
+
   const company = await prisma.company.create({
     data: {
       ...generateMockCompany(),
@@ -221,6 +226,7 @@ const generateDevData = async () => {
         offerId: offer.id,
         cvId: testCV.id,
         count: faker.number.int({ min: 100, max: 1000 }),
+        usersIds: customers.map((customer) => customer.id),
       });
 
       await prisma.application.createMany({
@@ -255,6 +261,10 @@ const generateDevData = async () => {
 };
 
 const generateApplications = async () => {
+  const customers = await prisma.user.findMany({
+    where: { role: UserRoles.CUSTOMER },
+    select: { id: true },
+  });
   const offers = await prisma.offer.findMany({
     select: { id: true },
   });
@@ -275,6 +285,7 @@ const generateApplications = async () => {
         offerId: offer.id,
         cvId: testCV.id,
         count: faker.number.int({ min: 10, max: 100 }),
+        usersIds: customers.map((customer) => customer.id),
       });
 
       await prisma.application.createMany({
@@ -321,7 +332,7 @@ const generateNotes = async () => {
   try {
     console.log("Seeding database...");
     console.log("Generating industries...");
-    await generateIndustries();
+    // await generateIndustries();
 
     // if (true) {
     //   await generateDevData();
@@ -329,17 +340,17 @@ const generateNotes = async () => {
     // }
 
     console.log("Generating users...");
-    await generateUsers();
+    // await generateUsers();
     console.log("Generating companies...");
-    await generateCompanies();
+    // await generateCompanies();
     console.log("Generating company members...");
-    await generateCompanyMembers();
+    // await generateCompanyMembers();
     console.log("Generating offers...");
-    await generateOffers();
+    // await generateOffers();
     console.log("Generating applications...");
     await generateApplications();
     console.log("Database seeded successfully!");
-    await generateNotes();
+    // await generateNotes();
   } catch (error) {
     console.error(error);
     process.exit(1);

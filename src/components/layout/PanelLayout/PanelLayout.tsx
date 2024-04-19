@@ -2,11 +2,12 @@
 
 import { FC, PropsWithChildren } from "react";
 
-import { AppNavbar } from "@/components/UI/AppNavbar/AppNavbar";
 import {
   AppSidebar,
   AppSidebarItem,
 } from "@/components/UI/AppSidebar/AppSidebar";
+import { LandingNavbar } from "@/components/UI/LandingNavbar/LandingNavbar";
+import { User } from "next-auth";
 import { twMerge } from "tailwind-merge";
 import styles from "./PanelLayout.module.scss";
 
@@ -14,25 +15,21 @@ type Props = {
   lists: AppSidebarItem[][];
   homeHref: string;
   onSignOutClick: () => void;
-  avatar?: string;
-  email: string;
+  user?: User;
 };
 
 type PanelLayoutProps = PropsWithChildren<Props>;
 
 export const PanelLayout: FC<PanelLayoutProps> = (props) => {
-  const { lists, homeHref, avatar, email, onSignOutClick, children } = props;
+  const { lists, homeHref, user, onSignOutClick, children } = props;
 
   return (
     <div
       className={twMerge(styles.element, "min-h-screen antialiased bg-gray-50")}
     >
-      <AppNavbar
-        // TODO: update
-        copy={{ logout: "Logout", userMenu: "User Menu" }}
+      <LandingNavbar
+        user={user}
         onSignOutClick={onSignOutClick}
-        avatarSrc={avatar}
-        email={email}
         className={styles.navbar}
       />
 

@@ -105,7 +105,7 @@ export class OffersBllModule extends AbstractBllService {
     });
   }
 
-  async list(data: OffersListRequest) {
+  async list(data: OffersListRequest, notThisOfferId?: string) {
     const {
       contract,
       operating,
@@ -134,6 +134,7 @@ export class OffersBllModule extends AbstractBllService {
           skills: { some: { name: { contains: search, mode: "insensitive" } } },
         },
       ];
+    if (notThisOfferId) where.id = { not: notThisOfferId };
     if (industry) where.industry = { name: industry };
     if (category) where.category = { name: category };
     if (seniority) where.seniority = { in: seniority };
@@ -171,8 +172,14 @@ export class OffersBllModule extends AbstractBllService {
     });
   }
 
-  async preview(dto: PreviewOfferRequest & { id: string; companyId?: string }) {
-    const { id, companyId, isPreview } = dto;
+  async preview(
+    dto: PreviewOfferRequest & {
+      id: string;
+      companyId?: string;
+      customerId?: string;
+    }
+  ) {
+    const { id, companyId, isPreview, customerId } = dto;
 
     const offer = await this.prismaService.offer.findUnique({
       where: {
@@ -197,6 +204,15 @@ export class OffersBllModule extends AbstractBllService {
         type: true,
         category: { select: { name: true } },
         industry: { select: { name: true } },
+        _count: customerId
+          ? {
+              select: {
+                applications: {
+                  where: { userId: customerId },
+                },
+              },
+            }
+          : undefined,
         company: {
           select: {
             id: true,
@@ -210,7 +226,14 @@ export class OffersBllModule extends AbstractBllService {
 
     if (!offer) throw new NotFoundException("Offer not found");
 
-    return offer;
+    const { _count, ...restOffer } = offer;
+
+    return {
+      ...restOffer,
+      ...(customerId
+        ? { isAlreadyApplied: _count ? !!_count.applications : undefined }
+        : {}),
+    };
   }
 
   async basicData(dto: { offerId: string; companyId: string }) {
@@ -351,42 +374,17 @@ export class OffersBllModule extends AbstractBllService {
 
     const { industryId, categoryId, skills, seniority } = example;
 
-    return this.list({
-      page,
-      limit,
-      search,
-      industryId,
-      categoryId,
-      seniority: [seniority],
-      skills,
-    });
-
-    // return this.findMany({
-    //   limit: 5,
-    //   page,
-    //   where: {
-    //     status: OfferStatus.ACTIVE,
-    //     industryId: { equals: industryId },
-    //     categoryId: { equals: categoryId },
-    //     skills: { some: { name: { in: skills.map((skill) => skill.name) } } },
-    //     seniority: { equals: seniority },
-    //   },
-    //   select: {
-    //     id: true,
-    //     name: true,
-    //     seniority: true,
-    //     salaryFrom: true,
-    //     salaryTo: true,
-    //     createdAt: true,
-    //     skills: { select: { name: true } },
-    //     company: {
-    //       select: {
-    //         id: true,
-    //         name: true,
-    //         logo: { select: { id: true, url: true, name: true } },
-    //       },
-    //     },
-    //   },
-    // });
+    return this.list(
+      {
+        page,
+        limit,
+        search,
+        industryId,
+        categoryId,
+        seniority: [seniority],
+        skills,
+      },
+      offerId
+    );
   }
 }

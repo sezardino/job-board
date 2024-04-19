@@ -1,7 +1,3 @@
 .element {
-  @apply list-none grid gap-3 grid-cols-[repeat(auto-fit,minmax(100px,1fr))];
-}
-
-.item {
-  @apply grid grid-cols-1 gap-2 content-start justify-items-center text-center;
+  @apply list-none grid gap-3 md:grid-cols-2;
 }

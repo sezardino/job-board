@@ -28,7 +28,7 @@ export type TypographyTag =
   | "h5"
   | "h6";
 
-type TypographyWeight = "regular" | "medium" | "bold" | "thin";
+export type TypographyWeight = "regular" | "medium" | "bold" | "thin";
 
 export type TypographyProps = ComponentPropsWithoutRef<"p"> & {
   styling?: TypographyStyling;

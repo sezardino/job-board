@@ -29,6 +29,7 @@ export const previewOfferResponseSchema = z.object({
   skills: z.array(
     z.object({ name: z.string(), level: z.nativeEnum(SkillLevel) })
   ),
+  isAlreadyApplied: z.boolean(),
   company: z.object({
     id: z.string(),
     name: z.string(),

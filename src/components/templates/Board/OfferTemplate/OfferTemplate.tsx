@@ -24,24 +24,26 @@ import {
   ApplicationFormValues,
 } from "@/components/forms/Application/ApplicationForm";
 import { OfferTemplateWrapper } from "@/components/modules/offer/OfferTemplateWrapper/OfferTemplateWrapper";
-import { ActionProp, InfiniteDataProp } from "@/types";
+import { ActionProp, InfiniteDataProp, QueryProps } from "@/types";
 import styles from "./OfferTemplate.module.scss";
 
 export type OfferTemplateProps = ComponentPropsWithoutRef<"div"> & {
-  offer: PreviewOfferResponse;
+  offer: QueryProps<PreviewOfferResponse>;
   commonOffers: InfiniteDataProp<CommonOffersResponse>;
   applyForOffer: ActionProp<ApplicationFormValues, any>;
+  isReadOnly: boolean;
 };
 
 export const OfferTemplate: FC<OfferTemplateProps> = (props) => {
-  const { offer, applyForOffer, commonOffers, className, ...rest } = props;
+  const { offer, applyForOffer, commonOffers, isReadOnly, className, ...rest } =
+    props;
   const entityT = useTranslations("entity");
   const t = useTranslations("page.shared.offer");
   const [isSuccessShowed, setIsSuccessShowed] = useState(false);
   const formSectionRef = useRef<HTMLDivElement>(null);
 
   const published = useMemo(() => {
-    const days = dayjs(offer.publishedAt).diff(dayjs(), "day");
+    const days = dayjs(offer.data?.publishedAt).diff(dayjs(), "day");
 
     if (days === 0) {
       return t("publication.today");
@@ -55,72 +57,86 @@ export const OfferTemplate: FC<OfferTemplateProps> = (props) => {
       return t("publication.days-ago", { value: days });
     }
 
-    return dayjs(offer.publishedAt).format(DEFAULT_DATE_FORMAT);
-  }, [offer.publishedAt, t]);
+    return dayjs(offer.data?.publishedAt).format(DEFAULT_DATE_FORMAT);
+  }, [offer.data?.publishedAt, t]);
 
   const translatedOperating = useMemo(() => {
-    const arr = offer.operating.map((operating) =>
-      entityT(`job-offer.operating.${operating}`)
-    );
+    const arr =
+      offer.data?.operating.map((operating) =>
+        entityT(`offers.operating.${operating}`)
+      ) || [];
 
     return arr.join(", ");
-  }, [entityT, offer.operating]);
+  }, [entityT, offer.data?.operating]);
 
-  const breadcrumbs = useMemo(
-    () => [
+  const breadcrumbs = useMemo(() => {
+    if (!offer.data) return [];
+
+    return [
       { href: PublicPageUrls.home, label: t("home") },
       {
-        href: PublicPageUrls.offersByIndustry(offer.industry.name),
-        label: entityT(`industries.${offer.industry.name}`),
+        href: PublicPageUrls.offersByIndustry(offer.data?.industry.name),
+        label: entityT(`industries.${offer.data?.industry.name}`),
       },
-
       {
         href: PublicPageUrls.offersByCategory(
-          offer.industry.name,
-          offer.category.name
+          offer.data?.industry.name,
+          offer.data?.category.name
         ),
-        label: entityT(`categories.${offer.category.name}`),
+        label: entityT(`categories.${offer.data?.category.name}`),
       },
 
-      { label: offer.company.name },
-    ],
-    [entityT, offer.category.name, offer.company.name, offer.industry.name, t]
-  );
+      { label: offer.data?.company.name },
+    ];
+  }, [entityT, offer.data, t]);
 
   const applyHandler = useCallback(
     async (values: ApplicationFormValues) => {
       try {
-        applyForOffer.handler(values);
+        applyForOffer?.handler(values);
         setIsSuccessShowed(true);
       } catch (error) {}
     },
     [applyForOffer]
   );
 
+  const companyData = useMemo(() => {
+    if (!offer.data) return;
+
+    return {
+      id: offer.data?.company.id,
+      name: offer.data?.company.name,
+      logo: { url: offer.data?.company.logo?.url || "" },
+    };
+  }, [offer.data]);
+
+  const offerData = useMemo(() => {
+    if (!offer.data) return;
+
+    return {
+      name: offer.data?.name,
+      description: offer.data?.description || "",
+      contract: offer.data?.contract,
+      seniority: offer.data?.seniority,
+      type: offer.data?.type,
+      operating: offer.data?.operating,
+    };
+  }, [offer.data]);
+
   return (
     <OfferTemplateWrapper
       {...rest}
+      isLoading={offer.isFetching}
       breadcrumbs={breadcrumbs}
-      company={{
-        id: offer.company.id,
-        name: offer.company.name,
-        logo: { url: offer.company.logo?.url || "" },
-      }}
-      offer={{
-        name: offer.name,
-        description: offer.description || "",
-        contract: offer.contract,
-        seniority: offer.seniority,
-        type: offer.type,
-        operating: offer.operating,
-      }}
-      skills={offer.skills}
+      company={companyData}
+      offer={offerData}
+      skills={offer.data?.skills || []}
       aside={
         <Card as="section" className={styles.aside}>
           <CardHeader className={styles.header}>
-            {!!offer.salaryFrom && !!offer.salaryTo && (
+            {!!offer.data?.salaryFrom && !!offer.data?.salaryTo && (
               <Typography tag="p" styling="lg" weight="bold">
-                {offer.salaryFrom}-{offer.salaryTo}
+                {offer.data?.salaryFrom}-{offer.data?.salaryTo}
               </Typography>
             )}
 
@@ -129,15 +145,22 @@ export const OfferTemplate: FC<OfferTemplateProps> = (props) => {
             </Typography>
           </CardHeader>
 
-          <CardBody>
-            <Button
-              color="primary"
-              onClick={() =>
-                formSectionRef.current?.scrollIntoView({ behavior: "smooth" })
-              }
-              text={t("apply")}
-            />
-          </CardBody>
+          {!isReadOnly && (
+            <CardBody>
+              <Button
+                color="primary"
+                variant={offer.data?.isAlreadyApplied ? "ghost" : undefined}
+                onClick={() =>
+                  formSectionRef.current?.scrollIntoView({ behavior: "smooth" })
+                }
+                text={
+                  offer.data?.isAlreadyApplied
+                    ? t("apply.again")
+                    : t("apply.now")
+                }
+              />
+            </CardBody>
+          )}
 
           <CardFooter className={styles.footer}>
             <Typography tag="p" styling="sm" weight="thin">
@@ -157,7 +180,10 @@ export const OfferTemplate: FC<OfferTemplateProps> = (props) => {
             </Typography>
           </CardHeader>
           <CardBody>
-            <ApplicationForm onFormSubmit={applyHandler} />
+            <ApplicationForm
+              isDisabled={isReadOnly}
+              onFormSubmit={applyHandler}
+            />
           </CardBody>
         </Card>
         {isSuccessShowed && (
@@ -174,25 +200,32 @@ export const OfferTemplate: FC<OfferTemplateProps> = (props) => {
       </div>
 
       {/* TODO: check if exist */}
-      {commonOffers.data && commonOffers.data.meta.count > 0 && (
-        <Card>
-          <CardHeader>
+
+      <Card as="section">
+        <CardHeader>
+          <Typography tag="h2" styling="lg">
+            {t("similar.title")}
+          </Typography>
+        </CardHeader>
+        <CardBody>
+          {commonOffers.data?.meta.count === 0 && (
             <Typography tag="h2" styling="lg">
-              {t("similar")}
+              {t("similar.empty")}
             </Typography>
-          </CardHeader>
-          <CardBody>
+          )}
+
+          {!!commonOffers.data?.meta.count && (
             <OffersList
-              offers={commonOffers.data.data}
+              offers={commonOffers.data?.data || []}
               linkPrefix={PublicPageUrls.offer("")}
               isFetching={commonOffers.isFetching}
               isFetchingNextPage={commonOffers.isFetchingNextPage}
               fetchNextPage={commonOffers.fetchNextPage}
               hasNextPage={!!commonOffers.hasNextPage}
             />
-          </CardBody>
-        </Card>
-      )}
+          )}
+        </CardBody>
+      </Card>
     </OfferTemplateWrapper>
   );
 };

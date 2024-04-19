@@ -1,0 +1,31 @@
+.element {
+  @apply sticky top-0 grid grid-cols-1 gap-3 z-40 w-full h-auto backdrop-blur-lg backdrop-saturate-150 bg-background/70;
+}
+
+.navbar {
+  @apply bg-transparent backdrop-blur-none backdrop-saturate-0;
+}
+
+.hamburger {
+  @apply sm:hidden;
+}
+
+.brand {
+  @apply font-bold text-inherit;
+}
+
+.content {
+  @apply hidden sm:flex gap-4;
+}
+
+.link {
+  @apply w-full;
+}
+
+.list {
+  @apply list-none;
+}
+
+.content {
+  @apply container;
+}

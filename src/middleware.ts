@@ -6,10 +6,12 @@ import {
   AdminRoles,
   CompanyPageUrls,
   CompanyRoles,
+  CustomerPageUrls,
   PublicPageUrls,
-  UserPageUrls,
 } from "./const";
 import nextAuthMiddleware from "./libs/next-auth/middleware";
+
+const customerPages = Object.values(CustomerPageUrls);
 
 export default withAuth((req: NextRequestWithAuth) => {
   const currentPathName = req.nextUrl.pathname;
@@ -19,7 +21,7 @@ export default withAuth((req: NextRequestWithAuth) => {
     !token &&
     (currentPathName.startsWith(AdminPageUrls.home) ||
       currentPathName.startsWith(CompanyPageUrls.home) ||
-      currentPathName.startsWith(UserPageUrls.home))
+      customerPages.some((page) => currentPathName.startsWith(page)))
   ) {
     return NextResponse.redirect(new URL(PublicPageUrls.login, req.url));
   }
@@ -41,7 +43,7 @@ export default withAuth((req: NextRequestWithAuth) => {
   }
 
   if (
-    currentPathName.startsWith(UserPageUrls.home) &&
+    customerPages.some((page) => currentPathName.startsWith(page)) &&
     token &&
     token.role !== UserRoles.CUSTOMER
   ) {

@@ -28,10 +28,8 @@ export const CompanyPageUrls = {
   applications: (id: string) => `/company/offers/${id}/applications`,
 };
 
-export const UserPageUrls = {
-  home: "/user",
-  industries: "/user/industries",
-  companies: "/user/companies",
+export const CustomerPageUrls = {
+  profile: "/profile",
 };
 
 export const PublicPageUrls = {
@@ -39,6 +37,11 @@ export const PublicPageUrls = {
   home: "/",
   about: "/about",
   login: "/auth",
+  profile: "/profile",
+  settings: "/settings",
+  settingsSecurity: "/settings/security",
+  settingsNotifications: "/settings/notifications",
+  settingsAppearance: "/settings/appearance",
   verify: (token: string) => `/auth/verify?token=${token}`,
   registerUser: "/auth/registration",
   registerCompany: "/auth/registration/company",

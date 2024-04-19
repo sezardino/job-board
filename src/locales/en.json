@@ -25,6 +25,15 @@
         "customers": "Customers",
         "admins": "Admins"
       }
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Manage your account settings and set e-mail preferences.",
+      "profile": "Profile",
+      "account": "Account",
+      "security": "Security",
+      "appearance": "Appearance",
+      "notifications": "Notifications"
     }
   },
   "forms": {
@@ -906,6 +915,20 @@
         }
       }
     },
+    "customer": {
+      "profile": {
+        "title": "Profile",
+        "description": "From this panel you can manage your profile",
+        "history": {
+          "title": "History",
+          "description": "Here you can see history of your applications",
+          "no-data": {
+            "title": "No applications found",
+            "description": "You don't have any applications yet"
+          }
+        }
+      }
+    },
     "shared": {
       "login": {
         "title": "Login",
@@ -1011,9 +1034,15 @@
       "offer": {
         "home": "Home",
         "operating": "Operating",
-        "apply": "Apply now",
+        "apply": {
+          "now": "Apply now",
+          "again": "Apply again"
+        },
         "form": "Apply for this job offer",
-        "similar": "Similar job offers",
+        "similar": {
+          "title": "Similar job offers",
+          "empty": "No similar job offers found"
+        },
         "publication": {
           "label": "Published ",
           "today": "Today",
@@ -1024,6 +1053,16 @@
           "title": "Application sent",
           "description": "Your application has been sent successfully"
         }
+      },
+      "settings-profile": {},
+      "settings-security": {},
+      "settings-notifications": {
+        "title": "Coming soon",
+        "description": "We're working hard to bring you something amazing. Stay tuned!"
+      },
+      "settings-appearance": {
+        "title": "Coming soon",
+        "description": "We're working hard to bring you something amazing. Stay tuned!"
       }
     }
   },
@@ -1147,6 +1186,8 @@
           "customer": "Customer"
         },
         "logout": "Logout",
+        "profile": "Profile",
+        "settings": "Settings",
         "open-menu": "Open menu",
         "close-menu": "Close menu"
       },

@@ -1,12 +1,5 @@
-import { Pagination } from "@/components/base/Pagination/Pagination";
 import { Table, TableProps } from "@/components/base/Table/Table";
-import {
-  Button,
-  Dropdown,
-  DropdownItem,
-  DropdownMenu,
-  DropdownTrigger,
-} from "@nextui-org/react";
+import { PaginationWidget } from "@/components/modules/shared/PaginationWidget/PaginationWidget";
 import { type ComponentPropsWithoutRef } from "react";
 
 type Props = {
@@ -66,35 +59,15 @@ export const TableWidget = <TRowData extends Record<string, any>>(
         noDataMessage={noDataMessage}
       />
       {isFooterVisible && (
-        <div className="mt-3 flex justify-center gap-3 flex-wrap items-center">
-          <Pagination
-            disabled={isLoading}
-            current={page}
-            onPageChange={onPageChange}
-            total={total}
-          />
-          <Dropdown isDisabled={isLoading}>
-            <DropdownTrigger>
-              <Button size="md" variant="bordered" className="capitalize">
-                {limit}
-              </Button>
-            </DropdownTrigger>
-            <DropdownMenu
-              aria-label="Items per page"
-              variant="flat"
-              disallowEmptySelection
-              selectionMode="single"
-              selectedKeys={[limit]}
-              onSelectionChange={(value) =>
-                onLimitChange(Number(Array.from(value)[0]))
-              }
-            >
-              {DEFAULT_LIMIT_ITEMS.map((item) => (
-                <DropdownItem key={item}>{item}</DropdownItem>
-              ))}
-            </DropdownMenu>
-          </Dropdown>
-        </div>
+        <PaginationWidget
+          disabled={isLoading}
+          current={page}
+          onPageChange={onPageChange}
+          limit={limit}
+          onLimitChange={onLimitChange}
+          total={total}
+          className="mt-3"
+        />
       )}
     </div>
   );
