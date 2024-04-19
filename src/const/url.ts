@@ -43,6 +43,7 @@ export const PublicPageUrls = {
   settingsNotifications: "/settings/notifications",
   settingsAppearance: "/settings/appearance",
   verify: (token: string) => `/auth/verify?token=${token}`,
+  resetPassword: (token: string) => `/auth/reset-password?token=${token}`,
   registerUser: "/auth/registration",
   registerCompany: "/auth/registration/company",
   offers: "/offers",

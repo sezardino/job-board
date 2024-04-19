@@ -1,9 +1,16 @@
+import { JWTError } from "@/libs/jwt";
 import { hashService } from "@/services/hash";
+import { mailService } from "@/services/mail";
 import {
   emailVerificationTokenService,
   inviteTokenService,
+  passwordResetTokenService,
 } from "@/services/token";
-import { FindManyPrismaEntity } from "@/types";
+import {
+  BadRequestException,
+  FindManyPrismaEntity,
+  NotFoundException,
+} from "@/types";
 import { daysToSeconds } from "@/utils/days-to-seconds";
 import { Prisma, User, UserRoles, UserStatus } from "@prisma/client";
 import {
@@ -17,12 +24,15 @@ import {
 } from "../auth/schema";
 import {
   AdminUsersRequest,
+  ChangePasswordRequest,
   CheckEmailAvailableRequest,
   CompaniesUsersRequest,
   CompanyUsersRequest,
   CustomerUsersRequest,
   InviteUsersRequest,
+  ResetPasswordRequest,
 } from "./schema";
+import { VerifyResetPasswordTokenRequest } from "./schema/verify-reset-password-token";
 
 export class UsersBllModule extends AbstractBllService {
   protected async findMany(
@@ -67,27 +77,6 @@ export class UsersBllModule extends AbstractBllService {
             companyId: true,
             role: true,
           },
-    });
-
-    return user;
-  }
-
-  async findByEmail(email: string) {
-    const user = await this.prismaService.user.findUnique({
-      where: { email },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        avatar: { select: { url: true } },
-        emailVerified: true,
-        emailToken: true,
-        isAcceptInvite: true,
-        status: true,
-        companyId: true,
-        password: true,
-        role: true,
-      },
     });
 
     return user;
@@ -408,5 +397,109 @@ export class UsersBllModule extends AbstractBllService {
         isAcceptInvite: true,
       },
     });
+  }
+
+  async resetPassword(dto: ResetPasswordRequest) {
+    const { email } = dto;
+
+    const user = await this.findUnique({ email }, { id: true });
+
+    if (!user) throw new NotFoundException("User not found");
+
+    const resetPasswordToken = passwordResetTokenService.generate({
+      payload: { email },
+      expiresIn: daysToSeconds(1),
+    });
+
+    await this.prismaService.user.update({
+      where: { email },
+      data: { resetPasswordToken: await hashService.hash(resetPasswordToken) },
+    });
+
+    await mailService.sendMail({
+      to: email,
+      templateKey: "resetPasswordTemplate",
+      data: { token: resetPasswordToken },
+    });
+
+    return { success: true };
+  }
+
+  async verifyResetPasswordToken(dto: VerifyResetPasswordTokenRequest) {
+    const { token } = dto;
+    try {
+      const decodedToken = passwordResetTokenService.verify<{ email: string }>(
+        token
+      );
+
+      if (!decodedToken || !decodedToken?.email)
+        throw new NotFoundException("Token not found");
+
+      const user = await this.prismaService.user.findUnique({
+        where: { email: decodedToken.email },
+        select: { resetPasswordToken: true },
+      });
+
+      if (!user) throw new NotFoundException("Not found");
+      if (!user.resetPasswordToken)
+        throw new NotFoundException("Token not found");
+
+      const isTokensMatch = hashService.compare(
+        token,
+        user.resetPasswordToken!
+      );
+
+      if (!isTokensMatch) throw new BadRequestException("Invalid token");
+
+      return decodedToken.email;
+    } catch (error) {
+      const typedError = error as JWTError;
+
+      if (typedError.message === "jwt expired")
+        throw new BadRequestException("Token expired");
+
+      throw new BadRequestException("Invalid token");
+    }
+  }
+
+  async changePassword(dto: ChangePasswordRequest & { userId?: string }) {
+    const { userId, oldPassword, newPassword, token } = dto;
+    let userIdToUpdate = userId || "";
+
+    if (token) {
+      const email = await this.verifyResetPasswordToken({ token });
+
+      const user = await this.prismaService.user.findUnique({
+        where: { email },
+        select: { id: true },
+      });
+
+      if (!user) throw new NotFoundException("User not found");
+
+      userIdToUpdate = user.id;
+    }
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userIdToUpdate },
+      select: { password: true },
+    });
+
+    if (!user) throw new NotFoundException("User not found");
+
+    const isPasswordValid = await hashService.compare(
+      oldPassword,
+      user.password
+    );
+
+    if (!isPasswordValid) throw new BadRequestException("Invalid password");
+
+    const hashedPassword = await hashService.hash(newPassword);
+
+    await this.prismaService.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true };
   }
 }

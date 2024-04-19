@@ -1,6 +1,10 @@
 import { PublicPageUrls } from "@/const";
 
-const html = (args: { name: string; token: string }) => `
+type Args = {
+  token: string;
+};
+
+const html = (args: Args) => `
 <!DOCTYPE html>
 
 <html
@@ -12,7 +16,12 @@ const html = (args: { name: string; token: string }) => `
     <title></title>
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-
+    <!--[if mso
+      ]><xml
+        ><o:OfficeDocumentSettings
+          ><o:PixelsPerInch>96</o:PixelsPerInch
+          ><o:AllowPNG /></o:OfficeDocumentSettings></xml
+    ><![endif]-->
     <style>
       * {
         box-sizing: border-box;
@@ -215,12 +224,7 @@ const html = (args: { name: string; token: string }) => `
               cellspacing="0"
               class="row row-2"
               role="presentation"
-              style="
-                mso-table-lspace: 0pt;
-                mso-table-rspace: 0pt;
-                max-width: 680px;
-                background-color: #fff;
-              "
+              style="mso-table-lspace: 0pt; mso-table-rspace: 0pt"
               width="100%"
             >
               <tbody>
@@ -239,6 +243,7 @@ const html = (args: { name: string; token: string }) => `
                         color: #000;
                         width: 680px;
                         margin: 0 auto;
+                        background-color: #fff;
                       "
                       width="680"
                     >
@@ -276,9 +281,9 @@ const html = (args: { name: string; token: string }) => `
                                 <td
                                   class="pad title"
                                   style="
-                                    padding-left: 60px;
-                                    padding-right: 60px;
-                                    padding-top: 40px;
+                                    padding-left: 45px;
+                                    padding-right: 45px;
+                                    padding-top: 30px;
                                   "
                                 >
                                   <div style="font-family: sans-serif">
@@ -290,23 +295,20 @@ const html = (args: { name: string; token: string }) => `
                                           Helvetica, sans-serif;
                                         mso-line-height-alt: 21.6px;
                                         color: #555555;
-                                        line-height: 1.8;
-                                        max-width: 450px;
-                                        margin: 0 auto;
+                                        line-height: 1.5;
                                       "
                                     >
                                       <p
                                         style="
                                           margin: 0;
                                           font-size: 12px;
-                                          text-align: center;
                                           mso-line-height-alt: 21.6px;
                                         "
                                       >
                                         <span style="color: #000000"
                                           ><strong
                                             ><span style="font-size: 24px"
-                                              >Welcome ${args.name}!</span
+                                              >Reset your password</span
                                             ></strong
                                           ></span
                                         >
@@ -335,8 +337,8 @@ const html = (args: { name: string; token: string }) => `
                                   class="pad content"
                                   style="
                                     padding-bottom: 30px;
-                                    padding-left: 60px;
-                                    padding-right: 60px;
+                                    padding-left: 45px;
+                                    padding-right: 45px;
                                     padding-top: 15px;
                                   "
                                 >
@@ -350,15 +352,12 @@ const html = (args: { name: string; token: string }) => `
                                         mso-line-height-alt: 21.6px;
                                         color: #555555;
                                         line-height: 1.8;
-                                        max-width: 450px;
-                                        margin: 0 auto;
                                       "
                                     >
                                       <p
                                         style="
                                           margin: 0;
                                           font-size: 14px;
-                                          text-align: center;
                                           mso-line-height-alt: 28.8px;
                                         "
                                       >
@@ -367,17 +366,22 @@ const html = (args: { name: string; token: string }) => `
                                             font-size: 16px;
                                             color: #6b7489;
                                           "
-                                          >Congratulations and welcome to Our
-                                          Platform! We're thrilled to have you
-                                          on board, and we appreciate you
-                                          choosing us.</span
                                         >
+                                          We received a request to reset the
+                                          password for your account. <br />
+                                          If you did not make this request,
+                                          please ignore this email. Otherwise,
+                                          you can reset your password by
+                                          clicking the button below.
+                                          <br />
+                                        </span>
                                       </p>
                                     </div>
                                   </div>
                                 </td>
                               </tr>
                             </table>
+
                             <table
                               border="0"
                               cellpadding="0"
@@ -391,16 +395,23 @@ const html = (args: { name: string; token: string }) => `
                               width="100%"
                             >
                               <tr>
-                                <td class="pad" style="text-align: center">
-                                  <div
-                                    align="center"
-                                    class="alignment"
-                                    style="padding: 0 30px"
-                                  >
+                                <td
+                                  class="pad content"
+                                  style="padding-left: 45px"
+                                >
+                                  <div>
+                                    <!--[if mso]>
+																			<v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="https://app.agenttrainer.ai/login" style="height:42px;width:442px;v-text-anchor:middle;" arcsize="20%" stroke="false" fillcolor="#356bf6">
+																				<w:anchorlock/>
+																				<v:textbox inset="0px,0px,0px,0px"><center style="color:#ffffff; font-family:Arial, sans-serif; font-size:16px">
+																					<![endif]-->
+
                                     <a
-                                      href="${
+                                      href=${
                                         process.env.FRONTEND_URL
-                                      }${PublicPageUrls.verify(args.token)}"
+                                      }${PublicPageUrls.resetPassword(
+  args.token
+)}
                                       style="
                                         text-decoration: none;
                                         display: block;
@@ -420,8 +431,7 @@ const html = (args: { name: string; token: string }) => `
                                         text-align: center;
                                         mso-border-alt: none;
                                         word-break: keep-all;
-                                        max-width: 450px;
-                                        margin: 0 auto;
+                                        max-width: 200px;
                                       "
                                       target="_blank"
                                       ><span
@@ -438,10 +448,15 @@ const html = (args: { name: string; token: string }) => `
                                             word-break: break-word;
                                             line-height: 32px;
                                           "
-                                          >Verify your email</span
+                                          >Reset password</span
                                         ></span
                                       ></a
                                     >
+                                    <!--[if mso]>
+																		</center>
+																	</v:textbox>
+																</v:roundrect>
+																<![endif]-->
                                   </div>
                                 </td>
                               </tr>
@@ -461,10 +476,10 @@ const html = (args: { name: string; token: string }) => `
                             >
                               <tr>
                                 <td
-                                  class="pad"
+                                  class="pad content"
                                   style="
                                     padding-bottom: 30px;
-                                    padding-left: 10px;
+                                    padding-left: 45px;
                                     padding-right: 10px;
                                     padding-top: 25px;
                                   "
@@ -485,7 +500,6 @@ const html = (args: { name: string; token: string }) => `
                                         style="
                                           margin: 0;
                                           font-size: 16px;
-                                          text-align: center;
                                           mso-line-height-alt: 28.8px;
                                         "
                                       >
@@ -497,7 +511,6 @@ const html = (args: { name: string; token: string }) => `
                                         style="
                                           margin: 0;
                                           font-size: 16px;
-                                          text-align: center;
                                           mso-line-height-alt: 28.8px;
                                         "
                                       >
@@ -510,66 +523,6 @@ const html = (args: { name: string; token: string }) => `
                                 </td>
                               </tr>
                             </table>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-            <table
-              align="center"
-              border="0"
-              cellpadding="0"
-              cellspacing="0"
-              class="row row-3"
-              role="presentation"
-              style="mso-table-lspace: 0pt; mso-table-rspace: 0pt"
-              width="100%"
-            >
-              <tbody>
-                <tr>
-                  <td>
-                    <table
-                      align="center"
-                      border="0"
-                      cellpadding="0"
-                      cellspacing="0"
-                      class="row-content stack"
-                      role="presentation"
-                      style="
-                        mso-table-lspace: 0pt;
-                        mso-table-rspace: 0pt;
-                        background-color: #fafafa;
-                        color: #000;
-                        border-top: 1px solid #e4eaf9;
-                        width: 680px;
-                        margin: 0 auto;
-                      "
-                      width="680"
-                    >
-                      <tbody>
-                        <tr>
-                          <td
-                            class="column column-1"
-                            style="
-                              mso-table-lspace: 0pt;
-                              mso-table-rspace: 0pt;
-                              font-weight: 400;
-                              text-align: left;
-                              padding-bottom: 5px;
-                              padding-left: 45px;
-                              padding-top: 36px;
-                              vertical-align: top;
-                              border-top: 0px;
-                              border-right: 0px;
-                              border-bottom: 0px;
-                              border-left: 0px;
-                            "
-                            width="66.66666666666667%"
-                          >
-
                           </td>
                         </tr>
                       </tbody>
@@ -722,6 +675,26 @@ const html = (args: { name: string; token: string }) => `
                       <tbody>
                         <tr>
                           <td
+                            class="column column-1"
+                            style="
+                              mso-table-lspace: 0pt;
+                              mso-table-rspace: 0pt;
+                              font-weight: 400;
+                              text-align: left;
+                              padding-bottom: 15px;
+                              padding-left: 45px;
+                              padding-right: 45px;
+                              padding-top: 15px;
+                              vertical-align: top;
+                              border-top: 0px;
+                              border-right: 0px;
+                              border-bottom: 0px;
+                              border-left: 0px;
+                            "
+                            width="66.66666666666667%"
+                          >
+                          </td>
+                          <td
                             class="column column-2"
                             style="
                               mso-table-lspace: 0pt;
@@ -773,21 +746,21 @@ const html = (args: { name: string; token: string }) => `
                                       "
                                     >
                                       <p
+                                      style="
+                                        margin: 0;
+                                        font-size: 14px;
+                                        text-align: center;
+                                        mso-line-height-alt: 16.8px;
+                                      "
+                                    >
+                                      <span
                                         style="
-                                          margin: 0;
-                                          font-size: 14px;
-                                          text-align: center;
-                                          mso-line-height-alt: 16.8px;
+                                          font-size: 12px;
+                                          color: #8f98ac;
                                         "
+                                        >2024 © Copyrights Job Boards</span
                                       >
-                                        <span
-                                          style="
-                                            font-size: 12px;
-                                            color: #8f98ac;
-                                          "
-                                          >2024 © Copyrights Job Boards</span
-                                        >
-                                      </p>
+                                    </p>
                                     </div>
                                   </div>
                                 </td>
@@ -810,10 +783,10 @@ const html = (args: { name: string; token: string }) => `
 </html>
 `;
 
-const text = `Welcome to Joab Boards!`;
-const subject = `Welcome to Joab Boards!`;
+const text = `Request to change password`;
+const subject = `Request to change password`;
 
-export const welcomeTemplate = {
+export const resetPasswordTemplate = {
   subject,
   html,
   text,

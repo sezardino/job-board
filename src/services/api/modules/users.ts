@@ -1,6 +1,7 @@
 import {
   AdminUsersRequest,
   CancelInviteRequest,
+  ChangePasswordRequest,
   CheckEmailAvailableRequest,
   CompaniesUsersRequest,
   CompanyUsersRequest,
@@ -9,8 +10,10 @@ import {
   InviteAdminRequest,
   InviteUsersRequest,
   ResendInviteRequest,
+  ResetPasswordRequest,
   adminUsersResponseSchema,
   cancelInviteResponseSchema,
+  changePasswordResponseSchema,
   checkEmailAvailableResponseSchema,
   companiesUsersResponseSchema,
   companyUsersResponseSchema,
@@ -19,7 +22,12 @@ import {
   inviteAdminResponseSchema,
   inviteUsersResponseSchema,
   resendInviteResponseSchema,
+  resetPasswordResponseSchema,
 } from "@/services/bll/modules/users/schema";
+import {
+  VerifyResetPasswordTokenRequest,
+  verifyResetPasswordTokenResponseSchema,
+} from "@/services/bll/modules/users/schema/verify-reset-password-token";
 import { AbstractApiModule } from "../helpers";
 
 export class UsersApiModule extends AbstractApiModule {
@@ -100,6 +108,30 @@ export class UsersApiModule extends AbstractApiModule {
       endpoint: "users/company",
       config: { params },
       schema: companyUsersResponseSchema,
+    });
+  }
+
+  resetPassword(data: ResetPasswordRequest) {
+    return this.fetch({
+      endpoint: "users/password/reset",
+      schema: resetPasswordResponseSchema,
+      config: { method: "POST", data },
+    });
+  }
+
+  verifyResetPasswordToken(params: VerifyResetPasswordTokenRequest) {
+    return this.fetch({
+      endpoint: "users/password/reset",
+      schema: verifyResetPasswordTokenResponseSchema,
+      config: { params },
+    });
+  }
+
+  changePassword(data: ChangePasswordRequest) {
+    return this.fetch({
+      endpoint: "users/password",
+      schema: changePasswordResponseSchema,
+      config: { method: "POST", data },
     });
   }
 }

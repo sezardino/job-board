@@ -4,13 +4,6 @@ import { UserRoles } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, ZodSchema } from "zod";
 
-type Args<Schema extends ZodSchema> = {
-  schema?: Schema;
-  handler: Function;
-  role?: UserRoles[];
-  input?: "body" | "search" | "params" | "formData";
-};
-
 export const formatUrlSearchParams = <T extends Record<string, any>>(
   params: URLSearchParams
 ): T => {
@@ -50,6 +43,13 @@ export const formatFormData = (formData: FormData) => {
   return returned;
 };
 
+type Args<Schema extends ZodSchema> = {
+  schema?: Schema;
+  handler: Function;
+  role?: UserRoles[] | "public-only";
+  input?: "body" | "search" | "params" | "formData";
+};
+
 export const withValidation = <Schema extends ZodSchema>(
   args: Args<Schema>
 ) => {
@@ -58,12 +58,21 @@ export const withValidation = <Schema extends ZodSchema>(
   return async (req: NextRequest, params: any) => {
     const session = await getNextAuthSession();
 
-    if (role && !session) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (Array.isArray(role)) {
+      if (role && !session) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      }
+
+      if (role && !role?.includes(session?.user.role!)) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      }
     }
 
-    if (role && !role?.includes(session?.user.role!)) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (role === "public-only" && session) {
+      return NextResponse.json(
+        { message: "Not acceptable for authorized users" },
+        { status: 400 }
+      );
     }
 
     if (!schema) return handler(req, params);
