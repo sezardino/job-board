@@ -73,7 +73,11 @@ export class CompaniesBllModule extends AbstractBllService {
     if (bio) data.bio = bio;
     if (slogan) data.slogan = slogan;
     if (logo) {
-      const image = await this.filesService.uploadImage(logo, companyId);
+      const image = await this.filesService.uploadImage({
+        file: logo,
+        id: companyId,
+        type: "company-image",
+      });
 
       if (image) {
         data.logo = {

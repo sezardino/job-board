@@ -1,3 +1,4 @@
+import { PrismaService } from "@/libs/prisma";
 import { hashService } from "@/services/hash";
 import {
   emailVerificationTokenService,
@@ -16,6 +17,7 @@ import {
   GetPaginationReturnType,
 } from "../../module.abstract";
 import { CustomerRegistrationRequest } from "../auth/schema";
+import { FilesBllModule } from "../files";
 import {
   AdminUsersRequest,
   ChangePasswordRequest,
@@ -23,10 +25,18 @@ import {
   CompaniesUsersRequest,
   CompanyUsersRequest,
   CustomerUsersRequest,
+  EditUserProfileRequest,
   InviteUsersRequest,
 } from "./schema";
 
 export class UsersBllModule extends AbstractBllService {
+  constructor(
+    prismaService: PrismaService,
+    private readonly filesService: FilesBllModule
+  ) {
+    super(prismaService);
+  }
+
   protected async findMany(
     props: FindManyPrismaEntity<Prisma.UserWhereInput, Prisma.UserSelect>
   ) {
@@ -418,5 +428,36 @@ export class UsersBllModule extends AbstractBllService {
     });
 
     return { success: true };
+  }
+
+  async editProfile(dto: EditUserProfileRequest & { userId: string }) {
+    const { avatar, name, userId } = dto;
+
+    const isUserExist = await this.findUnique({ id: userId }, { id: true });
+
+    if (!isUserExist) throw new NotFoundException("User not found");
+
+    const data: Prisma.UserUpdateInput = {};
+
+    if (name) data.name = name;
+    if (avatar) {
+      const image = await this.filesService.uploadImage({
+        file: avatar,
+        id: userId,
+        type: "user-avatar",
+      });
+
+      if (image) {
+        data.avatar = {
+          connect: { id: image.id },
+        };
+      }
+    }
+
+    return await this.prismaService.user.update({
+      where: { id: userId },
+      data,
+      select: { id: true },
+    });
   }
 }

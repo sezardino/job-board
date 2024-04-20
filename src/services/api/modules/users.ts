@@ -7,6 +7,7 @@ import {
   CompanyUsersRequest,
   CustomerUsersRequest,
   EditCompanyUserRequest,
+  EditUserProfileRequest,
   InviteAdminRequest,
   InviteUsersRequest,
   ResendInviteRequest,
@@ -18,6 +19,7 @@ import {
   companyUsersResponseSchema,
   customerUsersResponseSchema,
   editCompanyUserResponseSchema,
+  editUserProfileRequestSchema,
   inviteAdminResponseSchema,
   inviteUsersResponseSchema,
   resendInviteResponseSchema,
@@ -109,7 +111,15 @@ export class UsersApiModule extends AbstractApiModule {
     return this.fetch({
       endpoint: "users/password",
       schema: changePasswordResponseSchema,
-      config: { method: "POST", data },
+      config: { method: "PATCH", data },
+    });
+  }
+
+  editProfile(data: EditUserProfileRequest) {
+    return this.fetch({
+      endpoint: "users/profile",
+      schema: editUserProfileRequestSchema,
+      config: { method: "PATCH", data },
     });
   }
 }
