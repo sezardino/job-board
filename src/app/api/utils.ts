@@ -25,7 +25,9 @@ export const formatUrlSearchParams = <T extends Record<string, any>>(
   return formattedParams as T;
 };
 
-export const formatFormData = (formData: FormData) => {
+export const formatFormData = <T extends Record<string, any>>(
+  formData: FormData
+) => {
   let returned: Record<string, any> = {};
 
   formData.forEach((value, key) => {
@@ -40,7 +42,7 @@ export const formatFormData = (formData: FormData) => {
     returned[key] = value;
   });
 
-  return returned;
+  return returned as T;
 };
 
 type Args<Schema extends ZodSchema> = {

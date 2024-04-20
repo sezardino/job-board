@@ -6,8 +6,8 @@ import { PropsWithChildren, useMemo } from "react";
 import { AppSidebarItem } from "@/components/UI/AppSidebar/AppSidebar";
 import { PanelLayout } from "@/components/layout/PanelLayout/PanelLayout";
 import { useProfileContext } from "@/context";
-import { useTranslations } from "next-intl";
 import { useLogout } from "@/hooks/useLogout";
+import { useTranslations } from "next-intl";
 
 const AdminPanelLayout = (props: PropsWithChildren) => {
   const { children } = props;
@@ -47,7 +47,7 @@ const AdminPanelLayout = (props: PropsWithChildren) => {
 
   return (
     <PanelLayout
-      user={user}
+      user={user.profile}
       homeHref={AdminPageUrls.home}
       lists={lists}
       onSignOutClick={logout}

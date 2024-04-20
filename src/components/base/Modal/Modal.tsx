@@ -88,11 +88,11 @@ export const Modal: ModalComponent = (props) => {
       backdrop="blur"
       scrollBehavior="outside"
       onOpenChange={openChangeHandler}
-      classNames={{
-        header: "block",
-        body: "block",
-        footer: "block",
-      }}
+      // classNames={{
+      //   header: "block",
+      //   body: "block",
+      //   footer: "block",
+      // }}
     >
       <ModalContent>{children}</ModalContent>
     </ExtendedModal>

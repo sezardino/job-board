@@ -13,7 +13,6 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 export type UserProfileFormValues = {
   name: string;
   avatar: string | File | null;
-  isAvatarDeleted: boolean;
 };
 
 type Props = {
@@ -34,7 +33,7 @@ export const UserProfileForm: FC<UserProfileFormProps> = (props) => {
 
   const formik = useFormik({
     initialValues,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const valuesToSubmit = {} as UserProfileFormValues;
 
       if (values.name !== initialValues.name) {
@@ -46,8 +45,10 @@ export const UserProfileForm: FC<UserProfileFormProps> = (props) => {
       }
 
       if (initialValues.avatar && values.avatar === null) {
-        valuesToSubmit.isAvatarDeleted = true;
+        valuesToSubmit.avatar = null;
       }
+
+      if (Object.keys(valuesToSubmit).length === 0) return Promise.reject();
 
       onFormSubmit(valuesToSubmit);
     },

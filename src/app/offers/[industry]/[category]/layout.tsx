@@ -19,7 +19,7 @@ const BoardLayout: FC<PropsWithChildren & Props> = (props) => {
 
   return (
     <BoardLayoutWrapper
-      user={user}
+      user={user.profile}
       onSignOutClick={logout}
       activeCategory={params.category}
       industry={params.industry}

@@ -31,7 +31,7 @@ const AdminUsersLayout: FC<PropsWithChildren> = ({ children }) => {
           {
             title: t("navigation.admins"),
             href: AdminPageUrls.admins,
-            disabled: user?.role !== UserRoles.ADMIN,
+            disabled: user.profile?.role !== UserRoles.ADMIN,
           },
         ]}
         title={t("navigation.title")}

@@ -1079,6 +1079,14 @@
           "description": "You can edit your base data here",
           "cancel": "Cancel",
           "confirm": "Edit base data"
+        },
+        "modals": {
+          "edit-profile": {
+            "title": "Edit profile data",
+            "description": "Are you sure you want to edit your profile data?",
+            "cancel": "Cancel",
+            "confirm": "Edit"
+          }
         }
       },
       "settings-security": {},

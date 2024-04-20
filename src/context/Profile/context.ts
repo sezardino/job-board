@@ -9,6 +9,16 @@ export type Profile = {
   role: UserRoles | null;
 };
 
-export type ProfileContext = Profile | null;
+export type ProfileContext = {
+  profile: Profile | null;
+  isFetching: boolean;
+};
 
-export const ProfileContext = createContext<ProfileContext>(null);
+export const initialProfileContext: ProfileContext = {
+  profile: null,
+  isFetching: true,
+};
+
+export const ProfileContext = createContext<ProfileContext>(
+  initialProfileContext
+);

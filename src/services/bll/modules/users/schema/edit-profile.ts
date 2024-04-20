@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const editUserProfileRequestSchema = z.object({
   name: z.string().optional(),
-  avatar: z.any().optional(),
+  avatar: z.any().optional().nullable(),
 });
 
 export const editUserProfileResponseSchema = z.object({

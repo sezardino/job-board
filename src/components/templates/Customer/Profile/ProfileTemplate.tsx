@@ -34,7 +34,6 @@ export const ProfileTemplate: FC<ProfileTemplateProps> = (props) => {
       const { offer, createdAt } = item;
 
       const indexOf = items.findIndex((i) => {
-        console.log(dayjs(i.date).isSame(dayjs(createdAt), "date"));
         return dayjs(i.date).isSame(dayjs(createdAt), "date");
       });
 

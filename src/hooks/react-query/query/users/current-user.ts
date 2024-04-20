@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { useQuery } from "@tanstack/react-query";
+import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 export const CURRENT_USER_PROFILE_QUERY_KEY = "current-user-profile";
 
@@ -9,5 +9,6 @@ export const useCurrentUserProfileQuery = () => {
     queryFn: () => apiService.users.currentUserProfile(),
     staleTime: Infinity,
     retry: false,
+    placeholderData: keepPreviousData,
   });
 };

@@ -5,5 +5,6 @@ import { patchEditUserProfile } from "./patch";
 export const PATCH = withValidation({
   handler: withApiRouteHandler(patchEditUserProfile, "Cant edit user profile"),
   schema: editUserProfileRequestSchema,
+  input: "formData",
   role: "logged-in",
 });

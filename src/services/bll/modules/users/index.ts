@@ -450,20 +450,31 @@ export class UsersBllModule extends AbstractBllService {
   async editProfile(dto: EditUserProfileRequest & { userId: string }) {
     const { avatar, name, userId } = dto;
 
-    const isUserExist = await this.findUnique({ id: userId }, { id: true });
+    const user = await this.findUnique(
+      { id: userId },
+      { id: true, avatar: { select: { id: true } } }
+    );
 
-    if (!isUserExist) throw new NotFoundException("User not found");
+    if (!user) throw new NotFoundException("User not found");
 
     const data: Prisma.UserUpdateInput = {};
 
     if (name) data.name = name;
-    if (avatar) {
+    if (typeof avatar === "string" && avatar === "null" && user.avatar?.id) {
+      await this.filesService.deleteFile({
+        type: "user-avatar",
+        id: user.avatar?.id,
+      });
+
+      data.avatar = { disconnect: true };
+    }
+    if (avatar && avatar !== "null" && avatar instanceof File) {
       const image = await this.filesService.uploadImage({
         file: avatar,
         id: userId,
         type: "user-avatar",
+        idToDelete: user.avatar?.id,
       });
-
       if (image) {
         data.avatar = {
           connect: { id: image.id },

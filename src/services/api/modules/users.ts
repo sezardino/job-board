@@ -125,10 +125,17 @@ export class UsersApiModule extends AbstractApiModule {
   }
 
   editProfile(data: EditUserProfileRequest) {
+    const formData = new FormData();
+
+    if (data.name) formData.append("name", data.name);
+
+    if (typeof data.avatar !== "undefined")
+      formData.append("avatar", data.avatar);
+
     return this.fetch({
       endpoint: "users/profile",
       schema: editUserProfileRequestSchema,
-      config: { method: "PATCH", data },
+      config: { method: "PATCH", data: formData },
     });
   }
 }

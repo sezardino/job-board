@@ -12,7 +12,7 @@ const BaseLayout = (props: PropsWithChildren) => {
   const logout = useLogout();
 
   return (
-    <LandingLayout user={user} onSignOutClick={logout}>
+    <LandingLayout user={user.profile} onSignOutClick={logout}>
       {children}
     </LandingLayout>
   );
