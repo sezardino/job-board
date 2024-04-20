@@ -46,7 +46,7 @@ export const formatFormData = (formData: FormData) => {
 type Args<Schema extends ZodSchema> = {
   schema?: Schema;
   handler: Function;
-  role?: UserRoles[] | "public-only";
+  role?: UserRoles[] | "public-only" | "logged-in";
   input?: "body" | "search" | "params" | "formData";
 };
 
@@ -73,6 +73,10 @@ export const withValidation = <Schema extends ZodSchema>(
         { message: "Not acceptable for authorized users" },
         { status: 400 }
       );
+    }
+
+    if (role === "logged-in" && !session) {
+      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
     if (!schema) return handler(req, params);

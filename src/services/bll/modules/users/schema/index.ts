@@ -7,4 +7,3 @@ export * from "./customer";
 export * from "./edit-company-user";
 export * from "./invite-admin";
 export * from "./invite-users";
-export * from "./reset-password";

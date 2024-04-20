@@ -1,6 +1,4 @@
-import { JWTError } from "@/libs/jwt";
 import { hashService } from "@/services/hash";
-import { mailService } from "@/services/mail";
 import {
   emailVerificationTokenService,
   inviteTokenService,
@@ -12,16 +10,12 @@ import {
   NotFoundException,
 } from "@/types";
 import { daysToSeconds } from "@/utils/days-to-seconds";
-import { Prisma, User, UserRoles, UserStatus } from "@prisma/client";
+import { Prisma, User, UserRoles } from "@prisma/client";
 import {
   AbstractBllService,
   GetPaginationReturnType,
 } from "../../module.abstract";
-import {
-  CustomerRegistrationRequest,
-  LoginRequest,
-  LoginStatus,
-} from "../auth/schema";
+import { CustomerRegistrationRequest } from "../auth/schema";
 import {
   AdminUsersRequest,
   ChangePasswordRequest,
@@ -30,9 +24,7 @@ import {
   CompanyUsersRequest,
   CustomerUsersRequest,
   InviteUsersRequest,
-  ResetPasswordRequest,
 } from "./schema";
-import { VerifyResetPasswordTokenRequest } from "./schema/verify-reset-password-token";
 
 export class UsersBllModule extends AbstractBllService {
   protected async findMany(
@@ -107,7 +99,7 @@ export class UsersBllModule extends AbstractBllService {
     return emailsAvailable;
   }
 
-  async verifyEmailToken(email: string) {
+  async verifyUserEmail(email: string) {
     await this.prismaService.user.update({
       where: { email },
       data: { emailVerified: true },
@@ -142,19 +134,38 @@ export class UsersBllModule extends AbstractBllService {
     return { users };
   }
 
-  async updateEmailToken(email: string) {
-    const emailToken = emailVerificationTokenService.generate({
-      payload: { email },
-      expiresIn: daysToSeconds(1),
-    });
+  async updateToken(
+    email: string,
+    type: "email-verification" | "reset-password"
+  ) {
+    let token = "";
 
-    const updateResponse = await this.prismaService.user.update({
+    if (type === "email-verification")
+      token = emailVerificationTokenService.generate({
+        payload: { email },
+        expiresIn: daysToSeconds(1),
+      });
+
+    if (type === "reset-password")
+      token = passwordResetTokenService.generate({
+        payload: { email },
+        expiresIn: daysToSeconds(1),
+      });
+
+    await this.prismaService.user.update({
       where: { email },
-      data: { emailToken },
+      data: {
+        emailToken:
+          type === "email-verification"
+            ? await hashService.hash(token)
+            : undefined,
+        resetPasswordToken:
+          type === "reset-password" ? await hashService.hash(token) : undefined,
+      },
       select: { id: true },
     });
 
-    return { ...updateResponse, emailToken };
+    return token;
   }
 
   async registerCustomer(data: CustomerRegistrationRequest) {
@@ -166,7 +177,7 @@ export class UsersBllModule extends AbstractBllService {
       expiresIn: daysToSeconds(1),
     });
 
-    const createResponse = await this.prismaService.user.create({
+    const newCustomer = await this.prismaService.user.create({
       data: {
         name,
         email,
@@ -179,13 +190,11 @@ export class UsersBllModule extends AbstractBllService {
       select: { email: true, name: true },
     });
 
-    return { ...createResponse, emailToken: verificationToken };
+    return { ...newCustomer, emailToken: verificationToken };
   }
 
-  async verifyUserLogin(data: LoginRequest) {
-    const { email, password } = data;
-
-    const user = await this.prismaService.user.findUnique({
+  async getUserForLoginVerification(email: string) {
+    return await this.prismaService.user.findUnique({
       where: { email },
       select: {
         emailVerified: true,
@@ -198,26 +207,6 @@ export class UsersBllModule extends AbstractBllService {
         role: true,
       },
     });
-
-    if (!user) return LoginStatus.WrongCredentials;
-    if (!user.emailVerified) return LoginStatus.EmailNotVerified;
-    if (!user.isAcceptInvite) return LoginStatus.NotAcceptInvite;
-    if (user.status === UserStatus.BLOCKED) return LoginStatus.Blocked;
-    if (user.status === UserStatus.INACTIVE) return LoginStatus.Inactive;
-
-    const isPasswordValid = await hashService.compare(password, user.password);
-
-    if (!isPasswordValid) return LoginStatus.WrongCredentials;
-
-    const { avatar, companyId, id, role } = user;
-
-    return {
-      email,
-      id,
-      role,
-      avatar: avatar?.url,
-      companyId: companyId || undefined,
-    };
   }
 
   async inviteUser(data: {
@@ -399,99 +388,27 @@ export class UsersBllModule extends AbstractBllService {
     });
   }
 
-  async resetPassword(dto: ResetPasswordRequest) {
-    const { email } = dto;
+  async changePassword(
+    dto: ChangePasswordRequest & { userId?: string; email?: string }
+  ) {
+    const { userId, email, oldPassword, newPassword } = dto;
 
-    const user = await this.findUnique({ email }, { id: true });
-
-    if (!user) throw new NotFoundException("User not found");
-
-    const resetPasswordToken = passwordResetTokenService.generate({
-      payload: { email },
-      expiresIn: daysToSeconds(1),
-    });
-
-    await this.prismaService.user.update({
-      where: { email },
-      data: { resetPasswordToken: await hashService.hash(resetPasswordToken) },
-    });
-
-    await mailService.sendMail({
-      to: email,
-      templateKey: "resetPasswordTemplate",
-      data: { token: resetPasswordToken },
-    });
-
-    return { success: true };
-  }
-
-  async verifyResetPasswordToken(dto: VerifyResetPasswordTokenRequest) {
-    const { token } = dto;
-    try {
-      const decodedToken = passwordResetTokenService.verify<{ email: string }>(
-        token
-      );
-
-      if (!decodedToken || !decodedToken?.email)
-        throw new NotFoundException("Token not found");
-
-      const user = await this.prismaService.user.findUnique({
-        where: { email: decodedToken.email },
-        select: { resetPasswordToken: true },
-      });
-
-      if (!user) throw new NotFoundException("Not found");
-      if (!user.resetPasswordToken)
-        throw new NotFoundException("Token not found");
-
-      const isTokensMatch = hashService.compare(
-        token,
-        user.resetPasswordToken!
-      );
-
-      if (!isTokensMatch) throw new BadRequestException("Invalid token");
-
-      return decodedToken.email;
-    } catch (error) {
-      const typedError = error as JWTError;
-
-      if (typedError.message === "jwt expired")
-        throw new BadRequestException("Token expired");
-
-      throw new BadRequestException("Invalid token");
-    }
-  }
-
-  async changePassword(dto: ChangePasswordRequest & { userId?: string }) {
-    const { userId, oldPassword, newPassword, token } = dto;
-    let userIdToUpdate = userId || "";
-
-    if (token) {
-      const email = await this.verifyResetPasswordToken({ token });
-
-      const user = await this.prismaService.user.findUnique({
-        where: { email },
-        select: { id: true },
-      });
-
-      if (!user) throw new NotFoundException("User not found");
-
-      userIdToUpdate = user.id;
-    }
+    if (!userId && !email)
+      throw new BadRequestException("Email or userId is required");
 
     const user = await this.prismaService.user.findUnique({
-      where: { id: userIdToUpdate },
+      where: { id: userId ?? undefined, email: email ?? undefined },
       select: { password: true },
     });
 
     if (!user) throw new NotFoundException("User not found");
 
-    const isPasswordValid = await hashService.compare(
+    const isPasswordMatch = await hashService.compare(
       oldPassword,
       user.password
     );
 
-    if (!isPasswordValid) throw new BadRequestException("Invalid password");
+    if (!isPasswordMatch) throw new BadRequestException("Invalid password");
 
     const hashedPassword = await hashService.hash(newPassword);
 

@@ -3,7 +3,6 @@ import { z } from "zod";
 export const changePasswordRequestSchema = z.object({
   oldPassword: z.string(),
   newPassword: z.string(),
-  token: z.string().optional(),
 });
 
 export const changePasswordResponseSchema = z.object({

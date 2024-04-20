@@ -1,7 +1,11 @@
 import { withApiRouteHandler, withValidation } from "@/app/api/utils";
-import { resetPasswordRequestSchema } from "@/services/bll/modules/users/schema";
-import { verifyResetPasswordTokenRequestSchema } from "@/services/bll/modules/users/schema/verify-reset-password-token";
+import {
+  resetPasswordRequestDtoSchema,
+  resetPasswordRequestSchema,
+} from "@/services/bll/modules/auth/schema";
+import { verifyResetPasswordTokenRequestSchema } from "@/services/bll/modules/auth/schema/verify-reset-password-token";
 import { getVerifyResetPasswordToken } from "./get";
+import { patchResetPassword } from "./patch";
 import { postResetPassword } from "./post";
 
 export const GET = withValidation({
@@ -14,8 +18,16 @@ export const GET = withValidation({
   role: "public-only",
 });
 
-export const PATCH = withValidation({
+export const POST = withValidation({
   handler: withApiRouteHandler(postResetPassword, "Cant reset password"),
+  schema: resetPasswordRequestDtoSchema,
+  input: "body",
+  role: "public-only",
+});
+
+export const PATCH = withValidation({
+  handler: withApiRouteHandler(patchResetPassword, "Cant change password"),
   schema: resetPasswordRequestSchema,
+  input: "body",
   role: "public-only",
 });

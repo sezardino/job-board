@@ -6,3 +6,4 @@ export * from "./invite-admin";
 export * from "./invite-users";
 export * from "./resend-invite";
 export * from "./reset-password";
+export * from "./reset-password-request";

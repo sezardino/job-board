@@ -1,5 +1,5 @@
 import { apiService } from "@/services/api";
-import { VerifyResetPasswordTokenRequest } from "@/services/bll/modules/users/schema/verify-reset-password-token";
+import { VerifyResetPasswordTokenRequest } from "@/services/bll/modules/auth/schema/verify-reset-password-token";
 import { useQuery } from "@tanstack/react-query";
 
 export const VERIFY_RESET_PASSWORD_TOKEN_QUERY_KEY =
@@ -10,6 +10,6 @@ export const useVerifyResetPasswordTokenQuery = (
 ) => {
   return useQuery({
     queryKey: [VERIFY_RESET_PASSWORD_TOKEN_QUERY_KEY, ...Object.values(params)],
-    queryFn: () => apiService.users.verifyResetPasswordToken(params),
+    queryFn: () => apiService.auth.verifyResetPasswordToken(params),
   });
 };

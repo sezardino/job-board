@@ -1,7 +1,9 @@
 import { z } from "zod";
 
 export const resetPasswordRequestSchema = z.object({
-  email: z.string(),
+  oldPassword: z.string(),
+  newPassword: z.string(),
+  token: z.string(),
 });
 
 export const resetPasswordResponseSchema = z.object({

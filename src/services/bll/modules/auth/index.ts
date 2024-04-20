@@ -2,13 +2,21 @@ import { JWTError } from "@/libs/jwt";
 import { PrismaService } from "@/libs/prisma";
 import { hashService } from "@/services/hash";
 import { mailService } from "@/services/mail";
-import { emailVerificationTokenService } from "@/services/token";
+import {
+  emailVerificationTokenService,
+  passwordResetTokenService,
+} from "@/services/token";
+import { BadRequestException, NotFoundException } from "@/types";
+import { UserStatus } from "@prisma/client";
 import { CompaniesBllModule, UsersBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
 import {
   CustomerRegistrationRequest,
   LoginRequest,
+  LoginStatus,
   RegistrationStatus,
+  ResetPasswordRequest,
+  ResetPasswordRequestDto,
   VerifyEmailTokenResponse,
   VerifyEmailTokenStatus,
 } from "./schema";
@@ -17,6 +25,7 @@ import {
   CompanyRegistrationStatus,
 } from "./schema/company-registration";
 import { ResendVerificationEmailStatus } from "./schema/resend-verification-email";
+import { VerifyResetPasswordTokenRequest } from "./schema/verify-reset-password-token";
 
 export class AuthBllModule extends AbstractBllService {
   constructor(
@@ -97,7 +106,10 @@ export class AuthBllModule extends AbstractBllService {
     if (user.emailVerified)
       return ResendVerificationEmailStatus.AlreadyVerified;
 
-    const { emailToken } = await this.usersService.updateEmailToken(user.email);
+    const emailToken = await this.usersService.updateToken(
+      user.email,
+      "email-verification"
+    );
 
     await this.sendWelcomeEmail(user.email, user.name, emailToken);
 
@@ -118,7 +130,10 @@ export class AuthBllModule extends AbstractBllService {
     if (user.emailVerified)
       return ResendVerificationEmailStatus.AlreadyVerified;
 
-    const { emailToken } = await this.usersService.updateEmailToken(user.email);
+    const emailToken = await this.usersService.updateToken(
+      user.email,
+      "email-verification"
+    );
 
     await this.sendWelcomeEmail(user.email, user.name, emailToken);
 
@@ -148,7 +163,7 @@ export class AuthBllModule extends AbstractBllService {
 
       if (!isTokensMatch) return VerifyEmailTokenStatus.Invalid;
 
-      await this.usersService.verifyEmailToken(decodedToken.email);
+      await this.usersService.verifyUserEmail(decodedToken.email);
 
       return VerifyEmailTokenStatus.Success;
     } catch (error) {
@@ -162,6 +177,99 @@ export class AuthBllModule extends AbstractBllService {
   }
 
   async login(dto: LoginRequest) {
-    return this.usersService.verifyUserLogin(dto);
+    const { email, password } = dto;
+    const user = await this.usersService.getUserForLoginVerification(dto.email);
+
+    if (!user) return LoginStatus.WrongCredentials;
+    if (!user.emailVerified) return LoginStatus.EmailNotVerified;
+    if (!user.isAcceptInvite) return LoginStatus.NotAcceptInvite;
+    if (user.status === UserStatus.BLOCKED) return LoginStatus.Blocked;
+    if (user.status === UserStatus.INACTIVE) return LoginStatus.Inactive;
+
+    const isPasswordValid = await hashService.compare(password, user.password);
+
+    if (!isPasswordValid) return LoginStatus.WrongCredentials;
+
+    const { avatar, companyId, id, role } = user;
+
+    return {
+      email,
+      id,
+      role,
+      avatar: avatar?.url,
+      companyId: companyId || undefined,
+    };
+  }
+
+  async resetPasswordRequest(dto: ResetPasswordRequestDto) {
+    const { email } = dto;
+
+    const user = await this.usersService.findUnique({ email }, { id: true });
+
+    if (!user) throw new NotFoundException("User not found");
+
+    const resetToken = await this.usersService.updateToken(
+      email,
+      "reset-password"
+    );
+
+    await mailService.sendMail({
+      to: email,
+      templateKey: "resetPasswordTemplate",
+      data: { token: resetToken },
+    });
+
+    return { success: true };
+  }
+
+  async verifyResetPasswordToken(dto: VerifyResetPasswordTokenRequest) {
+    const { token } = dto;
+    try {
+      const decodedToken = passwordResetTokenService.verify<{ email: string }>(
+        token
+      );
+
+      if (!decodedToken || !decodedToken?.email)
+        throw new NotFoundException("Token not found");
+
+      const user = await this.prismaService.user.findUnique({
+        where: { email: decodedToken.email },
+        select: { resetPasswordToken: true },
+      });
+
+      if (!user) throw new NotFoundException("Not found");
+      if (!user.resetPasswordToken)
+        throw new NotFoundException("Token not found");
+
+      const isTokensMatch = hashService.compare(
+        token,
+        user.resetPasswordToken!
+      );
+
+      if (!isTokensMatch) throw new BadRequestException("Invalid token");
+
+      return decodedToken.email;
+    } catch (error) {
+      const typedError = error as JWTError;
+
+      if (typedError.message === "jwt expired")
+        throw new BadRequestException("Token expired");
+
+      throw new BadRequestException("Invalid token");
+    }
+  }
+
+  async resetPassword(dto: ResetPasswordRequest & { userId?: string }) {
+    const { oldPassword, newPassword, token } = dto;
+
+    const email = await this.verifyResetPasswordToken({ token });
+
+    await this.usersService.changePassword({
+      newPassword,
+      oldPassword,
+      email,
+    });
+
+    return { success: true };
   }
 }
