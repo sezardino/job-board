@@ -1,7 +1,9 @@
 "use client";
 
+import { SettingsProfileTemplate } from "@/components/templates/Shared/SettingsProfileTemplate";
+
 const SettingsPage = () => {
-  return <h2 className="text-lg font-bold tracking-tight">Account</h2>;
+  return <SettingsProfileTemplate />;
 };
 
 export default SettingsPage;

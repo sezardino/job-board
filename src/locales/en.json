@@ -408,6 +408,23 @@
         "required": "Content is required",
         "max-length": "Content should be less than {value} characters"
       }
+    },
+    "shared": {
+      "user-profile": {
+        "label": "User profile",
+        "name": {
+          "label": "Name",
+          "placeholder": "Name",
+          "min-length": "Name should be more than {value} characters",
+          "max-length": "Name should be less than {value} characters"
+        },
+        "avatar": {
+          "label": "Choose avatar",
+          "remove": "Remove",
+          "max-file-size": "Max file size is {value} MB",
+          "formats": "Allowed formats: {value}"
+        }
+      }
     }
   },
   "entity": {
@@ -1054,7 +1071,16 @@
           "description": "Your application has been sent successfully"
         }
       },
-      "settings-profile": {},
+      "settings-profile": {
+        "title": "Profile settings",
+        "description": "From this panel you can manage your profile",
+        "base-data": {
+          "title": "Edit base data",
+          "description": "You can edit your base data here",
+          "cancel": "Cancel",
+          "confirm": "Edit base data"
+        }
+      },
       "settings-security": {},
       "settings-notifications": {
         "title": "Coming soon",

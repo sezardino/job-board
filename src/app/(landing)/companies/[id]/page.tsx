@@ -1,6 +1,6 @@
 "use client";
 
-import { CompanyProfileTemplate } from "@/components/templates/Shared/CompanyProfileTemplate";
+import { CompanyProfileTemplate } from "@/components/templates/Company/CompanyProfileTemplate";
 import { PublicPageUrls } from "@/const";
 import { useCompanyProfileQuery } from "@/hooks";
 import { useOffersListInfiniteQuery } from "@/hooks/react-query/query/offers";
