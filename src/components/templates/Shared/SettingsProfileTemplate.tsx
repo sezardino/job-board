@@ -72,7 +72,6 @@ export const SettingsProfileTemplate: FC<SettingsProfileTemplateProps> = (
               initialValues={{
                 avatar: profile.profile?.avatar || "",
                 name: profile.profile?.name || "",
-                isAvatarDeleted: false,
               }}
               onFormSubmit={(values) => setProfileToEdit(values)}
             />

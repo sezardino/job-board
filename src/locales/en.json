@@ -424,6 +424,25 @@
           "max-file-size": "Max file size is {value} MB",
           "formats": "Allowed formats: {value}"
         }
+      },
+      "password": {
+        "old-password": {
+          "label": "Old password",
+          "placeholder": "Old password",
+          "required": "Old password is required"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Password",
+          "required": "Password is required",
+          "min-length": "Password must be at least {value} characters"
+        },
+        "confirm-password": {
+          "label": "Confirm password",
+          "placeholder": "Confirm password",
+          "required": "Confirm password is required",
+          "not-match": "Passwords do not match"
+        }
       }
     }
   },
@@ -1089,7 +1108,24 @@
           }
         }
       },
-      "settings-security": {},
+      "settings-security": {
+        "title": "Security settings",
+        "description": "From this panel you can manage your security settings",
+        "change-password": {
+          "title": "Change password",
+          "description": "You can change your password here",
+          "cancel": "Cancel",
+          "confirm": "Change password"
+        },
+        "modals": {
+          "change-password": {
+            "title": "Change password",
+            "description": "Are you sure you want to change your password?",
+            "cancel": "Cancel",
+            "confirm": "Change password"
+          }
+        }
+      },
       "settings-notifications": {
         "title": "Coming soon",
         "description": "We're working hard to bring you something amazing. Stay tuned!"
