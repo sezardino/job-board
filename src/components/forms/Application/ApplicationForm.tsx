@@ -44,7 +44,7 @@ export type ApplicationFormProps = ComponentPropsWithoutRef<"form"> & Props;
 
 export const ApplicationForm: FC<ApplicationFormProps> = (props) => {
   const { isDisabled, onFormSubmit, className, ...rest } = props;
-  const t = useTranslations("forms.job-application");
+  const t = useTranslations("forms.company.application");
 
   const validationSchema = useMemo(
     () =>

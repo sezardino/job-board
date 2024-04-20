@@ -28,7 +28,7 @@ export const CustomerRegistrationForm: FC<CustomerRegistrationFormProps> = (
   props
 ) => {
   const { isLoading, onFormSubmit, onEmailAvailableRequest, ...rest } = props;
-  const t = useTranslations("forms.register-user");
+  const t = useTranslations("forms.shared.register-user");
   const { validate: validateEmail } = useStringVerification({
     handler: onEmailAvailableRequest,
     onError: () => formik.setFieldError("email", t("email.used")),

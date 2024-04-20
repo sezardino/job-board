@@ -28,7 +28,7 @@ export const CreateIndustryForm: FC<CreateIndustryFormProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("forms.industry");
+  const t = useTranslations("forms.admin.industry");
   const history = useRef<Record<string, boolean>>({});
 
   const formik = useFormik<CreateIndustryFormValues>({

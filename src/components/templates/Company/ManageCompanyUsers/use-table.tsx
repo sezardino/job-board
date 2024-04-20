@@ -1,7 +1,7 @@
 import { UserInfo } from "@/components/UI/UserInfo/UserInfo";
 import { Button } from "@/components/base/Button/Button";
 import { Icon } from "@/components/base/Icon/Icon";
-import { EditCompanyUserAcceptedRoles } from "@/components/forms/EditCompanyUser/EditCompanyUser";
+import { CompanyUserAcceptedRoles } from "@/components/forms/CompanyUser/CompanyUser";
 import { CompanyUsersResponse } from "@/services/bll/modules/users/schema";
 import { UserRoles } from "@prisma/client";
 import { createColumnHelper } from "@tanstack/react-table";
@@ -11,7 +11,7 @@ import { useMemo } from "react";
 type Props = {
   onSelectUserToEdit: (user: {
     id: string;
-    role: EditCompanyUserAcceptedRoles;
+    role: CompanyUserAcceptedRoles;
   }) => void;
   onSelectUserToResendInvite: (id: string) => void;
   onSelectUserToCancelInvite: (id: string) => void;
@@ -80,7 +80,7 @@ export const useCompanyUsersTable = (props: Props) => {
               onClick={() =>
                 onSelectUserToEdit({
                   id: row.getValue(),
-                  role: row.row.original.role as EditCompanyUserAcceptedRoles,
+                  role: row.row.original.role as CompanyUserAcceptedRoles,
                 })
               }
               text={t("table.actions.edit")}

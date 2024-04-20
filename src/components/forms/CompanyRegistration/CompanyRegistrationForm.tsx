@@ -60,7 +60,7 @@ export const CompanyRegistrationForm: FC<CompanyRegistrationFormProps> = (
     onCompanyNameAvailableRequest,
     ...rest
   } = props;
-  const t = useTranslations("forms.register-company");
+  const t = useTranslations("forms.shared.register-company");
   const { validate: validateOwnerEmail } = useStringVerification({
     handler: onOwnerEmailAvailableRequest,
     onError: () => formik.setFieldError("owner.email", t("email.used")),

@@ -36,7 +36,7 @@ export const OfferFormSpecificationStep: FC<OfferFormSpecificationStepProps> = (
 ) => {
   const { initialValues, onFormSubmit, onBackClick, className, ...rest } =
     props;
-  const t = useTranslations("forms.offer");
+  const t = useTranslations("forms.company.offer");
   const entityT = useTranslations("entity.offers");
 
   const validationSchema = useMemo(

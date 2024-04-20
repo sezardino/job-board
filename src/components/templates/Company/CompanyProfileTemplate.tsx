@@ -6,13 +6,13 @@ import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay"
 import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import { Typography } from "@/components/base/Typography/Typography";
 import {
-  EditCompanyBaseDataForm,
-  EditCompanyBaseDataFormValues,
-} from "@/components/forms/EditCompanyBaseData/EditCompanyBaseDataForm";
+  CompanyBaseDataForm,
+  CompanyBaseDataFormValues,
+} from "@/components/forms/CompanyBaseData/CompanyBaseDataForm";
 import {
-  EditCompanyBioForm,
-  EditCompanyBioFormValues,
-} from "@/components/forms/EditCompanyBio/EditCompanyBioForm";
+  CompanyBioForm,
+  CompanyBioFormValues,
+} from "@/components/forms/CompanyBio/CompanyBioForm";
 import {
   CompanyProfileResponse,
   EditCompanyRequest,
@@ -68,7 +68,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
   // TODO: add in next version (gallery)
   // const [isGalleryModalOpen, setIsGalleryModalOpen] = useState(false);
 
-  const editBioHandler = async (values: EditCompanyBioFormValues) => {
+  const editBioHandler = async (values: CompanyBioFormValues) => {
     if (!withManage || !editAction) return;
 
     try {
@@ -79,7 +79,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
   };
 
   const editBaseCompanyDataHandler = async (
-    values: EditCompanyBaseDataFormValues
+    values: CompanyBaseDataFormValues
   ) => {
     if (!withManage || !editAction) return;
 
@@ -222,7 +222,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
               >
                 <ModalWithDescription.Body>
                   {editAction.isLoading && <LoadingOverlay isInWrapper />}
-                  <EditCompanyBioForm
+                  <CompanyBioForm
                     onFormSubmit={editBioHandler}
                     initialValues={{ bio: profile.data?.bio || "" }}
                     cancel={{
@@ -243,7 +243,7 @@ export const CompanyProfileTemplate: FC<CompanyProfileTemplateProps> = (
               >
                 <ModalWithDescription.Body>
                   {editAction.isLoading && <LoadingOverlay isInWrapper />}
-                  <EditCompanyBaseDataForm
+                  <CompanyBaseDataForm
                     initialValues={{
                       slogan: profile.data?.slogan || "",
                       logo: profile.data?.logo?.url || null,

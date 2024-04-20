@@ -29,7 +29,7 @@ const clearValues = {
 
 export const CommentsForm = (props: CommentsFormProps) => {
   const { initialValues, onFormSubmit, className, ...rest } = props;
-  const t = useTranslations("forms.comments");
+  const t = useTranslations("forms.shared.comments");
 
   const validationSchema = useMemo(
     () =>

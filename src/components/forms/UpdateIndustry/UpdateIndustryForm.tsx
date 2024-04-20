@@ -24,7 +24,7 @@ export type UpdateIndustryFormProps = ComponentPropsWithoutRef<"form"> & {
 export const UpdateIndustryForm: FC<UpdateIndustryFormProps> = (props) => {
   const { initialStatus, onFormSubmit, onCancelClick, className, ...rest } =
     props;
-  const t = useTranslations("forms.update-industry");
+  const t = useTranslations("forms.admin.update-industry");
   const statusT = useTranslations("entity.common.status");
 
   const formik = useFormik<UpdateIndustryFormValues>({

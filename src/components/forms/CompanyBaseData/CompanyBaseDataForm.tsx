@@ -10,30 +10,27 @@ import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper } from "../FormWrapper/FormWrapper";
 
-export type EditCompanyBaseDataFormValues = {
+export type CompanyBaseDataFormValues = {
   slogan: string;
   logo: string | File | null;
   isLogoDeleted: boolean;
 };
 
 type Props = {
-  initialValues: EditCompanyBaseDataFormValues;
-  onFormSubmit: (values: EditCompanyBaseDataFormValues) => void;
+  initialValues: CompanyBaseDataFormValues;
+  onFormSubmit: (values: CompanyBaseDataFormValues) => void;
   cancel: { label: string; onClick: () => void };
   submitText: string;
 };
 
-export type EditCompanyBaseDataFormProps = ComponentPropsWithoutRef<"form"> &
-  Props;
+export type CompanyBaseDataFormProps = ComponentPropsWithoutRef<"form"> & Props;
 
 const SLOGAN_MIN_LENGTH = 5;
 const MAX_FILE_SIZE_MB = 5;
 const MAX_FILE_SIZE_BITES = megabytesToBytes(MAX_FILE_SIZE_MB);
 const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/jpg"];
 
-export const EditCompanyBaseDataForm: FC<EditCompanyBaseDataFormProps> = (
-  props
-) => {
+export const CompanyBaseDataForm: FC<CompanyBaseDataFormProps> = (props) => {
   const {
     submitText,
     cancel,
@@ -42,12 +39,12 @@ export const EditCompanyBaseDataForm: FC<EditCompanyBaseDataFormProps> = (
     className,
     ...rest
   } = props;
-  const t = useTranslations("forms.edit-company-base-data");
+  const t = useTranslations("forms.company.base-data");
 
   const formik = useFormik({
     initialValues,
     onSubmit: (values) => {
-      const valuesToSubmit = {} as EditCompanyBaseDataFormValues;
+      const valuesToSubmit = {} as CompanyBaseDataFormValues;
 
       if (values.slogan !== initialValues.slogan) {
         valuesToSubmit.slogan = values.slogan;

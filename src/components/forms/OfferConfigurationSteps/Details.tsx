@@ -53,7 +53,7 @@ export const OfferFormDetailsStep: FC<OfferFormDetailsStepProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("forms.offer");
+  const t = useTranslations("forms.company.offer");
   const entityT = useTranslations("entity");
 
   const validationSchema = useMemo(

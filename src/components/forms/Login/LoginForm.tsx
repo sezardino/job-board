@@ -27,7 +27,7 @@ const initialValues = {
 
 export const LoginForm: FC<LoginFormProps> = (props) => {
   const { onFormSubmit, className, ...rest } = props;
-  const t = useTranslations("forms.login");
+  const t = useTranslations("forms.shared.login");
 
   const validationSchema = useMemo(
     () =>

@@ -10,25 +10,25 @@ import { twMerge } from "tailwind-merge";
 import z from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
-export type EditCompanyUserAcceptedRoles = Extract<
+export type CompanyUserAcceptedRoles = Extract<
   UserRoles,
   "MODERATOR" | "RECRUITER"
 >;
 
-export type EditCompanyUserFormValue = {
-  role: EditCompanyUserAcceptedRoles;
+export type CompanyUserFormValue = {
+  role: CompanyUserAcceptedRoles;
 };
 
-export type EditCompanyUserFormProps = ComponentPropsWithoutRef<"form"> & {
+export type CompanyUserFormProps = ComponentPropsWithoutRef<"form"> & {
   label: string;
-  onFormSubmit: (data: EditCompanyUserFormValue) => void;
-  role: EditCompanyUserAcceptedRoles;
+  onFormSubmit: (data: CompanyUserFormValue) => void;
+  role: CompanyUserAcceptedRoles;
   submitText: string;
   cancelText: string;
   onCancelClick: () => void;
 };
 
-export const EditCompanyUserForm: FC<EditCompanyUserFormProps> = (props) => {
+export const CompanyUserForm: FC<CompanyUserFormProps> = (props) => {
   const {
     role,
     submitText,
@@ -39,9 +39,9 @@ export const EditCompanyUserForm: FC<EditCompanyUserFormProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("forms.edit-company-user");
+  const t = useTranslations("forms.user");
 
-  const formik = useFormik<EditCompanyUserFormValue>({
+  const formik = useFormik<CompanyUserFormValue>({
     initialValues: {
       role,
     },

@@ -56,7 +56,7 @@ export const ImagesForm: FC<ImagesFormProps> = (props) => {
     label,
     ...rest
   } = props;
-  const t = useTranslations("forms.images");
+  const t = useTranslations("forms.company.images");
   const { id, errorId } = useFormField();
 
   const formik = useFormik<ImagesFormValues>({

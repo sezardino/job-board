@@ -10,10 +10,10 @@ import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay"
 import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
 import { SearchForm } from "@/components/base/SearchForm/SearchForm";
 import {
-  EditCompanyUserAcceptedRoles,
-  EditCompanyUserForm,
-  EditCompanyUserFormValue,
-} from "@/components/forms/EditCompanyUser/EditCompanyUser";
+  CompanyUserAcceptedRoles,
+  CompanyUserForm,
+  CompanyUserFormValue,
+} from "@/components/forms/CompanyUser/CompanyUser";
 import {
   InviteUsersForm,
   InviteUsersFormValues,
@@ -82,7 +82,7 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
   const [isInviteModalOpen, setIsInviteModalOpen] = useState(false);
   const [userToEdit, setUserToEdit] = useState<{
     id: string;
-    role: EditCompanyUserAcceptedRoles;
+    role: CompanyUserAcceptedRoles;
   } | null>(null);
   const [userToResendInvite, setUserToResendInvite] = useState<string | null>(
     null
@@ -105,7 +105,7 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
     } catch (error) {}
   };
 
-  const editUserHandler = async (values: EditCompanyUserFormValue) => {
+  const editUserHandler = async (values: CompanyUserFormValue) => {
     if (!userToEdit) return;
 
     try {
@@ -192,7 +192,7 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
           <ModalWithDescription.Body>
             {editUserAction.isLoading ||
               (checkEmailAction.isLoading && <LoadingOverlay isInWrapper />)}
-            <EditCompanyUserForm
+            <CompanyUserForm
               cancelText={t("edit-user.cancel")}
               role={userToEdit.role}
               onCancelClick={() => setIsInviteModalOpen(false)}

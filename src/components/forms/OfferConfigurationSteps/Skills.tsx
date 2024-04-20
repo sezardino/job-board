@@ -40,7 +40,7 @@ export const OfferFormSkillsStep: FC<OfferFormSkillsStepProps> = (props) => {
     ...rest
   } = props;
 
-  const t = useTranslations("forms.job-offer-skills");
+  const t = useTranslations("forms.company.offer-skills");
   const entityT = useTranslations("entity");
 
   const validationSchema = useMemo(

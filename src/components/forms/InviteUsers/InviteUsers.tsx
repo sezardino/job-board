@@ -45,7 +45,7 @@ export const InviteUsersForm: FC<InviteUsersFormProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("forms.invite-users");
+  const t = useTranslations("forms.company.invite-users");
   const validationHistory = useRef<Record<string, boolean>>({});
 
   const formik = useFormik<InviteUsersFormValues>({

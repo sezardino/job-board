@@ -37,376 +37,248 @@
     }
   },
   "forms": {
-    "invite-users": {
-      "remove": "Remove",
-      "add": "Add",
-      "email": {
-        "label": "Email",
-        "placeholder": "Email",
-        "required": "Email is required",
-        "used": "Email is already used",
-        "repeat": "Email is already added"
-      },
-      "role": {
-        "label": "Role",
-        "placeholder": "Choose role",
-        "required": "Role is required"
-      }
-    },
-    "auth": {
-      "email": {
-        "label": "Email",
-        "placeholder": "Email",
-        "required": "Email is required",
-        "used": "Email is already used"
-      },
-      "password": {
-        "label": "Password",
-        "placeholder": "Password",
-        "required": "Password is required",
-        "min-length": "Password must be at least {value} characters"
-      },
-      "repeat-password": {
-        "label": "Repeat password",
-        "placeholder": "Repeat password",
-        "required": "Repeat password is required",
-        "not-match": "Passwords do not match"
-      }
-    },
-    "login": {
-      "label": "Login",
-      "submit": "Login",
-      "email": {
-        "label": "Email",
-        "placeholder": "Email",
-        "required": "Email is required",
-        "used": "Email is already used"
-      },
-      "password": {
-        "label": "Password",
-        "placeholder": "Password",
-        "required": "Password is required",
-        "min-length": "Password must be at least {value} characters"
-      }
-    },
-    "register-company": {
-      "trigger": "Sign up",
-      "owner": "Owner data",
-      "company": "Company data",
-      "email": {
-        "label": "Email",
-        "placeholder": "Email",
-        "required": "Email is required",
-        "invalid": "Email is invalid",
-        "used": "Email is already used"
-      },
-      "password": {
-        "label": "Password",
-        "placeholder": "Password",
-        "required": "Password is required",
-        "short": "Password must be at least {value} characters"
-      },
-      "repeat-password": {
-        "label": "Repeat password",
-        "placeholder": "Repeat password",
-        "required": "Repeat password is required",
-        "not-match": "Passwords do not match"
-      },
-      "name": {
-        "label": "Name",
-        "placeholder": "Name",
-        "required": "Name is required",
-        "used": "Name is already used"
-      },
-      "building": {
-        "label": "Building",
-        "placeholder": "Building",
-        "required": "Building is required"
-      },
-      "city": {
-        "label": "City",
-        "placeholder": "City",
-        "required": "City is required"
-      },
-      "country": {
-        "label": "Country",
-        "placeholder": "Country",
-        "required": "Country is required"
-      },
-      "street": {
-        "label": "Street",
-        "placeholder": "Street",
-        "required": "Street is required"
-      },
-      "zip-code": {
-        "label": "Zip code",
-        "placeholder": "Zip code",
-        "required": "Zip code is required"
-      }
-    },
-    "register-user": {
-      "trigger": "Sign up",
-      "email": {
-        "label": "Email",
-        "placeholder": "Email",
-        "required": "Email is required",
-        "invalid": "Email is invalid",
-        "used": "Email is already used"
-      },
-      "password": {
-        "label": "Password",
-        "placeholder": "Password",
-        "required": "Password is required",
-        "short": "Password must be at least {value} characters"
-      },
-      "repeat-password": {
-        "label": "Repeat password",
-        "placeholder": "Repeat password",
-        "required": "Repeat password is required",
-        "not-match": "Passwords do not match"
-      },
-      "name": {
-        "label": "Name",
-        "placeholder": "Name",
-        "required": "Name is required"
-      }
-    },
-    "industry": {
-      "label": "Create Industry",
-      "cancel": "Cancel",
-      "submit": "Create",
-      "name": {
-        "label": "Name",
-        "placeholder": "Name",
-        "slug": "Name should be in slug format",
-        "unique": "Name should be unique",
-        "required": "Name is required"
-      }
-    },
-    "update-industry": {
-      "label": "Update Industry",
-      "cancel": "Cancel",
-      "submit": "Update Industry",
-      "status": {
-        "label": "Status",
-        "placeholder": "Status",
-        "required": "Status is required"
-      }
-    },
-    "edit-company-user": {
-      "label": "Edit user",
-      "role": {
-        "label": "Role",
-        "placeholder": "Role",
-        "required": "Role is required"
-      }
-    },
-    "edit-company-base-data": {
-      "label": "Edit Base Company Data",
-      "slogan": {
-        "label": "Slogan",
-        "placeholder": "Slogan",
-        "min-length": "Slogan should be more than {value} characters",
-        "max-length": "Slogan should be less than {value} characters"
-      },
-      "logo": {
-        "label": "Choose company logo",
+    "company": {
+      "invite-users": {
         "remove": "Remove",
+        "add": "Add",
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email is required",
+          "used": "Email is already used",
+          "repeat": "Email is already added"
+        },
+        "role": {
+          "label": "Role",
+          "placeholder": "Choose role",
+          "required": "Role is required"
+        }
+      },
+      "offer": {
+        "cancel": "Cancel",
+        "back": "Back",
+        "next": "Next",
+        "details": {
+          "title": "Details",
+          "description": "On this step you can enter basic details of the job offer",
+          "name": {
+            "label": "Name",
+            "placeholder": "Job offer name",
+            "required": "Name is required",
+            "max-length": "Name should be less than {value} characters",
+            "description": "This name will be visible to the users"
+          },
+          "industry": {
+            "label": "Industry",
+            "placeholder": "Select Industry",
+            "required": "Industry is required",
+            "description": "In which industry is this job offer"
+          },
+          "category": {
+            "label": "Category",
+            "placeholder": "Select Category",
+            "required": "Category is required",
+            "select-industry": "Please select industry first",
+            "description": "In which category is this job offer"
+          },
+          "salary": {
+            "add": "Add salary range for this job offer",
+            "remove": "Remove salary range",
+            "from": {
+              "label": "Salary from",
+              "placeholder": "100",
+              "required": "Salary from is required",
+              "positive": "Salary from should be positive"
+            },
+            "to": {
+              "label": "Salary to",
+              "placeholder": "200",
+              "required": "Salary to is required",
+              "positive": "Salary to should be positive",
+              "greater": "Salary to should be greater than salary from"
+            }
+          }
+        },
+        "specification": {
+          "title": "Specification",
+          "description": "Please enter specification of the job offer",
+          "job-type": {
+            "label": "Job type",
+            "placeholder": "Job type",
+            "required": "Job type is required"
+          },
+          "contract": {
+            "label": "Job contract",
+            "placeholder": "Job contract",
+            "required": "Job contract is required"
+          },
+          "operating": {
+            "label": "Operating",
+            "placeholder": "Operating",
+            "required": "Operating is required"
+          },
+          "seniority": {
+            "label": "Seniority",
+            "placeholder": "Seniority",
+            "required": "Seniority is required"
+          }
+        },
+        "back-modal": {
+          "title": "Go back",
+          "description": "Are you sure you want to go back? All unsaved data will be lost",
+          "cancel": "Cancel",
+          "confirm": "Go back"
+        },
+        "cancel-modal": {
+          "title": "Cancel",
+          "description": "Are you sure you want to cancel? All unsaved data will be lost",
+          "cancel": "Cancel",
+          "confirm": "Confirm"
+        },
+        "confirm-modal": {
+          "title": "Confirm",
+          "description": "Create new job offer with provided data?",
+          "cancel": "Cancel",
+          "confirm": "Create"
+        }
+      },
+      "offer-skills": {
+        "title": "Skills",
+        "description": "Please select skills required for this job offer",
+        "back": "Back",
+        "next": "Next",
+        "add-first": "Add first skill",
+        "add": "Add more",
+        "remove": "Remove",
+        "up": "Move item up in order",
+        "down": "Move item down in order",
+        "name": {
+          "label": "Skill Name",
+          "placeholder": "F.E. Empathy",
+          "max-length": "Name should be less than {value} characters",
+          "required": "Name is required"
+        },
+        "level": {
+          "label": "Skill level",
+          "placeholder": "Basic",
+          "required": "Skill Level is required"
+        }
+      },
+      "offer-description": {
+        "title": "Description",
+        "description": "Please enter description of the job offer",
+        "back": "Back",
+        "next": "Next",
+        "field": {
+          "label": "Description",
+          "placeholder": "Description",
+          "required": "Description is required",
+          "min-length": "Description should be more than {value} characters",
+          "max-length": "Description should be less than {value} characters",
+          "description": "This description will be visible to the users"
+        }
+      },
+      "application": {
+        "submit": "Submit",
+        "name": {
+          "label": "First and last name",
+          "placeholder": "Enter your first and last name",
+          "required": "First and last name is required",
+          "max-length": "First and last name should be less than {value} characters"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Enter your email",
+          "required": "Email is required",
+          "invalid": "Email is invalid",
+          "max-length": "Email should be less than {value} characters"
+        },
+        "message": {
+          "label": "Introduce yourself",
+          "placeholder": "Type something nice...",
+          "max-length": "Message should be less than {value} characters"
+        },
+        "file": {
+          "label": "Attach your CV",
+          "placeholder": "Choose file",
+          "required": "CV is required",
+          "max-size": "Max file size is {value} MB",
+          "formats": "Allowed formats: {value}",
+          "pdf": "PDF"
+        },
+        "data-processing": {
+          "label": "I agree to processing of my personal data",
+          "required": "You must agree to data processing"
+        },
+        "future-recruitment": {
+          "label": "I agree to use my data in future recruitment processes"
+        }
+      },
+      "application-status": {
+        "status": {
+          "label": "Status",
+          "placeholder": "Status",
+          "required": "Status is required"
+        },
+        "message": {
+          "label": "Message",
+          "placeholder": "Message",
+          "required": "Message is required",
+          "max-length": "Message should be less than {value} characters",
+          "disabled": "You can't write a message for this status"
+        }
+      },
+      "user": {
+        "label": "Edit user",
+        "role": {
+          "label": "Role",
+          "placeholder": "Role",
+          "required": "Role is required"
+        }
+      },
+      "base-data": {
+        "label": "Edit Base Company Data",
+        "slogan": {
+          "label": "Slogan",
+          "placeholder": "Slogan",
+          "min-length": "Slogan should be more than {value} characters",
+          "max-length": "Slogan should be less than {value} characters"
+        },
+        "logo": {
+          "label": "Choose company logo",
+          "remove": "Remove",
+          "max-file-size": "Max file size is {value} MB",
+          "formats": "Allowed formats: {value}"
+        }
+      },
+      "images": {
+        "formats": "Allowed formats: {value}",
         "max-file-size": "Max file size is {value} MB",
-        "formats": "Allowed formats: {value}"
+        "max-count": "Max count of images is {value}"
       }
     },
-    "images": {
-      "formats": "Allowed formats: {value}",
-      "max-file-size": "Max file size is {value} MB",
-      "max-count": "Max count of images is {value}"
-    },
-    "offer": {
-      "cancel": "Cancel",
-      "back": "Back",
-      "next": "Next",
-      "details": {
-        "title": "Details",
-        "description": "On this step you can enter basic details of the job offer",
+    "admin": {
+      "industry": {
+        "label": "Create Industry",
+        "cancel": "Cancel",
+        "submit": "Create",
         "name": {
           "label": "Name",
-          "placeholder": "Job offer name",
-          "required": "Name is required",
-          "max-length": "Name should be less than {value} characters",
-          "description": "This name will be visible to the users"
-        },
-        "industry": {
-          "label": "Industry",
-          "placeholder": "Select Industry",
-          "required": "Industry is required",
-          "description": "In which industry is this job offer"
-        },
-        "category": {
-          "label": "Category",
-          "placeholder": "Select Category",
-          "required": "Category is required",
-          "select-industry": "Please select industry first",
-          "description": "In which category is this job offer"
-        },
-        "salary": {
-          "add": "Add salary range for this job offer",
-          "remove": "Remove salary range",
-          "from": {
-            "label": "Salary from",
-            "placeholder": "100",
-            "required": "Salary from is required",
-            "positive": "Salary from should be positive"
-          },
-          "to": {
-            "label": "Salary to",
-            "placeholder": "200",
-            "required": "Salary to is required",
-            "positive": "Salary to should be positive",
-            "greater": "Salary to should be greater than salary from"
-          }
+          "placeholder": "Name",
+          "slug": "Name should be in slug format",
+          "unique": "Name should be unique",
+          "required": "Name is required"
         }
       },
-      "specification": {
-        "title": "Specification",
-        "description": "Please enter specification of the job offer",
-        "job-type": {
-          "label": "Job type",
-          "placeholder": "Job type",
-          "required": "Job type is required"
-        },
-        "contract": {
-          "label": "Job contract",
-          "placeholder": "Job contract",
-          "required": "Job contract is required"
-        },
-        "operating": {
-          "label": "Operating",
-          "placeholder": "Operating",
-          "required": "Operating is required"
-        },
-        "seniority": {
-          "label": "Seniority",
-          "placeholder": "Seniority",
-          "required": "Seniority is required"
+      "update-industry": {
+        "label": "Update Industry",
+        "cancel": "Cancel",
+        "submit": "Update Industry",
+        "status": {
+          "label": "Status",
+          "placeholder": "Status",
+          "required": "Status is required"
         }
-      },
-      "back-modal": {
-        "title": "Go back",
-        "description": "Are you sure you want to go back? All unsaved data will be lost",
-        "cancel": "Cancel",
-        "confirm": "Go back"
-      },
-      "cancel-modal": {
-        "title": "Cancel",
-        "description": "Are you sure you want to cancel? All unsaved data will be lost",
-        "cancel": "Cancel",
-        "confirm": "Confirm"
-      },
-      "confirm-modal": {
-        "title": "Confirm",
-        "description": "Create new job offer with provided data?",
-        "cancel": "Cancel",
-        "confirm": "Create"
-      }
-    },
-    "job-offer-skills": {
-      "title": "Skills",
-      "description": "Please select skills required for this job offer",
-      "back": "Back",
-      "next": "Next",
-      "add-first": "Add first skill",
-      "add": "Add more",
-      "remove": "Remove",
-      "up": "Move item up in order",
-      "down": "Move item down in order",
-      "name": {
-        "label": "Skill Name",
-        "placeholder": "F.E. Empathy",
-        "max-length": "Name should be less than {value} characters",
-        "required": "Name is required"
-      },
-      "level": {
-        "label": "Skill level",
-        "placeholder": "Basic",
-        "required": "Skill Level is required"
-      }
-    },
-    "job-offer-description": {
-      "title": "Description",
-      "description": "Please enter description of the job offer",
-      "back": "Back",
-      "next": "Next",
-      "field": {
-        "label": "Description",
-        "placeholder": "Description",
-        "required": "Description is required",
-        "min-length": "Description should be more than {value} characters",
-        "max-length": "Description should be less than {value} characters",
-        "description": "This description will be visible to the users"
-      }
-    },
-    "job-application": {
-      "submit": "Submit",
-      "name": {
-        "label": "First and last name",
-        "placeholder": "Enter your first and last name",
-        "required": "First and last name is required",
-        "max-length": "First and last name should be less than {value} characters"
-      },
-      "email": {
-        "label": "Email",
-        "placeholder": "Enter your email",
-        "required": "Email is required",
-        "invalid": "Email is invalid",
-        "max-length": "Email should be less than {value} characters"
-      },
-      "message": {
-        "label": "Introduce yourself",
-        "placeholder": "Type something nice...",
-        "max-length": "Message should be less than {value} characters"
-      },
-      "file": {
-        "label": "Attach your CV",
-        "placeholder": "Choose file",
-        "required": "CV is required",
-        "max-size": "Max file size is {value} MB",
-        "formats": "Allowed formats: {value}",
-        "pdf": "PDF"
-      },
-      "data-processing": {
-        "label": "I agree to processing of my personal data",
-        "required": "You must agree to data processing"
-      },
-      "future-recruitment": {
-        "label": "I agree to use my data in future recruitment processes"
-      }
-    },
-    "application-status": {
-      "status": {
-        "label": "Status",
-        "placeholder": "Status",
-        "required": "Status is required"
-      },
-      "message": {
-        "label": "Message",
-        "placeholder": "Message",
-        "required": "Message is required",
-        "max-length": "Message should be less than {value} characters",
-        "disabled": "You can't write a message for this status"
-      }
-    },
-    "comments": {
-      "name": {
-        "label": "Name",
-        "placeholder": "Name",
-        "max-length": "Name should be less than {value} characters",
-        "required": "Name is required"
-      },
-      "content": {
-        "label": "Content",
-        "placeholder": "Content",
-        "required": "Content is required",
-        "max-length": "Content should be less than {value} characters"
       }
     },
     "shared": {
@@ -442,6 +314,138 @@
           "placeholder": "Confirm password",
           "required": "Confirm password is required",
           "not-match": "Passwords do not match"
+        }
+      },
+      "auth": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email is required",
+          "used": "Email is already used"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Password",
+          "required": "Password is required",
+          "min-length": "Password must be at least {value} characters"
+        },
+        "repeat-password": {
+          "label": "Repeat password",
+          "placeholder": "Repeat password",
+          "required": "Repeat password is required",
+          "not-match": "Passwords do not match"
+        }
+      },
+      "login": {
+        "label": "Login",
+        "submit": "Login",
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email is required",
+          "used": "Email is already used"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Password",
+          "required": "Password is required",
+          "min-length": "Password must be at least {value} characters"
+        }
+      },
+      "register-company": {
+        "trigger": "Sign up",
+        "owner": "Owner data",
+        "company": "Company data",
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email is required",
+          "invalid": "Email is invalid",
+          "used": "Email is already used"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Password",
+          "required": "Password is required",
+          "short": "Password must be at least {value} characters"
+        },
+        "repeat-password": {
+          "label": "Repeat password",
+          "placeholder": "Repeat password",
+          "required": "Repeat password is required",
+          "not-match": "Passwords do not match"
+        },
+        "name": {
+          "label": "Name",
+          "placeholder": "Name",
+          "required": "Name is required",
+          "used": "Name is already used"
+        },
+        "building": {
+          "label": "Building",
+          "placeholder": "Building",
+          "required": "Building is required"
+        },
+        "city": {
+          "label": "City",
+          "placeholder": "City",
+          "required": "City is required"
+        },
+        "country": {
+          "label": "Country",
+          "placeholder": "Country",
+          "required": "Country is required"
+        },
+        "street": {
+          "label": "Street",
+          "placeholder": "Street",
+          "required": "Street is required"
+        },
+        "zip-code": {
+          "label": "Zip code",
+          "placeholder": "Zip code",
+          "required": "Zip code is required"
+        }
+      },
+      "register-user": {
+        "trigger": "Sign up",
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email is required",
+          "invalid": "Email is invalid",
+          "used": "Email is already used"
+        },
+        "password": {
+          "label": "Password",
+          "placeholder": "Password",
+          "required": "Password is required",
+          "short": "Password must be at least {value} characters"
+        },
+        "repeat-password": {
+          "label": "Repeat password",
+          "placeholder": "Repeat password",
+          "required": "Repeat password is required",
+          "not-match": "Passwords do not match"
+        },
+        "name": {
+          "label": "Name",
+          "placeholder": "Name",
+          "required": "Name is required"
+        }
+      },
+      "comments": {
+        "name": {
+          "label": "Name",
+          "placeholder": "Name",
+          "max-length": "Name should be less than {value} characters",
+          "required": "Name is required"
+        },
+        "content": {
+          "label": "Content",
+          "placeholder": "Content",
+          "required": "Content is required",
+          "max-length": "Content should be less than {value} characters"
         }
       }
     }

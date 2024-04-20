@@ -26,7 +26,7 @@ export const ApplicationStatusForm: FC<ApplicationStatusFormProps> = (
   props
 ) => {
   const { initialStatus, onFormSubmit, className, ...rest } = props;
-  const t = useTranslations("forms.application-status");
+  const t = useTranslations("forms.company.application-status");
   const statusT = useTranslations("entity.applications.status");
 
   const validationSchema = useMemo(

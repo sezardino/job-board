@@ -42,7 +42,7 @@ export const AuthForm: FC<AuthFormProps> = (props) => {
     className,
     ...rest
   } = props;
-  const t = useTranslations("forms.auth");
+  const t = useTranslations("forms.shared.auth");
   const checkEmailHistory = useRef<Record<string, boolean>>({});
 
   const formik = useFormik<AuthFormValues>({

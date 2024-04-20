@@ -1,3 +1,5 @@
+import { Grid } from "@/components/base/Grid/Grid";
+import { Typography } from "@/components/base/Typography/Typography";
 import { useFormField } from "@/hooks/use-form-field";
 import { useFormik } from "formik";
 import dynamic from "next/dynamic";
@@ -5,28 +7,26 @@ import { type ComponentPropsWithoutRef, type FC } from "react";
 import { z } from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 import { FormWrapper } from "../FormWrapper/FormWrapper";
-import { Grid } from "@/components/base/Grid/Grid";
-import { Typography } from "@/components/base/Typography/Typography";
 
 const WysiwygEditor = dynamic(
   () => import("@/components/UI/WysiwygEditor/WysiwygEditor"),
   { ssr: false }
 );
 
-export type EditCompanyBioFormValues = {
+export type CompanyBioFormValues = {
   bio: string;
 };
 
 type Props = {
-  initialValues: EditCompanyBioFormValues;
+  initialValues: CompanyBioFormValues;
   cancel: { label: string; onClick: () => void };
   submitText: string;
-  onFormSubmit: (values: EditCompanyBioFormValues) => void;
+  onFormSubmit: (values: CompanyBioFormValues) => void;
 };
 
-export type EditCompanyBioFormProps = ComponentPropsWithoutRef<"form"> & Props;
+export type CompanyBioFormProps = ComponentPropsWithoutRef<"form"> & Props;
 
-export const EditCompanyBioForm: FC<EditCompanyBioFormProps> = (props) => {
+export const CompanyBioForm: FC<CompanyBioFormProps> = (props) => {
   const {
     cancel,
     submitText,
@@ -37,7 +37,7 @@ export const EditCompanyBioForm: FC<EditCompanyBioFormProps> = (props) => {
   } = props;
   const { id, errorId } = useFormField();
 
-  const formik = useFormik<EditCompanyBioFormValues>({
+  const formik = useFormik<CompanyBioFormValues>({
     onSubmit: onFormSubmit,
     initialValues,
     validationSchema: toFormikValidationSchema(
