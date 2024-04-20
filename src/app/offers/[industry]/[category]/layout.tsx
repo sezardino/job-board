@@ -1,7 +1,8 @@
 "use client";
 
 import { BoardLayoutWrapper } from "@/components/layout/Board/BoardLayout";
-import { signOut, useSession } from "next-auth/react";
+import { useProfileContext } from "@/context";
+import { useLogout } from "@/hooks/useLogout";
 import { PropsWithChildren, type FC } from "react";
 
 type Props = {
@@ -13,12 +14,13 @@ type Props = {
 
 const BoardLayout: FC<PropsWithChildren & Props> = (props) => {
   const { children, params } = props;
-  const session = useSession();
+  const user = useProfileContext();
+  const logout = useLogout();
 
   return (
     <BoardLayoutWrapper
-      user={session.data?.user}
-      onSignOutClick={signOut}
+      user={user.profile}
+      onSignOutClick={logout}
       activeCategory={params.category}
       industry={params.industry}
     >

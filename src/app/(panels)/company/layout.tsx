@@ -5,14 +5,15 @@ import { PropsWithChildren, useMemo } from "react";
 
 import { AppSidebarItem } from "@/components/UI/AppSidebar/AppSidebar";
 import { PanelLayout } from "@/components/layout/PanelLayout/PanelLayout";
-import { CompanyPagesProvider } from "@/context";
-import { signOut, useSession } from "next-auth/react";
+import { CompanyPagesProvider, useProfileContext } from "@/context";
+import { useLogout } from "@/hooks/useLogout";
 import { useTranslations } from "next-intl";
 
 const CompanyPanelLayout = (props: PropsWithChildren) => {
   const { children } = props;
-  const session = useSession();
+  const user = useProfileContext();
   const t = useTranslations("layout.app");
+  const logout = useLogout();
 
   const lists = useMemo<AppSidebarItem[][]>(
     () => [
@@ -42,14 +43,14 @@ const CompanyPanelLayout = (props: PropsWithChildren) => {
     [t]
   );
 
-  if (!session.data) return null;
+  if (!user) return null;
 
   return (
     <PanelLayout
-      user={session.data.user}
+      user={user.profile}
       homeHref={AdminPageUrls.home}
       lists={lists}
-      onSignOutClick={signOut}
+      onSignOutClick={logout}
     >
       <CompanyPagesProvider>{children}</CompanyPagesProvider>
     </PanelLayout>

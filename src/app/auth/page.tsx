@@ -1,36 +1,27 @@
 "use client";
 
-import { AuthFormValues } from "@/components/forms";
 import { LoginTemplate } from "@/components/templates/Auth/LoginTemplate";
 import { PublicPageUrls } from "@/const";
+import { useLogin } from "@/hooks/useLogin";
 import { reactToastify } from "@/libs/react-toastify";
-import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 
 const LoginPage = () => {
   const router = useRouter();
   const t = useTranslations("messages.login");
-
-  const loginHandler = async (values: AuthFormValues) => {
-    let res = await signIn("credentials", {
-      ...values,
-      redirect: false,
-    });
-
-    if (res?.ok) {
+  const login = useLogin({
+    onSuccess: useCallback(() => {
       reactToastify({ type: "success", message: t("success") });
-
       router.replace(PublicPageUrls.home);
-      return;
-    } else {
+    }, [router, t]),
+    onError: useCallback(() => {
       reactToastify({ type: "error", message: t("error") });
-    }
+    }, [t]),
+  });
 
-    return res;
-  };
-
-  return <LoginTemplate onFormSubmit={loginHandler} />;
+  return <LoginTemplate onFormSubmit={login} />;
 };
 
 export default LoginPage;

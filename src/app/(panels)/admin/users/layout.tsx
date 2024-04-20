@@ -3,14 +3,14 @@
 import { WindowNavigation } from "@/components/base/WindowNavigation/WindowNavigation";
 import { PreviewTemplateWrapper } from "@/components/modules/shared/PreviewTemplateWrapper/PreviewTemplateWrapper";
 import { AdminPageUrls } from "@/const";
+import { useProfileContext } from "@/context";
 import { UserRoles } from "@prisma/client";
-import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { PropsWithChildren, type FC } from "react";
 
 const AdminUsersLayout: FC<PropsWithChildren> = ({ children }) => {
   const t = useTranslations("layout.admin-users");
-  const session = useSession();
+  const user = useProfileContext();
 
   return (
     <PreviewTemplateWrapper
@@ -31,7 +31,7 @@ const AdminUsersLayout: FC<PropsWithChildren> = ({ children }) => {
           {
             title: t("navigation.admins"),
             href: AdminPageUrls.admins,
-            disabled: session?.data?.user.role !== UserRoles.ADMIN,
+            disabled: user.profile?.role !== UserRoles.ADMIN,
           },
         ]}
         title={t("navigation.title")}

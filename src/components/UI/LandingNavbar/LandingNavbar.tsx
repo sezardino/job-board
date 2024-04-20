@@ -14,7 +14,6 @@ import {
   NavbarMenuToggle,
 } from "@nextui-org/react";
 import { UserRoles } from "@prisma/client";
-import { User } from "next-auth";
 import { useTranslations } from "next-intl";
 import NextLink from "next/link";
 import {
@@ -26,10 +25,12 @@ import {
 import { twMerge } from "tailwind-merge";
 import { AvatarDropdown } from "../AvatarDropdown/AvatarDropdown";
 
+import { Profile } from "@/context";
+import { useCurrentUserProfileQuery } from "@/hooks/react-query/query/users/current-user";
 import styles from "./LandingNavbar.module.scss";
 
 type Props = {
-  user?: User;
+  user: Profile | null;
   onSignOutClick: () => void;
 };
 
@@ -37,6 +38,7 @@ export type LandingNavbarProps = ComponentPropsWithoutRef<"div"> & Props;
 
 export const LandingNavbar: FC<LandingNavbarProps> = (props) => {
   const { user, onSignOutClick, className, children, ...rest } = props;
+  useCurrentUserProfileQuery();
   const t = useTranslations("components.shared.navbar");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 

@@ -127,7 +127,8 @@ model User {
   emailToken    String? @map("email_token")
   emailVerified Boolean @default(false) @map("email_verified")
 
-  password String @default("")
+  password           String  @default("")
+  resetPasswordToken String? @map("reset_password_token")
 
   company   Company? @relation(name: "member", fields: [companyId], references: [id])
   companyId String?  @map("company_id") @db.ObjectId

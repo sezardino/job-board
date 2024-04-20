@@ -19,6 +19,7 @@ export type GridTags = Extract<
   | "li"
   | "article"
   | "label"
+  | "main"
 >;
 
 export type GridProps<Tag extends GridTags> = ComponentPropsWithoutRef<Tag> & {

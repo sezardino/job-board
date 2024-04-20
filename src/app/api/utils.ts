@@ -4,13 +4,6 @@ import { UserRoles } from "@prisma/client";
 import { NextRequest, NextResponse } from "next/server";
 import { ZodError, ZodSchema } from "zod";
 
-type Args<Schema extends ZodSchema> = {
-  schema?: Schema;
-  handler: Function;
-  role?: UserRoles[];
-  input?: "body" | "search" | "params" | "formData";
-};
-
 export const formatUrlSearchParams = <T extends Record<string, any>>(
   params: URLSearchParams
 ): T => {
@@ -32,7 +25,9 @@ export const formatUrlSearchParams = <T extends Record<string, any>>(
   return formattedParams as T;
 };
 
-export const formatFormData = (formData: FormData) => {
+export const formatFormData = <T extends Record<string, any>>(
+  formData: FormData
+) => {
   let returned: Record<string, any> = {};
 
   formData.forEach((value, key) => {
@@ -47,7 +42,14 @@ export const formatFormData = (formData: FormData) => {
     returned[key] = value;
   });
 
-  return returned;
+  return returned as T;
+};
+
+type Args<Schema extends ZodSchema> = {
+  schema?: Schema;
+  handler: Function;
+  role?: UserRoles[] | "public-only" | "logged-in";
+  input?: "body" | "search" | "params" | "formData";
 };
 
 export const withValidation = <Schema extends ZodSchema>(
@@ -58,11 +60,24 @@ export const withValidation = <Schema extends ZodSchema>(
   return async (req: NextRequest, params: any) => {
     const session = await getNextAuthSession();
 
-    if (role && !session) {
-      return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+    if (Array.isArray(role)) {
+      if (role && !session) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      }
+
+      if (role && !role?.includes(session?.user.role!)) {
+        return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
+      }
     }
 
-    if (role && !role?.includes(session?.user.role!)) {
+    if (role === "public-only" && session) {
+      return NextResponse.json(
+        { message: "Not acceptable for authorized users" },
+        { status: 400 }
+      );
+    }
+
+    if (role === "logged-in" && !session) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 

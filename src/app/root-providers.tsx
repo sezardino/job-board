@@ -1,5 +1,6 @@
 "use client";
 
+import { ProfileProvider } from "@/context";
 import { NextUIProvider } from "@nextui-org/react";
 import { Session } from "next-auth";
 import { SessionProvider } from "next-auth/react";
@@ -14,12 +15,9 @@ export type RootLayoutProvidersProps = PropsWithChildren<{
   messages: any;
 }>;
 
-export const RootLayoutProviders = ({
-  children,
-  session,
-  locale,
-  messages,
-}: RootLayoutProvidersProps) => {
+export const RootLayoutProviders = (props: RootLayoutProvidersProps) => {
+  const { children, session, locale, messages } = props;
+
   return (
     <SessionProvider session={session}>
       <NextIntlClientProvider
@@ -29,7 +27,7 @@ export const RootLayoutProviders = ({
       >
         <ReactQueryProvider>
           <NextUIProvider>
-            {children}
+            <ProfileProvider>{children}</ProfileProvider>
             <ToastContainer />
           </NextUIProvider>
         </ReactQueryProvider>

@@ -1,30 +1,42 @@
+import { PrismaService } from "@/libs/prisma";
 import { hashService } from "@/services/hash";
 import {
   emailVerificationTokenService,
   inviteTokenService,
+  passwordResetTokenService,
 } from "@/services/token";
-import { FindManyPrismaEntity } from "@/types";
+import {
+  BadRequestException,
+  FindManyPrismaEntity,
+  NotFoundException,
+} from "@/types";
 import { daysToSeconds } from "@/utils/days-to-seconds";
-import { Prisma, User, UserRoles, UserStatus } from "@prisma/client";
+import { Prisma, User, UserRoles } from "@prisma/client";
 import {
   AbstractBllService,
   GetPaginationReturnType,
 } from "../../module.abstract";
-import {
-  CustomerRegistrationRequest,
-  LoginRequest,
-  LoginStatus,
-} from "../auth/schema";
+import { CustomerRegistrationRequest } from "../auth/schema";
+import { FilesBllModule } from "../files";
 import {
   AdminUsersRequest,
+  ChangePasswordRequest,
   CheckEmailAvailableRequest,
   CompaniesUsersRequest,
   CompanyUsersRequest,
   CustomerUsersRequest,
+  EditUserProfileRequest,
   InviteUsersRequest,
 } from "./schema";
 
 export class UsersBllModule extends AbstractBllService {
+  constructor(
+    prismaService: PrismaService,
+    private readonly filesService: FilesBllModule
+  ) {
+    super(prismaService);
+  }
+
   protected async findMany(
     props: FindManyPrismaEntity<Prisma.UserWhereInput, Prisma.UserSelect>
   ) {
@@ -48,6 +60,23 @@ export class UsersBllModule extends AbstractBllService {
     return { data, meta: pagination?.meta };
   }
 
+  currentProfile(userId: string) {
+    const user = this.findUnique(
+      { id: userId },
+      {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        avatar: { select: { url: true } },
+      }
+    );
+
+    if (!user) throw new NotFoundException("User not found");
+
+    return user;
+  }
+
   async findUnique(
     where: Prisma.UserWhereUniqueInput,
     select?: Prisma.UserSelect
@@ -67,27 +96,6 @@ export class UsersBllModule extends AbstractBllService {
             companyId: true,
             role: true,
           },
-    });
-
-    return user;
-  }
-
-  async findByEmail(email: string) {
-    const user = await this.prismaService.user.findUnique({
-      where: { email },
-      select: {
-        id: true,
-        email: true,
-        name: true,
-        avatar: { select: { url: true } },
-        emailVerified: true,
-        emailToken: true,
-        isAcceptInvite: true,
-        status: true,
-        companyId: true,
-        password: true,
-        role: true,
-      },
     });
 
     return user;
@@ -118,7 +126,7 @@ export class UsersBllModule extends AbstractBllService {
     return emailsAvailable;
   }
 
-  async verifyEmailToken(email: string) {
+  async verifyUserEmail(email: string) {
     await this.prismaService.user.update({
       where: { email },
       data: { emailVerified: true },
@@ -153,19 +161,38 @@ export class UsersBllModule extends AbstractBllService {
     return { users };
   }
 
-  async updateEmailToken(email: string) {
-    const emailToken = emailVerificationTokenService.generate({
-      payload: { email },
-      expiresIn: daysToSeconds(1),
-    });
+  async updateToken(
+    email: string,
+    type: "email-verification" | "reset-password"
+  ) {
+    let token = "";
 
-    const updateResponse = await this.prismaService.user.update({
+    if (type === "email-verification")
+      token = emailVerificationTokenService.generate({
+        payload: { email },
+        expiresIn: daysToSeconds(1),
+      });
+
+    if (type === "reset-password")
+      token = passwordResetTokenService.generate({
+        payload: { email },
+        expiresIn: daysToSeconds(1),
+      });
+
+    await this.prismaService.user.update({
       where: { email },
-      data: { emailToken },
+      data: {
+        emailToken:
+          type === "email-verification"
+            ? await hashService.hash(token)
+            : undefined,
+        resetPasswordToken:
+          type === "reset-password" ? await hashService.hash(token) : undefined,
+      },
       select: { id: true },
     });
 
-    return { ...updateResponse, emailToken };
+    return token;
   }
 
   async registerCustomer(data: CustomerRegistrationRequest) {
@@ -177,7 +204,7 @@ export class UsersBllModule extends AbstractBllService {
       expiresIn: daysToSeconds(1),
     });
 
-    const createResponse = await this.prismaService.user.create({
+    const newCustomer = await this.prismaService.user.create({
       data: {
         name,
         email,
@@ -190,13 +217,11 @@ export class UsersBllModule extends AbstractBllService {
       select: { email: true, name: true },
     });
 
-    return { ...createResponse, emailToken: verificationToken };
+    return { ...newCustomer, emailToken: verificationToken };
   }
 
-  async verifyUserLogin(data: LoginRequest) {
-    const { email, password } = data;
-
-    const user = await this.prismaService.user.findUnique({
+  async getUserForLoginVerification(email: string) {
+    return await this.prismaService.user.findUnique({
       where: { email },
       select: {
         emailVerified: true,
@@ -209,26 +234,6 @@ export class UsersBllModule extends AbstractBllService {
         role: true,
       },
     });
-
-    if (!user) return LoginStatus.WrongCredentials;
-    if (!user.emailVerified) return LoginStatus.EmailNotVerified;
-    if (!user.isAcceptInvite) return LoginStatus.NotAcceptInvite;
-    if (user.status === UserStatus.BLOCKED) return LoginStatus.Blocked;
-    if (user.status === UserStatus.INACTIVE) return LoginStatus.Inactive;
-
-    const isPasswordValid = await hashService.compare(password, user.password);
-
-    if (!isPasswordValid) return LoginStatus.WrongCredentials;
-
-    const { avatar, companyId, id, role } = user;
-
-    return {
-      email,
-      id,
-      role,
-      avatar: avatar?.url,
-      companyId: companyId || undefined,
-    };
   }
 
   async inviteUser(data: {
@@ -407,6 +412,80 @@ export class UsersBllModule extends AbstractBllService {
         status: true,
         isAcceptInvite: true,
       },
+    });
+  }
+
+  async changePassword(
+    dto: ChangePasswordRequest & { userId?: string; email?: string }
+  ) {
+    const { userId, email, oldPassword, newPassword } = dto;
+
+    if (!userId && !email)
+      throw new BadRequestException("Email or userId is required");
+
+    const user = await this.prismaService.user.findUnique({
+      where: { id: userId ?? undefined, email: email ?? undefined },
+      select: { password: true },
+    });
+
+    if (!user) throw new NotFoundException("User not found");
+
+    const isPasswordMatch = await hashService.compare(
+      oldPassword,
+      user.password
+    );
+
+    if (!isPasswordMatch) throw new BadRequestException("Invalid password");
+
+    const hashedPassword = await hashService.hash(newPassword);
+
+    await this.prismaService.user.update({
+      where: { id: userId },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true };
+  }
+
+  async editProfile(dto: EditUserProfileRequest & { userId: string }) {
+    const { avatar, name, userId } = dto;
+
+    const user = await this.findUnique(
+      { id: userId },
+      { id: true, avatar: { select: { id: true } } }
+    );
+
+    if (!user) throw new NotFoundException("User not found");
+
+    const data: Prisma.UserUpdateInput = {};
+
+    if (name) data.name = name;
+    if (typeof avatar === "string" && avatar === "null" && user.avatar?.id) {
+      await this.filesService.deleteFile({
+        type: "user-avatar",
+        id: user.avatar?.id,
+      });
+
+      data.avatar = { disconnect: true };
+    }
+    if (avatar && avatar !== "null" && avatar instanceof File) {
+      const image = await this.filesService.uploadImage({
+        file: avatar,
+        id: userId,
+        type: "user-avatar",
+        idToDelete: user.avatar?.id,
+      });
+      if (image) {
+        data.avatar = {
+          connect: { id: image.id },
+        };
+      }
+    }
+
+    return await this.prismaService.user.update({
+      where: { id: userId },
+      data,
+      select: { id: true },
     });
   }
 }

@@ -1,7 +1,28 @@
 "use client";
 
+import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
+import { SettingsProfileTemplate } from "@/components/templates/Shared/SettingsProfileTemplate";
+import { useProfileContext } from "@/context";
+import { useEditUserProfileMutation } from "@/hooks";
+
 const SettingsPage = () => {
-  return <h2 className="text-lg font-bold tracking-tight">Account</h2>;
+  const user = useProfileContext();
+  const { mutateAsync: editProfile, isPending: isEditProfilePending } =
+    useEditUserProfileMutation();
+
+  return (
+    <>
+      {isEditProfilePending && <LoadingOverlay />}
+
+      <SettingsProfileTemplate
+        profile={user}
+        editProfileAction={{
+          handler: editProfile,
+          isLoading: isEditProfilePending,
+        }}
+      />
+    </>
+  );
 };
 
 export default SettingsPage;

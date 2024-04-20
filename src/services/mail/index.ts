@@ -26,6 +26,7 @@ class MailService {
 
     return await this.api.send({
       ...rest,
+      // @ts-ignore
       html: html(data),
       to,
     });

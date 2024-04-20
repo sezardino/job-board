@@ -26,7 +26,7 @@ class BllService {
 
   constructor(private readonly prismaService: PrismaService) {
     this.files = new FilesBllModule(prismaService);
-    this.users = new UsersBllModule(prismaService);
+    this.users = new UsersBllModule(prismaService, this.files);
     this.companies = new CompaniesBllModule(prismaService, this.files);
     this.auth = new AuthBllModule(prismaService, this.users, this.companies);
     this.industries = new IndustriesBllModule(prismaService);

@@ -1,7 +1,7 @@
 "use client";
 
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
-import { CompanyProfileTemplate } from "@/components/templates/Shared/CompanyProfileTemplate";
+import { CompanyProfileTemplate } from "@/components/templates/Company/CompanyProfileTemplate";
 import { CompanyPageUrls } from "@/const";
 import { useCompanyPagesContext } from "@/context";
 import { useCompanyProfileQuery } from "@/hooks";

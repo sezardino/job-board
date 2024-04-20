@@ -5,7 +5,6 @@ import { OfferTemplate } from "@/components/templates/Board/OfferTemplate/OfferT
 import { useApplyForOfferMutation } from "@/hooks";
 import { usePreviewOfferQuery } from "@/hooks/react-query/query/offers";
 import { useCommonOffersInfiniteQuery } from "@/hooks/react-query/query/offers/common-offers";
-import { useSession } from "next-auth/react";
 import { useCallback } from "react";
 
 type Props = {
@@ -16,7 +15,6 @@ type Props = {
 
 const OfferPage = (props: Props) => {
   const { id } = props.params;
-  const { data: session } = useSession();
 
   const offerPreviewQuery = usePreviewOfferQuery({ id });
 

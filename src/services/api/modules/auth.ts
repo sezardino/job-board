@@ -1,9 +1,15 @@
 import {
   CustomerRegistrationRequest,
   ResendVerificationEmailRequest,
+  ResetPasswordRequest,
+  ResetPasswordRequestDto,
+  VerifyResetPasswordTokenRequest,
   customerRegistrationResponseSchema,
   resendVerificationEmailResponseSchema,
+  resetPasswordRequestResponseSchema,
+  resetPasswordResponseSchema,
   verifyEmailTokenResponseSchema,
+  verifyResetPasswordTokenResponseSchema,
 } from "@/services/bll/modules/auth/schema";
 import {
   CompanyRegistrationRequest,
@@ -41,6 +47,30 @@ export class AuthApiModule extends AbstractApiModule {
       endpoint: "auth/verify-email/resend",
       config: { data, method: "POST" },
       schema: resendVerificationEmailResponseSchema,
+    });
+  }
+
+  resetPasswordRequest(data: ResetPasswordRequestDto) {
+    return this.fetch({
+      endpoint: "auth/reset-password",
+      schema: resetPasswordRequestResponseSchema,
+      config: { method: "POST", data },
+    });
+  }
+
+  resetPassword(data: ResetPasswordRequest) {
+    return this.fetch({
+      endpoint: "auth/reset-password",
+      schema: resetPasswordResponseSchema,
+      config: { method: "POST", data },
+    });
+  }
+
+  verifyResetPasswordToken(params: VerifyResetPasswordTokenRequest) {
+    return this.fetch({
+      endpoint: "auth/reset-password",
+      schema: verifyResetPasswordTokenResponseSchema,
+      config: { params },
     });
   }
 }
