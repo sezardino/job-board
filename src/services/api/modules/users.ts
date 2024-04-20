@@ -24,9 +24,18 @@ import {
   inviteUsersResponseSchema,
   resendInviteResponseSchema,
 } from "@/services/bll/modules/users/schema";
+import { currentUserProfileResponseSchema } from "@/services/bll/modules/users/schema/current-user-profile";
 import { AbstractApiModule } from "../helpers";
 
 export class UsersApiModule extends AbstractApiModule {
+  async currentUserProfile() {
+    return await this.fetch({
+      endpoint: "users/me",
+      config: { method: "GET" },
+      schema: currentUserProfileResponseSchema,
+    });
+  }
+
   async checkEmailAvailable(params: CheckEmailAvailableRequest) {
     return await this.fetch({
       endpoint: "users/check-email",

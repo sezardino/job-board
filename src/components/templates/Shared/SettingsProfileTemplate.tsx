@@ -1,6 +1,8 @@
 import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { Button } from "@/components/base/Button/Button";
+import { Grid } from "@/components/base/Grid/Grid";
 import { UserProfileForm } from "@/components/forms/UserProfile/UserProfileForm";
+import { Card, CardBody, CardFooter, CardHeader } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 import { useId } from "react";
 
@@ -9,30 +11,37 @@ export const SettingsProfileTemplate = () => {
   const formId = useId();
 
   return (
-    <main>
+    <Grid tag="main" gap={4}>
       <TitleDescription
         titleLevel="h1"
         tag="header"
         titleStyling="xl"
-        gap={4}
         titleWeight="bold"
-        descriptionStyling="md"
         title={t("title")}
         description={t("description")}
       />
 
-      <section>
-        <TitleDescription
-          titleLevel="h2"
-          title={t("base-data.title")}
-          description={t("base-data.description")}
-        />
-        <UserProfileForm
-          id={formId}
-          initialValues={{ avatar: null, name: "name", isAvatarDeleted: false }}
-          onFormSubmit={() => undefined}
-        />
-        <div className="mt-4 flex gap-2 items-center flex-wrap">
+      <Card>
+        <CardHeader>
+          <TitleDescription
+            titleLevel="h2"
+            titleStyling="md"
+            title={t("base-data.title")}
+            description={t("base-data.description")}
+          />
+        </CardHeader>
+        <CardBody>
+          <UserProfileForm
+            id={formId}
+            initialValues={{
+              avatar: null,
+              name: "name",
+              isAvatarDeleted: false,
+            }}
+            onFormSubmit={() => undefined}
+          />
+        </CardBody>
+        <CardFooter className="flex gap-2 items-center flex-wrap">
           <Button
             type="reset"
             color="primary"
@@ -47,8 +56,8 @@ export const SettingsProfileTemplate = () => {
             form={formId}
             text={t("base-data.confirm")}
           />
-        </div>
-      </section>
-    </main>
+        </CardFooter>
+      </Card>
+    </Grid>
   );
 };

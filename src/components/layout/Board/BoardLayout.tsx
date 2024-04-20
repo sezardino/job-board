@@ -3,16 +3,16 @@
 import { CategoryCard } from "@/components/UI/CategoryCard/CategoryCard";
 import { LandingNavbar } from "@/components/UI/LandingNavbar/LandingNavbar";
 import { useActiveCategoriesQuery } from "@/hooks/react-query/query/categories/active-categories";
-import { User } from "next-auth";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 
 import styles from "./BoardLayout.module.scss";
 
+import { Profile } from "@/context";
 import { Skeleton } from "@nextui-org/react";
 import { twMerge } from "tailwind-merge";
 
 type Props = {
-  user?: User;
+  user: Profile | null;
   onSignOutClick: () => void;
   activeCategory?: string;
   industry: string;

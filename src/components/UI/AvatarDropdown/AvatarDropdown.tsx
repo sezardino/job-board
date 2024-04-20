@@ -1,3 +1,4 @@
+import { Profile } from "@/context";
 import {
   Avatar,
   Dropdown,
@@ -5,14 +6,13 @@ import {
   DropdownMenu,
   DropdownTrigger,
 } from "@nextui-org/react";
-import { User } from "next-auth";
 import Link from "next/link";
 import { type ComponentPropsWithoutRef, type FC } from "react";
 
 type Props = {
   title: string;
   items: { href?: string; label: string; onClick?: () => void }[];
-  user: User;
+  user: Profile;
 };
 
 export type AvatarDropdownProps = ComponentPropsWithoutRef<"div"> & Props;

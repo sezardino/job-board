@@ -7,7 +7,7 @@ import {
   AppSidebarItem,
 } from "@/components/UI/AppSidebar/AppSidebar";
 import { LandingNavbar } from "@/components/UI/LandingNavbar/LandingNavbar";
-import { User } from "next-auth";
+import { Profile } from "@/context";
 import { twMerge } from "tailwind-merge";
 import styles from "./PanelLayout.module.scss";
 
@@ -15,7 +15,7 @@ type Props = {
   lists: AppSidebarItem[][];
   homeHref: string;
   onSignOutClick: () => void;
-  user?: User;
+  user: Profile | null;
 };
 
 type PanelLayoutProps = PropsWithChildren<Props>;

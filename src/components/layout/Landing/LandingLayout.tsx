@@ -1,13 +1,13 @@
 "use client";
 
 import { LandingNavbar } from "@/components/UI/LandingNavbar/LandingNavbar";
-import { User } from "next-auth";
+import { Profile } from "@/context";
 import { FC, PropsWithChildren } from "react";
 
 import { twMerge } from "tailwind-merge";
 
 type Props = {
-  user?: User;
+  user: Profile | null;
   onSignOutClick: () => void;
 };
 

@@ -60,6 +60,23 @@ export class UsersBllModule extends AbstractBllService {
     return { data, meta: pagination?.meta };
   }
 
+  currentProfile(userId: string) {
+    const user = this.findUnique(
+      { id: userId },
+      {
+        id: true,
+        name: true,
+        email: true,
+        role: true,
+        avatar: { select: { url: true } },
+      }
+    );
+
+    if (!user) throw new NotFoundException("User not found");
+
+    return user;
+  }
+
   async findUnique(
     where: Prisma.UserWhereUniqueInput,
     select?: Prisma.UserSelect
