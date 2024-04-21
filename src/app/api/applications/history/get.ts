@@ -14,7 +14,7 @@ export const getApplicationHistory = async (req: NextRequest) => {
   const isAdmin = AdminRoles.some((role) => role === session?.user.role);
 
   if (isAdmin && !params.customerId)
-    throw new BadRequestException("customerId is required");
+    throw new BadRequestException({ message: "customerId is required" });
 
   const data = await bllService.applications.history({
     ...params,

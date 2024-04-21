@@ -1,6 +1,6 @@
 "use client";
 
-import { LoginTemplate } from "@/components/templates/Auth/LoginTemplate";
+import { LoginTemplate } from "@/components/templates/Auth/Login/LoginTemplate";
 import { PublicPageUrls } from "@/const";
 import { useLogin } from "@/hooks/useLogin";
 import { reactToastify } from "@/libs/react-toastify";

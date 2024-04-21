@@ -1,0 +1,19 @@
+.trigger {
+  @apply cursor-pointer;
+}
+
+.panel {
+  @apply w-[240px];
+}
+
+.wrapper {
+  @apply px-1 py-2 w-full;
+}
+
+.list {
+  @apply list-none;
+}
+
+.button {
+  @apply w-full;
+}

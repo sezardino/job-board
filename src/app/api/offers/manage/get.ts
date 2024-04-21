@@ -26,9 +26,9 @@ export const getOffersForManage = async (req: NextRequest) => {
     data.status === OfferStatus.INACTIVE &&
     CompanyUsers.some((r) => r === session?.user.role!)
   )
-    throw new NotAllowedException(
-      "You are not allowed to view inactive offers"
-    );
+    throw new NotAllowedException({
+      message: "You are not allowed to view inactive offers",
+    });
 
   const res = await bllService.offers.offersForManage({
     ...data,

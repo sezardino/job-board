@@ -41,7 +41,7 @@ export class ApplicationsBllModule extends AbstractBllService {
     });
 
     if (!neededApplication)
-      throw new NotFoundException("Application not found");
+      throw new NotFoundException({ message: "Application not found" });
 
     return neededApplication;
   }

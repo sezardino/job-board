@@ -447,6 +447,14 @@
           "required": "Content is required",
           "max-length": "Content should be less than {value} characters"
         }
+      },
+      "reset-password": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email is required",
+          "invalid": "Email is invalid"
+        }
       }
     }
   },
@@ -973,14 +981,39 @@
       "login": {
         "title": "Login",
         "description": "Please enter your login and password to access the system",
+        "home": "To home page",
         "submit": "Login",
-        "forgot-password": "Forgot password? Contact your administrator",
+        "forgot-password": {
+          "title": "Forgot password?",
+          "trigger": "Reset password"
+        },
         "register": {
           "text": "Don't have an account?",
           "trigger": "Sign up",
           "title": "Sign up as:",
           "company": "Company",
           "customer": "Customer"
+        }
+      },
+      "reset-password-request": {
+        "title": "Reset password",
+        "description": "Please enter your email to reset password",
+        "login": "To login page",
+        "confirm": "Reset password",
+        "invalid-email": "Invalid email"
+      },
+      "reset-password": {
+        "title": "Reset password",
+        "description": "Please enter your new password",
+        "login": "To login page",
+        "confirm": "Change password",
+        "resend": "Resend email",
+        "token-invalid": "Invalid verification link",
+        "not-found": "Not found",
+        "token-expired": "Expired verification link",
+        "success": {
+          "title": "Password changed",
+          "description": "Your password has been changed successfully"
         }
       },
       "customer-registration": {
@@ -991,12 +1024,7 @@
         },
         "success": {
           "title": "Registration successful",
-          "description": "Please check your email to activate your account",
-          "resend-email": {
-            "trigger": "Resend verification email",
-            "description": "If you didn't receive verification email, you can resend it here",
-            "interval": "You can resend verification email in {value} seconds"
-          }
+          "description": "Please check your email to activate your account"
         },
         "email-used": {
           "title": "Email already used",
@@ -1005,12 +1033,7 @@
         },
         "waiting-for-email-confirmation": {
           "title": "Waiting for email confirmation",
-          "description": "Please check your email to activate your account",
-          "resend-email": {
-            "trigger": "Resend verification email",
-            "description": "If you didn't receive verification email, you can resend it here",
-            "interval": "You can resend verification email in {value} seconds"
-          }
+          "description": "Please check your email to activate your account"
         }
       },
       "company-registration": {
@@ -1021,12 +1044,7 @@
         },
         "success": {
           "title": "Registration successful",
-          "description": "Please check your email to activate your account",
-          "resend-email": {
-            "trigger": "Resend verification email",
-            "description": "If you didn't receive verification email, you can resend it here",
-            "interval": "You can resend verification email in {value} seconds"
-          }
+          "description": "Please check your email to activate your account"
         },
         "email-used": {
           "title": "Email already used",
@@ -1035,12 +1053,7 @@
         },
         "waiting-for-email-confirmation": {
           "title": "Waiting for email confirmation",
-          "description": "Please check your email to activate your account",
-          "resend-email": {
-            "trigger": "Resend verification email",
-            "description": "If you didn't receive verification email, you can resend it here",
-            "interval": "You can resend verification email in {value} seconds"
-          }
+          "description": "Please check your email to activate your account"
         }
       },
       "verify-email": {
@@ -1247,6 +1260,11 @@
       }
     },
     "shared": {
+      "resend-verification-email": {
+        "trigger": "Resend verification email",
+        "description": "If you didn't receive verification email, you can resend it here",
+        "interval": "You can resend verification email in {value} seconds"
+      },
       "navbar": {
         "user-menu-title": "User menu",
         "dashboard": "Dashboard",

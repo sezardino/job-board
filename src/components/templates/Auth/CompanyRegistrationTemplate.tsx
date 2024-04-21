@@ -4,7 +4,7 @@ import {
   CompanyRegistrationForm,
   CompanyRegistrationFormValues,
 } from "@/components/forms/CompanyRegistration/CompanyRegistrationForm";
-import { RegistrationEmailVerificationStep } from "@/components/modules/auth/RegistrationEmailVerificationStep";
+import { ResendVerificationEmail } from "@/components/modules/auth/ResendVerificationEmail/ResendVerificationEmail";
 import { PublicPageUrls } from "@/const";
 import { ResendVerificationEmailResponse } from "@/services/bll/modules/auth/schema";
 import {
@@ -101,17 +101,9 @@ export const CompanyRegistrationTemplate: FC<
 
       {(step === CompanyRegistrationStatus.Success ||
         step === CompanyRegistrationStatus.WaitingForEmailConfirmation) && (
-        <RegistrationEmailVerificationStep
-          resendEmailAction={{
-            handler: resendHandler,
-            isLoading: resendEmailAction.isLoading,
-          }}
-          copy={{
-            trigger: t("success.resend-email.trigger"),
-            description: t("success.resend-email.description"),
-            interval: t("success.resend-email.interval"),
-          }}
-          className="mt-4"
+        <ResendVerificationEmail
+          onResend={resendHandler}
+          isLoading={resendEmailAction.isLoading}
         />
       )}
     </Grid>

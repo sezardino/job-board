@@ -20,14 +20,14 @@ export const postInviteUsers = async (req: NextRequest) => {
   );
 
   if (hasOwnerRole && hasAdminRole)
-    throw new NotAllowedException("Method not allowed");
+    throw new NotAllowedException({ message: "Method not allowed" });
 
   if (
     session?.user.role === UserRoles.OWNER &&
     (hasAdminRole ||
       data?.users.some((user) => user.role === UserRoles.SUB_ADMIN))
   ) {
-    throw new NotAllowedException("Method not allowed");
+    throw new NotAllowedException({ message: "Method not allowed" });
   }
 
   if (
@@ -38,7 +38,7 @@ export const postInviteUsers = async (req: NextRequest) => {
           user.role === UserRoles.MODERATOR || user.role === UserRoles.RECRUITER
       ))
   ) {
-    throw new NotAllowedException("Method not allowed");
+    throw new NotAllowedException({ message: "Method not allowed" });
   }
 
   const res = await bllService.users.inviteUsers(

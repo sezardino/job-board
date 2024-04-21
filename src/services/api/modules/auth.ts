@@ -62,7 +62,7 @@ export class AuthApiModule extends AbstractApiModule {
     return this.fetch({
       endpoint: "auth/reset-password",
       schema: resetPasswordResponseSchema,
-      config: { method: "POST", data },
+      config: { method: "PATCH", data },
     });
   }
 

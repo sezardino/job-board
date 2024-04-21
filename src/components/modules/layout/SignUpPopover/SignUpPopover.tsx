@@ -12,6 +12,8 @@ import {
 } from "@nextui-org/react";
 import { useTranslations } from "next-intl";
 
+import styles from "./SignUpPopover.module.scss";
+
 import NextLink from "next/link";
 import { type FC } from "react";
 
@@ -39,28 +41,28 @@ export const SignUpPopover: FC<SignUpPopoverProps> = (props) => {
 
   return (
     <Popover placement="bottom" offset={10} {...rest} backdrop="blur">
-      <Typography tag="p" className="text-center">
+      <Typography tag="p" isTextCentered>
         {text && <>{text} </>}
-        <PopoverTrigger>{trigger}</PopoverTrigger>
+        <PopoverTrigger className={styles.trigger}>{trigger}</PopoverTrigger>
       </Typography>
-      <PopoverContent className="w-[240px]">
+      <PopoverContent className={styles.panel}>
         {(titleProps) => (
-          <Grid gap={4} className="px-1 py-2 w-full">
+          <Grid gap={4} className={styles.wrapper}>
             <Typography
               tag="h3"
               weight="medium"
               styling="md"
-              className="text-center"
+              isTextCentered
               {...titleProps}
             >
               {t("title")}
             </Typography>
-            <Grid tag="ul" gap={2} className="list-none">
+            <Grid tag="ul" gap={2} className={styles.list}>
               <li>
                 <Button
                   as={NextLink}
                   href={PublicPageUrls.registerUser}
-                  className="w-full"
+                  className={styles.button}
                   color="primary"
                   variant="bordered"
                   startContent={<Icon name="HiUser" />}
@@ -71,7 +73,7 @@ export const SignUpPopover: FC<SignUpPopoverProps> = (props) => {
                 <Button
                   as={NextLink}
                   href={PublicPageUrls.registerCompany}
-                  className="w-full"
+                  className={styles.button}
                   variant="bordered"
                   color="primary"
                   startContent={<Icon name="HiBuildingOffice" />}

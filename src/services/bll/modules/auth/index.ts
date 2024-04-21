@@ -8,6 +8,7 @@ import {
 } from "@/services/token";
 import { BadRequestException, NotFoundException } from "@/types";
 import { UserStatus } from "@prisma/client";
+import { TokenExpiredError } from "jsonwebtoken";
 import { CompaniesBllModule, UsersBllModule } from "..";
 import { AbstractBllService } from "../../module.abstract";
 import {
@@ -17,6 +18,7 @@ import {
   RegistrationStatus,
   ResetPasswordRequest,
   ResetPasswordRequestDto,
+  ResetPasswordRequestError,
   VerifyEmailTokenResponse,
   VerifyEmailTokenStatus,
 } from "./schema";
@@ -25,7 +27,10 @@ import {
   CompanyRegistrationStatus,
 } from "./schema/company-registration";
 import { ResendVerificationEmailStatus } from "./schema/resend-verification-email";
-import { VerifyResetPasswordTokenRequest } from "./schema/verify-reset-password-token";
+import {
+  VerifyResetPasswordTokenErrors,
+  VerifyResetPasswordTokenRequest,
+} from "./schema/verify-reset-password-token";
 
 export class AuthBllModule extends AbstractBllService {
   constructor(
@@ -206,7 +211,11 @@ export class AuthBllModule extends AbstractBllService {
 
     const user = await this.usersService.findUnique({ email }, { id: true });
 
-    if (!user) throw new NotFoundException("User not found");
+    if (!user)
+      throw new BadRequestException({
+        message: "Invalid email",
+        payload: ResetPasswordRequestError.InvalidEmail,
+      });
 
     const resetToken = await this.usersService.updateToken(
       email,
@@ -230,45 +239,75 @@ export class AuthBllModule extends AbstractBllService {
       );
 
       if (!decodedToken || !decodedToken?.email)
-        throw new NotFoundException("Token not found");
+        throw new NotFoundException({
+          message: "Token not found",
+          payload: { type: VerifyResetPasswordTokenErrors.NotFound },
+        });
 
       const user = await this.prismaService.user.findUnique({
         where: { email: decodedToken.email },
         select: { resetPasswordToken: true },
       });
 
-      if (!user) throw new NotFoundException("Not found");
+      if (!user)
+        throw new NotFoundException({
+          message: "Not found",
+          payload: { type: VerifyResetPasswordTokenErrors.NotFound },
+        });
       if (!user.resetPasswordToken)
-        throw new NotFoundException("Token not found");
+        throw new NotFoundException({
+          message: "Token not found",
+          payload: { type: VerifyResetPasswordTokenErrors.NotFound },
+        });
 
       const isTokensMatch = hashService.compare(
         token,
         user.resetPasswordToken!
       );
 
-      if (!isTokensMatch) throw new BadRequestException("Invalid token");
+      if (!isTokensMatch)
+        throw new BadRequestException({
+          message: "Invalid token",
+          payload: { type: VerifyResetPasswordTokenErrors.TokenInvalid },
+        });
 
       return decodedToken.email;
     } catch (error) {
       const typedError = error as JWTError;
 
-      if (typedError.message === "jwt expired")
-        throw new BadRequestException("Token expired");
+      if (typedError instanceof TokenExpiredError) {
+        const decoded = passwordResetTokenService.decode<{ email: string }>(
+          token
+        );
 
-      throw new BadRequestException("Invalid token");
+        if (!decoded || !decoded?.email)
+          throw new BadRequestException({
+            message: "Token not found",
+            payload: { type: VerifyResetPasswordTokenErrors.NotFound },
+          });
+
+        throw new BadRequestException({
+          message: "Token expired",
+          payload: {
+            type: VerifyResetPasswordTokenErrors.TokenExpired,
+            email: decoded.email,
+          },
+        });
+      }
+
+      throw new BadRequestException({
+        message: "Invalid token",
+        payload: { type: VerifyResetPasswordTokenErrors.TokenInvalid },
+      });
     }
   }
 
   async resetPassword(dto: ResetPasswordRequest & { userId?: string }) {
-    const { oldPassword, newPassword, token } = dto;
+    const { password, token } = dto;
 
     const email = await this.verifyResetPasswordToken({ token });
 
-    await this.usersService.changePassword({
-      newPassword,
-      oldPassword,
-      email,
-    });
+    await this.usersService.resetPassword({ password, email });
 
     return { success: true };
   }

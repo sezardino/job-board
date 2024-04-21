@@ -409,7 +409,7 @@ const html = (args: Args) => `
                                     <a
                                       href=${
                                         process.env.FRONTEND_URL
-                                      }${PublicPageUrls.resetPassword(
+                                      }${PublicPageUrls.resetPasswordToken(
   args.token
 )}
                                       style="
