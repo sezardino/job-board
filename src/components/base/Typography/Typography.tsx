@@ -35,6 +35,7 @@ export type TypographyProps = ComponentPropsWithoutRef<"p"> & {
   tag: TypographyTag;
   weight?: TypographyWeight;
   isVisuallyHidden?: boolean;
+  isTextCentered?: boolean;
   color?:
     | "inherit"
     | "primary"
@@ -73,6 +74,7 @@ const TypographyComponent: ForwardRefRenderFunction<
     color = "inherit",
     styling = "sm",
     weight = "regular",
+    isTextCentered = false,
     tag: Tag,
     isVisuallyHidden = false,
     className,
@@ -90,6 +92,7 @@ const TypographyComponent: ForwardRefRenderFunction<
         `text-${color}`,
         "whitespace-pre-line",
         isVisuallyHidden && "sr-only",
+        isTextCentered && "text-center",
         className
       )}
     >

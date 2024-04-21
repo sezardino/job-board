@@ -1,0 +1,11 @@
+.element {
+  @apply max-w-96 mx-auto;
+}
+
+.wrapper {
+  @apply border-2 rounded-md p-4;
+}
+
+.home {
+  @apply justify-self-start;
+}

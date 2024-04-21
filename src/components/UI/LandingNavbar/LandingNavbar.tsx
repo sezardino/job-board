@@ -1,6 +1,6 @@
 "use client";
 
-import { SignUpPopover } from "@/components/modules/layout/SignUpPopover";
+import { SignUpPopover } from "@/components/modules/layout/SignUpPopover/SignUpPopover";
 import { BRAND_NAME, PublicPageUrls } from "@/const";
 import { getDashboardPath } from "@/utils";
 import {

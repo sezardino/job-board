@@ -973,8 +973,12 @@
       "login": {
         "title": "Login",
         "description": "Please enter your login and password to access the system",
+        "home": "To home page",
         "submit": "Login",
-        "forgot-password": "Forgot password? Contact your administrator",
+        "forgot-password": {
+          "title": "Forgot password?",
+          "trigger": "Reset password"
+        },
         "register": {
           "text": "Don't have an account?",
           "trigger": "Sign up",
