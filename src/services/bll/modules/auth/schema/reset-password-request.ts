@@ -1,5 +1,13 @@
 import { z } from "zod";
 
+export enum ResetPasswordRequestError {
+  InvalidEmail = "invalid-email",
+}
+
+export const ResetPasswordRequestErrors = Object.values(
+  ResetPasswordRequestError
+);
+
 export const resetPasswordRequestDtoSchema = z.object({
   email: z.string(),
 });

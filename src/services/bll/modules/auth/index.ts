@@ -17,6 +17,7 @@ import {
   RegistrationStatus,
   ResetPasswordRequest,
   ResetPasswordRequestDto,
+  ResetPasswordRequestError,
   VerifyEmailTokenResponse,
   VerifyEmailTokenStatus,
 } from "./schema";
@@ -206,7 +207,11 @@ export class AuthBllModule extends AbstractBllService {
 
     const user = await this.usersService.findUnique({ email }, { id: true });
 
-    if (!user) throw new NotFoundException("User not found");
+    if (!user)
+      throw new BadRequestException(
+        "Invalid email",
+        ResetPasswordRequestError.InvalidEmail
+      );
 
     const resetToken = await this.usersService.updateToken(
       email,

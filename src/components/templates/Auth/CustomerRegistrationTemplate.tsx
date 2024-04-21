@@ -5,7 +5,7 @@ import {
   CustomerRegistrationForm,
   CustomerRegistrationFormValues,
 } from "@/components/forms/CustomerRegistration/CustomerRegistrationForm";
-import { RegistrationEmailVerificationStep } from "@/components/modules/auth/RegistrationEmailVerificationStep";
+import { ResendVerificationEmail } from "@/components/modules/auth/ResendVerificationEmail/ResendVerificationEmail";
 import { PublicPageUrls } from "@/const";
 import {
   CustomerRegistrationResponse,
@@ -125,16 +125,9 @@ export const CustomerRegistrationTemplate: FC<
 
           {(step === RegistrationStatus.Success ||
             step === RegistrationStatus.WaitingForEmailConfirmation) && (
-            <RegistrationEmailVerificationStep
-              resendEmailAction={{
-                handler: resendHandler,
-                isLoading: resendEmailAction.isLoading,
-              }}
-              copy={{
-                trigger: t("success.resend-email.trigger"),
-                description: t("success.resend-email.description"),
-                interval: t("success.resend-email.interval"),
-              }}
+            <ResendVerificationEmail
+              onResendClick={resendHandler}
+              isLoading={resendEmailAction.isLoading}
               className="mt-4"
             />
           )}

@@ -1,4 +1,5 @@
 import { reactToastify } from "@/libs/react-toastify";
+import { CustomException } from "@/types";
 import {
   UseMutationOptions,
   useMutation,
@@ -15,9 +16,8 @@ type GetQueriesToInvalidateFunction<
 interface UseMutationHelper<
   Var extends unknown,
   Res extends unknown,
-  Args extends unknown,
-  Err extends unknown
-> extends UseMutationOptions<Res, Err, Var, unknown> {
+  Args extends unknown
+> extends UseMutationOptions<Res, CustomException, Var, unknown> {
   getQueriesToInvalidate?: GetQueriesToInvalidateFunction<Var, Res, Args>;
   errorTranslationKey?: string;
   successTranslationKey?: string;
@@ -30,7 +30,7 @@ export const useMutationHelper = <
   Args extends unknown,
   Err extends unknown
 >(
-  props: UseMutationHelper<Var, Res, Args, Err>
+  props: UseMutationHelper<Var, Res, Args>
 ) => {
   const {
     mutationFn,

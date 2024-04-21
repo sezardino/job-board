@@ -1,28 +1,36 @@
-export class CustomException {
+type ExceptionArgs = {
   message: string;
   code: number;
+  type?: string;
+};
 
-  constructor({ message, code }: { message: string; code: number }) {
+export class CustomException {
+  message: string;
+  type?: string;
+  code: number;
+
+  constructor({ message, code, type }: ExceptionArgs) {
     this.message = message;
     this.code = code;
+    this.type = type;
   }
 }
 
 export class NotFoundException extends CustomException {
-  constructor(message: string) {
-    super({ message, code: 404 });
+  constructor(message: string, type?: string) {
+    super({ message, type, code: 404 });
   }
 }
 
 export class NotAllowedException extends CustomException {
-  constructor(message: string) {
-    super({ message, code: 405 });
+  constructor(message: string, type?: string) {
+    super({ message, type, code: 405 });
   }
 }
 
 export class BadRequestException extends CustomException {
-  constructor(message: string) {
-    super({ message, code: 400 });
+  constructor(message: string, type?: string) {
+    super({ message, type, code: 400 });
   }
 }
 
