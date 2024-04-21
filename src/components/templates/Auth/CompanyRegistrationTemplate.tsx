@@ -102,7 +102,7 @@ export const CompanyRegistrationTemplate: FC<
       {(step === CompanyRegistrationStatus.Success ||
         step === CompanyRegistrationStatus.WaitingForEmailConfirmation) && (
         <ResendVerificationEmail
-          onResendClick={resendHandler}
+          onResend={resendHandler}
           isLoading={resendEmailAction.isLoading}
         />
       )}

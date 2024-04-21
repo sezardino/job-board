@@ -1002,6 +1002,20 @@
         "confirm": "Reset password",
         "invalid-email": "Invalid email"
       },
+      "reset-password": {
+        "title": "Reset password",
+        "description": "Please enter your new password",
+        "login": "To login page",
+        "confirm": "Change password",
+        "resend": "Resend email",
+        "token-invalid": "Invalid verification link",
+        "not-found": "Not found",
+        "token-expired": "Expired verification link",
+        "success": {
+          "title": "Password changed",
+          "description": "Your password has been changed successfully"
+        }
+      },
       "customer-registration": {
         "form": {
           "title": "Register new user",

@@ -12,7 +12,7 @@ export const getCompanyProfile = async (req: NextRequest) => {
   const session = await getNextAuthSession();
 
   if (!session?.user.companyId)
-    throw new BadRequestException("Company id not provided");
+    throw new BadRequestException({ message: "Company id not provided" });
 
   const res = await bllService.companies.profile({
     id: params.id ? params.id : session?.user.companyId!,

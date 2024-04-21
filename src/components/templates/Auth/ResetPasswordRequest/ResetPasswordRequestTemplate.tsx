@@ -58,16 +58,18 @@ export const ResetPasswordRequestTemplate: FC<
         setSuccess(response.success);
       } catch (error) {
         if (error instanceof AxiosError) {
-          const typedError = error as AxiosError<CustomException>;
-          console.log(typedError.response?.data.type);
-          if (!typedError.response?.data.type) return;
+          const typedError = error as AxiosError<
+            CustomException<ResetPasswordRequestError>
+          >;
+          console.log(typedError.response?.data.payload);
+          if (!typedError.response?.data.payload) return;
 
           if (
             ResetPasswordRequestErrors.includes(
-              typedError.response?.data.type as ResetPasswordRequestError
+              typedError.response?.data.payload
             )
           ) {
-            setError(typedError.response?.data.type);
+            setError(typedError.response?.data.payload);
           }
         }
       }
@@ -133,7 +135,7 @@ export const ResetPasswordRequestTemplate: FC<
         )}
         {success && (
           <ResendVerificationEmail
-            onResendClick={resendHandler}
+            onResend={resendHandler}
             isLoading={resetPasswordRequest.isLoading}
             className="mt-4"
           />

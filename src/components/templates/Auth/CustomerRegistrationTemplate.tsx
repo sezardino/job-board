@@ -126,7 +126,7 @@ export const CustomerRegistrationTemplate: FC<
           {(step === RegistrationStatus.Success ||
             step === RegistrationStatus.WaitingForEmailConfirmation) && (
             <ResendVerificationEmail
-              onResendClick={resendHandler}
+              onResend={resendHandler}
               isLoading={resendEmailAction.isLoading}
               className="mt-4"
             />

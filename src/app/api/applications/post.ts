@@ -22,7 +22,9 @@ export const postApplyForOffer = async (req: NextRequest) => {
   );
 
   if (isNotAcceptedRole)
-    throw new BadRequestException("You are not allowed to apply for an offer");
+    throw new BadRequestException({
+      message: "You are not allowed to apply for an offer",
+    });
 
   const application = await bllService.applications.apply(
     data,

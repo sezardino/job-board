@@ -10,9 +10,10 @@ export const patchResetPassword = async (req: NextRequest) => {
 
   const isUserOnline = session?.user;
 
-  if (data.token && isUserOnline) throw new BadRequestException("Bad request");
+  if (data.token && isUserOnline)
+    throw new BadRequestException({ message: "Bad request" });
   if (!data.token && !isUserOnline)
-    throw new BadRequestException("Bad request");
+    throw new BadRequestException({ message: "Bad request" });
 
   const response = await bllService.auth.resetPassword(data);
 

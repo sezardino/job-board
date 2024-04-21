@@ -12,6 +12,7 @@ import {
 } from "@/types";
 import { daysToSeconds } from "@/utils/days-to-seconds";
 import { Prisma, User, UserRoles } from "@prisma/client";
+import email from "next-auth/providers/email";
 import {
   AbstractBllService,
   GetPaginationReturnType,
@@ -415,16 +416,14 @@ export class UsersBllModule extends AbstractBllService {
     });
   }
 
-  async changePassword(
-    dto: ChangePasswordRequest & { userId?: string; email?: string }
-  ) {
-    const { userId, email, oldPassword, newPassword } = dto;
+  async changePassword(dto: ChangePasswordRequest & { userId: string }) {
+    const { userId, oldPassword, newPassword } = dto;
 
     if (!userId && !email)
       throw new BadRequestException("Email or userId is required");
 
     const user = await this.prismaService.user.findUnique({
-      where: { id: userId ?? undefined, email: email ?? undefined },
+      where: { id: userId },
       select: { password: true },
     });
 
@@ -441,6 +440,26 @@ export class UsersBllModule extends AbstractBllService {
 
     await this.prismaService.user.update({
       where: { id: userId },
+      data: { password: hashedPassword },
+    });
+
+    return { success: true };
+  }
+
+  async resetPassword(dto: { password: string; email: string }) {
+    const { email, password } = dto;
+
+    const user = await this.prismaService.user.findUnique({
+      where: { email },
+      select: { id: true },
+    });
+
+    if (!user) throw new NotFoundException("User not found");
+
+    const hashedPassword = await hashService.hash(password);
+
+    await this.prismaService.user.update({
+      where: { id: user.id },
       data: { password: hashedPassword },
     });
 

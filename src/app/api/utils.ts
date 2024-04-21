@@ -121,8 +121,8 @@ export const withApiRouteHandler = (
       return await handler(req, params);
     } catch (error) {
       if (isCustomException(error)) {
-        const { code, message, type } = error;
-        return NextResponse.json({ message, type }, { status: code });
+        const { code, message, payload } = error;
+        return NextResponse.json({ message, payload }, { status: code });
       }
 
       console.log(error);

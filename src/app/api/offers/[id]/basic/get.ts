@@ -17,7 +17,7 @@ export const getBasicOfferData = async (
   const isAdmin = AdminRoles.some((role) => session?.user?.role === role);
 
   if (isAdmin && !body.companyId)
-    throw new BadRequestException("Company id is required");
+    throw new BadRequestException({ message: "Company id is required" });
 
   const res = await bllService.offers.basicData({
     offerId: params.params.id,

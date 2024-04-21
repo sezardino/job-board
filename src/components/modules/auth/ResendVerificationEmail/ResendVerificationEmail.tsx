@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import styles from "./ResendVerificationEmail.module.scss";
 
 type Props = {
-  onResendClick: () => Promise<any>;
+  onResend: () => Promise<any>;
   isLoading: boolean;
 };
 
@@ -18,7 +18,7 @@ export type ResendVerificationEmailProps = ComponentPropsWithoutRef<"div"> &
 export const ResendVerificationEmail: FC<ResendVerificationEmailProps> = (
   props
 ) => {
-  const { isLoading, onResendClick, ...rest } = props;
+  const { isLoading, onResend, ...rest } = props;
 
   const t = useTranslations("components.shared.resend-verification-email");
   const {
@@ -31,10 +31,10 @@ export const ResendVerificationEmail: FC<ResendVerificationEmailProps> = (
     if (isTimerActive) return;
 
     try {
-      await onResendClick();
+      await onResend();
       startTimer();
     } catch (error) {}
-  }, [isTimerActive, onResendClick, startTimer]);
+  }, [isTimerActive, onResend, startTimer]);
 
   return (
     <Grid {...rest} gap={2}>
