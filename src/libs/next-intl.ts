@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 
-export const i18nDefaultLanguage = "en";
+export const i18nDefaultLanguage = process.env.LOCALE || "en";
 export const i18nSupportedLanguages = [i18nDefaultLanguage];
 const i18nSupportedLanguagesNotMutable = [i18nDefaultLanguage] as const;
 

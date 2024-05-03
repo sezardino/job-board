@@ -1,0 +1,1514 @@
+{
+  "layout": {
+    "app": {
+      "dashboard": "Dashboard",
+      "companies": "Firmy",
+      "industries": "Branże",
+      "users": "Użytkownicy",
+      "company": {
+        "dashboard": "Dashboard",
+        "offers": "Oferty pracy",
+        "users": "Użytkownicy",
+        "profile": "Profil"
+      }
+    },
+    "admin-users": {
+      "title": "Użytkownicy",
+      "description": "Z tego panelu możesz zarządzać użytkownikami, zapraszać nowych administratorów, edytować lub usuwać istniejących",
+      "breadcrumbs": {
+        "home": "Strona główna",
+        "users": "Użytkownicy"
+      },
+      "navigation": {
+        "title": "Nawigacja pomiędzy typami użytkowników",
+        "companies": "Firmy",
+        "customers": "Klienci",
+        "admins": "Administratorzy"
+      }
+    },
+    "settings": {
+      "title": "Ustawienia",
+      "description": "Zarządzaj ustawieniami swojego konta i preferencjami e-mailowymi.",
+      "profile": "Profil",
+      "account": "Konto",
+      "security": "Bezpieczeństwo",
+      "appearance": "Wygląd",
+      "notifications": "Powiadomienia"
+    }
+  },
+  "forms": {
+    "company": {
+      "invite-users": {
+        "remove": "Usuń",
+        "add": "Dodaj",
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email jest wymagany",
+          "used": "Email jest już używany",
+          "repeat": "Email został już dodany"
+        },
+        "role": {
+          "label": "Rola",
+          "placeholder": "Wybierz rolę",
+          "required": "Rola jest wymagana"
+        }
+      },
+      "offer": {
+        "cancel": "Anuluj",
+        "back": "Wstecz",
+        "next": "Dalej",
+        "details": {
+          "title": "Szczegóły",
+          "description": "Na tym etapie możesz wprowadzić podstawowe szczegóły oferty pracy",
+          "name": {
+            "label": "Nazwa",
+            "placeholder": "Nazwa oferty pracy",
+            "required": "Nazwa jest wymagana",
+            "max-length": "Nazwa powinna mieć mniej niż {value} znaków",
+            "description": "Ta nazwa będzie widoczna dla użytkowników"
+          },
+          "industry": {
+            "label": "Branża",
+            "placeholder": "Wybierz branżę",
+            "required": "Branża jest wymagana",
+            "description": "W jakiej branży jest ta oferta pracy"
+          },
+          "category": {
+            "label": "Kategoria",
+            "placeholder": "Wybierz kategorię",
+            "required": "Kategoria jest wymagana",
+            "select-industry": "Proszę najpierw wybrać branżę",
+            "description": "W jakiej kategorii jest ta oferta pracy"
+          },
+          "salary": {
+            "add": "Dodaj zakres wynagrodzenia dla tej oferty pracy",
+            "remove": "Usuń zakres wynagrodzenia",
+            "from": {
+              "label": "Wynagrodzenie od",
+              "placeholder": "100",
+              "required": "Wynagrodzenie od jest wymagane",
+              "positive": "Wynagrodzenie od powinno być dodatnie"
+            },
+            "to": {
+              "label": "Wynagrodzenie do",
+              "placeholder": "200",
+              "required": "Wynagrodzenie do jest wymagane",
+              "positive": "Wynagrodzenie do powinno być dodatnie",
+              "greater": "Wynagrodzenie do powinno być większe niż wynagrodzenie od"
+            }
+          }
+        },
+        "specification": {
+          "title": "Specyfikacja",
+          "description": "Proszę wprowadzić specyfikację oferty pracy",
+          "job-type": {
+            "label": "Rodzaj pracy",
+            "placeholder": "Rodzaj pracy",
+            "required": "Rodzaj pracy jest wymagany"
+          },
+          "contract": {
+            "label": "Typ umowy",
+            "placeholder": "Typ umowy",
+            "required": "Typ umowy jest wymagany"
+          },
+          "operating": {
+            "label": "Obszar działania",
+            "placeholder": "Obszar działania",
+            "required": "Obszar działania jest wymagany"
+          },
+          "seniority": {
+            "label": "Doświadczenie",
+            "placeholder": "Doświadczenie",
+            "required": "Doświadczenie jest wymagane"
+          }
+        },
+        "back-modal": {
+          "title": "Powrót",
+          "description": "Czy na pewno chcesz się cofnąć? Wszystkie niezapisane dane zostaną utracone",
+          "cancel": "Anuluj",
+          "confirm": "Powrót"
+        },
+        "cancel-modal": {
+          "title": "Anuluj",
+          "description": "Czy na pewno chcesz anulować? Wszystkie niezapisane dane zostaną utracone",
+          "cancel": "Anuluj",
+          "confirm": "Potwierdź"
+        },
+        "confirm-modal": {
+          "title": "Potwierdź",
+          "description": "Utworzyć nową ofertę pracy z podanymi danymi?",
+          "cancel": "Anuluj",
+          "confirm": "Utwórz"
+        }
+      },
+      "offer-skills": {
+        "title": "Umiejętności",
+        "description": "Proszę wybrać umiejętności wymagane do tej oferty pracy",
+        "back": "Wstecz",
+        "next": "Dalej",
+        "add-first": "Dodaj pierwszą umiejętność",
+        "add": "Dodaj więcej",
+        "remove": "Usuń",
+        "up": "Przenieś element w górę w kolejności",
+        "down": "Przenieś element w dół w kolejności",
+        "name": {
+          "label": "Nazwa umiejętności",
+          "placeholder": "Np. Empatia",
+          "max-length": "Nazwa powinna mieć mniej niż {value} znaków",
+          "required": "Nazwa jest wymagana"
+        },
+        "level": {
+          "label": "Poziom umiejętności",
+          "placeholder": "Podstawowy",
+          "required": "Poziom umiejętności jest wymagany"
+        }
+      },
+      "offer-description": {
+        "title": "Opis",
+        "description": "Proszę wprowadzić opis oferty pracy",
+        "back": "Wstecz",
+        "next": "Dalej",
+        "field": {
+          "label": "Opis",
+          "placeholder": "Opis",
+          "required": "Opis jest wymagany",
+          "min-length": "Opis powinien mieć więcej niż {value} znaków",
+          "max-length": "Opis powinien mieć mniej niż {value} znaków",
+          "description": "Ten opis będzie widoczny dla użytkowników"
+        }
+      },
+      "application": {
+        "submit": "Wyślij",
+        "name": {
+          "label": "Imię i nazwisko",
+          "placeholder": "Wprowadź swoje imię i nazwisko",
+          "required": "Imię i nazwisko są wymagane",
+          "max-length": "Imię i nazwisko powinno mieć mniej niż {value} znaków"
+        },
+        "email": {
+          "label": "Email",
+          "placeholder": "Wprowadź swój email",
+          "required": "Email jest wymagany",
+          "invalid": "Email jest nieprawidłowy",
+          "max-length": "Email powinien mieć mniej niż {value} znaków"
+        },
+        "message": {
+          "label": "Przedstaw się",
+          "placeholder": "Napisz coś miłego...",
+          "max-length": "Wiadomość powinna mieć mniej niż {value} znaków"
+        },
+        "file": {
+          "label": "Dołącz CV",
+          "placeholder": "Wybierz plik",
+          "required": "CV jest wymagane",
+          "max-size": "Maksymalny rozmiar pliku to {value} MB",
+          "formats": "Dozwolone formaty: {value}",
+          "pdf": "PDF"
+        },
+        "data-processing": {
+          "label": "Zgadzam się na przetwarzanie moich danych osobowych",
+          "required": "Musisz wyrazić zgodę na przetwarzanie danych"
+        },
+        "future-recruitment": {
+          "label": "Zgadzam się na wykorzystanie moich danych w przyszłych procesach rekrutacyjnych"
+        }
+      },
+      "application-status": {
+        "status": {
+          "label": "Status",
+          "placeholder": "Status",
+          "required": "Status jest wymagany"
+        },
+        "message": {
+          "label": "Wiadomość",
+          "placeholder": "Wiadomość",
+          "required": "Wiadomość jest wymagana",
+          "max-length": "Wiadomość powinna mieć mniej niż {value} znaków",
+          "disabled": "Nie możesz napisać wiadomości dla tego statusu"
+        }
+      },
+      "user": {
+        "label": "Edytuj użytkownika",
+        "role": {
+          "label": "Rola",
+          "placeholder": "Rola",
+          "required": "Rola jest wymagana"
+        }
+      },
+      "base-data": {
+        "label": "Edytuj podstawowe dane firmy",
+        "slogan": {
+          "label": "Slogan",
+          "placeholder": "Slogan",
+          "min-length": "Slogan powinien mieć więcej niż {value} znaków",
+          "max-length": "Slogan powinien mieć mniej niż {value} znaków"
+        },
+        "logo": {
+          "label": "Wybierz logo firmy",
+          "remove": "Usuń",
+          "max-file-size": "Maksymalny rozmiar pliku to {value} MB",
+          "formats": "Dozwolone formaty: {value}"
+        }
+      },
+      "images": {
+        "formats": "Dozwolone formaty: {value}",
+        "max-file-size": "Maksymalny rozmiar pliku to {value} MB",
+        "max-count": "Maksymalna liczba obrazów to {value}"
+      }
+    },
+    "admin": {
+      "industry": {
+        "label": "Utwórz branżę",
+        "cancel": "Anuluj",
+        "submit": "Utwórz",
+        "name": {
+          "label": "Nazwa",
+          "placeholder": "Nazwa",
+          "slug": "Nazwa powinna być w formacie slug",
+          "unique": "Nazwa powinna być unikalna",
+          "required": "Nazwa jest wymagana"
+        }
+      },
+      "update-industry": {
+        "label": "Aktualizuj branżę",
+        "cancel": "Anuluj",
+        "submit": "Aktualizuj branżę",
+        "status": {
+          "label": "Status",
+          "placeholder": "Status",
+          "required": "Status jest wymagany"
+        }
+      }
+    },
+    "shared": {
+      "user-profile": {
+        "label": "Profil użytkownika",
+        "name": {
+          "label": "Imię",
+          "placeholder": "Imię",
+          "min-length": "Imię powinno mieć więcej niż {value} znaków",
+          "max-length": "Imię powinno mieć mniej niż {value} znaków"
+        },
+        "avatar": {
+          "label": "Wybierz awatar",
+          "remove": "Usuń",
+          "max-file-size": "Maksymalny rozmiar pliku to {value} MB",
+          "formats": "Dozwolone formaty: {value}"
+        }
+      },
+      "password": {
+        "old-password": {
+          "label": "Stare hasło",
+          "placeholder": "Stare hasło",
+          "required": "Stare hasło jest wymagane"
+        },
+        "password": {
+          "label": "Hasło",
+          "placeholder": "Hasło",
+          "required": "Hasło jest wymagane",
+          "min-length": "Hasło musi mieć co najmniej {value} znaków"
+        },
+        "confirm-password": {
+          "label": "Potwierdź hasło",
+          "placeholder": "Potwierdź hasło",
+          "required": "Potwierdź hasło jest wymagane",
+          "not-match": "Hasła nie pasują do siebie"
+        }
+      },
+      "auth": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email jest wymagany",
+          "used": "Email jest już używany"
+        },
+        "password": {
+          "label": "Hasło",
+          "placeholder": "Hasło",
+          "required": "Hasło jest wymagane",
+          "min-length": "Hasło musi mieć co najmniej {value} znaków"
+        },
+        "repeat-password": {
+          "label": "Powtórz hasło",
+          "placeholder": "Powtórz hasło",
+          "required": "Powtórz hasło jest wymagane",
+          "not-match": "Hasła nie pasują do siebie"
+        }
+      },
+      "login": {
+        "label": "Zaloguj się",
+        "submit": "Zaloguj się",
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email jest wymagany",
+          "used": "Email jest już używany"
+        },
+        "password": {
+          "label": "Hasło",
+          "placeholder": "Hasło",
+          "required": "Hasło jest wymagane",
+          "min-length": "Hasło musi mieć co najmniej {value} znaków"
+        }
+      },
+      "register-company": {
+        "trigger": "Zarejestruj się",
+        "owner": "Dane właściciela",
+        "company": "Dane firmy",
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email jest wymagany",
+          "invalid": "Email jest nieprawidłowy",
+          "used": "Email jest już używany"
+        },
+        "password": {
+          "label": "Hasło",
+          "placeholder": "Hasło",
+          "required": "Hasło jest wymagane",
+          "short": "Hasło musi mieć co najmniej {value} znaków"
+        },
+        "repeat-password": {
+          "label": "Powtórz hasło",
+          "placeholder": "Powtórz hasło",
+          "required": "Potwierdź hasło jest wymagane",
+          "not-match": "Hasła nie pasują do siebie"
+        },
+        "name": {
+          "label": "Nazwa",
+          "placeholder": "Nazwa",
+          "required": "Nazwa jest wymagana",
+          "used": "Nazwa jest już używana"
+        },
+        "building": {
+          "label": "Budynek",
+          "placeholder": "Budynek",
+          "required": "Budynek jest wymagany"
+        },
+        "city": {
+          "label": "Miasto",
+          "placeholder": "Miasto",
+          "required": "Miasto jest wymagane"
+        },
+        "country": {
+          "label": "Kraj",
+          "placeholder": "Kraj",
+          "required": "Kraj jest wymagany"
+        },
+        "street": {
+          "label": "Ulica",
+          "placeholder": "Ulica",
+          "required": "Ulica jest wymagana"
+        },
+        "zip-code": {
+          "label": "Kod pocztowy",
+          "placeholder": "Kod pocztowy",
+          "required": "Kod pocztowy jest wymagany"
+        }
+      },
+      "register-user": {
+        "trigger": "Zarejestruj się",
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email jest wymagany",
+          "invalid": "Email jest nieprawidłowy",
+          "used": "Email jest już używany"
+        },
+        "password": {
+          "label": "Hasło",
+          "placeholder": "Hasło",
+          "required": "Hasło jest wymagane",
+          "short": "Hasło musi mieć co najmniej {value} znaków"
+        },
+        "repeat-password": {
+          "label": "Powtórz hasło",
+          "placeholder": "Powtórz hasło",
+          "required": "Potwierdź hasło jest wymagane",
+          "not-match": "Hasła nie pasują do siebie"
+        },
+        "name": {
+          "label": "Nazwa",
+          "placeholder": "Nazwa",
+          "required": "Nazwa jest wymagana"
+        }
+      },
+      "comments": {
+        "name": {
+          "label": "Nazwa",
+          "placeholder": "Nazwa",
+          "max-length": "Nazwa powinna zawierać mniej niż {value} znaków",
+          "required": "Nazwa jest wymagana"
+        },
+        "content": {
+          "label": "Treść",
+          "placeholder": "Treść",
+          "required": "Treść jest wymagana",
+          "max-length": "Treść powinna zawierać mniej niż {value} znaków"
+        }
+      },
+      "reset-password": {
+        "email": {
+          "label": "Email",
+          "placeholder": "Email",
+          "required": "Email jest wymagany",
+          "invalid": "Email jest nieprawidłowy"
+        }
+      }
+    }
+  },
+  "entity": {
+    "common": {
+      "status": {
+        "ACTIVE": "Aktywny",
+        "INACTIVE": "Nieaktywny",
+        "CREATED": "Utworzony"
+      },
+      "period": {
+        "7": "Tydzień",
+        "14": "Dwa tygodnie",
+        "30": "Miesiąc",
+        "90": "Trzy miesiące",
+        "365": "Rok"
+      }
+    },
+    "offers": {
+      "status": {
+        "ARCHIVED": "Zarchiwizowany",
+        "FINISHED": "Zakończony",
+        "ACTIVE": "Aktywny",
+        "INACTIVE": "Nieaktywny",
+        "DRAFT": "Szkic"
+      },
+      "seniority": {
+        "INTERN": "Stażysta",
+        "JUNIOR": "Junior",
+        "MID": "Pośredni",
+        "SENIOR": "Senior",
+        "EXPERT": "Ekspert"
+      },
+      "operating": {
+        "REMOTE": "Zdalnie",
+        "OFFICE": "Biuro",
+        "HYBRID": "Hybrydowy",
+        "OTHER": "Inne"
+      },
+      "skill-level": {
+        "NICE_TO_HAVE": "Miły do posiadania",
+        "BASIC": "Podstawowy",
+        "MEDIUM": "Średni",
+        "ADVANCED": "Zaawansowany",
+        "EXPERT": "Ekspert"
+      },
+      "type": {
+        "FULL_TIME": "Pełny etat",
+        "PART_TIME": "Niepełny etat",
+        "PRACTICE_INTERNSHIP": "Staż praktyczny",
+        "FREELANCE": "Wolny zawód"
+      },
+      "contract": {
+        "B2B": "B2B",
+        "PERMANENT": "Stały",
+        "MANDATE_CONTRACT": "Umowa zlecenie",
+        "SPECIFIC_TASK_CONTRACT": "Umowa o dzieło",
+        "INTERNSHIP": "Staż"
+      }
+    },
+    "applications": {
+      "status": {
+        "NEW": "Nowy",
+        "PRE_SCREENING": "Przesiew wstępny",
+        "SCREENING": "Przesiew",
+        "INTERVIEW": "Rozmowa kwalifikacyjna",
+        "PRE_OFFER": "Przed ofertą",
+        "OFFER": "Oferta",
+        "REJECTED": "Odrzucony",
+        "CANCELED": "Anulowany"
+      }
+    },
+    "users": {
+      "role": {
+        "ADMIN": "Administrator",
+        "SUB_ADMIN": "Podadministrator",
+        "OWNER": "Właściciel",
+        "MODERATOR": "Moderator",
+        "RECRUITER": "Rekruter",
+        "CUSTOMER": "Klient"
+      },
+      "status": {
+        "all": "Wszystkie statusy",
+        "ACTIVE": "Aktywny",
+        "BLOCKED": "Zablokowany",
+        "INACTIVE": "Nieaktywny"
+      }
+    },
+    "industries": {
+      "information-technology": "Technologia informacyjna",
+      "marketing-and-advertising": "Marketing i reklama",
+      "finance-and-accounting": "Finanse i rachunkowość",
+      "art-and-design": "Sztuka i projektowanie",
+      "services-and-hospitality": "Usługi i gościnność",
+      "tourism-and-hospitality": "Turystyka i gościnność",
+      "law-and-legal": "Prawo i prawne",
+      "sports-and-fitness": "Sport i fitness",
+      "media-and-entertainment": "Media i rozrywka",
+      "construction-and-architecture": "Budownictwo i architektura",
+      "restaurants-and-food-service": "Restauracje i obsługa gastronomiczna"
+    },
+    "categories": {
+      "software-developer": "Programista oprogramowania",
+      "qa-engineer": "Inżynier QA",
+      "mobile-developer": "Programista mobilny",
+      "designer": "Projektant",
+      "database-administrator": "Administrator baz danych",
+      "cybersecurity-specialist": "Specjalista ds. bezpieczeństwa cybernetycznego",
+      "data-analyst": "Analityk danych",
+      "devops-engineer": "Inżynier DevOps",
+      "systems-architect": "Architekt systemów",
+      "product-owner": "Właściciel produktu",
+      "ai-ml-specialist": "Specjalista ds. AI/ML",
+      "marketing-specialist": "Specjalista ds. marketingu",
+      "advertising-manager": "Kierownik ds. reklamy",
+      "content-marketing-specialist": "Specjalista ds. marketingu treści",
+      "market-analyst": "Analityk rynku",
+      "financial-analyst": "Analityk finansowy",
+      "accountant": "Księgowy",
+      "financial-consultant": "Konsultant finansowy",
+      "credit-analyst": "Analityk kredytowy",
+      "artist-designer": "Artysta/Projektant",
+      "graphic-designer": "Projektant graficzny",
+      "art-director": "Dyrektor artystyczny",
+      "customer-service-specialist": "Specjalista ds. obsługi klienta",
+      "hairstylist-stylist": "Fryzjer/Stylista",
+      "masseuse-masseur": "Masażysta/Masażystka",
+      "tourism-manager": "Kierownik turystyki",
+      "hotel-resort-staff": "Personel hotelowy i kurortowy",
+      "tour-guide": "Przewodnik turystyczny",
+      "lawyer": "Prawnik",
+      "attorney": "Adwokat",
+      "judicial-officer": "Funkcjonariusz sądowy",
+      "notary": "Notariusz",
+      "fitness-trainer": "Trener fitnessu",
+      "sports-manager": "Menedżer sportowy",
+      "physiotherapist": "Fizjoterapeuta",
+      "personal-trainer": "Trener personalny",
+      "journalist": "Dziennikarz",
+      "tv-radio-host": "Gospodarz telewizyjny/radiowy",
+      "content-editor": "Redaktor treści",
+      "screenwriter": "Scenarzysta",
+      "architect": "Architekt",
+      "construction-engineer": "Inżynier budowlany",
+      "site-supervisor": "Kierownik budowy",
+      "interior-designer": "Projektant wnętrz",
+      "chef": "Szef kuchni",
+      "waiter-waitress": "Kelner/Kelnerka",
+      "bartender": "Barman",
+      "baker": "Piekarz"
+    }
+  },
+  "page": {
+    "admin": {
+      "dashboard": {
+        "title": "Panel sterowania",
+        "description": "Z tego panelu możesz zarządzać systemem",
+        "statistics": {
+          "title": "Statystyki",
+          "description": "Tutaj możesz zobaczyć statystyki systemu",
+          "users": {
+            "label": "Użytkownicy",
+            "current": "Teraz",
+            "prev": "W poprzednim okresie"
+          },
+          "companies": {
+            "label": "Firmy",
+            "current": "Teraz",
+            "prev": "W poprzednim okresie"
+          },
+          "offers": {
+            "label": "Oferty",
+            "current": "Teraz",
+            "prev": "W poprzednim okresie"
+          },
+          "applications": {
+            "label": "Aplikacje",
+            "current": "Teraz",
+            "prev": "W poprzednim okresie"
+          }
+        }
+      },
+      "manage-admins": {
+        "invite": {
+          "title": "Zaproś administratora",
+          "description": "Proszę podaj adres e-mail osoby, którą chcesz zaprosić do systemu",
+          "submit": "Zaproś",
+          "cancel": "Anuluj",
+          "trigger": "Zaproś administratora"
+        },
+        "table": {
+          "no-data": "Nie znaleziono administratorów",
+          "head": {
+            "info": "Informacje",
+            "is-email-verified": "E-mail zweryfikowany",
+            "role": "Rola",
+            "status": "Status"
+          }
+        }
+      },
+      "manage-customers": {
+        "table": {
+          "no-data": "Nie znaleziono klientów",
+          "head": {
+            "info": "Informacje",
+            "is-email-verified": "E-mail zweryfikowany",
+            "role": "Rola",
+            "status": "Status"
+          }
+        }
+      },
+      "manage-companies": {
+        "title": "Firmy",
+        "description": "Z tego panelu możesz zarządzać firmami.",
+        "breadcrumbs": {
+          "home": "Home",
+          "companies": "Firmy"
+        }
+      },
+      "company-users": {
+        "table": {
+          "no-data": "Nie znaleziono klientów",
+          "head": {
+            "info": "Informacje",
+            "is-email-verified": "E-mail zweryfikowany",
+            "company": "Firma",
+            "role": "Rola",
+            "status": "Status"
+          }
+        }
+      },
+      "company-offers": {
+        "title": "Oferty firmy: \"{value}\"",
+        "description": "Z tego panelu możesz zarządzać ofertami tej firmy",
+        "breadcrumbs": {
+          "companies": "Firmy"
+        },
+        "actions": {
+          "preview": "Zobacz ofertę",
+          "applications": "Zobacz aplikacje"
+        }
+      },
+      "category-offers": {
+        "title": "Oferty kategorii: \"{value}\"",
+        "description": "Z tego panelu możesz zarządzać ofertami tej kategorii",
+        "breadcrumbs": {
+          "home": "Home"
+        }
+      },
+      "company-offer": {
+        "actions": {
+          "label": "Działania",
+          "see-applications": "Zobacz aplikacje"
+        },
+        "breadcrumbs": {
+          "home": "Home",
+          "companies": "Firmy",
+          "offers": "Oferty"
+        }
+      },
+      "manage-industries": {
+        "title": "Branże",
+        "description": "Z tego panelu możesz zarządzać branżami.",
+        "search": "Szukaj branży",
+        "create": "Utwórz branżę",
+        "breadcrumbs": {
+          "home": "Home",
+          "industries": "Branże"
+        },
+        "modals": {
+          "create": {
+            "title": "Utwórz branżę",
+            "description": "Wprowadź poprawną nazwę branży, którą chcesz utworzyć (w formacie slug)"
+          },
+          "update": {
+            "title": "Aktualizuj branżę",
+            "description": "Możesz aktualizować tylko status branży",
+            "cancel": "Anuluj",
+            "confirm": "Aktualizuj branżę"
+          },
+          "delete": {
+            "title": "Usuń branżę",
+            "description": "Czy na pewno chcesz usunąć tę branżę?",
+            "cancel": "Anuluj",
+            "confirm": "Usuń branżę",
+            "disabled": "Branża nie może być usunięta, ponieważ jest używana."
+          }
+        }
+      },
+      "industry-offers": {
+        "title": "Oferty branży: \"{value}\"",
+        "description": "Z tego panelu możesz zarządzać ofertami tej branży",
+        "breadcrumbs": {
+          "home": "Home"
+        }
+      },
+      "manage-categories": {
+        "title": "Kategorie",
+        "description": "Z tego panelu możesz zarządzać kategoriami.",
+        "search": "Szukaj kategorii",
+        "breadcrumbs": {
+          "home": "Home",
+          "industries": "Branże"
+        }
+      },
+      "company-offer-applications": {
+        "title": "Aplikacje na ofertę: \"{value}\"",
+        "search": "Szukaj",
+        "applied-at": "Zastosowano w: {value}",
+        "updated-at": "Zaktualizowano w: {value}",
+        "notes-count": "Notatki: {value}",
+        "skills": {
+          "title": "Umiejętności",
+          "description": "Umiejętności wymagane do tej oferty pracy",
+          "no-data": "Nie podano umiejętności"
+        },
+        "breadcrumbs": {
+          "home": "Home",
+          "companies": "Firmy",
+          "offers": "Oferty",
+          "applications": "Aplikacje"
+        }
+      }
+    },
+    "company": {
+      "users": {
+        "title": "Użytkownicy",
+        "description": "Z tego panelu możesz zarządzać użytkownikami twojej firmy.",
+        "search": "Szukaj użytkownika",
+        "filter": "Filtruj według statusu",
+        "table": {
+          "user": "Użytkownik",
+          "accept-invite": "Akceptuj zaproszenie",
+          "role": "Rola",
+          "status": "Status",
+          "actions": {
+            "label": "Działania",
+            "resend-invite": "Wyślij ponownie zaproszenie",
+            "cancel-invite": "Anuluj zaproszenie",
+            "edit": "Edytuj"
+          }
+        },
+        "invite-user": {
+          "label": "Zaproś użytkownika",
+          "title": "Zaproś użytkownika",
+          "description": "Proszę podaj adres e-mail osoby, którą chcesz zaprosić do systemu",
+          "trigger": "Zaproś użytkownika",
+          "cancel": "Anuluj",
+          "submit": "Zaproś użytkowników"
+        },
+        "resend-invite": {
+          "title": "Wyślij ponownie zaproszenie",
+          "description": "Czy na pewno chcesz wysłać ponownie zaproszenie do tego użytkownika?",
+          "cancel": "Anuluj",
+          "confirm": "Wyślij ponownie zaproszenie"
+        },
+        "cancel-invite": {
+          "title": "Anuluj zaproszenie",
+          "description": "Czy na pewno chcesz anulować zaproszenie do tego użytkownika?",
+          "cancel": "Anuluj",
+          "confirm": "Anuluj zaproszenie"
+        },
+        "edit-user": {
+          "title": "Edytuj użytkownika",
+          "description": "Możesz edytować tylko rolę użytkownika",
+          "cancel": "Anuluj",
+          "confirm": "Edytuj użytkownika"
+        }
+      },
+      "new-offer": {
+        "title": "Utwórz nową ofertę pracy",
+        "desc": "Wypełnij formularz, aby utworzyć nową ofertę pracy",
+        "confirm": "Utwórz ofertę pracy",
+        "to-first-step": "Do pierwszego kroku",
+        "cancel": "Anuluj",
+        "back": "Wróć",
+        "next": "Dalej",
+        "back-modal": {
+          "title": "Wróć",
+          "description": "Czy na pewno chcesz wrócić? Wszystkie niezapisane dane zostaną utracone",
+          "cancel": "Anuluj",
+          "confirm": "Wróć"
+        },
+        "cancel-modal": {
+          "title": "Anuluj",
+          "description": "Czy na pewno chcesz anulować? Wszystkie niezapisane dane zostaną utracone",
+          "cancel": "Anuluj",
+          "confirm": "Potwierdź"
+        },
+        "confirm-modal": {
+          "title": "Potwierdź",
+          "description": "Utworzyć nową ofertę pracy z podanymi danymi?",
+          "cancel": "Anuluj",
+          "confirm": "Utwórz"
+        }
+      },
+      "manage-offer": {
+        "manage": "Zarządzaj ofertą pracy",
+        "edit": "Edytuj",
+        "applications": "Zobacz aplikacje",
+        "offers": "Oferty"
+      },
+      "offer-applications": {
+        "title": "Aplikacje na ofertę pracy: \"{value}\"",
+        "description": "Z tego panelu możesz zarządzać aplikacjami na tę ofertę pracy",
+        "search": "Szukaj",
+        "applied-at": "Zastosowano w: {value}",
+        "updated-at": "Zaktualizowano w: {value}",
+        "notes-count": "Notatki: {value}",
+        "offers": "Oferty",
+        "applications": "Aplikacje",
+        "skills": {
+          "title": "Umiejętności",
+          "description": "Umiejętności wymagane do tej oferty pracy",
+          "no-data": "Nie podano umiejętności"
+        },
+        "modals": {
+          "change-status": {
+            "title": "Zmień status aplikacji",
+            "description": "Zmień status aplikacji",
+            "cancel": "Anuluj",
+            "confirm": "Zmień status"
+          },
+          "note": {
+            "title": "Dodaj notatkę",
+            "description": "Dodaj notatkę do tej aplikacji",
+            "cancel": "Anuluj",
+            "confirm": "Dodaj notatkę"
+          }
+        }
+      },
+      "manage-offers": {
+        "title": "Oferty pracy",
+        "description": "Z tego panelu możesz zarządzać ofertami pracy twojej firmy.",
+        "create": "Utwórz ofertę pracy",
+        "actions": {
+          "label": "Więcej",
+          "edit": "Edytuj",
+          "preview": "Podgląd",
+          "applications": "Zarządzaj Aplikacjami",
+          "publish": "Opublikuj",
+          "unpublish": "Cofnij publikację",
+          "archive": "Archiwizuj",
+          "finish": "Zakończ",
+          "delete": "Usuń"
+        },
+        "modals": {
+          "delete": {
+            "title": "Usuń ofertę pracy",
+            "description": "Czy na pewno chcesz usunąć tę ofertę pracy?",
+            "cancel": "Anuluj",
+            "confirm": "Usuń"
+          },
+          "archive": {
+            "title": "Archiwizuj ofertę pracy",
+            "description": "Czy na pewno chcesz zarchiwizować tę ofertę pracy?",
+            "cancel": "Anuluj",
+            "confirm": "Archiwizuj"
+          },
+          "finish": {
+            "title": "Zakończ ofertę pracy",
+            "description": "Czy na pewno chcesz zakończyć tę ofertę pracy? Nie będzie można edytować oferty pracy po zakończeniu",
+            "cancel": "Anuluj",
+            "confirm": "Zakończ"
+          },
+          "publish": {
+            "title": "Opublikuj ofertę pracy",
+            "description": "Czy na pewno chcesz opublikować tę ofertę pracy? Nie będzie można cofnąć publikacji po opublikowaniu",
+            "cancel": "Anuluj",
+            "confirm": "Opublikuj"
+          }
+        }
+      },
+      "profile": {
+        "users": "Użytkownicy:",
+        "owner": "Właściciel",
+        "members": "Członkowie",
+        "gallery": "Galeria",
+        "bio": "Opis",
+        "no-bio": "Brak opisu",
+        "offers": {
+          "title": "Oferty",
+          "more": "Zobacz więcej ofert"
+        },
+        "edit-bio": {
+          "title": "Edytuj opis",
+          "description": "Możesz edytować opis twojej firmy tutaj",
+          "cancel": "Anuluj",
+          "submit": "Edytuj opis",
+          "trigger": "Edytuj opis"
+        },
+        "edit-base-data": {
+          "title": "Edytuj Dane Podstawowe",
+          "description": "Możesz edytować dane podstawowe twojej firmy tutaj",
+          "cancel": "Anuluj",
+          "submit": "Edytuj Dane Podstawowe",
+          "trigger": "Edytuj Dane Podstawowe"
+        },
+        "edit-gallery": {
+          "label": "Wybierz obrazy",
+          "title": "Edytuj Galerię",
+          "description": "Możesz edytować galerię twojej firmy tutaj",
+          "cancel": "Anuluj",
+          "submit": "Edytuj Galerię",
+          "trigger": "Edytuj Galerię"
+        }
+      }
+    },
+    "customer": {
+      "profile": {
+        "title": "Profil",
+        "description": "Z tego panelu możesz zarządzać swoim profilem",
+        "history": {
+          "title": "Historia",
+          "description": "Tutaj możesz zobaczyć historię swoich aplikacji",
+          "no-data": {
+            "title": "Nie znaleziono żadnych aplikacji",
+            "description": "Nie masz jeszcze żadnych aplikacji"
+          }
+        }
+      }
+    },
+    "shared": {
+      "login": {
+        "title": "Login",
+        "description": "Please enter your login and password to access the system",
+        "home": "To home page",
+        "submit": "Login",
+        "forgot-password": {
+          "title": "Forgot password?",
+          "trigger": "Reset password"
+        },
+        "register": {
+          "text": "Don't have an account?",
+          "trigger": "Sign up",
+          "title": "Sign up as:",
+          "company": "Company",
+          "customer": "Customer"
+        }
+      },
+      "reset-password-request": {
+        "title": "Reset password",
+        "description": "Please enter your email to reset password",
+        "login": "To login page",
+        "confirm": "Reset password",
+        "invalid-email": "Invalid email"
+      },
+      "reset-password": {
+        "title": "Reset password",
+        "description": "Please enter your new password",
+        "login": "To login page",
+        "confirm": "Change password",
+        "resend": "Resend email",
+        "token-invalid": "Invalid verification link",
+        "not-found": "Not found",
+        "token-expired": "Expired verification link",
+        "success": {
+          "title": "Password changed",
+          "description": "Your password has been changed successfully"
+        }
+      },
+      "customer-registration": {
+        "form": {
+          "title": "Register new user",
+          "text": "Already have an account?",
+          "link": "Login"
+        },
+        "success": {
+          "title": "Registration successful",
+          "description": "Please check your email to activate your account"
+        },
+        "email-used": {
+          "title": "Email already used",
+          "description": "This email is already used by another user",
+          "trigger": "Login"
+        },
+        "waiting-for-email-confirmation": {
+          "title": "Waiting for email confirmation",
+          "description": "Please check your email to activate your account"
+        }
+      },
+      "company-registration": {
+        "title": "Register new company",
+        "login": {
+          "description": "Already have an account?",
+          "link": "Login"
+        },
+        "success": {
+          "title": "Registration successful",
+          "description": "Please check your email to activate your account"
+        },
+        "email-used": {
+          "title": "Email already used",
+          "description": "This email is already used by another user",
+          "trigger": "Login"
+        },
+        "waiting-for-email-confirmation": {
+          "title": "Waiting for email confirmation",
+          "description": "Please check your email to activate your account"
+        }
+      },
+      "verify-email": {
+        "success": {
+          "title": "Email verified",
+          "description": "Your email has been verified successfully",
+          "trigger": "Login"
+        },
+        "not-found": {
+          "title": "Invalid verification link",
+          "description": "Your verification link is invalid"
+        },
+        "expired": {
+          "title": "Expired verification link",
+          "description": "Your verification link has expired",
+          "trigger": "Resend verification email",
+          "interval": "You can resend verification email in {value} seconds"
+        },
+        "already-verified": {
+          "title": "Email already verified",
+          "description": "Your email has been already verified",
+          "trigger": "Login"
+        }
+      },
+      "offers-board": {
+        "no-data": {
+          "title": "No job offers found",
+          "description": "There are no job offers according to your search criteria"
+        }
+      },
+      "offer": {
+        "home": "Home",
+        "operating": "Operating",
+        "apply": {
+          "now": "Apply now",
+          "again": "Apply again"
+        },
+        "form": "Apply for this job offer",
+        "similar": {
+          "title": "Similar job offers",
+          "empty": "No similar job offers found"
+        },
+        "publication": {
+          "label": "Published ",
+          "today": "Today",
+          "yesterday": "Yesterday",
+          "days-ago": "{value} days ago"
+        },
+        "success": {
+          "title": "Application sent",
+          "description": "Your application has been sent successfully"
+        }
+      },
+      "login": {
+        "title": "Logowanie",
+        "description": "Proszę podać swój login i hasło, aby uzyskać dostęp do systemu",
+        "home": "Do strony głównej",
+        "submit": "Zaloguj się",
+        "forgot-password": {
+          "title": "Zapomniałeś hasła?",
+          "trigger": "Resetuj hasło"
+        },
+        "register": {
+          "text": "Nie masz konta?",
+          "trigger": "Zarejestruj się",
+          "title": "Zarejestruj się jako:",
+          "company": "Firma",
+          "customer": "Klient"
+        }
+      },
+      "reset-password-request": {
+        "title": "Resetowanie hasła",
+        "description": "Proszę podać swój adres e-mail, aby zresetować hasło",
+        "login": "Do strony logowania",
+        "confirm": "Resetuj hasło",
+        "invalid-email": "Nieprawidłowy adres e-mail"
+      },
+      "reset-password": {
+        "title": "Resetowanie hasła",
+        "description": "Proszę podać nowe hasło",
+        "login": "Do strony logowania",
+        "confirm": "Zmień hasło",
+        "resend": "Wyślij ponownie e-mail",
+        "token-invalid": "Nieprawidłowe łącze weryfikacyjne",
+        "not-found": "Nie znaleziono",
+        "token-expired": "Wygasłe łącze weryfikacyjne",
+        "success": {
+          "title": "Hasło zmienione",
+          "description": "Twoje hasło zostało pomyślnie zmienione"
+        }
+      },
+      "customer-registration": {
+        "form": {
+          "title": "Zarejestruj nowego użytkownika",
+          "text": "Masz już konto?",
+          "link": "Zaloguj się"
+        },
+        "success": {
+          "title": "Rejestracja udana",
+          "description": "Proszę sprawdź swój e-mail, aby aktywować swoje konto"
+        },
+        "email-used": {
+          "title": "E-mail już używany",
+          "description": "Ten e-mail jest już używany przez innego użytkownika",
+          "trigger": "Zaloguj się"
+        },
+        "waiting-for-email-confirmation": {
+          "title": "Oczekiwanie na potwierdzenie e-maila",
+          "description": "Proszę sprawdź swój e-mail, aby aktywować swoje konto"
+        }
+      },
+      "company-registration": {
+        "title": "Zarejestruj nową firmę",
+        "login": {
+          "description": "Masz już konto?",
+          "link": "Zaloguj się"
+        },
+        "success": {
+          "title": "Rejestracja udana",
+          "description": "Proszę sprawdź swój e-mail, aby aktywować swoje konto"
+        },
+        "email-used": {
+          "title": "E-mail już używany",
+          "description": "Ten e-mail jest już używany przez innego użytkownika",
+          "trigger": "Zaloguj się"
+        },
+        "waiting-for-email-confirmation": {
+          "title": "Oczekiwanie na potwierdzenie e-maila",
+          "description": "Proszę sprawdź swój e-mail, aby aktywować swoje konto"
+        }
+      },
+      "verify-email": {
+        "success": {
+          "title": "E-mail zweryfikowany",
+          "description": "Twój e-mail został pomyślnie zweryfikowany",
+          "trigger": "Zaloguj się"
+        },
+        "not-found": {
+          "title": "Nieprawidłowe łącze weryfikacyjne",
+          "description": "Twoje łącze weryfikacyjne jest nieprawidłowe"
+        },
+        "expired": {
+          "title": "Wygasłe łącze weryfikacyjne",
+          "description": "Twoje łącze weryfikacyjne wygasło",
+          "trigger": "Wyślij ponownie e-mail weryfikacyjny",
+          "interval": "Możesz ponownie wysłać e-mail weryfikacyjny za {value} sekund"
+        },
+        "already-verified": {
+          "title": "E-mail już zweryfikowany",
+          "description": "Twój e-mail został już zweryfikowany",
+          "trigger": "Zaloguj się"
+        }
+      },
+      "offers-board": {
+        "no-data": {
+          "title": "Nie znaleziono ofert pracy",
+          "description": "Brak ofert pracy zgodnych z Twoimi kryteriami wyszukiwania"
+        }
+      },
+      "offer": {
+        "home": "Strona główna",
+        "operating": "Operacyjny",
+        "apply": {
+          "now": "Aplikuj teraz",
+          "again": "Aplikuj ponownie"
+        },
+        "form": "Aplikuj na tę ofertę pracy",
+        "similar": {
+          "title": "Podobne oferty pracy",
+          "empty": "Nie znaleziono podobnych ofert pracy"
+        },
+        "publication": {
+          "label": "Opublikowane ",
+          "today": "Dziś",
+          "yesterday": "Wczoraj",
+          "days-ago": "{value} dni temu"
+        },
+        "success": {
+          "title": "Aplikacja wysłana",
+          "description": "Twoja aplikacja została pomyślnie wysłana"
+        }
+      },
+      "settings-profile": {
+        "title": "Ustawienia profilu",
+        "description": "Z tego panelu możesz zarządzać swoim profilem",
+        "base-data": {
+          "title": "Edytuj dane podstawowe",
+          "description": "Możesz tutaj edytować swoje dane podstawowe",
+          "cancel": "Anuluj",
+          "confirm": "Edytuj dane podstawowe"
+        },
+        "modals": {
+          "edit-profile": {
+            "title": "Edytuj dane profilu",
+            "description": "Czy na pewno chcesz edytować swoje dane profilu?",
+            "cancel": "Anuluj",
+            "confirm": "Edytuj"
+          }
+        }
+      },
+      "settings-security": {
+        "title": "Ustawienia bezpieczeństwa",
+        "description": "Z tego panelu możesz zarządzać swoimi ustawieniami bezpieczeństwa",
+        "change-password": {
+          "title": "Zmień hasło",
+          "description": "Możesz tutaj zmienić swoje hasło",
+          "cancel": "Anuluj",
+          "confirm": "Zmień hasło"
+        },
+        "modals": {
+          "change-password": {
+            "title": "Zmień hasło",
+            "description": "Czy na pewno chcesz zmienić swoje hasło?",
+            "cancel": "Anuluj",
+            "confirm": "Zmień hasło"
+          }
+        }
+      },
+      "settings-notifications": {
+        "title": "Już wkrótce",
+        "description": "Pracujemy ciężko, aby przynieść Ci coś niesamowitego. Bądźcie czujni!"
+      },
+      "settings-appearance": {
+        "title": "Już wkrótce",
+        "description": "Pracujemy ciężko, aby przynieść Ci coś niesamowitego. Bądźcie czujni!"
+      }
+    }
+  },
+  "components": {
+    "admin": {
+      "manage-industries-table": {
+        "no-data": "Nie znaleziono branż",
+        "head": {
+          "name": "Nazwa",
+          "offers": "Oferty",
+          "categories": "Kategorie",
+          "status": "Status"
+        },
+        "actions": {
+          "offers": "Zobacz oferty",
+          "categories": "Zobacz kategorie",
+          "edit": "Edytuj",
+          "delete": {
+            "active": "Usuń",
+            "disabled": "Branża nie może być usunięta, ponieważ jest używana."
+          }
+        }
+      },
+      "manage-categories-table": {
+        "no-data": "Nie znaleziono kategorii",
+        "head": {
+          "name": "Nazwa",
+          "offers": "Oferty",
+          "status": "Status"
+        },
+        "actions": {
+          "offers": "Zobacz oferty"
+        }
+      },
+      "companies-table": {
+        "no-data": "Nie znaleziono firm",
+        "head": {
+          "name": "Nazwa",
+          "owner": "Właściciel",
+          "members": "Członkowie",
+          "offers": "Oferty"
+        },
+        "actions": {
+          "more": "Zobacz oferty"
+        }
+      }
+    },
+    "company": {
+      "offer-preview": {
+        "details": {
+          "title": "Szczegóły",
+          "description": "Szczegóły oferty pracy",
+          "industry": "Branża",
+          "category": "Kategoria",
+          "contract": "Umowa o pracę",
+          "seniority": "Doświadczenie",
+          "type": "Rodzaj pracy",
+          "operating": "Operacje",
+          "salary": {
+            "label": "Wynagrodzenie",
+            "value": "{from} - {to}",
+            "no-value": "Nieokreślone"
+          }
+        },
+        "skills": {
+          "title": "Umiejętności",
+          "description": "Wymagane umiejętności dla tej oferty pracy",
+          "no-data": "Nie podano umiejętności"
+        },
+        "description": {
+          "title": "Opis oferty pracy",
+          "description": "Opis oferty pracy"
+        }
+      },
+      "edit-job-offer-wrapper": {
+        "edit": {
+          "title": "Edytuj ofertę pracy \"{value}\"",
+          "description": "Możesz edytować ofertę pracy tutaj",
+          "cancel": "Anuluj",
+          "next": "Dalej",
+          "edit": "Edytuj ofertę pracy",
+          "back": "Powrót"
+        },
+        "back": {
+          "title": "Powrót",
+          "description": "Czy na pewno chcesz wrócić? Wszystkie niezapisane dane zostaną utracone",
+          "cancel": "Anuluj",
+          "confirm": "Powrót"
+        },
+        "cancel": {
+          "title": "Anuluj",
+          "description": "Czy na pewno chcesz anulować? Wszystkie niezapisane dane zostaną utracone",
+          "cancel": "Anuluj",
+          "confirm": "Potwierdź"
+        },
+        "confirm": {
+          "title": "Potwierdź",
+          "description": "Edytować ofertę pracy z podanymi danymi?",
+          "cancel": "Anuluj",
+          "confirm": "Edytuj"
+        },
+        "no-changes": {
+          "title": "Brak zmian",
+          "description": "Nie dokonałeś żadnych zmian",
+          "cancel": "Kontynuuj edycję",
+          "confirm": "Anuluj edycję"
+        }
+      }
+    },
+    "shared": {
+      "resend-verification-email": {
+        "trigger": "Ponownie wyślij email weryfikacyjny",
+        "description": "Jeśli nie otrzymałeś emaila weryfikacyjnego, możesz ponownie go wysłać tutaj",
+        "interval": "Możesz ponownie wysłać email weryfikacyjny za {value} sekund"
+      },
+      "navbar": {
+        "user-menu-title": "Menu użytkownika",
+        "dashboard": "Panel",
+        "home": "Strona główna",
+        "about": "O nas",
+        "login": "Zaloguj",
+        "register": {
+          "trigger": "Zarejestruj się",
+          "title": "Zarejestruj się jako:",
+          "company": "Firma",
+          "customer": "Klient"
+        },
+        "logout": "Wyloguj",
+        "profile": "Profil",
+        "settings": "Ustawienia",
+        "open-menu": "Otwórz menu",
+        "close-menu": "Zamknij menu"
+      },
+      "sign-up-popover": {
+        "title": "Zarejestruj się jako:",
+        "trigger": "Zarejestruj się",
+        "company": "Firma",
+        "customer": "Klient"
+      },
+      "offer-card": {
+        "new": "Nowe!",
+        "created-at": "{value} dni temu"
+      },
+      "offer-details": {
+        "deadline": "Termin",
+        "skills": {
+          "title": "Umiejętności",
+          "no-data": "Nie podano umiejętności"
+        },
+        "description": {
+          "title": "Opis oferty pracy",
+          "description": "Opis oferty pracy"
+        }
+      },
+      "company-offers-filter": {
+        "search": "Szukaj oferty pracy",
+        "filters": {
+          "all": "Wszystkie",
+          "status": "Filtruj według statusu",
+          "seniority": "Filtruj według doświadczenia"
+        }
+      },
+      "offer-basic-data": {
+        "type": "Rodzaj pracy",
+        "contract": "Umowa o pracę",
+        "operating": "Operacje",
+        "seniority": "Doświadczenie"
+      },
+      "pdf-viewer-modal": {
+        "download": "Pobierz",
+        "loading": {
+          "document": "Dokument się ładuje...",
+          "page": "Strona się ładuje..."
+        }
+      },
+      "application-preview-modal": {
+        "title": "Podgląd aplikacji",
+        "description": "Szczegóły aplikacji",
+        "close": "Zamknij",
+        "basic": {
+          "title": "Podstawowe informacje",
+          "dates": {
+            "title": "Daty",
+            "applied-at": "Zgłoszone o: {value}",
+            "updated-at": "Zaktualizowane o: {value}"
+          },
+          "agreements": {
+            "title": "Użytkownik dodaje zgody na:",
+            "data-processing": "Przetwarzanie danych",
+            "future-recruitment": "Przyszłe procesy rekrutacji"
+          }
+        },
+        "rejected-reason": "Powód odrzucenia",
+        "candidate": {
+          "title": "Informacje o kandydacie",
+          "name": "Imię",
+          "email": "Email",
+          "message": "Wiadomość",
+          "cv": "CV"
+        },
+        "notes": {
+          "title": "Notatki",
+          "empty": "Brak notatek",
+          "form": "Utwórz nową notatkę",
+          "add": "Utwórz notatkę"
+        }
+      },
+      "manage-offers-table": {
+        "no-data": "Nie znaleziono ofert",
+        "name": "Nazwa",
+        "industry-category": "Branża/Kategoria",
+        "deadline": "Termin",
+        "applications-count": "Liczba aplikacji",
+        "seniority": "Doświadczenie",
+        "status": "Status"
+      }
+    }
+  },
+  "messages": {
+    "login": {
+      "success": "Logowanie pomyślne",
+      "error": "Logowanie nieudane"
+    }
+  },
+  "toasts": {
+    "applications": {
+      "change-status": {
+        "success": "Status aplikacji został pomyślnie zmieniony",
+        "error": "Zmiana statusu aplikacji nie powiodła się"
+      }
+    }
+  }
+}
