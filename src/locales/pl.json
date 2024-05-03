@@ -376,10 +376,10 @@
           "not-match": "Hasła nie pasują do siebie"
         },
         "name": {
-          "label": "Nazwa",
-          "placeholder": "Nazwa",
-          "required": "Nazwa jest wymagana",
-          "used": "Nazwa jest już używana"
+          "label": "Imie",
+          "placeholder": "Imie",
+          "required": "Imie jest wymagana",
+          "used": "Imie jest już używana"
         },
         "building": {
           "label": "Budynek",
@@ -429,9 +429,9 @@
           "not-match": "Hasła nie pasują do siebie"
         },
         "name": {
-          "label": "Nazwa",
-          "placeholder": "Nazwa",
-          "required": "Nazwa jest wymagana"
+          "label": "Imie",
+          "placeholder": "Imie",
+          "required": "Imie jest wymagana"
         }
       },
       "comments": {
@@ -978,152 +978,6 @@
       }
     },
     "shared": {
-      "login": {
-        "title": "Login",
-        "description": "Please enter your login and password to access the system",
-        "home": "To home page",
-        "submit": "Login",
-        "forgot-password": {
-          "title": "Forgot password?",
-          "trigger": "Reset password"
-        },
-        "register": {
-          "text": "Don't have an account?",
-          "trigger": "Sign up",
-          "title": "Sign up as:",
-          "company": "Company",
-          "customer": "Customer"
-        }
-      },
-      "reset-password-request": {
-        "title": "Reset password",
-        "description": "Please enter your email to reset password",
-        "login": "To login page",
-        "confirm": "Reset password",
-        "invalid-email": "Invalid email"
-      },
-      "reset-password": {
-        "title": "Reset password",
-        "description": "Please enter your new password",
-        "login": "To login page",
-        "confirm": "Change password",
-        "resend": "Resend email",
-        "token-invalid": "Invalid verification link",
-        "not-found": "Not found",
-        "token-expired": "Expired verification link",
-        "success": {
-          "title": "Password changed",
-          "description": "Your password has been changed successfully"
-        }
-      },
-      "customer-registration": {
-        "form": {
-          "title": "Register new user",
-          "text": "Already have an account?",
-          "link": "Login"
-        },
-        "success": {
-          "title": "Registration successful",
-          "description": "Please check your email to activate your account"
-        },
-        "email-used": {
-          "title": "Email already used",
-          "description": "This email is already used by another user",
-          "trigger": "Login"
-        },
-        "waiting-for-email-confirmation": {
-          "title": "Waiting for email confirmation",
-          "description": "Please check your email to activate your account"
-        }
-      },
-      "company-registration": {
-        "title": "Register new company",
-        "login": {
-          "description": "Already have an account?",
-          "link": "Login"
-        },
-        "success": {
-          "title": "Registration successful",
-          "description": "Please check your email to activate your account"
-        },
-        "email-used": {
-          "title": "Email already used",
-          "description": "This email is already used by another user",
-          "trigger": "Login"
-        },
-        "waiting-for-email-confirmation": {
-          "title": "Waiting for email confirmation",
-          "description": "Please check your email to activate your account"
-        }
-      },
-      "verify-email": {
-        "success": {
-          "title": "Email verified",
-          "description": "Your email has been verified successfully",
-          "trigger": "Login"
-        },
-        "not-found": {
-          "title": "Invalid verification link",
-          "description": "Your verification link is invalid"
-        },
-        "expired": {
-          "title": "Expired verification link",
-          "description": "Your verification link has expired",
-          "trigger": "Resend verification email",
-          "interval": "You can resend verification email in {value} seconds"
-        },
-        "already-verified": {
-          "title": "Email already verified",
-          "description": "Your email has been already verified",
-          "trigger": "Login"
-        }
-      },
-      "offers-board": {
-        "no-data": {
-          "title": "No job offers found",
-          "description": "There are no job offers according to your search criteria"
-        }
-      },
-      "offer": {
-        "home": "Home",
-        "operating": "Operating",
-        "apply": {
-          "now": "Apply now",
-          "again": "Apply again"
-        },
-        "form": "Apply for this job offer",
-        "similar": {
-          "title": "Similar job offers",
-          "empty": "No similar job offers found"
-        },
-        "publication": {
-          "label": "Published ",
-          "today": "Today",
-          "yesterday": "Yesterday",
-          "days-ago": "{value} days ago"
-        },
-        "success": {
-          "title": "Application sent",
-          "description": "Your application has been sent successfully"
-        }
-      },
-      "login": {
-        "title": "Logowanie",
-        "description": "Proszę podać swój login i hasło, aby uzyskać dostęp do systemu",
-        "home": "Do strony głównej",
-        "submit": "Zaloguj się",
-        "forgot-password": {
-          "title": "Zapomniałeś hasła?",
-          "trigger": "Resetuj hasło"
-        },
-        "register": {
-          "text": "Nie masz konta?",
-          "trigger": "Zarejestruj się",
-          "title": "Zarejestruj się jako:",
-          "company": "Firma",
-          "customer": "Klient"
-        }
-      },
       "reset-password-request": {
         "title": "Resetowanie hasła",
         "description": "Proszę podać swój adres e-mail, aby zresetować hasło",
@@ -1147,13 +1001,13 @@
       },
       "customer-registration": {
         "form": {
-          "title": "Zarejestruj nowego użytkownika",
+          "title": "Rejestracja nowego użytkownika",
           "text": "Masz już konto?",
           "link": "Zaloguj się"
         },
         "success": {
           "title": "Rejestracja udana",
-          "description": "Proszę sprawdź swój e-mail, aby aktywować swoje konto"
+          "description": "Proszę sprawdź swój e-mail, aby sweryfikować swoje konto"
         },
         "email-used": {
           "title": "E-mail już używany",
@@ -1162,7 +1016,7 @@
         },
         "waiting-for-email-confirmation": {
           "title": "Oczekiwanie na potwierdzenie e-maila",
-          "description": "Proszę sprawdź swój e-mail, aby aktywować swoje konto"
+          "description": "Proszę sprawdź swój e-mail, aby sweryfikować swoje konto"
         }
       },
       "company-registration": {
@@ -1176,7 +1030,7 @@
           "description": "Proszę sprawdź swój e-mail, aby aktywować swoje konto"
         },
         "email-used": {
-          "title": "E-mail już używany",
+          "title": "E-mail jest używany",
           "description": "Ten e-mail jest już używany przez innego użytkownika",
           "trigger": "Zaloguj się"
         },
