@@ -978,6 +978,23 @@
       }
     },
     "shared": {
+      "login": {
+        "title": "Logowanie",
+        "description": "Proszę podać login i hasło, aby uzyskać dostęp do platformy",
+        "home": "Do strony głównej",
+        "submit": "Zaloguj się",
+        "forgot-password": {
+          "title": "Zapomniałeś hasła?",
+          "trigger": "Zresetuj hasło"
+        },
+        "register": {
+          "text": "Nie masz jeszcze konta?",
+          "trigger": "Zarejestruj się",
+          "title": "Zarejestruj się jako:",
+          "company": "Firma",
+          "customer": "Klient"
+        }
+      },
       "reset-password-request": {
         "title": "Resetowanie hasła",
         "description": "Proszę podać swój adres e-mail, aby zresetować hasło",
