@@ -7,9 +7,8 @@ import {
   CompanyPageUrls,
   CompanyRoles,
   CustomerPageUrls,
-  PublicPageUrls,
 } from "./const";
-import nextAuthMiddleware from "./libs/next-auth/middleware";
+import { nextAuthMiddleware } from "./libs/next-auth/middleware";
 
 const customerPages = Object.values(CustomerPageUrls);
 
@@ -17,36 +16,37 @@ export default withAuth((req: NextRequestWithAuth) => {
   const currentPathName = req.nextUrl.pathname;
   const token = req.nextauth.token;
 
-  if (
-    !token &&
-    (currentPathName.startsWith(AdminPageUrls.home) ||
-      currentPathName.startsWith(CompanyPageUrls.home) ||
-      customerPages.some((page) => currentPathName.startsWith(page)))
-  ) {
-    return NextResponse.redirect(new URL(PublicPageUrls.login, req.url));
-  }
+  const isAdminSubPage = currentPathName.startsWith(AdminPageUrls.home);
+  const isCompanySubPage = currentPathName.startsWith(CompanyPageUrls.home);
+  const isCustomerPage = customerPages.some((page) =>
+    currentPathName.startsWith(page)
+  );
 
-  if (
-    currentPathName.startsWith(AdminPageUrls.home) &&
-    token &&
-    !AdminRoles.includes(token.role as (typeof AdminRoles)[number])
-  ) {
+  const isProtectedPage = isAdminSubPage || isCompanySubPage || isCustomerPage;
+
+  if (!token && isProtectedPage) {
     return NextResponse.redirect(new URL("/404", req.url));
   }
 
-  if (
-    currentPathName.startsWith(CompanyPageUrls.home) &&
-    token &&
-    !CompanyRoles.includes(token.role as (typeof CompanyRoles)[number])
-  ) {
-    return NextResponse.rewrite(new URL("/404", req.url));
-  }
+  if (token) {
+    const isCompanyUser = CompanyRoles.includes(
+      token.role as (typeof CompanyRoles)[number]
+    );
+    const isAdminUser = AdminRoles.includes(
+      token.role as (typeof AdminRoles)[number]
+    );
+    const isCustomer = token.role === UserRoles.CUSTOMER;
 
-  if (
-    customerPages.some((page) => currentPathName.startsWith(page)) &&
-    token &&
-    token.role !== UserRoles.CUSTOMER
-  ) {
-    return NextResponse.rewrite(new URL("/404", req.url));
+    if (isAdminSubPage && !isAdminUser) {
+      return NextResponse.redirect(new URL("/404", req.url));
+    }
+
+    if (isCompanySubPage && !isCompanyUser) {
+      return NextResponse.rewrite(new URL("/404", req.url));
+    }
+
+    if (isCustomerPage && !isCustomer) {
+      return NextResponse.rewrite(new URL("/404", req.url));
+    }
   }
 }, nextAuthMiddleware);
