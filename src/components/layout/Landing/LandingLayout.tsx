@@ -8,7 +8,7 @@ import { twMerge } from "tailwind-merge";
 
 type Props = {
   user: Profile | null;
-  onSignOutClick: () => void;
+  onSignOutClick: () => any;
 };
 
 type LandingLayoutProps = PropsWithChildren<Props>;

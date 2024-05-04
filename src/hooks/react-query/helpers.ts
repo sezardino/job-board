@@ -19,6 +19,7 @@ interface UseMutationHelper<
   Args extends unknown
 > extends UseMutationOptions<Res, CustomException, Var, unknown> {
   getQueriesToInvalidate?: GetQueriesToInvalidateFunction<Var, Res, Args>;
+  clearCache?: boolean;
   errorTranslationKey?: string;
   successTranslationKey?: string;
   args?: Args;
@@ -36,6 +37,7 @@ export const useMutationHelper = <
     mutationFn,
     getQueriesToInvalidate,
     args,
+    clearCache,
     errorTranslationKey,
     successTranslationKey,
     onSuccess,
@@ -63,6 +65,7 @@ export const useMutationHelper = <
       if (onSuccess) onSuccess(res, vars, ctx);
       if (successTranslationKey)
         reactToastify({ type: "success", message: t(successTranslationKey) });
+      if (clearCache) client.clear();
     },
     onError: (err, vars, ctx) => {
       if (typeof err === "string" && err === "") return;

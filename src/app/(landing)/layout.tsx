@@ -4,7 +4,7 @@ import { PropsWithChildren } from "react";
 
 import { LandingLayout } from "@/components/layout";
 import { useProfileContext } from "@/context";
-import { useLogout } from "@/hooks/useLogout";
+import { useLogout } from "@/hooks/use-logout";
 
 const BaseLayout = (props: PropsWithChildren) => {
   const { children } = props;

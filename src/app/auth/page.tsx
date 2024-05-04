@@ -1,27 +1,23 @@
 "use client";
 
+import { AuthFormValues } from "@/components/forms";
 import { LoginTemplate } from "@/components/templates/Auth/Login/LoginTemplate";
 import { PublicPageUrls } from "@/const";
-import { useLogin } from "@/hooks/useLogin";
-import { reactToastify } from "@/libs/react-toastify";
-import { useTranslations } from "next-intl";
+import { useLoginMutation } from "@/hooks/react-query/mutation/auth/login";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 const LoginPage = () => {
+  const { mutateAsync: login } = useLoginMutation();
   const router = useRouter();
-  const t = useTranslations("messages.login");
-  const login = useLogin({
-    onSuccess: useCallback(() => {
-      reactToastify({ type: "success", message: t("success") });
-      router.replace(PublicPageUrls.home);
-    }, [router, t]),
-    onError: useCallback(() => {
-      reactToastify({ type: "error", message: t("error") });
-    }, [t]),
-  });
 
-  return <LoginTemplate onFormSubmit={login} />;
+  const loginHandler = useCallback(
+    async (values: AuthFormValues) =>
+      login(values, { onSuccess: () => router.push(PublicPageUrls.home) }),
+    [login, router]
+  );
+
+  return <LoginTemplate onFormSubmit={loginHandler} />;
 };
 
 export default LoginPage;

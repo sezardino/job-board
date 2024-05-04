@@ -6,7 +6,7 @@ import { PropsWithChildren, useMemo } from "react";
 import { AppSidebarItem } from "@/components/UI/AppSidebar/AppSidebar";
 import { PanelLayout } from "@/components/layout/PanelLayout/PanelLayout";
 import { useProfileContext } from "@/context";
-import { useLogout } from "@/hooks/useLogout";
+import { useLogout } from "@/hooks/use-logout";
 import { useTranslations } from "next-intl";
 
 const AdminPanelLayout = (props: PropsWithChildren) => {

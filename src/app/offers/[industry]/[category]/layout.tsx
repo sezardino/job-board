@@ -2,7 +2,7 @@
 
 import { BoardLayoutWrapper } from "@/components/layout/Board/BoardLayout";
 import { useProfileContext } from "@/context";
-import { useLogout } from "@/hooks/useLogout";
+import { useLogout } from "@/hooks/use-logout";
 import { PropsWithChildren, type FC } from "react";
 
 type Props = {
