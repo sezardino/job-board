@@ -27,7 +27,7 @@ export default withAuth((req: NextRequestWithAuth) => {
   if (!token && isProtectedPage) {
     // return NextResponse.redirect(new URL("/404", req.url));
     return NextResponse.redirect(
-      new URL(`/${!token && isProtectedPage}`, req.url)
+      new URL(`/${JSON.stringify({ token, isProtectedPage })}`, req.url)
     );
   }
 
