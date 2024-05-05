@@ -264,15 +264,33 @@ export class OffersBllModule extends AbstractBllService {
   }
 
   async create(dto: CreateOfferRequest, companyId: string) {
-    const { category, industry, ...rest } = dto;
+    const {
+      category,
+      industry,
+      contract,
+      description,
+      name,
+      operating,
+      salary,
+      seniority,
+      skills,
+      type,
+    } = dto;
 
     return this.prismaService.offer.create({
       data: {
-        industry: { connect: { name: dto.industry } },
+        industry: { connect: { name: industry } },
         company: { connect: { id: companyId } },
-        category: { connect: { name: dto.category } },
-        // TODO: add location
-        ...rest,
+        category: { connect: { name: category } },
+        contract,
+        description,
+        name,
+        operating,
+        salaryFrom: salary?.from,
+        salaryTo: salary?.to,
+        seniority,
+        skills,
+        type,
       },
       select: { id: true },
     });
