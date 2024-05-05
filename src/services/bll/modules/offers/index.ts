@@ -317,6 +317,7 @@ export class OffersBllModule extends AbstractBllService {
     dto: ChangeOfferStatusRequest & { offerId: string; companyId: string }
   ) {
     const { offerId, companyId, status } = dto;
+
     const neededOffer = await this.validateExist(offerId, companyId);
 
     switch (status) {

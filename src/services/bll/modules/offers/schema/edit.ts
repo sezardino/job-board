@@ -23,7 +23,6 @@ export const editOfferRequestSchema = z.object({
       required_error: "description.field.required",
     })
     .min(50, "min string length is 50 characters.")
-    .max(1000, "max string length is 1000 characters.")
     .optional(),
 });
 

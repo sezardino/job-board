@@ -72,6 +72,24 @@ export const EditOfferWrapper: FC<EditOfferWrapperProps> = (props) => {
     [editionData, values]
   );
 
+  const changedStatus = useMemo(() => {
+    const { description, skills } = values;
+    const initialStatus = { skills: false, description: false };
+
+    if (!editionData) return initialStatus;
+
+    const isSkillsChanged =
+      JSON.stringify(skills) !== JSON.stringify({ skills: editionData.skills });
+
+    const isDescriptionChanged =
+      description?.description !== editionData.description.trim();
+
+    console.log("isSkillsChanged", isSkillsChanged);
+    console.log("isDescriptionChanged", isDescriptionChanged);
+
+    return { skills: isSkillsChanged, description: isDescriptionChanged };
+  }, [editionData, values]);
+
   const confirmHandler = useCallback(() => {
     if (!editionData) return false;
 
@@ -80,32 +98,20 @@ export const EditOfferWrapper: FC<EditOfferWrapperProps> = (props) => {
       return;
     }
 
-    const { description, skills } = values;
-
-    const isSkillsChanged =
-      JSON.stringify(skills) !== JSON.stringify({ skills: editionData.skills });
-
-    const isDescriptionChanged =
-      description?.description !== editionData.description;
-
-    if (!isSkillsChanged && !isDescriptionChanged) {
+    if (!changedStatus.skills && !changedStatus.description) {
       setOpenedModal("no-changes");
       return;
     }
 
     setOpenedModal("confirm");
-  }, [editionData, values]);
+  }, [changedStatus.description, changedStatus.skills, editionData, values]);
 
   const saveStepData = (value: SaveStepData) => {
     const { step, data } = value;
 
     switch (step) {
       case "skills": {
-        const isSkillsChanged =
-          JSON.stringify(values.skills) !==
-          JSON.stringify({
-            skills: editionData?.skills,
-          });
+        const isSkillsChanged = changedStatus.skills;
 
         if (isSkillsChanged) setValues((prev) => ({ ...prev, skills: data }));
         if (!isSkillsChanged)
@@ -114,16 +120,14 @@ export const EditOfferWrapper: FC<EditOfferWrapperProps> = (props) => {
         break;
       }
       case "description": {
-        const isDescriptionChanged =
-          data.description.trim() !== editionData?.description.trim();
+        const isDescriptionChanged = changedStatus.description;
 
         if (isDescriptionChanged)
           setValues((prev) => ({ ...prev, description: data }));
 
-        if (!isDescriptionChanged)
-          setValues((prev) => ({ ...prev, description: undefined }));
-
-        confirmHandler();
+        if (changedStatus.skills || changedStatus.description)
+          return confirmHandler();
+        closeHandler();
         break;
       }
     }
@@ -172,13 +176,23 @@ export const EditOfferWrapper: FC<EditOfferWrapperProps> = (props) => {
     try {
       await editOffer({
         id: offerId,
-        description: values.description?.description,
-        skills: values.skills?.skills,
+        description: changedStatus.description
+          ? values.description?.description
+          : undefined,
+        skills: changedStatus.skills ? values.skills?.skills : undefined,
       });
 
       closeHandler();
     } catch (error) {}
-  }, [closeHandler, editOffer, offerId, values.description, values.skills]);
+  }, [
+    changedStatus.description,
+    changedStatus.skills,
+    closeHandler,
+    editOffer,
+    offerId,
+    values.description,
+    values.skills,
+  ]);
 
   return (
     <>
