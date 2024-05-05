@@ -25,10 +25,7 @@ export default withAuth((req: NextRequestWithAuth) => {
   const isProtectedPage = isAdminSubPage || isCompanySubPage || isCustomerPage;
 
   if (!token && isProtectedPage) {
-    // return NextResponse.redirect(new URL("/404", req.url));
-    return NextResponse.redirect(
-      new URL(`/${JSON.stringify({ token, isProtectedPage })}`, req.url)
-    );
+    return NextResponse.redirect(new URL("/404", req.url));
   }
 
   if (token) {
