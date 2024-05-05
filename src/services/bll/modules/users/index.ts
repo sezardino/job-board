@@ -217,6 +217,7 @@ export class UsersBllModule extends AbstractBllService {
             role: u.role,
             inviteToken: await hashService.hash(inviteToken),
             companyId: inviter?.company?.id,
+            emailVerified: true,
           },
         });
 
@@ -269,7 +270,14 @@ export class UsersBllModule extends AbstractBllService {
 
     const users = await this.prismaService.user.findMany({
       where: { id: { in: [inviteId, userId] } },
-      select: { id: true, companyId: true, role: true, isAcceptInvite: true },
+      select: {
+        name: true,
+        id: true,
+        role: true,
+        isAcceptInvite: true,
+        email: true,
+        company: { select: { id: true, name: true } },
+      },
     });
 
     const invitedUser = users.find((u) => u.id === inviteId);
@@ -279,6 +287,28 @@ export class UsersBllModule extends AbstractBllService {
 
     if (invitedUser.isAcceptInvite)
       throw new BadRequestException("User already accepted invite");
+    if (invitedUser.company?.id !== user.company?.id)
+      throw new BadRequestException("Method not allowed");
+
+    const inviteToken = inviteTokenService.generate({
+      payload: { email: invitedUser.email },
+      expiresIn: daysToSeconds(1),
+    });
+
+    await this.prismaService.user.update({
+      where: { id: inviteId },
+      data: {
+        inviteToken: await hashService.hash(inviteToken),
+      },
+    });
+
+    await this.sendInviteMail(
+      invitedUser.company ? "company" : "admin",
+      { email: invitedUser.email, token: inviteToken },
+      { name: user.name, company: invitedUser.company }
+    );
+
+    return { success: true };
   }
 
   async checkInviteToken(token: string): Promise<CheckInviteTokenStatus> {

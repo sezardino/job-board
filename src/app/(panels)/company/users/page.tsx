@@ -2,14 +2,21 @@
 
 import { UserStatusesSelectOptions } from "@/components/UI/UserStatusesSelect/UserStatusesSelect";
 import { ManageCompanyUsersTemplate } from "@/components/templates/Company/ManageCompanyUsers/ManageCompanyUsersTemplate";
-import { useCheckEmailAvailableMutation, useDataOnPage } from "@/hooks";
+import { useProfileContext } from "@/context";
+import {
+  useCheckEmailAvailableMutation,
+  useDataOnPage,
+  useResendInviteMutation,
+} from "@/hooks";
 import { useCancelInviteMutation } from "@/hooks/react-query/mutation/users/cancel-invite";
 import { useEditCompanyUserMutation } from "@/hooks/react-query/mutation/users/edit-company-user";
 import { useInviteUsersMutation } from "@/hooks/react-query/mutation/users/invite-users";
 import { useCompanyUsersQuery } from "@/hooks/react-query/query/users/company";
+import { UserRoles } from "@prisma/client";
 import { useState } from "react";
 
 const CompanyUsersPage = () => {
+  const { profile } = useProfileContext();
   const { onLimitChange, onPageChange, page, limit, search, onSearchChange } =
     useDataOnPage();
   const [status, setStatus] = useState<UserStatusesSelectOptions>("all");
@@ -34,13 +41,14 @@ const CompanyUsersPage = () => {
     useCancelInviteMutation();
 
   const { mutateAsync: resendInvite, isPending: isResendLoading } =
-    useCancelInviteMutation();
+    useResendInviteMutation();
 
   const { mutateAsync: editUser, isPending: isEditUserLoading } =
     useEditCompanyUserMutation();
 
   return (
     <ManageCompanyUsersTemplate
+      canManage={profile?.role === UserRoles.OWNER}
       onLimitChange={onLimitChange}
       onPageChange={onPageChange}
       onSearchChange={onSearchChange}
