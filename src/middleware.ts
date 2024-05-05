@@ -42,11 +42,11 @@ export default withAuth((req: NextRequestWithAuth) => {
     }
 
     if (isCompanySubPage && !isCompanyUser) {
-      return NextResponse.rewrite(new URL("/404", req.url));
+      return NextResponse.redirect(new URL("/404", req.url));
     }
 
     if (isCustomerPage && !isCustomer) {
-      return NextResponse.rewrite(new URL("/404", req.url));
+      return NextResponse.redirect(new URL("/404", req.url));
     }
   }
 }, nextAuthMiddleware);
