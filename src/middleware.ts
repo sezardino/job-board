@@ -1,5 +1,4 @@
 import { NextRequestWithAuth, withAuth } from "next-auth/middleware";
-import { NextResponse } from "next/server";
 import { AdminPageUrls, CompanyPageUrls, CustomerPageUrls } from "./const";
 import { nextAuthMiddleware } from "./libs/next-auth/middleware";
 
@@ -17,9 +16,9 @@ export default withAuth((req: NextRequestWithAuth) => {
 
   const isProtectedPage = isAdminSubPage || isCompanySubPage || isCustomerPage;
 
-  if (!token && isProtectedPage) {
-    return NextResponse.redirect(new URL("/404", req.url));
-  }
+  // if (!token && isProtectedPage) {
+  //   return NextResponse.redirect(new URL("/404", req.url));
+  // }
 
   // if (token) {
   //   const isCompanyUser = CompanyRoles.includes(
