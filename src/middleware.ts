@@ -1,4 +1,6 @@
+import { UserRoles } from "@prisma/client";
 import { NextRequestWithAuth, withAuth } from "next-auth/middleware";
+import { NextResponse } from "next/server";
 import {
   AdminPageUrls,
   AdminRoles,
@@ -7,8 +9,6 @@ import {
   CustomerPageUrls,
 } from "./const";
 import { nextAuthMiddleware } from "./libs/next-auth/middleware";
-import { UserRoles } from "@prisma/client";
-import { NextResponse } from "next/server";
 
 const customerPages = Object.values(CustomerPageUrls);
 
@@ -24,9 +24,9 @@ export default withAuth((req: NextRequestWithAuth) => {
 
   const isProtectedPage = isAdminSubPage || isCompanySubPage || isCustomerPage;
 
-  // if (!token && isProtectedPage) {
-  //   return NextResponse.redirect(new URL("/404", req.url));
-  // }
+  if (!token && isProtectedPage) {
+    return NextResponse.redirect(new URL("/404", req.url));
+  }
 
   if (token) {
     const isCompanyUser = CompanyRoles.includes(
