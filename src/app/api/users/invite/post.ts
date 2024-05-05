@@ -12,39 +12,26 @@ export const postInviteUsers = async (req: NextRequest) => {
   const data = (await req.json()) as InviteUsersRequest;
   const session = await getNextAuthSession();
 
-  const hasOwnerRole = data?.users.some(
-    (user) => user.role === UserRoles.OWNER
+  const isInviteSubAdminUsers = data?.users.every(
+    (user) => user.role === UserRoles.SUB_ADMIN
   );
-  const hasAdminRole = data?.users.some(
-    (user) => user.role === UserRoles.ADMIN
+  const isInviteCompanyUsers = data?.users.every(
+    (user) =>
+      user.role === UserRoles.MODERATOR || user.role === UserRoles.RECRUITER
   );
 
-  if (hasOwnerRole && hasAdminRole)
-    throw new NotAllowedException({ message: "Method not allowed" });
-
-  if (
-    session?.user.role === UserRoles.OWNER &&
-    (hasAdminRole ||
-      data?.users.some((user) => user.role === UserRoles.SUB_ADMIN))
-  ) {
+  if (session?.user.role === UserRoles.OWNER && isInviteSubAdminUsers) {
     throw new NotAllowedException({ message: "Method not allowed" });
   }
 
-  if (
-    session?.user.role === UserRoles.ADMIN &&
-    (hasOwnerRole ||
-      data?.users.some(
-        (user) =>
-          user.role === UserRoles.MODERATOR || user.role === UserRoles.RECRUITER
-      ))
-  ) {
+  if (session?.user.role === UserRoles.ADMIN && isInviteCompanyUsers) {
     throw new NotAllowedException({ message: "Method not allowed" });
   }
 
-  const res = await bllService.users.inviteUsers(
-    data!,
-    session?.user.companyId!
-  );
+  const res = await bllService.users.invite({
+    users: data.users,
+    inviterId: session?.user.id!,
+  });
 
   return NextResponse.json(res as InviteUsersResponse, { status: 201 });
 };

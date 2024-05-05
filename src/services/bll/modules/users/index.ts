@@ -1,5 +1,6 @@
 import { PrismaService } from "@/libs/prisma";
 import { hashService } from "@/services/hash";
+import { mailService } from "@/services/mail";
 import {
   emailVerificationTokenService,
   inviteTokenService,
@@ -8,10 +9,11 @@ import {
 import {
   BadRequestException,
   FindManyPrismaEntity,
+  NotAllowedException,
   NotFoundException,
 } from "@/types";
 import { daysToSeconds } from "@/utils/days-to-seconds";
-import { Prisma, User, UserRoles } from "@prisma/client";
+import { Prisma, UserRoles } from "@prisma/client";
 import email from "next-auth/providers/email";
 import {
   AbstractBllService,
@@ -29,6 +31,8 @@ import {
   EditUserProfileRequest,
   InviteUsersRequest,
 } from "./schema";
+
+const inviteAllowedRoles = [UserRoles.OWNER, UserRoles.ADMIN];
 
 export class UsersBllModule extends AbstractBllService {
   constructor(
@@ -134,62 +138,188 @@ export class UsersBllModule extends AbstractBllService {
     });
   }
 
-  async inviteUsers(dto: InviteUsersRequest, companyId: string | null) {
-    await this.prismaService.user.createMany({
-      data: await Promise.all(
-        dto.users.map(async (u) => {
-          const inviteToken = inviteTokenService.generate({
-            payload: { email: u.email },
-            expiresIn: daysToSeconds(1),
-          });
+  protected async sendInviteMail(
+    type: "admin" | "company",
+    user: { email: string; token: string },
+    inviter: { name: string; company?: { name: string } | null }
+  ) {
+    switch (type) {
+      case "admin":
+        await mailService.sendMail({
+          templateKey: "inviteAdminTemplate",
+          to: user.email,
+          data: {
+            token: user.token,
+            inviterName: inviter.name,
+          },
+        });
+        break;
+      case "company":
+        await mailService.sendMail({
+          templateKey: "inviteToCompanyTemplate",
+          to: user.email,
+          data: {
+            token: user.token,
+            companyName: inviter.company?.name!,
+            inviterName: inviter.name,
+          },
+        });
+        break;
+    }
+  }
 
-          return {
-            ...u,
-            emailToken: "",
-            inviteToken,
-            emailVerified: true,
-            companyId,
-          };
-        })
-      ),
+  async invite(dto: InviteUsersRequest & { inviterId: string }) {
+    const { inviterId, users } = dto;
+    const invitedUsers: { email: string; success: boolean }[] = [];
+
+    const inviter = await this.prismaService.user.findUnique({
+      where: { id: inviterId },
+      select: {
+        name: true,
+        role: true,
+        company: { select: { name: true, id: true } },
+      },
     });
+
+    if (!inviter) throw new NotFoundException("User not found");
+    const type = inviter?.company ? "company" : "admin";
+    const canInvite = inviteAllowedRoles.some((r) => r === inviter.role);
+    const hasSubAdminRole = users.some((u) => u.role === UserRoles.SUB_ADMIN);
+    const hasCompanyRole = users.some(
+      (u) => u.role === UserRoles.MODERATOR || u.role === UserRoles.RECRUITER
+    );
+
+    if (!canInvite) throw new NotAllowedException("Not allowed");
+    if (!inviter.company && type === "company")
+      throw new NotAllowedException("Not allowed");
+    if (hasSubAdminRole && inviter.role === UserRoles.OWNER)
+      throw new NotAllowedException("Not allowed");
+    if (hasCompanyRole && inviter.role === UserRoles.ADMIN)
+      throw new NotAllowedException("Not allowed");
+
+    users.forEach(async (u) => {
+      try {
+        const isUserExist = await this.checkEmailAvailable({ email: u.email });
+
+        if (isUserExist) throw new BadRequestException("User already exist");
+
+        const inviteToken = inviteTokenService.generate({
+          payload: { email: u.email },
+          expiresIn: daysToSeconds(1),
+        });
+
+        await this.prismaService.user.create({
+          data: {
+            email: u.email,
+            role: u.role,
+            inviteToken: await hashService.hash(inviteToken),
+            companyId: inviter?.company?.id,
+          },
+        });
+
+        await this.sendInviteMail(
+          type,
+          { email: u.email, token: inviteToken },
+          inviter
+        );
+
+        invitedUsers.push({ email: u.email, success: true });
+      } catch (error) {
+        invitedUsers.push({ email: u.email, success: false });
+      }
+    });
+
+    return { users: invitedUsers };
+  }
+
+  async cancelInvite(dto: { inviteId: string; userId: string }) {
+    const { inviteId, userId } = dto;
 
     const users = await this.prismaService.user.findMany({
-      where: { email: { in: dto.users.map((u) => u.email) }, companyId },
-      select: { email: true },
+      where: { id: { in: [inviteId, userId] } },
+      select: { id: true, companyId: true, role: true, isAcceptInvite: true },
     });
 
-    return { users };
+    const invitedUser = users.find((u) => u.id === inviteId);
+    const canceler = users.find((u) => u.id === userId);
+
+    if (!invitedUser || !canceler)
+      throw new NotFoundException("User not found");
+
+    const canCancelInvite = inviteAllowedRoles.some((r) => r === canceler.role);
+
+    if (!canCancelInvite) throw new BadRequestException("Method not allowed");
+
+    if (invitedUser.companyId !== canceler.companyId)
+      throw new NotFoundException("User not found");
+
+    if (invitedUser?.isAcceptInvite)
+      throw new BadRequestException("User already accepted invite");
+
+    await this.prismaService.user.delete({ where: { id: inviteId } });
+
+    return { success: true };
+  }
+
+  async resendInvite(dto: { inviteId: string; userId: string }) {
+    const { inviteId, userId } = dto;
+
+    const users = await this.prismaService.user.findMany({
+      where: { id: { in: [inviteId, userId] } },
+      select: { id: true, companyId: true, role: true, isAcceptInvite: true },
+    });
+
+    const invitedUser = users.find((u) => u.id === inviteId);
+    const user = users.find((u) => u.id === userId);
+
+    if (!invitedUser || !user) throw new NotFoundException("User not found");
+
+    if (invitedUser.isAcceptInvite)
+      throw new BadRequestException("User already accepted invite");
   }
 
   async updateToken(
     email: string,
-    type: "email-verification" | "reset-password"
+    type: "email-verification" | "reset-password" | "invite"
   ) {
     let token = "";
+    const tokenConfiguration = {
+      payload: { email },
+      expiresIn: daysToSeconds(1),
+    };
 
-    if (type === "email-verification")
-      token = emailVerificationTokenService.generate({
-        payload: { email },
-        expiresIn: daysToSeconds(1),
-      });
+    switch (type) {
+      case "email-verification":
+        token = emailVerificationTokenService.generate(tokenConfiguration);
+        break;
+      case "reset-password":
+        token = passwordResetTokenService.generate(tokenConfiguration);
+        break;
+      case "invite":
+        token = inviteTokenService.generate(tokenConfiguration);
+        break;
+      default:
+        throw new BadRequestException("Invalid token type");
+    }
 
-    if (type === "reset-password")
-      token = passwordResetTokenService.generate({
-        payload: { email },
-        expiresIn: daysToSeconds(1),
-      });
+    const hashedToken = await hashService.hash(token);
+    const dataToUpdate: Prisma.UserUpdateInput = {};
+
+    switch (type) {
+      case "email-verification":
+        dataToUpdate.emailToken = hashedToken;
+        break;
+      case "reset-password":
+        dataToUpdate.resetPasswordToken = hashedToken;
+        break;
+      case "invite":
+        dataToUpdate.inviteToken = hashedToken;
+        break;
+    }
 
     await this.prismaService.user.update({
       where: { email },
-      data: {
-        emailToken:
-          type === "email-verification"
-            ? await hashService.hash(token)
-            : undefined,
-        resetPasswordToken:
-          type === "reset-password" ? await hashService.hash(token) : undefined,
-      },
+      data: dataToUpdate,
       select: { id: true },
     });
 
@@ -234,25 +364,6 @@ export class UsersBllModule extends AbstractBllService {
         companyId: true,
         role: true,
       },
-    });
-  }
-
-  async inviteUser(data: {
-    email: string;
-    password: string;
-    role?: UserRoles;
-  }): Promise<Pick<User, "id" | "email" | "role">> {
-    const { email, password, role } = data;
-
-    const hashedPassword = await hashService.hash(password);
-    const emailToken = emailVerificationTokenService.generate({
-      payload: { email },
-      expiresIn: daysToSeconds(1),
-    });
-
-    return await this.prismaService.user.create({
-      data: { email, emailToken, password: hashedPassword, role },
-      select: { id: true, email: true, role: true },
     });
   }
 

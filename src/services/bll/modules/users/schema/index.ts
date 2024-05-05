@@ -6,5 +6,4 @@ export * from "./company";
 export * from "./customer";
 export * from "./edit-company-user";
 export * from "./edit-profile";
-export * from "./invite-admin";
 export * from "./invite-users";

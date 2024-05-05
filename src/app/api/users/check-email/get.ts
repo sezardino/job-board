@@ -14,7 +14,9 @@ export const getEmailAvailable = async (req: NextRequest) => {
   const bllResponse = await bllService.users.checkEmailAvailable(params);
 
   return NextResponse.json(
-    { available: !bllResponse } as CheckEmailAvailableResponse,
+    {
+      ...("email" in bllResponse! ? { available: !!bllResponse } : bllResponse),
+    } as CheckEmailAvailableResponse,
     { status: 200 }
   );
 };

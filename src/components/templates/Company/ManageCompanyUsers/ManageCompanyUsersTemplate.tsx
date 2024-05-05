@@ -20,17 +20,11 @@ import {
 } from "@/components/forms/InviteUsers/InviteUsers";
 import { DEFAULT_PAGE_LIMIT } from "@/const";
 import {
-  CancelInviteRequest,
-  CancelInviteResponse,
   CheckEmailAvailableRequest,
   CheckEmailAvailableResponse,
   CompanyUsersResponse,
   EditCompanyUserRequest,
-  EditCompanyUserResponse,
   InviteUsersRequest,
-  InviteUsersResponse,
-  ResendInviteRequest,
-  ResendInviteResponse,
 } from "@/services/bll/modules/users/schema";
 import { ActionProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
@@ -50,10 +44,10 @@ type Props = {
     CheckEmailAvailableRequest,
     CheckEmailAvailableResponse
   >;
-  inviteUsersAction: ActionProp<InviteUsersRequest, InviteUsersResponse>;
-  resendInviteAction: ActionProp<ResendInviteRequest, ResendInviteResponse>;
-  cancelInviteAction: ActionProp<CancelInviteRequest, CancelInviteResponse>;
-  editUserAction: ActionProp<EditCompanyUserRequest, EditCompanyUserResponse>;
+  inviteUsersAction: ActionProp<InviteUsersRequest>;
+  resendInviteAction: ActionProp<string>;
+  cancelInviteAction: ActionProp<string>;
+  editUserAction: ActionProp<EditCompanyUserRequest>;
 };
 
 export type ManageCompanyUsersTemplateProps =
@@ -220,7 +214,7 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
             color: "primary",
             onClick: async () =>
               userToResendInvite
-                ? resendInviteAction.handler({ id: userToResendInvite })
+                ? resendInviteAction.handler(userToResendInvite)
                 : undefined,
           },
         ]}
@@ -243,7 +237,7 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
             color: "danger",
             onClick: async () =>
               userToCancelInvite
-                ? cancelInviteAction.handler({ id: userToCancelInvite })
+                ? cancelInviteAction.handler(userToCancelInvite)
                 : undefined,
           },
         ]}
