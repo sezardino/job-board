@@ -1,6 +1,6 @@
 import {
+  AcceptInviteRequest,
   AdminUsersRequest,
-  CancelInviteRequest,
   ChangePasswordRequest,
   CheckEmailAvailableRequest,
   CompaniesUsersRequest,
@@ -8,19 +8,18 @@ import {
   CustomerUsersRequest,
   EditCompanyUserRequest,
   EditUserProfileRequest,
-  InviteAdminRequest,
   InviteUsersRequest,
-  ResendInviteRequest,
+  acceptInviteResponseSchema,
   adminUsersResponseSchema,
   cancelInviteResponseSchema,
   changePasswordResponseSchema,
   checkEmailAvailableResponseSchema,
+  checkInviteTokenResponseSchema,
   companiesUsersResponseSchema,
   companyUsersResponseSchema,
   customerUsersResponseSchema,
   editCompanyUserResponseSchema,
   editUserProfileRequestSchema,
-  inviteAdminResponseSchema,
   inviteUsersResponseSchema,
   resendInviteResponseSchema,
 } from "@/services/bll/modules/users/schema";
@@ -52,15 +51,7 @@ export class UsersApiModule extends AbstractApiModule {
     });
   }
 
-  inviteAdmin(data: InviteAdminRequest) {
-    return this.fetch({
-      endpoint: "users/admin/invite",
-      config: { method: "POST", data },
-      schema: inviteAdminResponseSchema,
-    });
-  }
-
-  inviteUsers(data: InviteUsersRequest) {
+  invite(data: InviteUsersRequest) {
     return this.fetch({
       endpoint: "users/invite",
       config: { method: "POST", data },
@@ -68,19 +59,35 @@ export class UsersApiModule extends AbstractApiModule {
     });
   }
 
-  resendInvite(data: ResendInviteRequest) {
+  resendInvite(inviteId: string) {
     return this.fetch({
-      endpoint: "users/invite",
-      config: { method: "PATCH", data },
+      endpoint: `users/invite/${inviteId}`,
+      config: { method: "PATCH" },
       schema: resendInviteResponseSchema,
     });
   }
 
-  cancelInvite(data: CancelInviteRequest) {
+  cancelInvite(inviteId: string) {
     return this.fetch({
-      endpoint: "users/invite",
-      config: { method: "DELETE", data },
+      endpoint: `users/invite/${inviteId}`,
+      config: { method: "DELETE" },
       schema: cancelInviteResponseSchema,
+    });
+  }
+
+  async checkInviteToken(token: string) {
+    return await this.fetch({
+      endpoint: "users/invite/verify",
+      config: { method: "GET", params: { token } },
+      schema: checkInviteTokenResponseSchema,
+    });
+  }
+
+  async acceptInvite(data: AcceptInviteRequest) {
+    return await this.fetch({
+      endpoint: "users/invite/verify",
+      config: { method: "POST", data },
+      schema: acceptInviteResponseSchema,
     });
   }
 

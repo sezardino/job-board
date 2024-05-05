@@ -1,7 +1,13 @@
 import { PublicPageUrls } from "@/const";
-import { footerMailPart, headMailPart } from "./partials";
+import { footerMailPart, headMailPart, thanksMailPart } from "./partials";
 
-const html = (args: { name: string; token: string }) => `
+type Args = {
+  token: string;
+  inviterName: string;
+  companyName: string;
+};
+
+const html = (args: Args) => `
 <!DOCTYPE html>
 
 <html
@@ -48,12 +54,7 @@ const html = (args: { name: string; token: string }) => `
               cellspacing="0"
               class="row row-2"
               role="presentation"
-              style="
-                mso-table-lspace: 0pt;
-                mso-table-rspace: 0pt;
-                max-width: 680px;
-                background-color: #fff;
-              "
+              style="mso-table-lspace: 0pt; mso-table-rspace: 0pt"
               width="100%"
             >
               <tbody>
@@ -72,6 +73,7 @@ const html = (args: { name: string; token: string }) => `
                         color: #000;
                         width: 680px;
                         margin: 0 auto;
+                        background-color: #fff;
                       "
                       width="680"
                     >
@@ -109,9 +111,9 @@ const html = (args: { name: string; token: string }) => `
                                 <td
                                   class="pad title"
                                   style="
-                                    padding-left: 60px;
-                                    padding-right: 60px;
-                                    padding-top: 40px;
+                                    padding-left: 45px;
+                                    padding-right: 45px;
+                                    padding-top: 30px;
                                   "
                                 >
                                   <div style="font-family: sans-serif">
@@ -123,23 +125,20 @@ const html = (args: { name: string; token: string }) => `
                                           Helvetica, sans-serif;
                                         mso-line-height-alt: 21.6px;
                                         color: #555555;
-                                        line-height: 1.8;
-                                        max-width: 450px;
-                                        margin: 0 auto;
+                                        line-height: 1.5;
                                       "
                                     >
                                       <p
                                         style="
                                           margin: 0;
                                           font-size: 12px;
-                                          text-align: center;
                                           mso-line-height-alt: 21.6px;
                                         "
                                       >
                                         <span style="color: #000000"
                                           ><strong
                                             ><span style="font-size: 24px"
-                                              >Welcome ${args.name}!</span
+                                              >Invitation to Job Board!</span
                                             ></strong
                                           ></span
                                         >
@@ -168,8 +167,8 @@ const html = (args: { name: string; token: string }) => `
                                   class="pad content"
                                   style="
                                     padding-bottom: 30px;
-                                    padding-left: 60px;
-                                    padding-right: 60px;
+                                    padding-left: 45px;
+                                    padding-right: 45px;
                                     padding-top: 15px;
                                   "
                                 >
@@ -183,15 +182,12 @@ const html = (args: { name: string; token: string }) => `
                                         mso-line-height-alt: 21.6px;
                                         color: #555555;
                                         line-height: 1.8;
-                                        max-width: 450px;
-                                        margin: 0 auto;
                                       "
                                     >
                                       <p
                                         style="
                                           margin: 0;
                                           font-size: 14px;
-                                          text-align: center;
                                           mso-line-height-alt: 28.8px;
                                         "
                                       >
@@ -200,11 +196,19 @@ const html = (args: { name: string; token: string }) => `
                                             font-size: 16px;
                                             color: #6b7489;
                                           "
-                                          >Congratulations and welcome to Our
-                                          Platform! We're thrilled to have you
-                                          on board, and we appreciate you
-                                          choosing us.</span
                                         >
+                                          <strong style="color: #356bf6">
+                                            ${args.inviterName}</strong
+                                          >
+                                          from <strong style="color: #356bf6">
+                                          ${args.companyName}</strong
+                                        >
+                                          invites you to join their team in the
+                                          Job Boards app!<br />
+                                          Just click the link below to sign up
+                                          and start your journey.
+                                          <br />
+                                        </span>
                                       </p>
                                     </div>
                                   </div>
@@ -224,16 +228,15 @@ const html = (args: { name: string; token: string }) => `
                               width="100%"
                             >
                               <tr>
-                                <td class="pad" style="text-align: center">
-                                  <div
-                                    align="center"
-                                    class="alignment"
-                                    style="padding: 0 30px"
-                                  >
+                                <td
+                                  class="pad content"
+                                  style="padding-left: 45px"
+                                >
+                                  <div>
                                     <a
                                       href="${
                                         process.env.FRONTEND_URL
-                                      }${PublicPageUrls.verify(args.token)}"
+                                      }/${PublicPageUrls.invite(args.token)}"
                                       style="
                                         text-decoration: none;
                                         display: block;
@@ -253,8 +256,7 @@ const html = (args: { name: string; token: string }) => `
                                         text-align: center;
                                         mso-border-alt: none;
                                         word-break: keep-all;
-                                        max-width: 450px;
-                                        margin: 0 auto;
+                                        max-width: 200px;
                                       "
                                       target="_blank"
                                       ><span
@@ -271,7 +273,7 @@ const html = (args: { name: string; token: string }) => `
                                             word-break: break-word;
                                             line-height: 32px;
                                           "
-                                          >Verify your email</span
+                                          >Create your account</span
                                         ></span
                                       ></a
                                     >
@@ -279,70 +281,7 @@ const html = (args: { name: string; token: string }) => `
                                 </td>
                               </tr>
                             </table>
-                            <table
-                              border="0"
-                              cellpadding="0"
-                              cellspacing="0"
-                              class="text_block block-4"
-                              role="presentation"
-                              style="
-                                mso-table-lspace: 0pt;
-                                mso-table-rspace: 0pt;
-                                word-break: break-word;
-                              "
-                              width="100%"
-                            >
-                              <tr>
-                                <td
-                                  class="pad"
-                                  style="
-                                    padding-bottom: 30px;
-                                    padding-left: 10px;
-                                    padding-right: 10px;
-                                    padding-top: 25px;
-                                  "
-                                >
-                                  <div style="font-family: sans-serif">
-                                    <div
-                                      class=""
-                                      style="
-                                        font-size: 12px;
-                                        font-family: Arial, 'Helvetica Neue',
-                                          Helvetica, sans-serif;
-                                        mso-line-height-alt: 21.6px;
-                                        color: #555555;
-                                        line-height: 1.8;
-                                      "
-                                    >
-                                      <p
-                                        style="
-                                          margin: 0;
-                                          font-size: 16px;
-                                          text-align: center;
-                                          mso-line-height-alt: 28.8px;
-                                        "
-                                      >
-                                        <span style="color: #6b7489"
-                                          >Thank you!</span
-                                        >
-                                      </p>
-                                      <p
-                                        style="
-                                          margin: 0;
-                                          font-size: 16px;
-                                          text-align: center;
-                                          mso-line-height-alt: 28.8px;
-                                        "
-                                      >
-                                        <span style="color: #6b7489"
-                                          >Job Boards Team</span
-                                        >
-                                      </p>
-                                    </div>
-                                  </div>
-                                </td>
-                              </tr>
-                            </table>
+                            ${thanksMailPart}
                           </td>
                         </tr>
                       </tbody>
@@ -358,15 +297,17 @@ const html = (args: { name: string; token: string }) => `
         </tr>
       </tbody>
     </table>
+
     <!-- End -->
   </body>
 </html>
+
 `;
 
-const text = `Welcome to Joab Boards!`;
-const subject = `Welcome to Joab Boards!`;
+const text = `Invite to Job Boards`;
+const subject = `Invite to Job Boards`;
 
-export const welcomeTemplate = {
+export const inviteToCompanyTemplate = {
   subject,
   html,
   text,

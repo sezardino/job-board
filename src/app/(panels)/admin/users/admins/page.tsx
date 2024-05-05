@@ -1,12 +1,14 @@
 "use client";
 
+import { InviteUsersFormValues } from "@/components/forms/InviteUsers/InviteUsers";
 import { ManageAdminUsersTemplate } from "@/components/templates/Admin/ManageAdminUsers/ManageAdminUsersTemplate";
+import { useAdminUsersQuery } from "@/hooks/react-query";
 import {
-  useAdminUsersQuery,
-  useInviteAdminMutation,
-} from "@/hooks/react-query";
-import { useCheckEmailAvailableMutation } from "@/hooks/react-query/mutation/";
+  useCheckEmailAvailableMutation,
+  useInviteUsersMutation,
+} from "@/hooks/react-query/mutation/";
 import { useDataOnPage } from "@/hooks/use-data-on-page";
+import { UserRoles } from "@prisma/client";
 import { useCallback } from "react";
 
 const AdminsPage = () => {
@@ -19,17 +21,21 @@ const AdminsPage = () => {
   });
 
   const { mutateAsync: inviteAdmin, isPending: isInviteAdminLoading } =
-    useInviteAdminMutation();
+    useInviteUsersMutation();
 
-  const { mutateAsync: checkEmailAvailable } = useCheckEmailAvailableMutation();
+  const { mutateAsync: checkEmails, isPending: isCheckEmailsLoading } =
+    useCheckEmailAvailableMutation();
 
-  const checkEmailAvailableHandler = useCallback(
-    async (email: string) => {
-      const response = await checkEmailAvailable({ email });
+  const inviteUsersHandler = useCallback(
+    async (values: InviteUsersFormValues) => {
+      const mapperUsers = values.users.map((user) => ({
+        email: user.email,
+        role: UserRoles.SUB_ADMIN,
+      }));
 
-      return response.available;
+      return inviteAdmin({ users: mapperUsers });
     },
-    [checkEmailAvailable]
+    [inviteAdmin]
   );
 
   return (
@@ -39,8 +45,14 @@ const AdminsPage = () => {
       isTableDataLoading={isAdminsLoading}
       onLimitChange={onLimitChange}
       onPageChange={onPageChange}
-      onInviteAdminFormSubmit={inviteAdmin}
-      onEmailAvailableRequest={checkEmailAvailableHandler}
+      inviteUsersAction={{
+        handler: inviteUsersHandler,
+        isLoading: isInviteAdminLoading,
+      }}
+      checkEmailAction={{
+        handler: checkEmails,
+        isLoading: isCheckEmailsLoading,
+      }}
       onSearchChange={onSearchChange}
     />
   );

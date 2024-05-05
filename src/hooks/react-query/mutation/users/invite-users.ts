@@ -6,8 +6,7 @@ import { COMPANY_USERS_QUERY_KEY } from "../../query/users/company";
 
 export const useInviteUsersMutation = () =>
   useMutationHelper({
-    mutationFn: (data: InviteUsersRequest) =>
-      apiService.users.inviteUsers(data),
+    mutationFn: (data: InviteUsersRequest) => apiService.users.invite(data),
     getQueriesToInvalidate: () => [
       [ADMINS_USERS_QUERY_KEY],
       [COMPANY_USERS_QUERY_KEY],

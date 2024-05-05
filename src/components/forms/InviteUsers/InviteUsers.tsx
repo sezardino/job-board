@@ -4,6 +4,7 @@ import { UserRoleSelect } from "@/components/UI/UserRoleSelect/UserStatusesSelec
 import { Button } from "@/components/base/Button/Button";
 import { Icon } from "@/components/base/Icon/Icon";
 import { ControlledInput } from "@/components/controlled";
+import { AcceptedRolesToInvite } from "@/services/bll/modules/users/schema";
 import { UserRoles } from "@prisma/client";
 import { FieldArray, Form, FormikProvider, useFormik } from "formik";
 import { useTranslations } from "next-intl";
@@ -13,7 +14,7 @@ import z from "zod";
 import { toFormikValidationSchema } from "zod-formik-adapter";
 
 export type InviteUsersFormValues = {
-  users: { email: string; role: UserRoles }[];
+  users: { email: string; role: AcceptedRolesToInvite }[];
 };
 
 export type InviteUsersFormProps = ComponentPropsWithoutRef<"form"> & {
@@ -31,7 +32,7 @@ export type InviteUsersFormProps = ComponentPropsWithoutRef<"form"> & {
   };
 };
 
-const emptyUser = { email: "", role: undefined as unknown as UserRoles };
+const emptyUser = { email: "", role: UserRoles.MODERATOR };
 const subAdminUser = { email: "", role: UserRoles.SUB_ADMIN };
 
 export const InviteUsersForm: FC<InviteUsersFormProps> = (props) => {

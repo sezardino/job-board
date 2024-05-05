@@ -1016,6 +1016,19 @@
           "description": "Your password has been changed successfully"
         }
       },
+      "accept-invite": {
+        "title": "Configure your account",
+        "description": "Please enter your password",
+        "login": "To login page",
+        "confirm": "Accept invite",
+        "token-invalid": "Invalid verification link",
+        "not-found": "Not found",
+        "token-expired": "Expired verification link",
+        "success": {
+          "title": "Invite accepted",
+          "description": "You have accepted the invitation successfully"
+        }
+      },
       "customer-registration": {
         "form": {
           "title": "Register new user",

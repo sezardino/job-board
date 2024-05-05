@@ -20,23 +20,21 @@ import {
 } from "@/components/forms/InviteUsers/InviteUsers";
 import { DEFAULT_PAGE_LIMIT } from "@/const";
 import {
-  CancelInviteRequest,
-  CancelInviteResponse,
   CheckEmailAvailableRequest,
   CheckEmailAvailableResponse,
   CompanyUsersResponse,
   EditCompanyUserRequest,
-  EditCompanyUserResponse,
   InviteUsersRequest,
-  InviteUsersResponse,
-  ResendInviteRequest,
-  ResendInviteResponse,
 } from "@/services/bll/modules/users/schema";
 import { ActionProp, DataProp } from "@/types";
 import { useTranslations } from "next-intl";
-import { useState, type ComponentPropsWithoutRef, type FC } from "react";
+import {
+  useCallback,
+  useState,
+  type ComponentPropsWithoutRef,
+  type FC,
+} from "react";
 import { twMerge } from "tailwind-merge";
-import { undefined } from "zod";
 import { useCompanyUsersTable } from "./use-table";
 
 type Props = {
@@ -50,10 +48,11 @@ type Props = {
     CheckEmailAvailableRequest,
     CheckEmailAvailableResponse
   >;
-  inviteUsersAction: ActionProp<InviteUsersRequest, InviteUsersResponse>;
-  resendInviteAction: ActionProp<ResendInviteRequest, ResendInviteResponse>;
-  cancelInviteAction: ActionProp<CancelInviteRequest, CancelInviteResponse>;
-  editUserAction: ActionProp<EditCompanyUserRequest, EditCompanyUserResponse>;
+  inviteUsersAction: ActionProp<InviteUsersRequest>;
+  resendInviteAction: ActionProp<string>;
+  cancelInviteAction: ActionProp<string>;
+  editUserAction: ActionProp<EditCompanyUserRequest>;
+  canManage: boolean;
 };
 
 export type ManageCompanyUsersTemplateProps =
@@ -63,6 +62,7 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
   props
 ) => {
   const {
+    canManage,
     editUserAction,
     resendInviteAction,
     cancelInviteAction,
@@ -95,6 +95,7 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
     onSelectUserToCancelInvite: setUserToCancelInvite,
     onSelectUserToEdit: setUserToEdit,
     onSelectUserToResendInvite: setUserToResendInvite,
+    canManage,
   });
 
   const inviteUsersHandler = async (values: InviteUsersFormValues) => {
@@ -114,6 +115,26 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
       setIsInviteModalOpen(false);
     } catch (error) {}
   };
+
+  const resendInviteHandler = useCallback(async () => {
+    if (!userToResendInvite) return;
+
+    try {
+      await resendInviteAction.handler(userToResendInvite);
+
+      setUserToResendInvite(null);
+    } catch (error) {}
+  }, [resendInviteAction, userToResendInvite]);
+
+  const cancelInviteHandler = useCallback(async () => {
+    if (!userToCancelInvite) return;
+
+    try {
+      await cancelInviteAction.handler(userToCancelInvite);
+
+      setUserToCancelInvite(null);
+    } catch (error) {}
+  }, [cancelInviteAction, userToCancelInvite]);
 
   return (
     <>
@@ -138,11 +159,13 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
                 aria-label={t("filter")}
               />
             </div>
-            <Button
-              color="primary"
-              onClick={() => setIsInviteModalOpen(true)}
-              text={t("invite-user.trigger")}
-            />
+            {canManage && (
+              <Button
+                color="primary"
+                onClick={() => setIsInviteModalOpen(true)}
+                text={t("invite-user.trigger")}
+              />
+            )}
           </div>
         </header>
 
@@ -218,10 +241,7 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
           {
             text: t("resend-invite.confirm"),
             color: "primary",
-            onClick: async () =>
-              userToResendInvite
-                ? resendInviteAction.handler({ id: userToResendInvite })
-                : undefined,
+            onClick: resendInviteHandler,
           },
         ]}
         isLoading={resendInviteAction.isLoading}
@@ -241,10 +261,7 @@ export const ManageCompanyUsersTemplate: FC<ManageCompanyUsersTemplateProps> = (
           {
             text: t("cancel-invite.confirm"),
             color: "danger",
-            onClick: async () =>
-              userToCancelInvite
-                ? cancelInviteAction.handler({ id: userToCancelInvite })
-                : undefined,
+            onClick: cancelInviteHandler,
           },
         ]}
         isLoading={resendInviteAction.isLoading}

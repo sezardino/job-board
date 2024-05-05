@@ -15,6 +15,7 @@ type Props = {
   }) => void;
   onSelectUserToResendInvite: (id: string) => void;
   onSelectUserToCancelInvite: (id: string) => void;
+  canManage: boolean;
 };
 
 const CH = createColumnHelper<CompanyUsersResponse["data"][number]>();
@@ -24,6 +25,7 @@ export const useCompanyUsersTable = (props: Props) => {
     onSelectUserToCancelInvite,
     onSelectUserToEdit,
     onSelectUserToResendInvite,
+    canManage,
   } = props;
 
   const t = useTranslations("page.company.users");
@@ -63,54 +65,62 @@ export const useCompanyUsersTable = (props: Props) => {
         header: t("table.status"),
         cell: (row) => userT(`status.${row.getValue()}`),
       }),
-      CH.accessor("id", {
-        enableSorting: false,
-        header: t("table.actions.label"),
-        cell: (row) => (
-          <div>
-            <Button
-              color="primary"
-              variant="light"
-              size="sm"
-              isIconOnly
-              isDisabled={
-                row.row.original.role === UserRoles.OWNER ||
-                !row.row.original.isAcceptInvite
-              }
-              onClick={() =>
-                onSelectUserToEdit({
-                  id: row.getValue(),
-                  role: row.row.original.role as CompanyUserAcceptedRoles,
-                })
-              }
-              text={t("table.actions.edit")}
-              endContent={<Icon name="HiPencil" size={16} />}
-            />
-            {!row.row.original.isAcceptInvite && (
-              <>
-                <Button
-                  color="secondary"
-                  variant="light"
-                  size="sm"
-                  isIconOnly
-                  onClick={() => onSelectUserToResendInvite(row.getValue())}
-                  text={t("table.actions.resend-invite")}
-                  endContent={<Icon name="HiRefresh" size={16} />}
-                />
-                <Button
-                  color="danger"
-                  variant="light"
-                  size="sm"
-                  isIconOnly
-                  onClick={() => onSelectUserToCancelInvite(row.getValue())}
-                  text={t("table.actions.cancel-invite")}
-                  endContent={<Icon name="HiOutlineBan" size={16} />}
-                />
-              </>
-            )}
-          </div>
-        ),
-      }),
+      ...(canManage
+        ? [
+            CH.accessor("id", {
+              enableSorting: false,
+              header: t("table.actions.label"),
+              cell: (row) => (
+                <div>
+                  <Button
+                    color="primary"
+                    variant="light"
+                    size="sm"
+                    isIconOnly
+                    isDisabled={
+                      row.row.original.role === UserRoles.OWNER ||
+                      !row.row.original.isAcceptInvite
+                    }
+                    onClick={() =>
+                      onSelectUserToEdit({
+                        id: row.getValue(),
+                        role: row.row.original.role as CompanyUserAcceptedRoles,
+                      })
+                    }
+                    text={t("table.actions.edit")}
+                    endContent={<Icon name="HiPencil" size={16} />}
+                  />
+                  {!row.row.original.isAcceptInvite && (
+                    <>
+                      <Button
+                        color="secondary"
+                        variant="light"
+                        size="sm"
+                        isIconOnly
+                        onClick={() =>
+                          onSelectUserToResendInvite(row.getValue())
+                        }
+                        text={t("table.actions.resend-invite")}
+                        endContent={<Icon name="HiRefresh" size={16} />}
+                      />
+                      <Button
+                        color="danger"
+                        variant="light"
+                        size="sm"
+                        isIconOnly
+                        onClick={() =>
+                          onSelectUserToCancelInvite(row.getValue())
+                        }
+                        text={t("table.actions.cancel-invite")}
+                        endContent={<Icon name="HiOutlineBan" size={16} />}
+                      />
+                    </>
+                  )}
+                </div>
+              ),
+            }),
+          ]
+        : []),
     ],
     [
       onSelectUserToCancelInvite,

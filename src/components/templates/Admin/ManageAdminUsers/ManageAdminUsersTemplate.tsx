@@ -1,7 +1,11 @@
 import { Button } from "@/components/base/Button/Button";
 import { LoadingOverlay } from "@/components/base/LoadingOverlay/LoadingOverlay";
 import { ModalWithDescription } from "@/components/base/ModalWithDescription/ModalWithDescription";
-import { AdminUsersResponse } from "@/services/bll/modules/users/schema";
+import {
+  AdminUsersResponse,
+  CheckEmailAvailableRequest,
+  CheckEmailAvailableResponse,
+} from "@/services/bll/modules/users/schema";
 import { useTranslations } from "next-intl";
 import {
   useCallback,
@@ -10,9 +14,13 @@ import {
   type FC,
 } from "react";
 import { SearchForm } from "../../../base/SearchForm/SearchForm";
-import { AuthForm, AuthFormValues } from "../../../forms";
 
+import {
+  InviteUsersForm,
+  InviteUsersFormValues,
+} from "@/components/forms/InviteUsers/InviteUsers";
 import { AdminsTable } from "@/components/modules/admin/AdminsTable";
+import { ActionProp } from "@/types";
 import styles from "./ManageAdminUsersTemplate.module.scss";
 
 type Props = {
@@ -20,8 +28,11 @@ type Props = {
   isTableDataLoading: boolean;
   onLimitChange: (limit: number) => void;
   onPageChange: (page: number) => void;
-  onInviteAdminFormSubmit: (data: AuthFormValues) => Promise<any>;
-  onEmailAvailableRequest: (email: string) => Promise<boolean>;
+  inviteUsersAction: ActionProp<InviteUsersFormValues>;
+  checkEmailAction: ActionProp<
+    CheckEmailAvailableRequest,
+    CheckEmailAvailableResponse
+  >;
   isInviteAdminLoading: boolean;
   onSearchChange: (search: string) => void;
 };
@@ -38,8 +49,8 @@ export const ManageAdminUsersTemplate: FC<ManageAdminUsersTemplateProps> = (
     onLimitChange,
     onPageChange,
     isInviteAdminLoading,
-    onInviteAdminFormSubmit,
-    onEmailAvailableRequest,
+    inviteUsersAction,
+    checkEmailAction,
     onSearchChange,
     className,
     ...rest
@@ -49,13 +60,13 @@ export const ManageAdminUsersTemplate: FC<ManageAdminUsersTemplateProps> = (
   const [isInviteAdminModalOpen, setIsInviteAdminModalOpen] = useState(false);
 
   const inviteAdminHandler = useCallback(
-    async (values: AuthFormValues) => {
+    async (values: InviteUsersFormValues) => {
       try {
-        await onInviteAdminFormSubmit(values);
+        await inviteUsersAction.handler(values);
         setIsInviteAdminModalOpen(false);
       } catch (error) {}
     },
-    [onInviteAdminFormSubmit]
+    [inviteUsersAction]
   );
 
   return (
@@ -89,10 +100,10 @@ export const ManageAdminUsersTemplate: FC<ManageAdminUsersTemplateProps> = (
       >
         <ModalWithDescription.Body>
           {isInviteAdminLoading && <LoadingOverlay isInWrapper />}
-          <AuthForm
-            type="new-user"
+          <InviteUsersForm
             onFormSubmit={inviteAdminHandler}
-            onEmailAvailableRequest={onEmailAvailableRequest}
+            onValidateEmailsRequest={checkEmailAction.handler}
+            type="admin"
             label={t("invite.title")}
             submitText={t("invite.submit")}
             cancel={{
