@@ -71,7 +71,8 @@ export const Select = <T extends string, M extends boolean>(
       {...rest}
       selectionMode={isMultiple ? "multiple" : "single"}
       variant="bordered"
-      radius="sm"
+      radius="md"
+      size="lg"
       labelPlacement={labelPlacement}
       // @ts-ignore
       selectedKeys={
