@@ -1,3 +1,4 @@
+import { JWTError } from "@/libs/jwt";
 import { PrismaService } from "@/libs/prisma";
 import { hashService } from "@/services/hash";
 import { mailService } from "@/services/mail";
@@ -22,9 +23,11 @@ import {
 import { CustomerRegistrationRequest } from "../auth/schema";
 import { FilesBllModule } from "../files";
 import {
+  AcceptInviteRequest,
   AdminUsersRequest,
   ChangePasswordRequest,
   CheckEmailAvailableRequest,
+  CheckInviteTokenStatus,
   CompaniesUsersRequest,
   CompanyUsersRequest,
   CustomerUsersRequest,
@@ -276,6 +279,60 @@ export class UsersBllModule extends AbstractBllService {
 
     if (invitedUser.isAcceptInvite)
       throw new BadRequestException("User already accepted invite");
+  }
+
+  async checkInviteToken(token: string): Promise<CheckInviteTokenStatus> {
+    try {
+      const decodedToken = inviteTokenService.verify<{
+        email: string;
+      }>(token);
+
+      if (!decodedToken || !decodedToken?.email)
+        return CheckInviteTokenStatus.NotFound;
+
+      const user = await this.prismaService.user.findUnique({
+        where: { email: decodedToken.email },
+        select: { isAcceptInvite: true, inviteToken: true },
+      });
+
+      if (!user) return CheckInviteTokenStatus.NotFound;
+      if (user.isAcceptInvite) return CheckInviteTokenStatus.Accepted;
+
+      const isTokensMatch = hashService.compare(token, user.inviteToken!);
+
+      if (!isTokensMatch) return CheckInviteTokenStatus.Invalid;
+
+      return CheckInviteTokenStatus.Success;
+    } catch (error) {
+      const typedError = error as JWTError;
+
+      if (typedError.message === "jwt expired")
+        return CheckInviteTokenStatus.Expired;
+
+      return CheckInviteTokenStatus.Invalid;
+    }
+  }
+
+  async acceptInvite(dto: AcceptInviteRequest) {
+    const { token, password } = dto;
+
+    const checkStatus = await this.checkInviteToken(token);
+
+    if (checkStatus !== CheckInviteTokenStatus.Success) return;
+
+    const decodedToken = inviteTokenService.verify<{ email: string }>(token);
+    if (!decodedToken) return;
+
+    await this.prismaService.user.update({
+      where: { email: decodedToken.email },
+      data: {
+        inviteToken: null,
+        isAcceptInvite: true,
+        password: await hashService.hash(password),
+      },
+    });
+
+    return { success: true };
   }
 
   async updateToken(

@@ -1,4 +1,5 @@
 import {
+  AcceptInviteRequest,
   AdminUsersRequest,
   ChangePasswordRequest,
   CheckEmailAvailableRequest,
@@ -8,10 +9,12 @@ import {
   EditCompanyUserRequest,
   EditUserProfileRequest,
   InviteUsersRequest,
+  acceptInviteResponseSchema,
   adminUsersResponseSchema,
   cancelInviteResponseSchema,
   changePasswordResponseSchema,
   checkEmailAvailableResponseSchema,
+  checkInviteTokenResponseSchema,
   companiesUsersResponseSchema,
   companyUsersResponseSchema,
   customerUsersResponseSchema,
@@ -69,6 +72,22 @@ export class UsersApiModule extends AbstractApiModule {
       endpoint: `users/invite/${inviteId}`,
       config: { method: "DELETE" },
       schema: cancelInviteResponseSchema,
+    });
+  }
+
+  async checkInviteToken(token: string) {
+    return await this.fetch({
+      endpoint: "users/invite/verify",
+      config: { method: "GET", params: { token } },
+      schema: checkInviteTokenResponseSchema,
+    });
+  }
+
+  async acceptInvite(data: AcceptInviteRequest) {
+    return await this.fetch({
+      endpoint: "users/invite/verify",
+      config: { method: "POST", data },
+      schema: acceptInviteResponseSchema,
     });
   }
 

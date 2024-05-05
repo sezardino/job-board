@@ -38,6 +38,40 @@ export const resendInviteResponseSchema = z.object({
   success: z.boolean(),
 });
 
+export const checkInviteTokenRequestSchema = z.object({
+  token: z.string(),
+});
+export const checkInviteTokenResponseSchema = z.object({
+  success: z.boolean(),
+});
+
+export const acceptInviteRequestSchema = z.object({
+  token: z.string(),
+  password: z.string(),
+});
+
+export const acceptInviteResponseSchema = z.object({
+  success: z.boolean(),
+});
+
+export enum CheckInviteTokenStatus {
+  Success = "success",
+  NotFound = "not-found",
+  Expired = "expired",
+  Invalid = "invalid",
+  Accepted = "accepted",
+}
+
+export type AcceptInviteRequest = z.infer<typeof acceptInviteRequestSchema>;
+export type AcceptInviteResponse = z.infer<typeof acceptInviteResponseSchema>;
+
+export type CheckInviteTokenRequest = z.infer<
+  typeof checkInviteTokenRequestSchema
+>;
+export type CheckInviteTokenResponse = z.infer<
+  typeof checkInviteTokenResponseSchema
+>;
+
 export type InviteUsersRequest = z.infer<typeof inviteUsersRequestSchema>;
 export type InviteUsersResponse = z.infer<typeof inviteUsersResponseSchema>;
 
