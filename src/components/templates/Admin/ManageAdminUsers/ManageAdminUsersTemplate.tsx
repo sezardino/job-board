@@ -103,6 +103,7 @@ export const ManageAdminUsersTemplate: FC<ManageAdminUsersTemplateProps> = (
           <InviteUsersForm
             onFormSubmit={inviteAdminHandler}
             onValidateEmailsRequest={checkEmailAction.handler}
+            type="admin"
             label={t("invite.title")}
             submitText={t("invite.submit")}
             cancel={{
