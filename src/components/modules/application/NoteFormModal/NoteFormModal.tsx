@@ -1,5 +1,5 @@
+import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { Modal, ModalProps } from "@/components/base/Modal/Modal";
-import { Typography } from "@/components/base/Typography/Typography";
 import {
   CommentsForm,
   CommentsFormValues,
@@ -23,10 +23,12 @@ export const NoteFormModal: FC<NoteFormModalProps> = (props) => {
   return (
     <Modal {...rest} size="lg" onClose={onClose} placement="center">
       <Modal.Header>
-        <Typography tag="h2" styling="md">
-          {t("modals.note.title")}
-        </Typography>
-        <Typography tag="p">{t("modals.note.description")}</Typography>
+        <TitleDescription
+          title={t("modals.note.title")}
+          titleLevel="h2"
+          titleStyling="md"
+          description={t("modals.note.description")}
+        />
       </Modal.Header>
       <Modal.Body>
         <CommentsForm id={formId} onFormSubmit={onFormSubmit} />

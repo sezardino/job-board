@@ -1,5 +1,5 @@
+import { TitleDescription } from "@/components/UI/TitleDescription/TitleDescription";
 import { Modal, ModalProps } from "@/components/base/Modal/Modal";
-import { Typography } from "@/components/base/Typography/Typography";
 import {
   ApplicationStatusForm,
   ApplicationStatusFormValues,
@@ -27,10 +27,12 @@ export const EditApplicationStatusModal: FC<EditApplicationStatusModalProps> = (
   return (
     <Modal {...rest} onClose={onClose} placement="center">
       <Modal.Header>
-        <Typography tag="h2" styling="md">
-          {t("modals.change-status.title")}
-        </Typography>
-        <Typography tag="p">{t("modals.change-status.description")}</Typography>
+        <TitleDescription
+          title={t("modals.change-status.title")}
+          titleLevel="h2"
+          titleStyling="md"
+          description={t("modals.change-status.description")}
+        />
       </Modal.Header>
       <Modal.Body>
         <ApplicationStatusForm

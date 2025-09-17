@@ -234,9 +234,7 @@ export class AuthBllModule extends AbstractBllService {
   async verifyResetPasswordToken(dto: VerifyResetPasswordTokenRequest) {
     const { token } = dto;
     try {
-      const decodedToken = passwordResetTokenService.verify<{ email: string }>(
-        token
-      );
+      const decodedToken = passwordResetTokenService.verify<{ email: string }>(token);
 
       if (!decodedToken || !decodedToken?.email)
         throw new NotFoundException({
@@ -254,16 +252,14 @@ export class AuthBllModule extends AbstractBllService {
           message: "Not found",
           payload: { type: VerifyResetPasswordTokenErrors.NotFound },
         });
+
       if (!user.resetPasswordToken)
         throw new NotFoundException({
           message: "Token not found",
           payload: { type: VerifyResetPasswordTokenErrors.NotFound },
         });
 
-      const isTokensMatch = hashService.compare(
-        token,
-        user.resetPasswordToken!
-      );
+      const isTokensMatch = hashService.compare(token, user.resetPasswordToken!);
 
       if (!isTokensMatch)
         throw new BadRequestException({
@@ -276,9 +272,7 @@ export class AuthBllModule extends AbstractBllService {
       const typedError = error as JWTError;
 
       if (typedError instanceof TokenExpiredError) {
-        const decoded = passwordResetTokenService.decode<{ email: string }>(
-          token
-        );
+        const decoded = passwordResetTokenService.decode<{ email: string }>(token);
 
         if (!decoded || !decoded?.email)
           throw new BadRequestException({
